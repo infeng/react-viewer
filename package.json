@@ -2,9 +2,9 @@
   "name": "react-viewer",
   "version": "0.0.1",
   "description": "react image viewer",
-  "main": "dist/index",
+  "main": "dist/ViewerWrap",
   "entry": {
-    "index": "./src/index.ts"
+    "index": "./src/entry/index.tsx"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -26,6 +26,8 @@
   },
   "homepage": "https://github.com/infeng/react-viewer#readme",
   "devDependencies": {
+    "@types/react": "^0.14.39",
+    "@types/react-dom": "^0.14.17",
     "atool-build": "^0.8.1",
     "classnames": "^2.2.5",
     "dora": "^0.4.3",
@@ -37,5 +39,9 @@
     "tslint": "^3.15.1",
     "typescript": "^2.0.3",
     "webpack": "^1.13.2"
+  },
+  "dependencies": {
+    "react": "^15.3.2",
+    "react-dom": "^15.3.2"
   }
 }

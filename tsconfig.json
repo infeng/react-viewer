@@ -6,7 +6,11 @@
     "sourceMap": true,
     "removeComments": false,
     "allowSyntheticDefaultImports": true,
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "types": [
+      "react",
+      "react-dom"
+    ]
   },
   "exclude": [
     "node_modules"

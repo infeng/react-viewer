@@ -1,0 +1,32 @@
+@viewer-prefix-cls: react-viewer;
+
+.@{viewer-prefix-cls} {
+
+  @zIndex: 1050;
+
+  &-mask {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    background-color: #373737;
+    background-color: rgba(55, 55, 55, 0.6);
+    height: 100%;
+    filter: alpha(opacity=50);
+    z-index: @zIndex;  
+  }
+
+  &-close {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    overflow: hidden;
+    width: 40px;
+    height: 40px;
+    border-radius: 0 0 0 40px;   
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, .5);
+    z-index: @zIndex;
+  }
+}
