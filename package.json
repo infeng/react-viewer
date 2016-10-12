@@ -3,12 +3,9 @@
   "version": "0.0.1",
   "description": "react image viewer",
   "main": "dist/ViewerWrap",
-  "entry": {
-    "index": "./src/entry/index.tsx"
-  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "dora --port 8001 --plugins \"webpack,webpack-hmr,browser-history?index=/src/entry/index.html\""
+    "start": "dora --port 8001 --plugins \"webpack,webpack-hmr,browser-history?index=/entry/index.html\""
   },
   "repository": {
     "type": "git",
@@ -36,12 +33,11 @@
     "dora-plugin-webpack-hmr": "^0.2.1",
     "html-loader": "^0.4.4",
     "html-webpack-plugin": "^2.22.0",
+    "react": "^15.3.2",
+    "react-dom": "^15.3.2",
     "tslint": "^3.15.1",
     "typescript": "^2.0.3",
     "webpack": "^1.13.2"
   },
-  "dependencies": {
-    "react": "^15.3.2",
-    "react-dom": "^15.3.2"
-  }
+  "dependencies": {}
 }

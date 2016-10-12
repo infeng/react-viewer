@@ -23,10 +23,10 @@ export default class ViewerWrap extends React.Component<ViewerProps, any> {
       ReactDOM.unstable_renderSubtreeIntoContainer(
         this,
         <Viewer
-        {...this.props}
-        />,
+          {...this.props}
+          />,
         this.container,
-        function() {
+        function () {
           instance.component = this;
         },
       );
@@ -47,7 +47,7 @@ export default class ViewerWrap extends React.Component<ViewerProps, any> {
     if (this.props.visible) {
       this.props.onClose();
       this.removeViewer();
-    }else {
+    } else {
       this.removeViewer();
     }
   }
