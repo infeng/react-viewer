@@ -5,7 +5,7 @@
   "main": "dist/ViewerWrap",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "dora --port 8001 --plugins \"webpack,webpack-hmr,browser-history?index=/entry/index.html\""
+    "start": "dora --port 8001 --plugins \"webpack,webpack-hmr,browser-history?index=/demo/index.html\""
   },
   "repository": {
     "type": "git",

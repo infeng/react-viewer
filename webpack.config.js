@@ -3,7 +3,7 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 var conf = {
   filename: 'index.html',
-  template: './entry/index.html',
+  template: './demo/index.html',
   inject: true,
   minify: {
     removeComments: true,
@@ -14,7 +14,7 @@ var conf = {
 
 module.exports = function (webpackConfig) {
   webpackConfig.entry = {
-    index: './entry/index.tsx',
+    index: './demo/index.tsx',
   };
 
   webpackConfig.output.publicPath = '/';
