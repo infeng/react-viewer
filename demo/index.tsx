@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import ViewerWrap from '../src/ViewerWrap';
+import Viewer from '../src/Viewer';
 const img2 = require('./images/landscape2.jpg');
 const img = require('./images/landscape.jpg');
 const img3 = require('./images/tibet-6.jpg');
@@ -18,7 +18,7 @@ class App extends React.Component<any, any> {
     return (
       <div>
         <button onClick={() => { this.setState({ visible: !this.state.visible }); } }>show</button>
-        <ViewerWrap
+        <Viewer
         visible={this.state.visible}
         onClose={() => { this.setState({ visible: false }); } }
         images={[img2, img, img3]}

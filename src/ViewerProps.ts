@@ -8,3 +8,5 @@ interface ViewerProps {
   /** 当前图像index */
   activeIndex?: number;
 }
+
+export default ViewerProps;

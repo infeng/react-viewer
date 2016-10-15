@@ -1,78 +1,67 @@
 import * as React from 'react';
-import './style/index.less';
+import * as ReactDOM from 'react-dom';
 import ViewerCore from './ViewerCore';
-import ViewerNav from './ViewerNav';
+import ViewerProps from './ViewerProps';
 
-function noop() {}
+export default class Viewer extends React.Component<ViewerProps, any> {
+  private container: HTMLDivElement;
+  private component: React.ReactNode;
 
-interface ViewerState {
-  activeIndex?: number;
-}
+  constructor() {
+    super();
 
-export default class Viewer extends React.Component<ViewerProps, ViewerState> {
-  static defaultProps = {
-    visible: false,
-    onClose: noop,
-    images: [],
-    activeIndex: 0,
-  };
-
-  private prefixCls: string;
-
-  constructor(props) {
-    super(props);
-
-    this.prefixCls = 'react-viewer';
-
-    this.state = {
-      activeIndex: this.props.activeIndex,
-    };
-
-    this.handleChangeImg = this.handleChangeImg.bind(this);
+    this.container = null;
+    this.component = null;
   }
 
-  handleClose(e) {
-    this.props.onClose();
-  }
-
-  handleChangeImg(newIndex: number) {
-    let newState = this.state;
-    newState.activeIndex = newIndex;
-    this.setState(newState);
-  }
-
-  componentWillReceiveProps(nextProps: ViewerProps) {
-    if (this.state.activeIndex !== nextProps.activeIndex) {
-      this.setState({
-        activeIndex: nextProps.activeIndex,
-      });
+  renderViewer() {
+    if (this.props.visible || this.component) {
+      if (!this.container) {
+        this.container = document.createElement('div');
+      }
+      document.body.appendChild(this.container);
+      let instance = this;
+      ReactDOM.unstable_renderSubtreeIntoContainer(
+        this,
+        <ViewerCore
+          {...this.props}
+          />,
+        this.container,
+        function () {
+          instance.component = this;
+        },
+      );
     }
+  }
+
+  removeViewer() {
+    if (this.container) {
+      const container = this.container;
+      ReactDOM.unmountComponentAtNode(container);
+      container.parentNode.removeChild(container);
+      this.container = null;
+      this.component = null;
+    }
+  }
+
+  componentWillUnmount() {
+    if (this.props.visible) {
+      this.props.onClose();
+      this.removeViewer();
+    } else {
+      this.removeViewer();
+    }
+  }
+
+  componentDidMount() {
+    this.renderViewer();
+  }
+
+  componentDidUpdate() {
+    this.renderViewer();
   }
 
   render() {
-    let activeImgSrc = '';
-    if (this.props.images.length > 0) {
-      activeImgSrc = this.props.images[this.state.activeIndex];
-    }
-
-    return (
-      <div style={{display: this.props.visible ? 'block' : 'none'}}>
-        <div className={`${this.prefixCls}-mask`}></div>
-        <div className={`${this.prefixCls}-close`} onClick={this.handleClose.bind(this)}></div>
-        <ViewerCore
-        prefixCls={this.prefixCls}
-        imgSrc={activeImgSrc}
-        visible={this.props.visible}
-        />
-        <div className={`${this.prefixCls}-footer`}>
-          <ViewerNav
-          prefixCls={this.prefixCls}
-          images={this.props.images}
-          activeIndex={this.state.activeIndex}
-          onChangeImg={this.handleChangeImg}
-          />
-        </div>
-      </div>
-    );
+    return null;
   }
 }
