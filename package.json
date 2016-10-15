@@ -27,7 +27,6 @@
     "@types/react": "^0.14.39",
     "@types/react-dom": "^0.14.17",
     "atool-build": "^0.8.1",
-    "classnames": "^2.2.5",
     "dora": "^0.4.3",
     "dora-plugin-browser-history": "^0.2.0",
     "dora-plugin-webpack": "^0.8.1",

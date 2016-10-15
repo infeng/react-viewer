@@ -5,4 +5,6 @@ interface ViewerProps {
   onClose?: () => void;
   /** 需要进行浏览的图片地址集合 */
   images?: any[];
+  /** 当前图像index */
+  activeIndex?: number;
 }
