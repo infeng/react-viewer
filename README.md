@@ -9,7 +9,7 @@ Because i can`t comfortable use [viewerjs](https://github.com/fengyuanchen/viewe
 ## Installation
 
 ```javascript
-npm install react-lazyload-img --save
+npm install react-viewer --save
 ```
 
 ## Usage
