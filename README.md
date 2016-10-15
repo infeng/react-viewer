@@ -1,6 +1,10 @@
 # react-viewer
 
-react image viewer
+> react image viewer.
+
+## Introduction
+
+Because i can`t comfortable use [viewerjs](https://github.com/fengyuanchen/viewerjs) in react, so i create react-viewer to replace it.
 
 ## Installation
 
