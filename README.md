@@ -17,6 +17,7 @@ npm install react-viewer --save
 ```javascript
 import * as React from 'react';
 import Viewer from 'react-viewer';
+import 'react-viewer/dist/index.css';
 
 class App extends React.Component<any, any> {
   constructor() {
