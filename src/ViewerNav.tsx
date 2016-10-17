@@ -17,9 +17,14 @@ export default class ViewerNav extends React.Component<ViewerNavProps, any> {
   }
 
   render() {
+    let marginLeft = (Math.ceil(this.props.images.length / 2) - this.props.activeIndex - 1) * 1.5 * 30;
+    let listStyle = {
+      marginLeft: `${marginLeft}px`,
+    };
+
     return (
       <div className={`${this.props.prefixCls}-navbar`}>
-        <ul className={`${this.props.prefixCls}-list`}>
+        <ul className={`${this.props.prefixCls}-list ${this.props.prefixCls}-transition`} style={listStyle}>
           {this.props.images.map((item, index) =>
             <li
             key={index}

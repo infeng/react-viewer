@@ -51,13 +51,6 @@ class App extends React.Component<any, any> {
 | images      | string[]     | []      | image source array | true  |
 | activeIndex | number       | 0       | active image index | false |
 
-## TODO
-
-- [ ] add button icon
-- [ ] add toolbar
-- [X] optimize image zoom
-- [ ] optimise image change
-
 ## License
 
 MIT
