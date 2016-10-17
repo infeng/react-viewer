@@ -55,7 +55,7 @@ class App extends React.Component<any, any> {
 
 - [ ] add button icon
 - [ ] add toolbar
-- [ ] optimize image zoom
+- [X] optimize image zoom
 - [ ] optimise image change
 
 ## License

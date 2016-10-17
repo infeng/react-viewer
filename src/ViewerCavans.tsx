@@ -8,6 +8,7 @@ export interface ViewerCavansProps {
 
 export interface ViewerCavansState {
   width?: number;
+  height?: number;
   top?: number;
   left?: number;
   isMouseDown?: boolean;
@@ -22,6 +23,7 @@ export default class ViewerCavans extends React.Component<ViewerCavansProps, Vie
 
     this.state = {
       width: 0,
+      height: 0,
       top: 15,
       left: null,
       isMouseDown: false,
@@ -62,6 +64,7 @@ export default class ViewerCavans extends React.Component<ViewerCavansProps, Vie
       let top = (window.innerHeight - height) / 2;
       this.setState({
         width: width,
+        height: height,
         left: left,
         top: top,
       });
@@ -109,8 +112,15 @@ export default class ViewerCavans extends React.Component<ViewerCavansProps, Vie
       direct = e.detail > 0 ? 1 : -1;
     }
     if (direct !== 0) {
+      let pageX = e.pageX;
+      let pageY = e.pageY;
+      let diffX = pageX - this.state.left;
+      let diffY = pageY - this.state.top;
       this.setState({
         width: this.state.width + direct * this.state.width * 0.05,
+        height: this.state.height + direct * this.state.height * 0.05,
+        top: this.state.top + -direct * diffY * .05,
+        left: this.state.left + -direct * diffX * .05,
       });
     }
   }
@@ -157,7 +167,6 @@ export default class ViewerCavans extends React.Component<ViewerCavansProps, Vie
       onMouseDown={this.handleMouseDown}
       >
         <img
-        ref="img"
         className={imgClass}
         src={this.props.imgSrc}
         style={imgStyle}
