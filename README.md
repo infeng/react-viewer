@@ -8,7 +8,7 @@ Because i can`t comfortable use [viewerjs](https://github.com/fengyuanchen/viewe
 
 ## Installation
 
-```javascript
+```bash
 npm install react-viewer --save
 ```
 
@@ -53,10 +53,10 @@ class App extends React.Component<any, any> {
 
 ## TODO
 
-- [] add button icon
-- [] add toolbar
-- [] optimize image zoom
-- [] optimise image change
+- [ ] add button icon
+- [ ] add toolbar
+- [ ] optimize image zoom
+- [ ] optimise image change
 
 ## License
 
