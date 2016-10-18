@@ -1,8 +1,9 @@
 import * as React from 'react';
+import { ImageDecorator } from './ViewerProps';
 
 export interface ViewerNavProps {
   prefixCls: string;
-  images: any[];
+  images: ImageDecorator[];
   activeIndex: number;
   onChangeImg: (index: number) => void;
 }
@@ -31,7 +32,7 @@ export default class ViewerNav extends React.Component<ViewerNavProps, any> {
             className={index === this.props.activeIndex ? 'active' : ''}
             onClick={this.handleChangeImg.bind(this, index)}
             >
-              <img src={item} />
+              <img src={item.src} alt={item.alt} />
             </li>
             )
           }

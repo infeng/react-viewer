@@ -35,7 +35,7 @@ class App extends React.Component<any, any> {
         <Viewer
         visible={this.state.visible}
         onClose={() => { this.setState({ visible: false }); } }
-        images={['']}
+        images={[src: '', alt: '']}
         />
       </div>
     );
@@ -49,7 +49,7 @@ class App extends React.Component<any, any> {
 |-------------|--------------|---------|-----------------------------|----------|
 | visible     | string       |  false  | Viewer visible             | true |
 | onClose     | string       |  -      | Specify a function that will be called when Visible close   | true |
-| images      | string[]     | []      | image source array | true  |
+| images      | {src: string, alt: string}[]     | []      | image source array | true  |
 | activeIndex | number       | 0       | active image index | false |
 
 ## License

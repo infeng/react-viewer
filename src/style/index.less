@@ -4,6 +4,15 @@
 
   @zIndex: 1050;
 
+  & ul {
+    margin: 0;
+    padding: 0;
+  }
+
+  & li {
+    list-style: none;
+  }
+
   &-mask {
     position: fixed;
     top: 0;
@@ -56,6 +65,37 @@
     text-align: center;
   }
 
+  &-attribute {
+    margin: 0;
+    margin-bottom: 6px;
+    opacity: .8;
+    color: #ccc;
+    font-size: 15px;
+  }
+
+  @toolbarHeight: 28px;
+
+  &-toolbar {
+    overflow: hidden;
+    height: @toolbarHeight;
+    margin-bottom: 6px !important;
+  }
+
+  &-toolbar li {
+    display: inline-block;
+    width: @toolbarHeight;
+    height: @toolbarHeight;
+    border-radius: @toolbarHeight;
+    background-color: rgba(0, 0, 0, .5);
+    margin-right: 3px;
+    cursor: pointer;
+  }
+
+  li.empty {
+    background-color: transparent;
+    cursor: default;
+  }
+
   &-navbar {
     overflow: hidden;
     background-color: rgba(0, 0, 0, .5);
@@ -67,14 +107,11 @@
   @viewer-list-item-img-marginLeft: -(@viewer-list-item-img-width - @viewer-list-item-width) /2;
 
   &-list {
-    margin: 0;
-    padding: 0;
     height: @viewer-list-item-height;
     padding: 1px;
   }
 
   &-list > li {
-    list-style: none;
     display: inline-block;
     width: @viewer-list-item-width;
     height: @viewer-list-item-height;

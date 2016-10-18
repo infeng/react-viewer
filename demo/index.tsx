@@ -21,7 +21,16 @@ class App extends React.Component<any, any> {
         <Viewer
         visible={this.state.visible}
         onClose={() => { this.setState({ visible: false }); } }
-        images={[img2, img, img3]}
+        images={[{
+          src: img,
+          alt: 'lake',
+        }, {
+          src: img2,
+          alt: 'mountain',
+        }, {
+          src: img3,
+          alt: '',
+        }]}
         />
       </div>
     );

@@ -4,13 +4,17 @@ export interface ViewerCavansProps {
   prefixCls: string;
   imgSrc: string;
   visible: boolean;
+  width: number;
+  height: number;
+  top: number;
+  left: number;
+  rotate: number;
+  onChangeImgState: (width: number, height: number, top: number, left: number) => void;
+  onResize: () => void;
+  onZoom: (targetX: number, targetY: number, direct: number) => void;
 }
 
 export interface ViewerCavansState {
-  width?: number;
-  height?: number;
-  top?: number;
-  left?: number;
   isMouseDown?: boolean;
   mouseX?: number;
   mouseY?: number;
@@ -22,10 +26,6 @@ export default class ViewerCavans extends React.Component<ViewerCavansProps, Vie
     super();
 
     this.state = {
-      width: 0,
-      height: 0,
-      top: 15,
-      left: null,
       isMouseDown: false,
       mouseX: 0,
       mouseY: 0,
@@ -41,38 +41,10 @@ export default class ViewerCavans extends React.Component<ViewerCavansProps, Vie
 
   componentDidMount() {
     this.bindEvent();
-    this.resizeImg(this.props.imgSrc);
-  }
-
-  resizeImg(imgSrc) {
-    let img = new Image();
-    img.src = imgSrc;
-    img.onload = () => {
-      let width = 0;
-      let height = 0;
-      let imgWidth = img.width;
-      let imgHeight = img.height;
-      let aspectRatio = imgWidth / imgHeight;
-      if (aspectRatio > 1) {
-        width = Math.min(window.innerWidth * .9, imgWidth);
-        height = (width / imgWidth) * imgHeight;
-      }else {
-        height = Math.min((window.innerHeight - 52) * .8, imgHeight);
-        width = (height / imgHeight) * imgWidth;
-      }
-      let left = ( window.innerWidth - width ) / 2;
-      let top = (window.innerHeight - height) / 2;
-      this.setState({
-        width: width,
-        height: height,
-        left: left,
-        top: top,
-      });
-    };
   }
 
   handleResize(e) {
-    this.resizeImg(this.props.imgSrc);
+    this.props.onResize();
   }
 
   handleMouseDown(e) {
@@ -90,11 +62,10 @@ export default class ViewerCavans extends React.Component<ViewerCavansProps, Vie
       let diffX = e.x - this.state.mouseX;
       let diffY = e.y - this.state.mouseY;
       this.setState({
-        top: this.state.top + diffY,
-        left: this.state.left + diffX,
         mouseX: e.x,
         mouseY: e.y,
       });
+      this.props.onChangeImgState(this.props.width, this.props.height, this.props.top + diffY, this.props.left + diffX);
     }
   }
 
@@ -114,14 +85,7 @@ export default class ViewerCavans extends React.Component<ViewerCavansProps, Vie
     if (direct !== 0) {
       let pageX = e.pageX;
       let pageY = e.pageY;
-      let diffX = pageX - this.state.left;
-      let diffY = pageY - this.state.top;
-      this.setState({
-        width: this.state.width + direct * this.state.width * 0.05,
-        height: this.state.height + direct * this.state.height * 0.05,
-        top: this.state.top + -direct * diffY * .05,
-        left: this.state.left + -direct * diffX * .05,
-      });
+      this.props.onZoom(pageX, pageY, direct);
     }
   }
 
@@ -137,12 +101,8 @@ export default class ViewerCavans extends React.Component<ViewerCavansProps, Vie
   }
 
   componentWillReceiveProps(nextProps: ViewerCavansProps) {
-    if (this.props.imgSrc !== nextProps.imgSrc) {
-      this.resizeImg(nextProps.imgSrc);
-    }
     if (!this.props.visible && nextProps.visible) {
       this.bindEvent();
-      this.resizeImg(this.props.imgSrc);
     }
     if (this.props.visible && !nextProps.visible) {
       this.bindEvent(true);
@@ -151,9 +111,10 @@ export default class ViewerCavans extends React.Component<ViewerCavansProps, Vie
 
   render() {
     let imgStyle: React.CSSProperties = {
-      width: `${this.state.width}px`,
-      marginTop: `${this.state.top}px`,
-      marginLeft: this.state.left ? `${this.state.left}px` : 'auto',
+      width: `${this.props.width}px`,
+      marginTop: `${this.props.top}px`,
+      marginLeft: this.props.left ? `${this.props.left}px` : 'auto',
+      transform: `rotate(${this.props.rotate}deg) scaleX(1) scaleY(1)`,
     };
 
     let imgClass = '';
