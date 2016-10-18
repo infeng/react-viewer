@@ -31,7 +31,8 @@ gulp.task('default', () => {
       }
     }))
     .pipe(gulp.dest('lib'));
-  const img = gulp.src(['src/' + '**/' + '*.png']).pipe(gulp.dest('lib'));  
+  const img = gulp.src(['src/' + '**/' + '*.png']).pipe(gulp.dest('lib'));
+  const fonts = gulp.src(['src/**/*.eot', 'src/**/*.svg', 'src/**/*.ttf', 'src/**/*.woff']).pipe(gulp.dest('lib'));  
   const tsResult = gulp.src([
     'src/' + '**/' + '*.tsx',
   ]).pipe(ts(tsConfig));
