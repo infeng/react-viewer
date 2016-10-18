@@ -2,8 +2,9 @@ import * as React from 'react';
 import './style/index.less';
 import ViewerCavans from './ViewerCavans';
 import ViewerNav from './ViewerNav';
-import ViewerToolbar, { ActionType } from './ViewerToolbar';
+import ViewerToolbar from './ViewerToolbar';
 import ViewerProps, { ImageDecorator } from './ViewerProps';
+import Icon, { ActionType } from './Icon';
 
 function noop() {}
 
@@ -130,6 +131,9 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
       case ActionType.rotateRight:
         this.handleRotate(true);
         break;
+      case ActionType.reset:
+        this.loadImg(this.state.activeIndex);
+        break;
       default:
         break;
     }
@@ -177,7 +181,9 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     return (
       <div className={this.prefixCls} style={{display: this.props.visible ? 'block' : 'none'}}>
         <div className={`${this.prefixCls}-mask`}></div>
-        <div className={`${this.prefixCls}-close`} onClick={this.handleClose.bind(this)}></div>
+        <div className={`${this.prefixCls}-close ${this.prefixCls}-btn`} onClick={this.handleClose.bind(this)}>
+          <Icon type={ActionType.close}/>
+        </div>
         <ViewerCavans
         prefixCls={this.prefixCls}
         imgSrc={activeImg.src}

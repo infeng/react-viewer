@@ -1,4 +1,5 @@
 import * as React from 'react';
+import Icon, { ActionType } from './Icon';
 
 export interface ViewerToolbarProps {
   prefixCls: string;
@@ -6,15 +7,6 @@ export interface ViewerToolbarProps {
   alt: string;
   width: number;
   height: number;
-}
-
-export enum ActionType {
-  zoomIn = 1,
-  zoomOut = 2,
-  prev = 3,
-  next = 4,
-  rotateLeft = 5,
-  rotateRight = 6,
 }
 
 export default class ViewerToolbar extends React.Component<ViewerToolbarProps, any> {
@@ -34,24 +26,26 @@ export default class ViewerToolbar extends React.Component<ViewerToolbarProps, a
           {`${this.props.alt}(${this.props.width} x ${this.props.height})`}
         </p>
         <ul className={`${this.props.prefixCls}-toolbar`}>
-          <li onClick={() => {this.handleAction(ActionType.zoomIn);}}>
-            <i className={`${this.props.prefixCls}-zoom-in`}></i>
+          <li className={`${this.props.prefixCls}-btn`} onClick={() => {this.handleAction(ActionType.zoomIn);}}>
+            <Icon type={ActionType.zoomIn}/>
           </li>
-          <li onClick={() => {this.handleAction(ActionType.zoomOut);}}>
-            <i className={`${this.props.prefixCls}-zoom-out`}></i>
+          <li className={`${this.props.prefixCls}-btn`} onClick={() => {this.handleAction(ActionType.zoomOut);}}>
+            <Icon type={ActionType.zoomOut}/>
           </li>
-          <li onClick={() => {this.handleAction(ActionType.prev);}}>
-            <i className={`${this.props.prefixCls}-prev`}></i>
+          <li className={`${this.props.prefixCls}-btn`} onClick={() => {this.handleAction(ActionType.prev);}}>
+            <Icon type={ActionType.prev}/>
           </li>
-          <li className="empty"></li>
-          <li onClick={() => {this.handleAction(ActionType.next);}}>
-            <i className={`${this.props.prefixCls}-next`}></i>
+          <li className={`${this.props.prefixCls}-btn`} onClick={() => {this.handleAction(ActionType.reset);}}>
+            <Icon type={ActionType.reset}/>
           </li>
-          <li onClick={() => {this.handleAction(ActionType.rotateLeft);}}>
-            <i className={`${this.props.prefixCls}-rotate-left`}></i>
+          <li className={`${this.props.prefixCls}-btn`} onClick={() => {this.handleAction(ActionType.next);}}>
+            <Icon type={ActionType.next}/>
           </li>
-          <li onClick={() => {this.handleAction(ActionType.rotateRight);}}>
-            <i className={`${this.props.prefixCls}-rotate-right`}></i>
+          <li className={`${this.props.prefixCls}-btn`} onClick={() => {this.handleAction(ActionType.rotateLeft);}}>
+            <Icon type={ActionType.rotateLeft}/>
+          </li>
+          <li className={`${this.props.prefixCls}-btn`} onClick={() => {this.handleAction(ActionType.rotateRight);}}>
+            <Icon type={ActionType.rotateRight}/>
           </li>
         </ul>
       </div>

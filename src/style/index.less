@@ -1,8 +1,22 @@
 @viewer-prefix-cls: react-viewer;
 
+@font-face {
+  font-family: 'icomoon';
+  src:url('fonts/icomoon.eot');
+  src:url('fonts/icomoon.eot?#iefix') format('embedded-opentype'),
+      url('fonts/icomoon.ttf') format('truetype'),
+      url('fonts/icomoon.woff') format('woff'),
+      url('fonts/icomoon.svg') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
 .@{viewer-prefix-cls} {
 
   @zIndex: 1050;
+
+  @btn-background-color: rgba(0, 0, 0, .5);
+  @btn-hover-background-color: rgba(0, 0, 0, .8);
 
   & ul {
     margin: 0;
@@ -25,6 +39,14 @@
     filter: alpha(opacity=50);
   }
 
+  &-btn {
+    background-color: @btn-background-color;
+  }
+
+  &-btn:hover{
+    background-color: @btn-hover-background-color;
+  }
+
   &-close {
     position: absolute;
     top: 0px;
@@ -34,8 +56,13 @@
     height: 40px;
     border-radius: 0 0 0 40px;   
     cursor: pointer;
-    background-color: rgba(0, 0, 0, .5);
     z-index: @zIndex;
+  }
+
+  &-close > i {
+    position: relative;
+    top: 8px;
+    left: 18px;
   }
 
   &-cavans {
@@ -86,9 +113,13 @@
     width: @toolbarHeight;
     height: @toolbarHeight;
     border-radius: @toolbarHeight;
-    background-color: rgba(0, 0, 0, .5);
     margin-right: 3px;
     cursor: pointer;
+    line-height: 29px;
+  }
+
+  &-toolbar li:hover {
+    background-color: rgba(0, 0, 0, .8);
   }
 
   li.empty {
@@ -98,7 +129,7 @@
 
   &-navbar {
     overflow: hidden;
-    background-color: rgba(0, 0, 0, .5);
+    background-color: @btn-background-color;
   }
 
   @viewer-list-item-width: 30px;
@@ -133,5 +164,57 @@
 
   &-transition {
     transition: all .3s ease-out;
+  }
+}
+
+@icon-prefix-cls: react-viewer-icon;
+
+.@{icon-prefix-cls} {
+  & {
+    font-family: 'icomoon' !important;
+    display: inline-block;
+    font-style: normal;
+    vertical-align: baseline;
+    text-align: center;
+    text-transform: none;
+    text-rendering: auto;
+    line-height: 1;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: white;
+    font-size: 13px;    
+  }
+
+  &-zoomIn:before {
+    content: '\ea0a';
+  }
+
+  &-zoomOut:before {
+    content: '\ea0b';
+  }
+
+  &-prev:before {
+    content: '\ea38';
+  } 
+
+  &-next:before {
+    content: '\ea34';
+  } 
+
+  &-close:before {
+    content: '\ea0f';
+  } 
+
+  &-rotateLeft:before {
+    content: '\e967';
+  }  
+
+  &-rotateRight:before {
+    content: '\e968';
+  } 
+
+  &-reset:before {
+    content: '\e984';
   }
 }
