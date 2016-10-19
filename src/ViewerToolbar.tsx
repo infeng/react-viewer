@@ -47,6 +47,12 @@ export default class ViewerToolbar extends React.Component<ViewerToolbarProps, a
           <li className={`${this.props.prefixCls}-btn`} onClick={() => {this.handleAction(ActionType.rotateRight);}}>
             <Icon type={ActionType.rotateRight}/>
           </li>
+          <li className={`${this.props.prefixCls}-btn`} onClick={() => {this.handleAction(ActionType.scaleX);}}>
+            <Icon type={ActionType.scaleX}/>
+          </li>
+          <li className={`${this.props.prefixCls}-btn`} onClick={() => {this.handleAction(ActionType.scaleY);}}>
+            <Icon type={ActionType.scaleY}/>
+          </li>
         </ul>
       </div>
     );

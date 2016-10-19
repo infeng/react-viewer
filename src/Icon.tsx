@@ -9,6 +9,8 @@ export enum ActionType {
   rotateRight = 6,
   reset = 7,
   close = 8,
+  scaleX = 9,
+  scaleY = 10,
 }
 
 export interface IconProps {

@@ -17,6 +17,8 @@ export interface ViewerCoreState {
   rotate?: number;
   imageWidth?: number;
   imageHeight?: number;
+  scaleX?: 1 | -1;
+  scaleY?: 1 | -1;
 }
 
 export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreState> {
@@ -44,6 +46,8 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
       rotate: 0,
       imageWidth: 0,
       imageHeight: 0,
+      scaleX: 1,
+      scaleY: 1,
     };
 
     this.handleChangeImg = this.handleChangeImg.bind(this);
@@ -53,6 +57,8 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     this.handleZoom = this.handleZoom.bind(this);
     this.handleRotate = this.handleRotate.bind(this);
     this.handleKeydown = this.handleKeydown.bind(this);
+    this.handleScaleX = this.handleScaleX.bind(this);
+    this.handleScaleY = this.handleScaleY.bind(this);
   }
 
   handleClose(e) {
@@ -97,6 +103,8 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
         rotate: 0,
         imageWidth: imgWidth,
         imageHeight: imgHeight,
+        scaleX: 1,
+        scaleY: 1,
       });
     };
     img.onerror = () => {
@@ -109,6 +117,8 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
         rotate: 0,
         imageWidth: 0,
         imageHeight: 0,
+        scaleX: 1,
+        scaleY: 1,
       });
     };
   }
@@ -153,9 +163,27 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
       case ActionType.reset:
         this.loadImg(this.state.activeIndex);
         break;
+      case ActionType.scaleX:
+        this.handleScaleX(this.state.scaleX === 1 ? -1 : 1);
+        break;
+      case ActionType.scaleY:
+        this.handleScaleY(this.state.scaleY === 1 ? -1 : 1);
+        break;
       default:
         break;
     }
+  }
+
+  handleScaleX(newScale: 1 | -1) {
+    this.setState({
+      scaleX: newScale,
+    });
+  }
+
+  handleScaleY(newScale: 1 | -1) {
+    this.setState({
+      scaleY: newScale,
+    });
   }
 
   handleZoom(targetX, targetY, direct) {
@@ -281,6 +309,8 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
         onResize={this.handleResize}
         onZoom={this.handleZoom}
         zIndex={zIndex + 5}
+        scaleX={this.state.scaleX}
+        scaleY={this.state.scaleY}
         />
         <div className={`${this.prefixCls}-footer`} style={{zIndex: zIndex + 5}}>
           <ViewerToolbar

@@ -13,6 +13,8 @@ export interface ViewerCavansProps {
   onResize: () => void;
   onZoom: (targetX: number, targetY: number, direct: number) => void;
   zIndex: number;
+  scaleX: 1 | -1;
+  scaleY: 1 | -1;
 }
 
 export interface ViewerCavansState {
@@ -115,7 +117,7 @@ export default class ViewerCavans extends React.Component<ViewerCavansProps, Vie
       width: `${this.props.width}px`,
       marginTop: `${this.props.top}px`,
       marginLeft: this.props.left ? `${this.props.left}px` : 'auto',
-      transform: `rotate(${this.props.rotate}deg) scaleX(1) scaleY(1)`,
+      transform: `rotate(${this.props.rotate}deg) scaleX(${this.props.scaleX}) scaleY(${this.props.scaleY})`,
     };
 
     let imgClass = '';
