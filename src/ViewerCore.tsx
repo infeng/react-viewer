@@ -208,12 +208,13 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
   }
 
   handleKeydown(e) {
-    e.preventDefault();
     let keyCode = e.keyCode || e.which || e.charCode;
+    let isFeatrue = false;
     switch (keyCode) {
       // key: esc
       case 27:
         this.props.onClose();
+        isFeatrue = true;
         break;
       // key: ←
       case 37:
@@ -222,6 +223,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
         }else {
           this.handleAction(ActionType.prev);
         }
+        isFeatrue = true;
         break;
       // key: →
       case 39:
@@ -230,23 +232,30 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
         }else {
           this.handleAction(ActionType.next);
         }
+        isFeatrue = true;
         break;
       // key: ↑
       case 38:
         this.handleAction(ActionType.zoomIn);
+        isFeatrue = true;
         break;
       // key: ↓
       case 40:
         this.handleAction(ActionType.zoomOut);
+        isFeatrue = true;
         break;
       // key: Ctrl + 1
       case 49:
         if (e.ctrlKey) {
           this.loadImg(this.state.activeIndex);
+          isFeatrue = true;
         }
         break;
       default:
         break;
+    }
+    if (isFeatrue) {
+      e.preventDefault();
     }
   }
 
