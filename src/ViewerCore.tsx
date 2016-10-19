@@ -132,10 +132,10 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
         }
         break;
       case ActionType.zoomIn:
-        this.handleZoom(this.state.width / 2, this.state.height / 2, 1);
+        this.handleZoom(this.state.left + this.state.width / 2, this.state.top + this.state.height / 2, 1);
         break;
       case ActionType.zoomOut:
-        this.handleZoom(this.state.width / 2, this.state.height / 2, -1);
+        this.handleZoom(this.state.left + this.state.width / 2, this.state.top + this.state.height / 2, -1);
         break;
       case ActionType.rotateLeft:
         this.handleRotate();
