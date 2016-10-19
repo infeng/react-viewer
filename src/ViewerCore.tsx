@@ -173,11 +173,8 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
   }
 
   componentWillReceiveProps(nextProps: ViewerProps) {
-    if (this.state.activeIndex !== nextProps.activeIndex) {
+    if (this.state.activeIndex !== nextProps.activeIndex || (!this.props.visible && nextProps.visible)) {
       this.loadImg(nextProps.activeIndex);
-    }
-    if (!this.props.visible && nextProps.visible) {
-      this.loadImg(this.props.activeIndex);
     }
   }
 
