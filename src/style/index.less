@@ -13,7 +13,7 @@
 
 .@{viewer-prefix-cls} {
 
-  @zIndex: 1050;
+  @zIndex: 1000;
 
   @btn-background-color: rgba(0, 0, 0, .5);
   @btn-hover-background-color: rgba(0, 0, 0, .8);
@@ -37,7 +37,7 @@
     background-color: rgba(55, 55, 55, 0.6);
     height: 100%;
     filter: alpha(opacity=50);
-    z-index: 999;
+    z-index: @zIndex;
   }
 
   &-btn {
@@ -57,7 +57,7 @@
     height: 40px;
     border-radius: 0 0 0 40px;   
     cursor: pointer;
-    z-index: @zIndex;
+    z-index: @zIndex + 10;
   }
 
   &-close > i {
@@ -73,7 +73,7 @@
     left: 0;
     bottom: 0;
     overflow: hidden;
-    z-index: 1000;
+    z-index: @zIndex + 5;
   }
 
   &-cavans > img {
@@ -92,7 +92,7 @@
     left: 0;
     overflow: hidden;
     text-align: center;
-    z-index: 1000;
+    z-index: @zIndex + 5;
   }
 
   &-attribute {

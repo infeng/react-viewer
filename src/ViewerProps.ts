@@ -12,6 +12,8 @@ interface ViewerProps {
   images?: ImageDecorator[];
   /** 当前图像index */
   activeIndex?: number;
+  /** 自定义viewer组件的z-index */
+  zIndex?: number;
 }
 
 export default ViewerProps;

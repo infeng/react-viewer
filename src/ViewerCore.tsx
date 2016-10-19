@@ -25,6 +25,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     onClose: noop,
     images: [],
     activeIndex: 0,
+    zIndex: 1000,
   };
 
   private prefixCls: string;
@@ -187,10 +188,20 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
       activeImg = this.props.images[this.state.activeIndex];
     }
 
+    let zIndex = 1000;
+
+    if (this.props.zIndex) {
+      zIndex = this.props.zIndex;
+    }
+
     return (
       <div className={this.prefixCls} style={{display: this.props.visible ? 'block' : 'none'}}>
-        <div className={`${this.prefixCls}-mask`}></div>
-        <div className={`${this.prefixCls}-close ${this.prefixCls}-btn`} onClick={this.handleClose.bind(this)}>
+        <div className={`${this.prefixCls}-mask`} style={{zIndex: zIndex}}></div>
+        <div
+        className={`${this.prefixCls}-close ${this.prefixCls}-btn`}
+        onClick={this.handleClose.bind(this)}
+        style={{zIndex: zIndex + 10}}
+        >
           <Icon type={ActionType.close}/>
         </div>
         <ViewerCavans
@@ -205,8 +216,9 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
         onChangeImgState={this.handleChangeImgState}
         onResize={this.handleResize}
         onZoom={this.handleZoom}
+        zIndex={zIndex + 5}
         />
-        <div className={`${this.prefixCls}-footer`}>
+        <div className={`${this.prefixCls}-footer`} style={{zIndex: zIndex + 5}}>
           <ViewerToolbar
           prefixCls={this.prefixCls}
           onAction={this.handleAction}

@@ -12,6 +12,7 @@ export interface ViewerCavansProps {
   onChangeImgState: (width: number, height: number, top: number, left: number) => void;
   onResize: () => void;
   onZoom: (targetX: number, targetY: number, direct: number) => void;
+  zIndex: number;
 }
 
 export interface ViewerCavansState {
@@ -122,10 +123,15 @@ export default class ViewerCavans extends React.Component<ViewerCavansProps, Vie
       imgClass = `${this.props.prefixCls}-transition`;
     }
 
+    let style = {
+      zIndex: this.props.zIndex,
+    };
+
     return (
       <div
       className={`${this.props.prefixCls}-cavans`}
       onMouseDown={this.handleMouseDown}
+      style={style}
       >
         <img
         className={imgClass}
