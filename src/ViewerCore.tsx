@@ -52,6 +52,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     this.handleResize = this.handleResize.bind(this);
     this.handleZoom = this.handleZoom.bind(this);
     this.handleRotate = this.handleRotate.bind(this);
+    this.handleKeydown = this.handleKeydown.bind(this);
   }
 
   handleClose(e) {
@@ -59,6 +60,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
   }
 
   componentDidMount() {
+    this.bindEvent();
     this.loadImg(this.state.activeIndex);
   }
 
@@ -173,9 +175,66 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     this.loadImg(this.state.activeIndex);
   }
 
+  handleKeydown(e) {
+    e.preventDefault();
+    let keyCode = e.keyCode || e.which || e.charCode;
+    switch (keyCode) {
+      // key: esc
+      case 27:
+        this.props.onClose();
+        break;
+      // key: ←
+      case 37:
+        if (e.ctrlKey) {
+          this.handleAction(ActionType.rotateLeft);
+        }else {
+          this.handleAction(ActionType.prev);
+        }
+        break;
+      // key: →
+      case 39:
+        if (e.ctrlKey) {
+          this.handleAction(ActionType.rotateRight);
+        }else {
+          this.handleAction(ActionType.next);
+        }
+        break;
+      // key: ↑
+      case 38:
+        this.handleAction(ActionType.zoomIn);
+        break;
+      // key: ↓
+      case 40:
+        this.handleAction(ActionType.zoomOut);
+        break;
+      // key: Ctrl + 1
+      case 49:
+        if (e.ctrlKey) {
+          this.loadImg(this.state.activeIndex);
+        }
+        break;
+      default:
+        break;
+    }
+  }
+
+  bindEvent(remove: boolean = false) {
+    let funcName = 'addEventListener';
+    if (remove) {
+      funcName = 'removeEventListener';
+    }
+    document[funcName]('keydown', this.handleKeydown, false);
+  }
+
   componentWillReceiveProps(nextProps: ViewerProps) {
     if (this.state.activeIndex !== nextProps.activeIndex || (!this.props.visible && nextProps.visible)) {
       this.loadImg(nextProps.activeIndex);
+    }
+    if (!this.props.visible && nextProps.visible) {
+      this.bindEvent();
+    }
+    if (this.props.visible && !nextProps.visible) {
+      this.bindEvent(true);
     }
   }
 

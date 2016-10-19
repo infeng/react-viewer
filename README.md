@@ -53,6 +53,18 @@ class App extends React.Component<any, any> {
 | activeIndex | number       | 0       | active image index | false |
 | zIndex      | number       | 1000    | Viewer css z-index | false |
 
+## Keyboard support
+
+- `Esc`: Close viewer.
+- `←`: View the previous image.
+- `→`: View the next image.
+- `↑`: Zoom in the image.
+- `↓`: Zoom out the image.
+- `Ctrl + 1`: Reset the image.
+- `Ctrl + ←`: Rotate left the image.
+- `Ctrl + →`: Rotate right the image.
+
+
 ## License
 
 MIT
