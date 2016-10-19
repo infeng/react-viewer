@@ -59,6 +59,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     this.handleKeydown = this.handleKeydown.bind(this);
     this.handleScaleX = this.handleScaleX.bind(this);
     this.handleScaleY = this.handleScaleY.bind(this);
+    this.getImageCenterXY = this.getImageCenterXY.bind(this);
   }
 
   handleClose(e) {
@@ -149,10 +150,12 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
         }
         break;
       case ActionType.zoomIn:
-        this.handleZoom(this.state.left + this.state.width / 2, this.state.top + this.state.height / 2, 1);
+        let imgCenterXY = this.getImageCenterXY();
+        this.handleZoom(imgCenterXY.x, imgCenterXY.y, 1);
         break;
       case ActionType.zoomOut:
-        this.handleZoom(this.state.left + this.state.width / 2, this.state.top + this.state.height / 2, -1);
+        let imgCenterXY2 = this.getImageCenterXY();
+        this.handleZoom(imgCenterXY2.x, imgCenterXY2.y, -1);
         break;
       case ActionType.rotateLeft:
         this.handleRotate();
@@ -187,14 +190,24 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
   }
 
   handleZoom(targetX, targetY, direct) {
-    let diffX = targetX - this.state.left;
-    let diffY = targetY - this.state.height;
+    let imgCenterXY = this.getImageCenterXY();
+    let diffX = targetX - imgCenterXY.x;
+    let diffY = targetY - imgCenterXY.y;
+    let diffWidth = direct * this.state.width * 0.05;
+    let diffHeight = direct * this.state.height * 0.05;
     this.setState({
-      width: this.state.width + direct * this.state.width * 0.05,
-      height: this.state.height + direct * this.state.height * 0.05,
-      top: this.state.top + -direct * diffY * .05,
-      left: this.state.left + -direct * diffX * .05,
+      width: this.state.width + diffWidth,
+      height: this.state.height + diffHeight,
+      top: this.state.top + -diffHeight / 2 + -direct * diffY * .05,
+      left: this.state.left + -diffWidth / 2 + -direct * diffX * .05,
     });
+  }
+
+  getImageCenterXY() {
+    return {
+      x: this.state.left + this.state.width / 2,
+      y: this.state.top + this.state.height / 2,
+    };
   }
 
   handleRotate(isRight: boolean = false) {
