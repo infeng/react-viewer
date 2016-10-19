@@ -92,6 +92,18 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
         imageHeight: imgHeight,
       });
     };
+    img.onerror = () => {
+      this.setState({
+        activeIndex: activeIndex,
+        width: 0,
+        height: 0,
+        left: 0,
+        top: 0,
+        rotate: 0,
+        imageWidth: 0,
+        imageHeight: 0,
+      });
+    };
   }
 
   handleChangeImg(newIndex: number) {
