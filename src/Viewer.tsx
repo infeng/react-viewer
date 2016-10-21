@@ -4,7 +4,7 @@ import ViewerCore from './ViewerCore';
 import ViewerProps from './ViewerProps';
 
 export default class Viewer extends React.Component<ViewerProps, any> {
-  private container: HTMLDivElement;
+  private container: HTMLElement;
   private component: React.ReactNode;
 
   constructor() {
@@ -17,9 +17,13 @@ export default class Viewer extends React.Component<ViewerProps, any> {
   renderViewer() {
     if (this.props.visible || this.component) {
       if (!this.container) {
-        this.container = document.createElement('div');
+        if (this.props.container) {
+          this.container = this.props.container;
+        }else {
+          this.container = document.createElement('div');
+          document.body.appendChild(this.container);
+        }
       }
-      document.body.appendChild(this.container);
       let instance = this;
       ReactDOM.unstable_renderSubtreeIntoContainer(
         this,

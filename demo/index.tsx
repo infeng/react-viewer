@@ -18,6 +18,11 @@ class App extends React.Component<any, any> {
     return (
       <div>
         <button onClick={() => { this.setState({ visible: !this.state.visible }); } }>show</button>
+        <div id="container" style={{
+          width: '500px',
+          height: '500px',
+        }}>
+        </div>
         <Viewer
         visible={this.state.visible}
         onClose={() => { this.setState({ visible: false }); } }
@@ -31,6 +36,7 @@ class App extends React.Component<any, any> {
           src: img3,
           alt: '',
         }]}
+        container={document.getElementById('container')}
         />
       </div>
     );

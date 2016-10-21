@@ -36,6 +36,9 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
   };
 
   private prefixCls: string;
+  private containerWidth: number;
+  private containerHeight: number;
+  private footerHeight: number;
 
   constructor(props) {
     super(props);
@@ -68,6 +71,18 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     this.handleScaleX = this.handleScaleX.bind(this);
     this.handleScaleY = this.handleScaleY.bind(this);
     this.getImageCenterXY = this.getImageCenterXY.bind(this);
+
+    this.setContainerWidthHeight();
+    this.footerHeight = 84;
+  }
+
+  setContainerWidthHeight() {
+    this.containerWidth = window.innerWidth;
+    this.containerHeight = window.innerHeight;
+    if (this.props.container) {
+      this.containerWidth = this.props.container.offsetWidth;
+      this.containerHeight = this.props.container.offsetHeight;
+    }
   }
 
   handleClose(e) {
@@ -84,7 +99,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
       });
       setTimeout(() => {
         this.bindEvent();
-        this.loadImg(this.state.activeIndex);
+        this.loadImg(this.state.activeIndex, true);
       }, 300);
     }, 10);
   }
@@ -97,18 +112,17 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     let width = 0;
     let height = 0;
     let aspectRatio = imgWidth / imgHeight;
-    let footerHeight = 84;
     if (aspectRatio > 1) {
-      width = Math.min(window.innerWidth * .9, imgWidth);
+      width = Math.min(this.containerWidth * .9, imgWidth);
       height = (width / imgWidth) * imgHeight;
     }else {
-      height = Math.min((window.innerHeight - footerHeight) * .8, imgHeight);
+      height = Math.min((this.containerWidth - this.footerHeight) * .8, imgHeight);
       width = (height / imgHeight) * imgWidth;
     }
     return [width, height];
   }
 
-  loadImg(activeIndex, firstLoad: boolean = true) {
+  loadImg(activeIndex, firstLoad: boolean = false) {
     let imgSrc = '';
     let images = this.props.images || [];
     if (images.length > 0) {
@@ -119,14 +133,13 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     img.onload = () => {
       let imgWidth = img.width;
       let imgHeight = img.height;
-      let footerHeight = 84;
       if (firstLoad) {
         this.setState({
           activeIndex: activeIndex,
           width: 0,
           height: 0,
-          left: window.innerWidth / 2,
-          top:  (window.innerHeight - footerHeight) / 2,
+          left: this.containerWidth / 2,
+          top:  (this.containerHeight - this.footerHeight) / 2,
           rotate: 0,
           imageWidth: imgWidth,
           imageHeight: imgHeight,
@@ -139,8 +152,8 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
         }, 50);
       }else {
         const [ width, height ] = this.getImgWidthHeight(imgWidth, imgHeight);
-        let left = ( window.innerWidth - width ) / 2;
-        let top = (window.innerHeight - height - footerHeight) / 2;
+        let left = ( this.containerWidth - width ) / 2;
+        let top = (this.containerHeight - height - this.footerHeight) / 2;
         this.setState({
           activeIndex: activeIndex,
           width: width,
@@ -176,7 +189,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     let imgCenterXY2 = this.getImageCenterXY();
     this.handleZoom(imgCenterXY2.x, imgCenterXY2.y, -1, 1);
     setTimeout(() => {
-      this.loadImg(newIndex, false);
+      this.loadImg(newIndex);
     }, transitionDuration);
   }
 
@@ -216,7 +229,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
         this.handleRotate(true);
         break;
       case ActionType.reset:
-        this.loadImg(this.state.activeIndex, false);
+        this.loadImg(this.state.activeIndex);
         break;
       case ActionType.scaleX:
         this.handleScaleX(this.state.scaleX === 1 ? -1 : 1);
@@ -275,6 +288,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
   }
 
   handleResize() {
+    this.setContainerWidthHeight();
     this.loadImg(this.state.activeIndex);
   }
 
@@ -400,9 +414,14 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
       }
     }
 
+    let className = `${this.prefixCls} ${this.prefixCls}-transition`;
+    if (this.props.container) {
+      className += ` inline`;
+    }
+
     return (
       <div
-      className={`${this.prefixCls} ${this.prefixCls}-transition`}
+      className={className}
       style={viewerStryle}
       onTransitionEnd={this.handleTransitionEnd.bind(this)}
       >

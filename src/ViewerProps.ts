@@ -14,6 +14,8 @@ interface ViewerProps {
   activeIndex?: number;
   /** 自定义viewer组件的z-index */
   zIndex?: number;
+  /** viewer渲染的父节点，设置后开启inline mode */
+  container?: HTMLElement;
 }
 
 export default ViewerProps;
