@@ -11,7 +11,7 @@ export interface ViewerCavansProps {
   rotate: number;
   onChangeImgState: (width: number, height: number, top: number, left: number) => void;
   onResize: () => void;
-  onZoom: (targetX: number, targetY: number, direct: number) => void;
+  onZoom: (targetX: number, targetY: number, direct: number, scale: number) => void;
   zIndex: number;
   scaleX: 1 | -1;
   scaleY: 1 | -1;
@@ -88,7 +88,7 @@ export default class ViewerCavans extends React.Component<ViewerCavansProps, Vie
     if (direct !== 0) {
       let pageX = e.pageX;
       let pageY = e.pageY;
-      this.props.onZoom(pageX, pageY, direct);
+      this.props.onZoom(pageX, pageY, direct, .05);
     }
   }
 
@@ -122,12 +122,22 @@ export default class ViewerCavans extends React.Component<ViewerCavansProps, Vie
 
     let imgClass = '';
     if (!this.state.isMouseDown) {
-      imgClass = `${this.props.prefixCls}-transition`;
+      imgClass = `${this.props.prefixCls}-image-transition`;
     }
 
     let style = {
       zIndex: this.props.zIndex,
     };
+
+    let imgNode = null;
+    if (this.props.imgSrc !== '') {
+      imgNode = <img
+      className={imgClass}
+      src={this.props.imgSrc}
+      style={imgStyle}
+      onMouseDown={this.handleMouseDown}
+      />;
+    }
 
     return (
       <div
@@ -135,12 +145,7 @@ export default class ViewerCavans extends React.Component<ViewerCavansProps, Vie
       onMouseDown={this.handleMouseDown}
       style={style}
       >
-        <img
-        className={imgClass}
-        src={this.props.imgSrc}
-        style={imgStyle}
-        onMouseDown={this.handleMouseDown}
-        />
+        {imgNode}
       </div>
     );
   }

@@ -25,7 +25,7 @@ export default class ViewerNav extends React.Component<ViewerNavProps, any> {
 
     return (
       <div className={`${this.props.prefixCls}-navbar`}>
-        <ul className={`${this.props.prefixCls}-list ${this.props.prefixCls}-transition`} style={listStyle}>
+        <ul className={`${this.props.prefixCls}-list ${this.props.prefixCls}-list-transition`} style={listStyle}>
           {this.props.images.map((item, index) =>
             <li
             key={index}

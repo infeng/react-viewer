@@ -27,6 +27,10 @@
     list-style: none;
   }
 
+  & {
+    opacity: 0;
+  }
+
   &-mask {
     position: fixed;
     top: 0;
@@ -165,8 +169,21 @@
     opacity: 1;
   }
 
+  @transitionDuration: .3s;
+  @transitionFunc: ease-out;
+
   &-transition {
-    transition: all .3s ease-out;
+    transition: opacity @transitionDuration @transitionFunc;
+  }
+
+  &-image-transition {
+    transition-property: width, height, margin, transform;
+    transition-duration: @transitionDuration;
+    transition-timing-function: @transitionFunc;
+  }
+
+  &-list-transition {
+    transition: margin @transitionDuration @transitionFunc;
   }
 }
 

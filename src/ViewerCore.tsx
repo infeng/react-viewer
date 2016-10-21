@@ -8,7 +8,12 @@ import Icon, { ActionType } from './Icon';
 
 function noop() {}
 
+const transitionDuration = 300;
+
 export interface ViewerCoreState {
+  visible?: boolean;
+  visibleStart?: boolean;
+  transitionEnd?: boolean;
   activeIndex?: number;
   width?: number;
   height?: number;
@@ -38,6 +43,9 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     this.prefixCls = 'react-viewer';
 
     this.state = {
+      visible: false,
+      visibleStart: false,
+      transitionEnd: false,
       activeIndex: this.props.activeIndex,
       width: 0,
       height: 0,
@@ -66,12 +74,41 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     this.props.onClose();
   }
 
-  componentDidMount() {
-    this.bindEvent();
-    this.loadImg(this.state.activeIndex);
+  startVisible() {
+    this.setState({
+      visibleStart: true,
+    });
+    setTimeout(() => {
+      this.setState({
+        visible: true,
+      });
+      setTimeout(() => {
+        this.bindEvent();
+        this.loadImg(this.state.activeIndex);
+      }, 300);
+    }, 10);
   }
 
-  loadImg(activeIndex) {
+  componentDidMount() {
+    this.startVisible();
+  }
+
+  getImgWidthHeight(imgWidth, imgHeight) {
+    let width = 0;
+    let height = 0;
+    let aspectRatio = imgWidth / imgHeight;
+    let footerHeight = 84;
+    if (aspectRatio > 1) {
+      width = Math.min(window.innerWidth * .9, imgWidth);
+      height = (width / imgWidth) * imgHeight;
+    }else {
+      height = Math.min((window.innerHeight - footerHeight) * .8, imgHeight);
+      width = (height / imgHeight) * imgWidth;
+    }
+    return [width, height];
+  }
+
+  loadImg(activeIndex, firstLoad: boolean = true) {
     let imgSrc = '';
     let images = this.props.images || [];
     if (images.length > 0) {
@@ -80,33 +117,44 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     let img = new Image();
     img.src = imgSrc;
     img.onload = () => {
-      let width = 0;
-      let height = 0;
       let imgWidth = img.width;
       let imgHeight = img.height;
-      let aspectRatio = imgWidth / imgHeight;
       let footerHeight = 84;
-      if (aspectRatio > 1) {
-        width = Math.min(window.innerWidth * .9, imgWidth);
-        height = (width / imgWidth) * imgHeight;
+      if (firstLoad) {
+        this.setState({
+          activeIndex: activeIndex,
+          width: 0,
+          height: 0,
+          left: window.innerWidth / 2,
+          top:  (window.innerHeight - footerHeight) / 2,
+          rotate: 0,
+          imageWidth: imgWidth,
+          imageHeight: imgHeight,
+          scaleX: 1,
+          scaleY: 1,
+        });
+        setTimeout(() => {
+          let imgCenterXY = this.getImageCenterXY();
+          this.handleZoom(imgCenterXY.x, imgCenterXY.y, 1, 1);
+        }, 50);
       }else {
-        height = Math.min((window.innerHeight - footerHeight) * .8, imgHeight);
-        width = (height / imgHeight) * imgWidth;
+        const [ width, height ] = this.getImgWidthHeight(imgWidth, imgHeight);
+        let left = ( window.innerWidth - width ) / 2;
+        let top = (window.innerHeight - height - footerHeight) / 2;
+        this.setState({
+          activeIndex: activeIndex,
+          width: width,
+          height: height,
+          left: left,
+          top:  top,
+          rotate: 0,
+          imageWidth: imgWidth,
+          imageHeight: imgHeight,
+          scaleX: 1,
+          scaleY: 1,
+        });
       }
-      let left = ( window.innerWidth - width ) / 2;
-      let top = (window.innerHeight - height - footerHeight) / 2;
-      this.setState({
-        activeIndex: activeIndex,
-        width: width,
-        height: height,
-        left: left,
-        top: top,
-        rotate: 0,
-        imageWidth: imgWidth,
-        imageHeight: imgHeight,
-        scaleX: 1,
-        scaleY: 1,
-      });
+
     };
     img.onerror = () => {
       this.setState({
@@ -125,7 +173,11 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
   }
 
   handleChangeImg(newIndex: number) {
-    this.loadImg(newIndex);
+    let imgCenterXY2 = this.getImageCenterXY();
+    this.handleZoom(imgCenterXY2.x, imgCenterXY2.y, -1, 1);
+    setTimeout(() => {
+      this.loadImg(newIndex, false);
+    }, transitionDuration);
   }
 
   handleChangeImgState(width, height, top, left) {
@@ -141,21 +193,21 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     switch (type) {
       case ActionType.prev:
         if (this.state.activeIndex - 1 >= 0) {
-          this.loadImg(this.state.activeIndex - 1);
+          this.handleChangeImg(this.state.activeIndex - 1);
         }
         break;
       case ActionType.next:
         if (this.state.activeIndex + 1 < this.props.images.length) {
-          this.loadImg(this.state.activeIndex + 1);
+          this.handleChangeImg(this.state.activeIndex + 1);
         }
         break;
       case ActionType.zoomIn:
         let imgCenterXY = this.getImageCenterXY();
-        this.handleZoom(imgCenterXY.x, imgCenterXY.y, 1);
+        this.handleZoom(imgCenterXY.x, imgCenterXY.y, 1, .05);
         break;
       case ActionType.zoomOut:
         let imgCenterXY2 = this.getImageCenterXY();
-        this.handleZoom(imgCenterXY2.x, imgCenterXY2.y, -1);
+        this.handleZoom(imgCenterXY2.x, imgCenterXY2.y, -1, .05);
         break;
       case ActionType.rotateLeft:
         this.handleRotate();
@@ -164,7 +216,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
         this.handleRotate(true);
         break;
       case ActionType.reset:
-        this.loadImg(this.state.activeIndex);
+        this.loadImg(this.state.activeIndex, false);
         break;
       case ActionType.scaleX:
         this.handleScaleX(this.state.scaleX === 1 ? -1 : 1);
@@ -189,17 +241,23 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     });
   }
 
-  handleZoom(targetX, targetY, direct) {
+  handleZoom(targetX, targetY, direct, scale) {
     let imgCenterXY = this.getImageCenterXY();
     let diffX = targetX - imgCenterXY.x;
     let diffY = targetY - imgCenterXY.y;
-    let diffWidth = direct * this.state.width * 0.05;
-    let diffHeight = direct * this.state.height * 0.05;
+    let diffWidth = direct * this.state.width * scale;
+    let diffHeight = direct * this.state.height * scale;
+    // when image width is 0, set original width
+    if (diffWidth === 0) {
+      const [ width, height ] = this.getImgWidthHeight(this.state.imageWidth, this.state.imageHeight);
+      diffWidth = width;
+      diffHeight = height;
+    }
     this.setState({
       width: this.state.width + diffWidth,
       height: this.state.height + diffHeight,
-      top: this.state.top + -diffHeight / 2 + -direct * diffY * .05,
-      left: this.state.left + -diffWidth / 2 + -direct * diffX * .05,
+      top: this.state.top + -diffHeight / 2 + -direct * diffY * scale,
+      left: this.state.left + -diffWidth / 2 + -direct * diffX * scale,
     });
   }
 
@@ -272,6 +330,16 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     }
   }
 
+  handleTransitionEnd(e) {
+    if (!this.state.transitionEnd || this.state.visibleStart) {
+      this.setState({
+        visibleStart: false,
+        transitionEnd: true,
+      });
+    }
+
+  }
+
   bindEvent(remove: boolean = false) {
     let funcName = 'addEventListener';
     if (remove) {
@@ -281,14 +349,25 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
   }
 
   componentWillReceiveProps(nextProps: ViewerProps) {
-    if (this.state.activeIndex !== nextProps.activeIndex || (!this.props.visible && nextProps.visible)) {
-      this.loadImg(nextProps.activeIndex);
-    }
     if (!this.props.visible && nextProps.visible) {
-      this.bindEvent();
+      this.startVisible();
+      return;
     }
     if (this.props.visible && !nextProps.visible) {
       this.bindEvent(true);
+      let imgCenterXY2 = this.getImageCenterXY();
+      this.handleZoom(imgCenterXY2.x, imgCenterXY2.y, -1, 1);
+      setTimeout(() => {
+        this.setState({
+          visible: false,
+          transitionEnd: false,
+        });
+      }, transitionDuration);
+      return;
+    }
+    if (this.state.activeIndex !== nextProps.activeIndex) {
+      this.handleChangeImg(nextProps.activeIndex);
+      return;
     }
   }
 
@@ -297,10 +376,6 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
       src: '',
       alt: '',
     };
-    let images = this.props.images || [];
-    if (images.length > 0) {
-      activeImg = images[this.state.activeIndex];
-    }
 
     let zIndex = 1000;
 
@@ -308,8 +383,29 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
       zIndex = this.props.zIndex;
     }
 
+    let viewerStryle: React.CSSProperties = {
+      opacity: this.state.visible ? 1 : 0,
+    };
+
+    if (!this.state.visible && this.state.transitionEnd) {
+      viewerStryle.display = 'none';
+    }
+    if (!this.state.visible && this.state.visibleStart) {
+      viewerStryle.display = 'block';
+    }
+    if (this.state.visible && this.state.transitionEnd) {
+      let images = this.props.images || [];
+      if (images.length > 0 && this.state.activeIndex >= 0) {
+        activeImg = images[this.state.activeIndex];
+      }
+    }
+
     return (
-      <div className={this.prefixCls} style={{display: this.props.visible ? 'block' : 'none'}}>
+      <div
+      className={`${this.prefixCls} ${this.prefixCls}-transition`}
+      style={viewerStryle}
+      onTransitionEnd={this.handleTransitionEnd.bind(this)}
+      >
         <div className={`${this.prefixCls}-mask`} style={{zIndex: zIndex}}></div>
         <div
         className={`${this.prefixCls}-close ${this.prefixCls}-btn`}
