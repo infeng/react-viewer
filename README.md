@@ -52,6 +52,7 @@ class App extends React.Component<any, any> {
 | images      | {src: string, alt: string}[]     | []      | image source array | true  |
 | activeIndex | number       | 0       | active image index | false |
 | zIndex      | number       | 1000    | Viewer css z-index | false |
+| container   | HTMLElement  | null    | set parent node(inline mode) | false |
 
 ## Keyboard support
 
