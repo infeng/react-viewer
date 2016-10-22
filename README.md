@@ -1,5 +1,6 @@
 # react-viewer
 
+[![NPM version][npm-image]][npm-url]
 > react image viewer.
 
 ## Introduction
@@ -69,3 +70,6 @@ class App extends React.Component<any, any> {
 ## License
 
 MIT
+
+[npm-image]: https://badge.fury.io/js/react-viewer.svg
+[npm-url]: https://npmjs.org/package/react-viewer
