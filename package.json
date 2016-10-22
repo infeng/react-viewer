@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "dora --port 8001 --plugins \"webpack,webpack-hmr,browser-history?index=/demo/index.html\"",
     "lint": "tslint -c tslint.json src/**/*.ts src/**/*.tsx",
-    "build": "atool-build --config webpack.config.prop.js && gulp"
+    "build": "atool-build --config webpack.config.prop.js && gulp",
+    "doc": "atool-build --config webpack.config.doc.js"
   },
   "repository": {
     "type": "git",
