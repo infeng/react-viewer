@@ -1,4 +1,5 @@
 import * as React from 'react';
+import Loading from './Loading';
 
 export interface ViewerCavansProps {
   prefixCls: string;
@@ -15,6 +16,7 @@ export interface ViewerCavansProps {
   zIndex: number;
   scaleX: 1 | -1;
   scaleY: 1 | -1;
+  loading: boolean;
 }
 
 export interface ViewerCavansState {
@@ -51,6 +53,9 @@ export default class ViewerCavans extends React.Component<ViewerCavansProps, Vie
   }
 
   handleMouseDown(e) {
+    if (!this.props.visible) {
+      return;
+    }
     e.preventDefault();
     e.stopPropagation();
     this.setState({
@@ -137,6 +142,12 @@ export default class ViewerCavans extends React.Component<ViewerCavansProps, Vie
       style={imgStyle}
       onMouseDown={this.handleMouseDown}
       />;
+    }
+    if (this.props.loading) {
+      imgNode = <Loading style={{
+        marginTop: this.props.top,
+        marginLeft: this.props.left,
+      }}/>;
     }
 
     return (

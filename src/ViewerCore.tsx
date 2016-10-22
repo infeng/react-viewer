@@ -24,6 +24,7 @@ export interface ViewerCoreState {
   imageHeight?: number;
   scaleX?: 1 | -1;
   scaleY?: 1 | -1;
+  loading?: boolean;
 }
 
 export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreState> {
@@ -59,6 +60,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
       imageHeight: 0,
       scaleX: 1,
       scaleY: 1,
+      loading: false,
     };
 
     this.handleChangeImg = this.handleChangeImg.bind(this);
@@ -130,23 +132,26 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     }
     let img = new Image();
     img.src = imgSrc;
+    this.setState({
+      activeIndex: activeIndex,
+      width: 0,
+      height: 0,
+      left: this.containerWidth / 2,
+      top:  (this.containerHeight - this.footerHeight) / 2,
+      rotate: 0,
+      scaleX: 1,
+      scaleY: 1,
+      loading: true,
+    });
     img.onload = () => {
       let imgWidth = img.width;
       let imgHeight = img.height;
       if (firstLoad) {
-        this.setState({
-          activeIndex: activeIndex,
-          width: 0,
-          height: 0,
-          left: this.containerWidth / 2,
-          top:  (this.containerHeight - this.footerHeight) / 2,
-          rotate: 0,
-          imageWidth: imgWidth,
-          imageHeight: imgHeight,
-          scaleX: 1,
-          scaleY: 1,
-        });
         setTimeout(() => {
+          this.setState({
+            imageWidth: imgWidth,
+            imageHeight: imgHeight,
+          });
           let imgCenterXY = this.getImageCenterXY();
           this.handleZoom(imgCenterXY.x, imgCenterXY.y, 1, 1);
         }, 50);
@@ -155,32 +160,21 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
         let left = ( this.containerWidth - width ) / 2;
         let top = (this.containerHeight - height - this.footerHeight) / 2;
         this.setState({
-          activeIndex: activeIndex,
           width: width,
           height: height,
           left: left,
           top:  top,
-          rotate: 0,
           imageWidth: imgWidth,
           imageHeight: imgHeight,
-          scaleX: 1,
-          scaleY: 1,
+          loading: false,
         });
       }
-
     };
     img.onerror = () => {
       this.setState({
-        activeIndex: activeIndex,
-        width: 0,
-        height: 0,
-        left: 0,
-        top: 0,
-        rotate: 0,
         imageWidth: 0,
         imageHeight: 0,
-        scaleX: 1,
-        scaleY: 1,
+        loading: false,
       });
     };
   }
@@ -271,6 +265,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
       height: this.state.height + diffHeight,
       top: this.state.top + -diffHeight / 2 + -direct * diffY * scale,
       left: this.state.left + -diffWidth / 2 + -direct * diffX * scale,
+      loading: false,
     });
   }
 
@@ -448,6 +443,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
         zIndex={zIndex + 5}
         scaleX={this.state.scaleX}
         scaleY={this.state.scaleY}
+        loading={this.state.loading}
         />
         <div className={`${this.prefixCls}-footer`} style={{zIndex: zIndex + 5}}>
           <ViewerToolbar
