@@ -144,6 +144,11 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
         scaleY: 1,
         loading: true,
       });
+    }else {
+      this.setState({
+        activeIndex: activeIndex,
+        loading: true,
+      });
     }
     img.onload = () => {
       let imgWidth = img.width;
