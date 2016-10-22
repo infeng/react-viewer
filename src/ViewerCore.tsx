@@ -89,7 +89,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     this.props.onClose();
   }
 
-  startVisible() {
+  startVisible(activeIndex: number) {
     this.setState({
       visibleStart: true,
     });
@@ -99,13 +99,13 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
       });
       setTimeout(() => {
         this.bindEvent();
-        this.loadImg(this.state.activeIndex, true);
+        this.loadImg(activeIndex, true);
       }, 300);
     }, 10);
   }
 
   componentDidMount() {
-    this.startVisible();
+    this.startVisible(this.state.activeIndex);
   }
 
   getImgWidthHeight(imgWidth, imgHeight) {
@@ -113,10 +113,10 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     let height = 0;
     let aspectRatio = imgWidth / imgHeight;
     if (aspectRatio > 1) {
-      width = Math.min(this.containerWidth * .9, imgWidth);
+      width = Math.min(this.containerWidth * .8, imgWidth);
       height = (width / imgWidth) * imgHeight;
     }else {
-      height = Math.min((this.containerWidth - this.footerHeight) * .8, imgHeight);
+      height = Math.min((this.containerHeight - this.footerHeight) * .8, imgHeight);
       width = (height / imgHeight) * imgWidth;
     }
     return [width, height];
@@ -364,7 +364,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
 
   componentWillReceiveProps(nextProps: ViewerProps) {
     if (!this.props.visible && nextProps.visible) {
-      this.startVisible();
+      this.startVisible(nextProps.activeIndex);
       return;
     }
     if (this.props.visible && !nextProps.visible) {
