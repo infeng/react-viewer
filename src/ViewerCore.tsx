@@ -132,23 +132,26 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     }
     let img = new Image();
     img.src = imgSrc;
-    this.setState({
-      activeIndex: activeIndex,
-      width: 0,
-      height: 0,
-      left: this.containerWidth / 2,
-      top:  (this.containerHeight - this.footerHeight) / 2,
-      rotate: 0,
-      scaleX: 1,
-      scaleY: 1,
-      loading: true,
-    });
+    if (firstLoad) {
+      this.setState({
+        activeIndex: activeIndex,
+        width: 0,
+        height: 0,
+        left: this.containerWidth / 2,
+        top:  (this.containerHeight - this.footerHeight) / 2,
+        rotate: 0,
+        scaleX: 1,
+        scaleY: 1,
+        loading: true,
+      });
+    }
     img.onload = () => {
       let imgWidth = img.width;
       let imgHeight = img.height;
       if (firstLoad) {
         setTimeout(() => {
           this.setState({
+            activeIndex: activeIndex,
             imageWidth: imgWidth,
             imageHeight: imgHeight,
           });
@@ -160,6 +163,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
         let left = ( this.containerWidth - width ) / 2;
         let top = (this.containerHeight - height - this.footerHeight) / 2;
         this.setState({
+          activeIndex: activeIndex,
           width: width,
           height: height,
           left: left,
@@ -167,11 +171,15 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
           imageWidth: imgWidth,
           imageHeight: imgHeight,
           loading: false,
+          rotate: 0,
+          scaleX: 1,
+          scaleY: 1,
         });
       }
     };
     img.onerror = () => {
       this.setState({
+        activeIndex: activeIndex,
         imageWidth: 0,
         imageHeight: 0,
         loading: false,
@@ -180,11 +188,12 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
   }
 
   handleChangeImg(newIndex: number) {
-    let imgCenterXY2 = this.getImageCenterXY();
-    this.handleZoom(imgCenterXY2.x, imgCenterXY2.y, -1, 1);
-    setTimeout(() => {
-      this.loadImg(newIndex);
-    }, transitionDuration);
+    // let imgCenterXY2 = this.getImageCenterXY();
+    // this.handleZoom(imgCenterXY2.x, imgCenterXY2.y, -1, 1);
+    // setTimeout(() => {
+    //   this.loadImg(newIndex);
+    // }, transitionDuration);
+    this.loadImg(newIndex);
   }
 
   handleChangeImgState(width, height, top, left) {
