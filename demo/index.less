@@ -1,0 +1,93 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  font-size: 16px;
+}
+
+ul, li {
+  list-style: none;
+}
+
+@navbarHeight: 50px;
+
+.navbar {
+  width: 100%;
+  height: @navbarHeight;
+  background-color: #0074d9;
+}
+
+.navbar-fixed-top {
+  position: fixed;
+  top: 0;
+}
+
+.img-fork {
+  position: absolute;
+  width: 130px;
+  top: 0;
+  right: 0;
+}
+
+.container-fluid {
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;   
+}
+
+.navbar-brand {
+  color: white;
+  font-size: 2rem;
+  line-height: @navbarHeight;
+}
+
+.container {
+  margin: 24 auto;
+  margin-top: 50px;
+  padding: 2em;
+}
+
+.title {
+  font-size: 3rem;
+  font-weight: bold;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 1.5rem;
+}
+
+.img-list {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+
+@imgItemWidth: 150px;
+@imgOffset: 30px;
+
+.img-item {
+  width: @imgItemWidth;
+  height: @imgItemWidth;
+  padding: 2px;
+}
+
+.img-item > img {
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  background-color: #0b2f3d;
+  width: 100%;
+}
+.container-footer {
+  padding: 24px;
+  text-align: center;
+}
+.signature {
+  color: white;
+}
