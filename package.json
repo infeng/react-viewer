@@ -4,7 +4,7 @@
   "description": "react image viewer",
   "main": "dist/index",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "npm run lint",
     "start": "dora --port 8001 --plugins \"webpack,webpack-hmr,browser-history?index=/demo/index.html\"",
     "lint": "tslint -c tslint.json src/**/*.ts src/**/*.tsx",
     "build": "atool-build --config webpack.config.prop.js && gulp",
