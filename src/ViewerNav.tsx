@@ -14,6 +14,9 @@ export default class ViewerNav extends React.Component<ViewerNavProps, any> {
   };
 
   handleChangeImg(newIndex) {
+    if (this.props.activeIndex === newIndex) {
+      return;
+    }
     this.props.onChangeImg(newIndex);
   }
 
