@@ -113,12 +113,12 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
   getImgWidthHeight(imgWidth, imgHeight) {
     let width = 0;
     let height = 0;
-    let aspectRatio = imgWidth / imgHeight;
-    if (aspectRatio > 1) {
-      width = Math.min(this.containerWidth * .8, imgWidth);
-      height = (width / imgWidth) * imgHeight;
-    }else {
-      height = Math.min((this.containerHeight - this.footerHeight) * .8, imgHeight);
+    let maxWidth = this.containerWidth * .8;
+    let maxHeight = (this.containerHeight - this.footerHeight) * .8;
+    width = Math.min(maxWidth, imgWidth);
+    height = (width / imgWidth) * imgHeight;
+    if (height > maxHeight) {
+      height = maxHeight;
       width = (height / imgHeight) * imgWidth;
     }
     return [width, height];
