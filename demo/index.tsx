@@ -4,6 +4,7 @@ import Viewer from '../src/Viewer';
 const img2 = require('./images/landscape2.jpg');
 const img = require('./images/landscape.jpg');
 const img3 = require('./images/tibet-6.jpg');
+const img4 = require('./images/image4.jpg');
 const forkImg = require('./images/fork_me_ribbon.svg');
 import './index.less';
 
@@ -26,6 +27,9 @@ class App extends React.Component<any, any> {
       alt: 'mountain',
     }, {
       src: img3,
+      alt: '',
+    }, {
+      src: img4,
       alt: '',
     }];
 
