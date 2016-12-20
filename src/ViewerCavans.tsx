@@ -120,6 +120,7 @@ export default class ViewerCavans extends React.Component<ViewerCavansProps, Vie
   render() {
     let imgStyle: React.CSSProperties = {
       width: `${this.props.width}px`,
+      height: `${this.props.height}px`,
       marginTop: `${this.props.top}px`,
       marginLeft: this.props.left ? `${this.props.left}px` : 'auto',
       transform: `rotate(${this.props.rotate}deg) scaleX(${this.props.scaleX}) scaleY(${this.props.scaleY})`,
