@@ -34,6 +34,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     images: [],
     activeIndex: 0,
     zIndex: 1000,
+    drag: true,
   };
 
   private prefixCls: string;
@@ -298,7 +299,9 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
 
   handleResize() {
     this.setContainerWidthHeight();
-    this.loadImg(this.state.activeIndex);
+    if (this.props.visible) {
+      this.loadImg(this.state.activeIndex);
+    }
   }
 
   handleKeydown(e) {
@@ -458,6 +461,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
         scaleX={this.state.scaleX}
         scaleY={this.state.scaleY}
         loading={this.state.loading}
+        drag={this.props.drag}
         />
         <div className={`${this.prefixCls}-footer`} style={{zIndex: zIndex + 5}}>
           <ViewerToolbar

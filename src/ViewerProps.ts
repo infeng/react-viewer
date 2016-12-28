@@ -16,6 +16,8 @@ interface ViewerProps {
   zIndex?: number;
   /** viewer渲染的父节点，设置后开启inline mode */
   container?: HTMLElement;
+  /** 图片是否可拖动 */
+  drag?: boolean;
 }
 
 export default ViewerProps;

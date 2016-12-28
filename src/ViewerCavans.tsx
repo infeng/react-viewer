@@ -17,6 +17,7 @@ export interface ViewerCavansProps {
   scaleX: 1 | -1;
   scaleY: 1 | -1;
   loading: boolean;
+  drag: boolean;
 }
 
 export interface ViewerCavansState {
@@ -45,7 +46,10 @@ export default class ViewerCavans extends React.Component<ViewerCavansProps, Vie
   }
 
   componentDidMount() {
-    this.bindEvent();
+    if (this.props.drag) {
+      this.bindEvent();
+    }
+    window.addEventListener('resize', this.handleResize, false);
   }
 
   handleResize(e) {
@@ -53,7 +57,7 @@ export default class ViewerCavans extends React.Component<ViewerCavansProps, Vie
   }
 
   handleMouseDown(e) {
-    if (!this.props.visible) {
+    if (!this.props.visible || !this.props.drag) {
       return;
     }
     e.preventDefault();
@@ -105,15 +109,26 @@ export default class ViewerCavans extends React.Component<ViewerCavansProps, Vie
     document[funcName]('mousewheel', this.handleMouseScroll, false);
     document[funcName]('click', this.handleMouseUp, false);
     document[funcName]('mousemove', this.handleMouseMove, false);
-    window[funcName]('resize', this.handleResize, false);
   }
 
   componentWillReceiveProps(nextProps: ViewerCavansProps) {
     if (!this.props.visible && nextProps.visible) {
-      this.bindEvent();
+      if (nextProps.drag) {
+        return this.bindEvent();
+      }
     }
     if (this.props.visible && !nextProps.visible) {
-      this.bindEvent(true);
+      if (nextProps.drag) {
+        return this.bindEvent(true);
+      }
+    }
+    if (this.props.drag && !nextProps.drag) {
+      return this.bindEvent(true);
+    }
+    if (!this.props.drag && nextProps.drag) {
+      if (nextProps.visible) {
+        return this.bindEvent(true);
+      }
     }
   }
 
@@ -126,9 +141,9 @@ export default class ViewerCavans extends React.Component<ViewerCavansProps, Vie
       transform: `rotate(${this.props.rotate}deg) scaleX(${this.props.scaleX}) scaleY(${this.props.scaleY})`,
     };
 
-    let imgClass = '';
+    let imgClass = this.props.drag ? 'drag' : '';
     if (!this.state.isMouseDown) {
-      imgClass = `${this.props.prefixCls}-image-transition`;
+      imgClass += ` ${this.props.prefixCls}-image-transition`;
     }
 
     let style = {
