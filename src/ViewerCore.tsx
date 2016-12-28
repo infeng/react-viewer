@@ -1,6 +1,6 @@
 import * as React from 'react';
 import './style/index.less';
-import ViewerCavans from './ViewerCavans';
+import ViewerCanvas from './ViewerCanvas';
 import ViewerNav from './ViewerNav';
 import ViewerToolbar from './ViewerToolbar';
 import ViewerProps, { ImageDecorator } from './ViewerProps';
@@ -445,7 +445,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
         >
           <Icon type={ActionType.close}/>
         </div>
-        <ViewerCavans
+        <ViewerCanvas
         prefixCls={this.prefixCls}
         imgSrc={activeImg.src}
         visible={this.props.visible}

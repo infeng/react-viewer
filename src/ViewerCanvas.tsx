@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Loading from './Loading';
 
-export interface ViewerCavansProps {
+export interface ViewerCanvasProps {
   prefixCls: string;
   imgSrc: string;
   visible: boolean;
@@ -20,13 +20,13 @@ export interface ViewerCavansProps {
   drag: boolean;
 }
 
-export interface ViewerCavansState {
+export interface ViewerCanvasState {
   isMouseDown?: boolean;
   mouseX?: number;
   mouseY?: number;
 }
 
-export default class ViewerCavans extends React.Component<ViewerCavansProps, ViewerCavansState> {
+export default class ViewerCanvas extends React.Component<ViewerCanvasProps, ViewerCanvasState> {
 
   constructor() {
     super();
@@ -111,7 +111,7 @@ export default class ViewerCavans extends React.Component<ViewerCavansProps, Vie
     document[funcName]('mousemove', this.handleMouseMove, false);
   }
 
-  componentWillReceiveProps(nextProps: ViewerCavansProps) {
+  componentWillReceiveProps(nextProps: ViewerCanvasProps) {
     if (!this.props.visible && nextProps.visible) {
       if (nextProps.drag) {
         return this.bindEvent();
@@ -168,7 +168,7 @@ export default class ViewerCavans extends React.Component<ViewerCavansProps, Vie
 
     return (
       <div
-      className={`${this.props.prefixCls}-cavans`}
+      className={`${this.props.prefixCls}-canvas`}
       onMouseDown={this.handleMouseDown}
       style={style}
       >
