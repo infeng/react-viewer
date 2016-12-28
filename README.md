@@ -54,6 +54,11 @@ class App extends React.Component<any, any> {
 | activeIndex | number       | 0       | active image index | false |
 | zIndex      | number       | 1000    | Viewer css z-index | false |
 | container   | HTMLElement  | null    | set parent node(inline mode) | false |
+| drag        | boolean      | true    | whether to drag image | false |
+| attribute   | boolean      | true    | whether to show image attribute | false |
+| zoomable    | boolean      | true    | whether to show 'zoom' buttom | false |
+| rotatable   | boolean      | true    | whether to show 'rotate' button | false |
+| scalable    | boolean      | true    | whether to show 'scale' button | false |
 
 ## Keyboard support
 
