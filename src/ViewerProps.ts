@@ -20,6 +20,12 @@ interface ViewerProps {
   drag?: boolean;
   /** 是否显示图片属性 */
   attribute?: boolean;
+  /** 是否显示缩放按钮 */
+  zoomable?: boolean;
+  /** 是否显示旋转按钮 */
+  rotatable?: boolean;
+  /** 是否显示变换按钮 */
+  scalable?: boolean;
 }
 
 export default ViewerProps;

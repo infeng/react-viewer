@@ -8,6 +8,10 @@ export interface ViewerToolbarProps {
   width: number;
   height: number;
   attribute: boolean;
+  zoomable: boolean;
+  rotatable: boolean;
+  scalable: boolean;
+  changeable: boolean;
 }
 
 export default class ViewerToolbar extends React.Component<ViewerToolbarProps, any> {
@@ -26,37 +30,79 @@ export default class ViewerToolbar extends React.Component<ViewerToolbarProps, a
         {`${this.props.alt}(${this.props.width} x ${this.props.height})`}
       </p>
     ) : null;
+    let featureNodeArr = [];
+    if (this.props.zoomable) {
+      featureNodeArr = featureNodeArr.concat([
+        <li
+        key="zoomIn"
+        className={`${this.props.prefixCls}-btn`}
+        onClick={() => {this.handleAction(ActionType.zoomIn);}}>
+          <Icon type={ActionType.zoomIn}/>
+        </li>,
+        <li
+        key="zoomOut"
+        className={`${this.props.prefixCls}-btn`}
+        onClick={() => {this.handleAction(ActionType.zoomOut);}}>
+          <Icon type={ActionType.zoomOut}/>
+        </li>,
+      ]);
+    }
+    if (this.props.changeable) {
+      featureNodeArr = featureNodeArr.concat([
+        <li
+        key="prev"
+        className={`${this.props.prefixCls}-btn`} onClick={() => {this.handleAction(ActionType.prev);}}>
+          <Icon type={ActionType.prev}/>
+        </li>,
+        <li
+        key="reset"
+        className={`${this.props.prefixCls}-btn`} onClick={() => {this.handleAction(ActionType.reset);}}>
+          <Icon type={ActionType.reset}/>
+        </li>,
+        <li
+        key="next"
+        className={`${this.props.prefixCls}-btn`} onClick={() => {this.handleAction(ActionType.next);}}>
+          <Icon type={ActionType.next}/>
+        </li>,
+      ]);
+    }
+    if (this.props.rotatable) {
+      featureNodeArr = featureNodeArr.concat([
+        <li
+        key="rotateLeft"
+        className={`${this.props.prefixCls}-btn`}
+        onClick={() => {this.handleAction(ActionType.rotateLeft);}}>
+          <Icon type={ActionType.rotateLeft}/>
+        </li>,
+        <li
+        key="rotateRight"
+        className={`${this.props.prefixCls}-btn`}
+        onClick={() => {this.handleAction(ActionType.rotateRight);}}>
+          <Icon type={ActionType.rotateRight}/>
+        </li>,
+      ]);
+    }
+    if (this.props.scalable) {
+      featureNodeArr = featureNodeArr.concat([
+        <li
+        key="scaleX"
+        className={`${this.props.prefixCls}-btn`}
+        onClick={() => {this.handleAction(ActionType.scaleX);}}>
+          <Icon type={ActionType.scaleX}/>
+        </li>,
+        <li
+        key="scaleY"
+        className={`${this.props.prefixCls}-btn`}
+        onClick={() => {this.handleAction(ActionType.scaleY);}}>
+          <Icon type={ActionType.scaleY}/>
+        </li>,
+      ]);
+    }
     return (
       <div>
         {attributeNode}
         <ul className={`${this.props.prefixCls}-toolbar`}>
-          <li className={`${this.props.prefixCls}-btn`} onClick={() => {this.handleAction(ActionType.zoomIn);}}>
-            <Icon type={ActionType.zoomIn}/>
-          </li>
-          <li className={`${this.props.prefixCls}-btn`} onClick={() => {this.handleAction(ActionType.zoomOut);}}>
-            <Icon type={ActionType.zoomOut}/>
-          </li>
-          <li className={`${this.props.prefixCls}-btn`} onClick={() => {this.handleAction(ActionType.prev);}}>
-            <Icon type={ActionType.prev}/>
-          </li>
-          <li className={`${this.props.prefixCls}-btn`} onClick={() => {this.handleAction(ActionType.reset);}}>
-            <Icon type={ActionType.reset}/>
-          </li>
-          <li className={`${this.props.prefixCls}-btn`} onClick={() => {this.handleAction(ActionType.next);}}>
-            <Icon type={ActionType.next}/>
-          </li>
-          <li className={`${this.props.prefixCls}-btn`} onClick={() => {this.handleAction(ActionType.rotateLeft);}}>
-            <Icon type={ActionType.rotateLeft}/>
-          </li>
-          <li className={`${this.props.prefixCls}-btn`} onClick={() => {this.handleAction(ActionType.rotateRight);}}>
-            <Icon type={ActionType.rotateRight}/>
-          </li>
-          <li className={`${this.props.prefixCls}-btn`} onClick={() => {this.handleAction(ActionType.scaleX);}}>
-            <Icon type={ActionType.scaleX}/>
-          </li>
-          <li className={`${this.props.prefixCls}-btn`} onClick={() => {this.handleAction(ActionType.scaleY);}}>
-            <Icon type={ActionType.scaleY}/>
-          </li>
+          {featureNodeArr}
         </ul>
       </div>
     );

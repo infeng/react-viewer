@@ -36,6 +36,9 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     zIndex: 1000,
     drag: true,
     attribute: true,
+    zoomable: true,
+    rotatable: true,
+    scalable: true,
   };
 
   private prefixCls: string;
@@ -472,6 +475,10 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
           width={this.state.imageWidth}
           height={this.state.imageHeight}
           attribute={this.props.attribute}
+          zoomable={this.props.zoomable}
+          rotatable={this.props.rotatable}
+          scalable={this.props.scalable}
+          changeable={true}
           />
           <ViewerNav
           prefixCls={this.prefixCls}
