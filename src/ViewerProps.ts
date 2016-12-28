@@ -18,6 +18,8 @@ interface ViewerProps {
   container?: HTMLElement;
   /** 图片是否可拖动 */
   drag?: boolean;
+  /** 是否显示图片属性 */
+  attribute?: boolean;
 }
 
 export default ViewerProps;

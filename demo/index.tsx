@@ -66,6 +66,7 @@ class App extends React.Component<any, any> {
           onClose={() => { this.setState({ visible: false }); } }
           images={images}
           activeIndex={this.state.activeIndex}
+          attribute={false}
           />
         </div>
         <div className="footer">

@@ -35,6 +35,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     activeIndex: 0,
     zIndex: 1000,
     drag: true,
+    attribute: true,
   };
 
   private prefixCls: string;
@@ -470,6 +471,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
           alt={activeImg.alt}
           width={this.state.imageWidth}
           height={this.state.imageHeight}
+          attribute={this.props.attribute}
           />
           <ViewerNav
           prefixCls={this.prefixCls}

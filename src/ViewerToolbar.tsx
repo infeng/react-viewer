@@ -7,6 +7,7 @@ export interface ViewerToolbarProps {
   alt: string;
   width: number;
   height: number;
+  attribute: boolean;
 }
 
 export default class ViewerToolbar extends React.Component<ViewerToolbarProps, any> {
@@ -20,11 +21,14 @@ export default class ViewerToolbar extends React.Component<ViewerToolbarProps, a
   }
 
   render() {
+    let attributeNode = this.props.attribute ? (
+      <p className={`${this.props.prefixCls}-attribute`}>
+        {`${this.props.alt}(${this.props.width} x ${this.props.height})`}
+      </p>
+    ) : null;
     return (
       <div>
-        <p className={`${this.props.prefixCls}-attribute`}>
-          {`${this.props.alt}(${this.props.width} x ${this.props.height})`}
-        </p>
+        {attributeNode}
         <ul className={`${this.props.prefixCls}-toolbar`}>
           <li className={`${this.props.prefixCls}-btn`} onClick={() => {this.handleAction(ActionType.zoomIn);}}>
             <Icon type={ActionType.zoomIn}/>
