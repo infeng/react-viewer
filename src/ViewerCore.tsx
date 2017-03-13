@@ -395,7 +395,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
       }, transitionDuration);
       return;
     }
-    if (this.state.activeIndex !== nextProps.activeIndex) {
+    if (this.props.activeIndex !== nextProps.activeIndex) {
       this.handleChangeImg(nextProps.activeIndex);
       return;
     }
