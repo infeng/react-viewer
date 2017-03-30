@@ -4,6 +4,7 @@ import ViewerCore from './ViewerCore';
 import ViewerProps from './ViewerProps';
 
 export default class Viewer extends React.Component<ViewerProps, any> {
+  private defaultContainer: HTMLElement;
   private container: HTMLElement;
   private component: React.ReactNode;
 
@@ -11,6 +12,7 @@ export default class Viewer extends React.Component<ViewerProps, any> {
     super();
 
     this.container = null;
+    this.defaultContainer = document.createElement('div');
     this.component = null;
   }
 
@@ -20,7 +22,7 @@ export default class Viewer extends React.Component<ViewerProps, any> {
         if (this.props.container) {
           this.container = this.props.container;
         }else {
-          this.container = document.createElement('div');
+          this.container = this.defaultContainer;
           document.body.appendChild(this.container);
         }
       }
@@ -54,6 +56,21 @@ export default class Viewer extends React.Component<ViewerProps, any> {
       this.removeViewer();
     } else {
       this.removeViewer();
+    }
+  }
+
+  componentWillReceiveProps(nextProps: ViewerProps) {
+    if (this.props.container !== nextProps.container) {
+      this.component = null;
+      if (nextProps.container) {
+        if (this.container) {
+          document.body.removeChild(this.container);
+        }
+        this.container = nextProps.container;
+      }else {
+        this.container = this.defaultContainer;
+        document.body.appendChild(this.container);
+      }
     }
   }
 
