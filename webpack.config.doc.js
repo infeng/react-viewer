@@ -13,6 +13,10 @@ var conf = {
 }
 
 module.exports = function (webpackConfig) {
+  webpackConfig.babel.plugins.push(['import', {
+    libraryName: 'antd',
+    style: true,
+  }]);  
   webpackConfig.entry = {
     index: './demo/index.tsx',
   };

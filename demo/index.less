@@ -5,6 +5,7 @@
 
 body {
   font-size: 16px;
+  overflow: hidden;
 }
 
 ul, li {
@@ -59,8 +60,14 @@ ul, li {
 
 .img-list {
   display: flex;
-  width: 100%;
+  width: 640px;
+  height: 500px;
+  margin: 0 auto;
   justify-content: center;
+
+  &.hide {
+    display: none;
+  }
 }
 
 @imgItemWidth: 150px;
@@ -69,7 +76,7 @@ ul, li {
 .img-item {
   width: @imgItemWidth;
   height: @imgItemWidth;
-  padding: 2px;
+  padding: 1px;
 }
 
 .img-item > img {
@@ -90,4 +97,20 @@ ul, li {
 }
 .signature {
   color: white;
+}
+.container {
+  position: relative;
+}
+.inline-container {
+  display: none;
+  width: 600px;
+  height: 400px;
+  margin: 0 auto;
+
+  &.show {
+    display: block;
+  }
+}
+.options-list {
+  margin-top: 12px;
 }
