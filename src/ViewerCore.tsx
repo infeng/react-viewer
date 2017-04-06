@@ -367,7 +367,6 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
         transitionEnd: true,
       });
     }
-
   }
 
   bindEvent(remove: boolean = false) {
@@ -376,6 +375,10 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
       funcName = 'removeEventListener';
     }
     document[funcName]('keydown', this.handleKeydown, false);
+  }
+
+  componentWillUnmount() {
+    this.bindEvent(true);
   }
 
   componentWillReceiveProps(nextProps: ViewerProps) {

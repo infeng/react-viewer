@@ -132,6 +132,10 @@ export default class ViewerCanvas extends React.Component<ViewerCanvasProps, Vie
     }
   }
 
+  componentWillUnmount() {
+    this.bindEvent(true);
+  }
+
   render() {
     let imgStyle: React.CSSProperties = {
       width: `${this.props.width}px`,
