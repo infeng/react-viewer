@@ -304,7 +304,18 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
   handleResize() {
     this.setContainerWidthHeight();
     if (this.props.visible) {
-      this.loadImg(this.state.activeIndex);
+      const [ width, height ] = this.getImgWidthHeight(this.state.imageWidth, this.state.imageHeight);
+      let left = ( this.containerWidth - width ) / 2;
+      let top = (this.containerHeight - height - this.footerHeight) / 2;
+      this.setState({
+        width: width,
+        height: height,
+        left: left,
+        top:  top,
+        rotate: 0,
+        scaleX: 1,
+        scaleY: 1,
+      });
     }
   }
 

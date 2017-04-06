@@ -42,17 +42,15 @@ export default class ViewerCanvas extends React.Component<ViewerCanvasProps, Vie
     this.bindEvent = this.bindEvent.bind(this);
     this.handleMouseMove = this.handleMouseMove.bind(this);
     this.handleMouseUp = this.handleMouseUp.bind(this);
-    this.handleResize = this.handleResize.bind(this);
   }
 
   componentDidMount() {
     if (this.props.drag) {
       this.bindEvent();
     }
-    window.addEventListener('resize', this.handleResize, false);
   }
 
-  handleResize(e) {
+  handleResize = (e) => {
     this.props.onResize();
   }
 
@@ -109,6 +107,7 @@ export default class ViewerCanvas extends React.Component<ViewerCanvasProps, Vie
     document[funcName]('mousewheel', this.handleMouseScroll, false);
     document[funcName]('click', this.handleMouseUp, false);
     document[funcName]('mousemove', this.handleMouseMove, false);
+    window[funcName]('resize', this.handleResize, false);
   }
 
   componentWillReceiveProps(nextProps: ViewerCanvasProps) {
