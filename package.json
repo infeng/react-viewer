@@ -9,7 +9,7 @@
     "lint": "tslint -c tslint.json src/**/*.ts src/**/*.tsx",
     "build": "atool-build --config webpack.config.prop.js && gulp",
     "doc": "atool-build --config webpack.config.doc.js",
-    "publish": "npm run build && npm publish"
+    "pub": "npm run build && npm publish"
   },
   "repository": {
     "type": "git",
