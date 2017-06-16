@@ -112,6 +112,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
   }
 
   componentDidMount() {
+    (this.refs['viewerCore'] as HTMLDivElement).addEventListener('transitionend', this.handleTransitionEnd, false);
     this.startVisible(this.state.activeIndex);
   }
 
@@ -371,7 +372,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     }
   }
 
-  handleTransitionEnd(e) {
+  handleTransitionEnd = (e) => {
     if (!this.state.transitionEnd || this.state.visibleStart) {
       this.setState({
         visibleStart: false,
@@ -390,6 +391,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
 
   componentWillUnmount() {
     this.bindEvent(true);
+    (this.refs['viewerCore'] as HTMLDivElement).removeEventListener('transitionend', this.handleTransitionEnd, false);
   }
 
   componentWillReceiveProps(nextProps: ViewerProps) {
@@ -451,9 +453,9 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
 
     return (
       <div
+      ref="viewerCore"
       className={className}
       style={viewerStryle}
-      onTransitionEnd={this.handleTransitionEnd.bind(this)}
       >
         <div className={`${this.prefixCls}-mask`} style={{zIndex: zIndex}}></div>
         <div
