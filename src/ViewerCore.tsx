@@ -39,6 +39,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     zoomable: true,
     rotatable: true,
     scalable: true,
+    onMaskClick: noop,
   };
 
   private prefixCls: string;
@@ -417,6 +418,10 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     }
   }
 
+  handleCanvasMouseDown = e => {
+    this.props.onMaskClick(e);
+  }
+
   render() {
     let activeImg: ImageDecorator = {
       src: '',
@@ -482,6 +487,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
         scaleY={this.state.scaleY}
         loading={this.state.loading}
         drag={this.props.drag}
+        onCanvasMouseDown={this.handleCanvasMouseDown}
         />
         <div className={`${this.prefixCls}-footer`} style={{zIndex: zIndex + 5}}>
           <ViewerToolbar

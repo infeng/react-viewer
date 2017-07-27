@@ -18,6 +18,7 @@ export interface ViewerCanvasProps {
   scaleY: 1 | -1;
   loading: boolean;
   drag: boolean;
+  onCanvasMouseDown: (e: React.MouseEvent<HTMLDivElement>) => void;
 }
 
 export interface ViewerCanvasState {
@@ -52,6 +53,11 @@ export default class ViewerCanvas extends React.Component<ViewerCanvasProps, Vie
 
   handleResize = (e) => {
     this.props.onResize();
+  }
+
+  handleCanvasMouseDown = (e) => {
+    this.props.onCanvasMouseDown(e);
+    this.handleMouseDown(e);
   }
 
   handleMouseDown(e) {
@@ -117,6 +123,7 @@ export default class ViewerCanvas extends React.Component<ViewerCanvasProps, Vie
       }
     }
     if (this.props.visible && !nextProps.visible) {
+      this.handleMouseUp({});
       if (nextProps.drag) {
         return this.bindEvent(true);
       }
@@ -172,7 +179,7 @@ export default class ViewerCanvas extends React.Component<ViewerCanvasProps, Vie
     return (
       <div
       className={`${this.props.prefixCls}-canvas`}
-      onMouseDown={this.handleMouseDown}
+      onMouseDown={this.handleCanvasMouseDown}
       style={style}
       >
         {imgNode}

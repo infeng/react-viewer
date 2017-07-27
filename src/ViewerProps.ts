@@ -26,6 +26,8 @@ interface ViewerProps {
   rotatable?: boolean;
   /** 是否显示变换按钮 */
   scalable?: boolean;
+  /** callback function when mask is clicked */
+  onMaskClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
 }
 
 export default ViewerProps;

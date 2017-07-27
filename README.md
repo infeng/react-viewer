@@ -59,6 +59,7 @@ class App extends React.Component<any, any> {
 | zoomable    | boolean      | true    | whether to show 'zoom' buttom | false |
 | rotatable   | boolean      | true    | whether to show 'rotate' button | false |
 | scalable    | boolean      | true    | whether to show 'scale' button | false |
+| onMaskClick | (e) => void  |   -     | callback function when mask is clicked |
 
 ## Keyboard support
 
