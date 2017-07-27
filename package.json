@@ -1,6 +1,6 @@
 {
   "name": "react-viewer",
-  "version": "2.2.5",
+  "version": "2.2.6",
   "description": "react image viewer",
   "main": "dist/index",
   "scripts": {
