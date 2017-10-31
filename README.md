@@ -36,7 +36,7 @@ class App extends React.Component<any, any> {
         <Viewer
         visible={this.state.visible}
         onClose={() => { this.setState({ visible: false }); } }
-        images={[src: '', alt: '']}
+        images={[{src: '', alt: ''}]}
         />
       </div>
     );
