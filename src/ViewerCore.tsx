@@ -22,8 +22,8 @@ export interface ViewerCoreState {
   rotate?: number;
   imageWidth?: number;
   imageHeight?: number;
-  scaleX?: 1 | -1;
-  scaleY?: 1 | -1;
+  scaleX?: number;
+  scaleY?: number;
   loading?: boolean;
 }
 
@@ -144,8 +144,8 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
         activeIndex: activeIndex,
         width: 0,
         height: 0,
-        left: this.containerWidth / 2,
-        top:  (this.containerHeight - this.footerHeight) / 2,
+        left: 0,
+        top:  0,
         rotate: 0,
         scaleX: 1,
         scaleY: 1,
@@ -247,10 +247,10 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
         this.loadImg(this.state.activeIndex);
         break;
       case ActionType.scaleX:
-        this.handleScaleX(this.state.scaleX === 1 ? -1 : 1);
+        this.handleScaleX(-1);
         break;
       case ActionType.scaleY:
-        this.handleScaleY(this.state.scaleY === 1 ? -1 : 1);
+        this.handleScaleY(-1);
         break;
       default:
         break;
@@ -259,13 +259,13 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
 
   handleScaleX(newScale: 1 | -1) {
     this.setState({
-      scaleX: newScale,
+      scaleX: this.state.scaleX * newScale,
     });
   }
 
   handleScaleY(newScale: 1 | -1) {
     this.setState({
-      scaleY: newScale,
+      scaleY: this.state.scaleY * newScale,
     });
   }
 
@@ -273,27 +273,50 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     let imgCenterXY = this.getImageCenterXY();
     let diffX = targetX - imgCenterXY.x;
     let diffY = targetY - imgCenterXY.y;
-    let diffWidth = direct * this.state.width * scale;
-    let diffHeight = direct * this.state.height * scale;
     // when image width is 0, set original width
-    if (diffWidth === 0) {
-      const [ width, height ] = this.getImgWidthHeight(this.state.imageWidth, this.state.imageHeight);
-      diffWidth = width;
-      diffHeight = height;
+    let reset = false;
+    let top = 0;
+    let left = 0;
+    let width = 0;
+    let height = 0;
+    let scaleX = 0;
+    let scaleY = 0;
+    if (this.state.width === 0) {
+      const [ imgWidth, imgHeight ] = this.getImgWidthHeight(this.state.imageWidth, this.state.imageHeight);
+      reset = true;
+      left = (this.containerWidth - imgWidth) / 2;
+      top = (this.containerHeight - this.footerHeight - imgHeight) / 2;
+      width = this.state.width + imgWidth;
+      height = this.state.height + imgHeight;
+      scaleX = scaleY = 1;
+    }else {
+      let directX = this.state.scaleX > 0 ? 1 : -1;
+      let directY = this.state.scaleY > 0 ? 1 : -1;
+      scaleX = this.state.scaleX + scale * direct * directX;
+      scaleY = this.state.scaleY + scale * direct * directY;
+      if (Math.abs(scaleX) < 0.1 || Math.abs(scaleY) < 0.1) {
+        return;
+      }
+      top = this.state.top + -direct * diffY / this.state.scaleX * scale * directX;
+      left = this.state.left + -direct * diffX / this.state.scaleY * scale * directY;
+      width = this.state.width;
+      height = this.state.height;
     }
     this.setState({
-      width: this.state.width + diffWidth,
-      height: this.state.height + diffHeight,
-      top: this.state.top + -diffHeight / 2 + -direct * diffY * scale,
-      left: this.state.left + -diffWidth / 2 + -direct * diffX * scale,
+      width: width,
+      scaleX: scaleX,
+      scaleY: scaleY,
+      height: height,
+      top: top,
+      left: left,
       loading: false,
     });
   }
 
   getImageCenterXY() {
     return {
-      x: this.state.left + this.state.width / 2,
-      y: this.state.top + this.state.height / 2,
+      x: (this.state.left + this.state.width / 2),
+      y: (this.state.top + this.state.height / 2),
     };
   }
 
@@ -402,12 +425,18 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     }
     if (this.props.visible && !nextProps.visible) {
       this.bindEvent(true);
-      let imgCenterXY2 = this.getImageCenterXY();
-      this.handleZoom(imgCenterXY2.x, imgCenterXY2.y, -1, 1);
+      this.handleZoom(
+        this.containerWidth / 2,
+        (this.containerHeight - this.footerHeight) / 2,
+        -1,
+        (this.state.scaleX > 0 ? 1 : -1) * this.state.scaleX - 0.11,
+      );
       setTimeout(() => {
         this.setState({
           visible: false,
           transitionEnd: false,
+          width: 0,
+          height: 0,
         });
       }, transitionDuration);
       return;

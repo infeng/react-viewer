@@ -14,8 +14,8 @@ export interface ViewerCanvasProps {
   onResize: () => void;
   onZoom: (targetX: number, targetY: number, direct: number, scale: number) => void;
   zIndex: number;
-  scaleX: 1 | -1;
-  scaleY: 1 | -1;
+  scaleX: number;
+  scaleY: number;
   loading: boolean;
   drag: boolean;
   onCanvasMouseDown: (e: React.MouseEvent<HTMLDivElement>) => void;
@@ -146,9 +146,8 @@ export default class ViewerCanvas extends React.Component<ViewerCanvasProps, Vie
     let imgStyle: React.CSSProperties = {
       width: `${this.props.width}px`,
       height: `${this.props.height}px`,
-      marginTop: `${this.props.top}px`,
-      marginLeft: this.props.left ? `${this.props.left}px` : 'auto',
-      transform: `rotate(${this.props.rotate}deg) scaleX(${this.props.scaleX}) scaleY(${this.props.scaleY})`,
+      transform: `translateX(${this.props.left ? this.props.left + 'px' : 'aoto'}) translateY(${this.props.top}px) 
+      rotate(${this.props.rotate}deg) scaleX(${this.props.scaleX}) scaleY(${this.props.scaleY})`,
     };
 
     let imgClass = this.props.drag ? 'drag' : '';
@@ -170,10 +169,18 @@ export default class ViewerCanvas extends React.Component<ViewerCanvasProps, Vie
       />;
     }
     if (this.props.loading) {
-      imgNode = <Loading style={{
-        marginTop: this.props.top,
-        marginLeft: this.props.left,
-      }}/>;
+      imgNode = (
+        <div
+          style={{
+            display: 'flex',
+            height: '100%',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <Loading/>
+        </div>
+      );
     }
 
     return (
