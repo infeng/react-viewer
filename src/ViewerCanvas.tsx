@@ -96,7 +96,7 @@ export default class ViewerCanvas extends React.Component<ViewerCanvasProps, Vie
     if (e.wheelDelta) {
       direct = e.wheelDelta > 0 ? 1 : -1;
     }else if (e.detail) {
-      direct = e.detail > 0 ? 1 : -1;
+      direct = e.detail > 0 ? -1 : 1;
     }
     if (direct !== 0) {
       let pageX = e.pageX;
@@ -110,6 +110,7 @@ export default class ViewerCanvas extends React.Component<ViewerCanvasProps, Vie
     if (remove) {
       funcName = 'removeEventListener';
     }
+    document[funcName]('DOMMouseScroll', this.handleMouseScroll, false);
     document[funcName]('mousewheel', this.handleMouseScroll, false);
     document[funcName]('click', this.handleMouseUp, false);
     document[funcName]('mousemove', this.handleMouseMove, false);
