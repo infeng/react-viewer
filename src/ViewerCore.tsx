@@ -98,6 +98,12 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
   }
 
   startVisible(activeIndex: number) {
+    if (!this.props.container) {
+      document.body.style.overflow = 'hidden';
+      if (document.body.scrollHeight > document.body.clientHeight) {
+        document.body.style.paddingRight = '15px';
+      }
+    }
     this.setState({
       visibleStart: true,
     });
@@ -424,6 +430,8 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
       return;
     }
     if (this.props.visible && !nextProps.visible) {
+      document.body.style.overflow = '';
+      document.body.style.paddingRight = '';
       this.bindEvent(true);
       this.handleZoom(
         this.containerWidth / 2,
