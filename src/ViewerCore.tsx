@@ -430,8 +430,6 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
       return;
     }
     if (this.props.visible && !nextProps.visible) {
-      document.body.style.overflow = '';
-      document.body.style.paddingRight = '';
       this.bindEvent(true);
       this.handleZoom(
         this.containerWidth / 2,
@@ -440,6 +438,8 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
         (this.state.scaleX > 0 ? 1 : -1) * this.state.scaleX - 0.11,
       );
       setTimeout(() => {
+        document.body.style.overflow = '';
+        document.body.style.paddingRight = '';
         this.setState({
           visible: false,
           transitionEnd: false,
@@ -490,7 +490,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
 
     let className = `${this.prefixCls} ${this.prefixCls}-transition`;
     if (this.props.container) {
-      className += ` inline`;
+      className += ` ${this.prefixCls}-inline`;
     }
 
     return (
