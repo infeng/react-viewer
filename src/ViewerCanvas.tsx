@@ -68,18 +68,18 @@ export default class ViewerCanvas extends React.Component<ViewerCanvasProps, Vie
     e.stopPropagation();
     this.setState({
       isMouseDown: true,
-      mouseX: e.nativeEvent.screenX,
-      mouseY: e.nativeEvent.screenY,
+      mouseX: e.nativeEvent.clientX,
+      mouseY: e.nativeEvent.clientY,
     });
   }
 
   handleMouseMove(e) {
     if (this.state.isMouseDown) {
-      let diffX = e.screenX - this.state.mouseX;
-      let diffY = e.screenY - this.state.mouseY;
+      let diffX = e.clientX - this.state.mouseX;
+      let diffY = e.clientY - this.state.mouseY;
       this.setState({
-        mouseX: e.screenX,
-        mouseY: e.screenY,
+        mouseX: e.clientX,
+        mouseY: e.clientY,
       });
       this.props.onChangeImgState(this.props.width, this.props.height, this.props.top + diffY, this.props.left + diffX);
     }
@@ -99,8 +99,8 @@ export default class ViewerCanvas extends React.Component<ViewerCanvasProps, Vie
       direct = e.detail > 0 ? -1 : 1;
     }
     if (direct !== 0) {
-      let x = e.screenX;
-      let y = e.screenY;
+      let x = e.clientX;
+      let y = e.clientY;
       this.props.onZoom(x, y, direct, .05);
     }
   }
