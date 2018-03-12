@@ -93,6 +93,7 @@ export default class ViewerCanvas extends React.Component<ViewerCanvasProps, Vie
   }
 
   handleMouseScroll(e) {
+    e.preventDefault();
     let direct: 0 | 1 | -1 = 0;
     if (e.wheelDelta) {
       direct = e.wheelDelta > 0 ? 1 : -1;
