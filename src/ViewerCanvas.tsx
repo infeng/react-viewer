@@ -103,6 +103,11 @@ export default class ViewerCanvas extends React.Component<ViewerCanvasProps, Vie
     if (direct !== 0) {
       let x = e.clientX;
       let y = e.clientY;
+      if (this.props.container) {
+        const containerRect = this.props.container.getBoundingClientRect();
+        x -= containerRect.left;
+        y -= containerRect.top;
+      }
       this.props.onZoom(x, y, direct, .05);
     }
   }
