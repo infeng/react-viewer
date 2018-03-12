@@ -18,6 +18,7 @@ export interface ViewerCanvasProps {
   scaleY: number;
   loading: boolean;
   drag: boolean;
+  container: HTMLElement;
   onCanvasMouseDown: (e: React.MouseEvent<HTMLDivElement>) => void;
 }
 
@@ -110,8 +111,15 @@ export default class ViewerCanvas extends React.Component<ViewerCanvasProps, Vie
     if (remove) {
       funcName = 'removeEventListener';
     }
-    document[funcName]('DOMMouseScroll', this.handleMouseScroll, false);
-    document[funcName]('mousewheel', this.handleMouseScroll, false);
+
+    let mouseScrollArea: Document | HTMLElement = document;
+
+    if (this.props.container) {
+      mouseScrollArea = this.props.container;
+    }
+
+    mouseScrollArea[funcName]('DOMMouseScroll', this.handleMouseScroll, false);
+    mouseScrollArea[funcName]('mousewheel', this.handleMouseScroll, false);
     document[funcName]('click', this.handleMouseUp, false);
     document[funcName]('mousemove', this.handleMouseMove, false);
     window[funcName]('resize', this.handleResize, false);
@@ -147,7 +155,7 @@ export default class ViewerCanvas extends React.Component<ViewerCanvasProps, Vie
     let imgStyle: React.CSSProperties = {
       width: `${this.props.width}px`,
       height: `${this.props.height}px`,
-      transform: `translateX(${this.props.left ? this.props.left + 'px' : 'aoto'}) translateY(${this.props.top}px) 
+      transform: `translateX(${this.props.left ? this.props.left + 'px' : 'aoto'}) translateY(${this.props.top}px)
       rotate(${this.props.rotate}deg) scaleX(${this.props.scaleX}) scaleY(${this.props.scaleY})`,
     };
 

@@ -524,6 +524,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
         scaleY={this.state.scaleY}
         loading={this.state.loading}
         drag={this.props.drag}
+        container={this.props.container}
         onCanvasMouseDown={this.handleCanvasMouseDown}
         />
         <div className={`${this.prefixCls}-footer`} style={{zIndex: zIndex + 5}}>
