@@ -60,6 +60,13 @@ class App extends React.Component<any, any> {
 | rotatable   | boolean      | true    | whether to show 'rotate' button | false |
 | scalable    | boolean      | true    | whether to show 'scale' button | false |
 | onMaskClick | (e) => void  |   -     | callback function when mask is clicked |
+| download    | [Download](#Download)     |  -      | download config |
+
+### Download
+
+| props       | type         | default | description                 | required |
+|-------------|--------------|---------|-----------------------------|----------|
+| onDownload  | function(url: string)  |  -  | callback when download is clicked | true |
 
 ## Keyboard support
 

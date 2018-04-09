@@ -258,8 +258,18 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
       case ActionType.scaleY:
         this.handleScaleY(-1);
         break;
+      case ActionType.download:
+        this.handleDownload();
+        break;
       default:
         break;
+    }
+  }
+
+  handleDownload = () => {
+    const activeImage = this.getActiveImage();
+    if (this.props.download && this.props.download.onDownload) {
+      this.props.download.onDownload(activeImage.src);
     }
   }
 
@@ -459,6 +469,20 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     this.props.onMaskClick(e);
   }
 
+  getActiveImage = () => {
+    let activeImg: ImageDecorator = {
+      src: '',
+      alt: '',
+    };
+
+    let images = this.props.images || [];
+    if (images.length > 0 && this.state.activeIndex >= 0) {
+      activeImg = images[this.state.activeIndex];
+    }
+
+    return activeImg;
+  }
+
   render() {
     let activeImg: ImageDecorator = {
       src: '',
@@ -482,15 +506,17 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
       viewerStryle.display = 'block';
     }
     if (this.state.visible && this.state.transitionEnd) {
-      let images = this.props.images || [];
-      if (images.length > 0 && this.state.activeIndex >= 0) {
-        activeImg = images[this.state.activeIndex];
-      }
+      activeImg = this.getActiveImage();
     }
 
     let className = `${this.prefixCls} ${this.prefixCls}-transition`;
     if (this.props.container) {
       className += ` ${this.prefixCls}-inline`;
+    }
+
+    let downloadable = false;
+    if (this.props.download) {
+      downloadable = true;
     }
 
     return (
@@ -539,6 +565,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
           rotatable={this.props.rotatable}
           scalable={this.props.scalable}
           changeable={true}
+          downloadable={downloadable}
           />
           <ViewerNav
           prefixCls={this.prefixCls}

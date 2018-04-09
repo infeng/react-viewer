@@ -12,6 +12,7 @@ export interface ViewerToolbarProps {
   rotatable: boolean;
   scalable: boolean;
   changeable: boolean;
+  downloadable: boolean;
 }
 
 export default class ViewerToolbar extends React.Component<ViewerToolbarProps, any> {
@@ -95,6 +96,16 @@ export default class ViewerToolbar extends React.Component<ViewerToolbarProps, a
         className={`${this.props.prefixCls}-btn`}
         onClick={() => {this.handleAction(ActionType.scaleY);}}>
           <Icon type={ActionType.scaleY}/>
+        </li>,
+      ]);
+    }
+    if (this.props.downloadable) {
+      featureNodeArr = featureNodeArr.concat([
+        <li
+        key="download"
+        className={`${this.props.prefixCls}-btn`}
+        onClick={() => {this.handleAction(ActionType.download);}}>
+          <Icon type={ActionType.download}/>
         </li>,
       ]);
     }

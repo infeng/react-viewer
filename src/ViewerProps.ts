@@ -28,6 +28,10 @@ interface ViewerProps {
   scalable?: boolean;
   /** callback function when mask is clicked */
   onMaskClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
+  /** 下载配置 */
+  download?: {
+    onDownload: (url) => void;
+  };
 }
 
 export default ViewerProps;
