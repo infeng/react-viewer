@@ -50,23 +50,25 @@ class App extends React.Component<any, any> {
 |-------------|--------------|---------|-----------------------------|----------|
 | visible     | string       |  false  | Viewer visible             | true |
 | onClose     | string       |  -      | Specify a function that will be called when Visible close   | true |
-| images      | {src: string, alt: string}[]     | []      | image source array | true  |
+| images      | [ImageDecorator](#ImageDecorator)[]     | []      | image source array | true  |
 | activeIndex | number       | 0       | active image index | false |
 | zIndex      | number       | 1000    | Viewer css z-index | false |
 | container   | HTMLElement  | null    | set parent node(inline mode) | false |
 | drag        | boolean      | true    | whether to drag image | false |
 | attribute   | boolean      | true    | whether to show image attribute | false |
-| zoomable    | boolean      | true    | whether to show 'zoom' buttom | false |
+| zoomable    | boolean      | true    | whether to show 'zoom' button | false |
 | rotatable   | boolean      | true    | whether to show 'rotate' button | false |
 | scalable    | boolean      | true    | whether to show 'scale' button | false |
-| onMaskClick | (e) => void  |   -     | callback function when mask is clicked |
-| download    | [Download](#Download)     |  -      | download config |
+| onMaskClick | (e) => void  |   -     | callback function when mask is clicked | false |
+| download    | boolean     |  false   | whether to show 'download' | false |
 
-### Download
+### ImageDecorator
 
 | props       | type         | default | description                 | required |
 |-------------|--------------|---------|-----------------------------|----------|
-| onDownload  | function(url: string)  |  -  | callback when download is clicked | true |
+| src  | string  |  -  | image source | true |
+| alt  | string  |  -  | image description | false |
+| downloadUrl  | string  |  -  | image downlaod url | false |
 
 ## Keyboard support
 

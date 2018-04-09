@@ -1,6 +1,7 @@
 export interface ImageDecorator {
   src: string;
   alt?: string;
+  downloadUrl?: string;
 }
 
 interface ViewerProps {
@@ -28,10 +29,8 @@ interface ViewerProps {
   scalable?: boolean;
   /** callback function when mask is clicked */
   onMaskClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
-  /** 下载配置 */
-  download?: {
-    onDownload: (url) => void;
-  };
+  /** 是否显示下载按钮 */
+  downloadable?: boolean;
 }
 
 export default ViewerProps;

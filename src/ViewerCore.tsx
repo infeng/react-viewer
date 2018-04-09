@@ -268,8 +268,8 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
 
   handleDownload = () => {
     const activeImage = this.getActiveImage();
-    if (this.props.download && this.props.download.onDownload) {
-      this.props.download.onDownload(activeImage.src);
+    if (activeImage.downloadUrl) {
+      window.open(activeImage.downloadUrl);
     }
   }
 
@@ -473,6 +473,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     let activeImg: ImageDecorator = {
       src: '',
       alt: '',
+      downloadUrl: '',
     };
 
     let images = this.props.images || [];
@@ -512,11 +513,6 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     let className = `${this.prefixCls} ${this.prefixCls}-transition`;
     if (this.props.container) {
       className += ` ${this.prefixCls}-inline`;
-    }
-
-    let downloadable = false;
-    if (this.props.download) {
-      downloadable = true;
     }
 
     return (
@@ -565,7 +561,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
           rotatable={this.props.rotatable}
           scalable={this.props.scalable}
           changeable={true}
-          downloadable={downloadable}
+          downloadable={this.props.downloadable}
           />
           <ViewerNav
           prefixCls={this.prefixCls}

@@ -47,15 +47,19 @@ class App extends React.Component<any, Partial<State>> {
     let images = [{
       src: img,
       alt: 'lake',
+      downloadUrl: '',
     }, {
       src: img2,
       alt: 'mountain',
+      downloadUrl: '',
     }, {
       src: img3,
       alt: '',
+      downloadUrl: '',
     }, {
       src: img4,
       alt: '',
+      downloadUrl: '',
     }];
 
     let inline = this.state.mode === 'inline';
@@ -127,9 +131,7 @@ class App extends React.Component<any, Partial<State>> {
           activeIndex={this.state.activeIndex}
           attribute={false}
           container={inline ? this.container : null}
-          download={{
-            onDownload: (url) => { console.log(url); },
-          }}
+          downloadable
           />
         </div>
         <div className="footer">
