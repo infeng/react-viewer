@@ -31,6 +31,21 @@ interface ViewerProps {
   onMaskClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
   /** 是否显示下载按钮 */
   downloadable?: boolean;
+
+  // no render close button
+  noClose?: boolean;
+
+  // no render image details
+  noImgDetails?: boolean;
+
+  // no render navbar
+  noNavbar?: boolean;
+
+  // no render toolbar
+  noToolbar?: boolean;
+
+  // no render footer
+  noFooter?: boolean;
 }
 
 export default ViewerProps;
