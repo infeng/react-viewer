@@ -51,12 +51,10 @@ export default class Viewer extends React.Component<ViewerProps, any> {
   }
 
   componentWillUnmount() {
-    if (this.props.visible) {
+    if (this.props.visible &&  this.props.onClose) {
       this.props.onClose();
-      this.removeViewer();
-    } else {
-      this.removeViewer();
     }
+    this.removeViewer();
   }
 
   componentWillReceiveProps(nextProps: ViewerProps) {

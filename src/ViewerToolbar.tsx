@@ -13,6 +13,7 @@ export interface ViewerToolbarProps {
   scalable: boolean;
   changeable: boolean;
   downloadable: boolean;
+  noImgDetails: boolean;
 }
 
 export default class ViewerToolbar extends React.Component<ViewerToolbarProps, any> {
@@ -28,7 +29,8 @@ export default class ViewerToolbar extends React.Component<ViewerToolbarProps, a
   render() {
     let attributeNode = this.props.attribute ? (
       <p className={`${this.props.prefixCls}-attribute`}>
-        {`${this.props.alt}(${this.props.width} x ${this.props.height})`}
+        {this.props.alt && `${this.props.alt}`}
+        {this.props.noImgDetails || `(${this.props.width} x ${this.props.height})`}
       </p>
     ) : null;
     let featureNodeArr = [];
