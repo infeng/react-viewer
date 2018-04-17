@@ -66,6 +66,7 @@ class App extends React.Component<any, any> {
 | noToolbar    | boolean      |  false  | to not render the toolbar | false |
 | noImgDetails | boolean      |  false  | to not render image detail (WxH) | false |
 | noFooter     | boolean      |  false  | to not render the entire footer | false |
+| changeable   | boolean      |  true   | wheather to show change button  | false |
 
 ### ImageDecorator
 
