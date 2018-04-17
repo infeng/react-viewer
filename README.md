@@ -60,7 +60,7 @@ class App extends React.Component<any, any> {
 | rotatable    | boolean      | true    | whether to show 'rotate' button | false |
 | scalable     | boolean      | true    | whether to show 'scale' button | false |
 | onMaskClick  | (e) => void  |   -     | callback function when mask is clicked | false |
-| download     | boolean      |  false  | whether to show 'download' | false |
+| downloadable     | boolean      |  false  | whether to show 'download' | false |
 | noClose      | boolean      |  false  | to not render close button | false |
 | noNavbar     | boolean      |  false  | to not render the navbar | false |
 | noToolbar    | boolean      |  false  | to not render the toolbar | false |
