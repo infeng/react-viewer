@@ -40,6 +40,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     rotatable: true,
     scalable: true,
     onMaskClick: noop,
+    changeable: true,
   };
 
   private prefixCls: string;
@@ -571,7 +572,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
                 zoomable={this.props.zoomable}
                 rotatable={this.props.rotatable}
                 scalable={this.props.scalable}
-                changeable={true}
+                changeable={this.props.changeable}
                 downloadable={this.props.downloadable}
                 noImgDetails={this.props.noImgDetails}
               />

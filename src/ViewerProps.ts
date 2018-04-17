@@ -46,6 +46,9 @@ interface ViewerProps {
 
   // no render footer
   noFooter?: boolean;
+
+  // wheather to show change button
+  changeable?: boolean;
 }
 
 export default ViewerProps;
