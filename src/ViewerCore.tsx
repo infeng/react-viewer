@@ -274,7 +274,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
   handleDownload = () => {
     const activeImage = this.getActiveImage();
     if (activeImage.downloadUrl) {
-      window.open(activeImage.downloadUrl);
+      location.href = activeImage.downloadUrl;
     }
   };
 
