@@ -50,6 +50,13 @@ export default class ViewerToolbar extends React.Component<ViewerToolbarProps, a
         </li>,
       ]);
     }
+    const resetTool = (
+      <li
+      key="reset"
+      className={`${this.props.prefixCls}-btn`} onClick={() => {this.handleAction(ActionType.reset);}}>
+        <Icon type={ActionType.reset}/>
+      </li>
+    );
     if (this.props.changeable) {
       featureNodeArr = featureNodeArr.concat([
         <li
@@ -57,16 +64,16 @@ export default class ViewerToolbar extends React.Component<ViewerToolbarProps, a
         className={`${this.props.prefixCls}-btn`} onClick={() => {this.handleAction(ActionType.prev);}}>
           <Icon type={ActionType.prev}/>
         </li>,
-        <li
-        key="reset"
-        className={`${this.props.prefixCls}-btn`} onClick={() => {this.handleAction(ActionType.reset);}}>
-          <Icon type={ActionType.reset}/>
-        </li>,
+        resetTool,
         <li
         key="next"
         className={`${this.props.prefixCls}-btn`} onClick={() => {this.handleAction(ActionType.next);}}>
           <Icon type={ActionType.next}/>
         </li>,
+      ]);
+    } else {
+      featureNodeArr = featureNodeArr.concat([
+        resetTool,
       ]);
     }
     if (this.props.rotatable) {
