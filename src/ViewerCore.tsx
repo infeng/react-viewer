@@ -71,17 +71,6 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
       loading: false,
     };
 
-    this.handleChangeImg = this.handleChangeImg.bind(this);
-    this.handleChangeImgState = this.handleChangeImgState.bind(this);
-    this.handleAction = this.handleAction.bind(this);
-    this.handleResize = this.handleResize.bind(this);
-    this.handleZoom = this.handleZoom.bind(this);
-    this.handleRotate = this.handleRotate.bind(this);
-    this.handleKeydown = this.handleKeydown.bind(this);
-    this.handleScaleX = this.handleScaleX.bind(this);
-    this.handleScaleY = this.handleScaleY.bind(this);
-    this.getImageCenterXY = this.getImageCenterXY.bind(this);
-
     this.setContainerWidthHeight();
     this.footerHeight = 84;
   }
@@ -95,7 +84,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     }
   }
 
-  handleClose(e) {
+  handleClose = (e) => {
     this.props.onClose();
   }
 
@@ -211,7 +200,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     };
   }
 
-  handleChangeImg(newIndex: number) {
+  handleChangeImg = (newIndex: number) => {
     // let imgCenterXY2 = this.getImageCenterXY();
     // this.handleZoom(imgCenterXY2.x, imgCenterXY2.y, -1, 1);
     // setTimeout(() => {
@@ -220,7 +209,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     this.loadImg(newIndex);
   }
 
-  handleChangeImgState(width, height, top, left) {
+  handleChangeImgState = (width, height, top, left) => {
     this.setState({
       width: width,
       height: height,
@@ -272,7 +261,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     }
   }
 
-  handleAction(config: ToolbarConfig) {
+  handleAction = (config: ToolbarConfig) => {
     this.handleDefaultAction(config.actionType);
 
     if (config.onClick) {
@@ -288,19 +277,19 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     }
   };
 
-  handleScaleX(newScale: 1 | -1) {
+  handleScaleX = (newScale: 1 | -1) => {
     this.setState({
       scaleX: this.state.scaleX * newScale,
     });
   }
 
-  handleScaleY(newScale: 1 | -1) {
+  handleScaleY = (newScale: 1 | -1) => {
     this.setState({
       scaleY: this.state.scaleY * newScale,
     });
   }
 
-  handleZoom(targetX, targetY, direct, scale) {
+  handleZoom = (targetX, targetY, direct, scale) => {
     let imgCenterXY = this.getImageCenterXY();
     let diffX = targetX - imgCenterXY.x;
     let diffY = targetY - imgCenterXY.y;
@@ -347,20 +336,20 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     });
   }
 
-  getImageCenterXY() {
+  getImageCenterXY = () => {
     return {
       x: this.state.left + this.state.width / 2,
       y: this.state.top + this.state.height / 2,
     };
   }
 
-  handleRotate(isRight: boolean = false) {
+  handleRotate = (isRight: boolean = false) => {
     this.setState({
       rotate: this.state.rotate + 90 * (isRight ? 1 : -1),
     });
   }
 
-  handleResize() {
+  handleResize = () => {
     this.setContainerWidthHeight();
     if (this.props.visible) {
       const [width, height] = this.getImgWidthHeight(this.state.imageWidth, this.state.imageHeight);
@@ -378,7 +367,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     }
   }
 
-  handleKeydown(e) {
+  handleKeydown = (e) => {
     let keyCode = e.keyCode || e.which || e.charCode;
     let isFeatrue = false;
     switch (keyCode) {
@@ -543,7 +532,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
         {this.props.noClose || (
           <div
             className={`${this.prefixCls}-close ${this.prefixCls}-btn`}
-            onClick={this.handleClose.bind(this)}
+            onClick={this.handleClose}
             style={{ zIndex: zIndex + 10 }}
           >
             <Icon type={ActionType.close} />
