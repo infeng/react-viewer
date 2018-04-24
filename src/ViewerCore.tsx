@@ -2,8 +2,8 @@ import * as React from 'react';
 import './style/index.less';
 import ViewerCanvas from './ViewerCanvas';
 import ViewerNav from './ViewerNav';
-import ViewerToolbar from './ViewerToolbar';
-import ViewerProps, { ImageDecorator } from './ViewerProps';
+import ViewerToolbar, { defaultToolbars } from './ViewerToolbar';
+import ViewerProps, { ImageDecorator, ToolbarConfig } from './ViewerProps';
 import Icon, { ActionType } from './Icon';
 
 function noop() {}
@@ -41,6 +41,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     scalable: true,
     onMaskClick: noop,
     changeable: true,
+    customToolbar: (toolbars) => toolbars,
   };
 
   private prefixCls: string;
@@ -228,7 +229,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     });
   }
 
-  handleAction(type: ActionType) {
+  handleDefaultAction = (type: ActionType) => {
     switch (type) {
       case ActionType.prev:
         if (this.state.activeIndex - 1 >= 0) {
@@ -268,6 +269,15 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
         break;
       default:
         break;
+    }
+  }
+
+  handleAction(config: ToolbarConfig) {
+    this.handleDefaultAction(config.actionType);
+
+    if (config.onClick) {
+      const activeImage = this.getActiveImage();
+      config.onClick(activeImage);
     }
   }
 
@@ -380,29 +390,29 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
       // key: ←
       case 37:
         if (e.ctrlKey) {
-          this.handleAction(ActionType.rotateLeft);
+          this.handleDefaultAction(ActionType.rotateLeft);
         } else {
-          this.handleAction(ActionType.prev);
+          this.handleDefaultAction(ActionType.prev);
         }
         isFeatrue = true;
         break;
       // key: →
       case 39:
         if (e.ctrlKey) {
-          this.handleAction(ActionType.rotateRight);
+          this.handleDefaultAction(ActionType.rotateRight);
         } else {
-          this.handleAction(ActionType.next);
+          this.handleDefaultAction(ActionType.next);
         }
         isFeatrue = true;
         break;
       // key: ↑
       case 38:
-        this.handleAction(ActionType.zoomIn);
+        this.handleDefaultAction(ActionType.zoomIn);
         isFeatrue = true;
         break;
       // key: ↓
       case 40:
-        this.handleAction(ActionType.zoomOut);
+        this.handleDefaultAction(ActionType.zoomOut);
         isFeatrue = true;
         break;
       // key: Ctrl + 1
@@ -575,6 +585,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
                 changeable={this.props.changeable}
                 downloadable={this.props.downloadable}
                 noImgDetails={this.props.noImgDetails}
+                toolbars={this.props.customToolbar(defaultToolbars)}
               />
             )}
             {this.props.noNavbar || (

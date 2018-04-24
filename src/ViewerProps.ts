@@ -4,6 +4,13 @@ export interface ImageDecorator {
   downloadUrl?: string;
 }
 
+export interface ToolbarConfig {
+  key: string;
+  actionType?: number;
+  render?: React.ReactNode;
+  onClick?: (activeImage: ImageDecorator) => void;
+}
+
 interface ViewerProps {
   /** viewer是否可见 */
   visible?: boolean;
@@ -49,6 +56,9 @@ interface ViewerProps {
 
   // wheather to show change button
   changeable?: boolean;
+
+  // custom toolbar
+  customToolbar?: (toolbars: ToolbarConfig[]) => ToolbarConfig[];
 }
 
 export default ViewerProps;
