@@ -50,7 +50,7 @@ class App extends React.Component<any, any> {
 |--------------|--------------|---------|-----------------------------|----------|
 | visible      | string       |  false  | Viewer visible             | true |
 | onClose      | string       |  -      | Specify a function that will be called when Visible close   | true |
-| images       | [ImageDecorator](#ImageDecorator)[]     | []      | image source array | true  |
+| images       | [ImageDecorator](#imagedecorator)[]     | []      | image source array | true  |
 | activeIndex  | number       | 0       | active image index | false |
 | zIndex       | number       | 1000    | Viewer css z-index | false |
 | container    | HTMLElement  | null    | set parent node(inline mode) | false |
@@ -67,7 +67,7 @@ class App extends React.Component<any, any> {
 | noImgDetails | boolean      |  false  | to not render image detail (WxH) | false |
 | noFooter     | boolean      |  false  | to not render the entire footer | false |
 | changeable   | boolean      |  true   | wheather to show change button  | false |
-| customToolbar | (defaultToolbarConfigs: [ToolbarConfig](#ToolbarConfig)[]) => ToolbarConfig[] | - | customer toolbar | false |
+| customToolbar | (defaultToolbarConfigs: [ToolbarConfig](#toolbarconfig)[]) => ToolbarConfig[] | - | customer toolbar | false |
 
 ### ImageDecorator
 
