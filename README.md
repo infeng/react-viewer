@@ -67,6 +67,7 @@ class App extends React.Component<any, any> {
 | noImgDetails | boolean      |  false  | to not render image detail (WxH) | false |
 | noFooter     | boolean      |  false  | to not render the entire footer | false |
 | changeable   | boolean      |  true   | wheather to show change button  | false |
+| customToolbar | (defaultToolbarConfigs: [ToolbarConfig](#ToolbarConfig)[]) => ToolbarConfig[] | - | customer toolbar | false |
 
 ### ImageDecorator
 
@@ -75,6 +76,14 @@ class App extends React.Component<any, any> {
 | src  | string  |  -  | image source | true |
 | alt  | string  |  -  | image description | false |
 | downloadUrl  | string  |  -  | image downlaod url | false |
+
+### ToolbarConfig
+
+| props       | type         | default | description                 | required |
+|-------------|--------------|---------|-----------------------------|----------|
+| key  | string  |  -  | tool key | true |
+| render  | React.ReactNode  |  -  | tool render | false |
+| onClick  | string  |  -  | callback function when action is clicked | false |
 
 ## Keyboard support
 
