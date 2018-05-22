@@ -49,7 +49,7 @@ class App extends React.Component<any, any> {
 | props       | type         | default | description                 | required |
 |-------------|--------------|---------|-----------------------------|----------|
 | visible     | string       |  false  | Viewer visible             | true |
-| onClose     | string       |  -      | Specify a function that will be called when Visible close   | true |
+| onClose     | function     |  -      | Specify a function that will be called when Visible close   | true |
 | images      | {src: string, alt: string}[]     | []      | image source array | true  |
 | activeIndex | number       | 0       | active image index | false |
 | zIndex      | number       | 1000    | Viewer css z-index | false |
