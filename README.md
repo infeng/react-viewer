@@ -46,20 +46,44 @@ class App extends React.Component<any, any> {
 
 ## Props
 
+| props        | type         | default | description                 | required |
+|--------------|--------------|---------|-----------------------------|----------|
+| visible      | string       |  false  | Viewer visible             | true |
+| onClose      | function       |  -      | Specify a function that will be called when Visible close   | true |
+| images       | [ImageDecorator](#imagedecorator)[]     | []      | image source array | true  |
+| activeIndex  | number       | 0       | active image index | false |
+| zIndex       | number       | 1000    | Viewer css z-index | false |
+| container    | HTMLElement  | null    | set parent node(inline mode) | false |
+| drag         | boolean      | true    | whether to drag image | false |
+| attribute    | boolean      | true    | whether to show image attribute | false |
+| zoomable     | boolean      | true    | whether to show 'zoom' button | false |
+| rotatable    | boolean      | true    | whether to show 'rotate' button | false |
+| scalable     | boolean      | true    | whether to show 'scale' button | false |
+| onMaskClick  | (e) => void  |   -     | callback function when mask is clicked | false |
+| downloadable     | boolean      |  false  | whether to show 'download' | false |
+| noClose      | boolean      |  false  | to not render close button | false |
+| noNavbar     | boolean      |  false  | to not render the navbar | false |
+| noToolbar    | boolean      |  false  | to not render the toolbar | false |
+| noImgDetails | boolean      |  false  | to not render image detail (WxH) | false |
+| noFooter     | boolean      |  false  | to not render the entire footer | false |
+| changeable   | boolean      |  true   | wheather to show change button  | false |
+| customToolbar | (defaultToolbarConfigs: [ToolbarConfig](#toolbarconfig)[]) => ToolbarConfig[] | - | customer toolbar | false |
+
+### ImageDecorator
+
 | props       | type         | default | description                 | required |
 |-------------|--------------|---------|-----------------------------|----------|
-| visible     | string       |  false  | Viewer visible             | true |
-| onClose     | function     |  -      | Specify a function that will be called when Visible close   | true |
-| images      | {src: string, alt: string}[]     | []      | image source array | true  |
-| activeIndex | number       | 0       | active image index | false |
-| zIndex      | number       | 1000    | Viewer css z-index | false |
-| container   | HTMLElement  | null    | set parent node(inline mode) | false |
-| drag        | boolean      | true    | whether to drag image | false |
-| attribute   | boolean      | true    | whether to show image attribute | false |
-| zoomable    | boolean      | true    | whether to show 'zoom' buttom | false |
-| rotatable   | boolean      | true    | whether to show 'rotate' button | false |
-| scalable    | boolean      | true    | whether to show 'scale' button | false |
-| onMaskClick | (e) => void  |   -     | callback function when mask is clicked |
+| src  | string  |  -  | image source | true |
+| alt  | string  |  -  | image description | false |
+| downloadUrl  | string  |  -  | image downlaod url | false |
+
+### ToolbarConfig
+
+| props       | type         | default | description                 | required |
+|-------------|--------------|---------|-----------------------------|----------|
+| key  | string  |  -  | tool key | true |
+| render  | React.ReactNode  |  -  | tool render | false |
+| onClick  | function  |  -  | callback function when action is clicked | false |
 
 ## Keyboard support
 

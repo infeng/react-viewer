@@ -2,8 +2,8 @@ import * as React from 'react';
 import './style/index.less';
 import ViewerCanvas from './ViewerCanvas';
 import ViewerNav from './ViewerNav';
-import ViewerToolbar from './ViewerToolbar';
-import ViewerProps, { ImageDecorator } from './ViewerProps';
+import ViewerToolbar, { defaultToolbars } from './ViewerToolbar';
+import ViewerProps, { ImageDecorator, ToolbarConfig } from './ViewerProps';
 import Icon, { ActionType } from './Icon';
 
 function noop() {}
@@ -40,6 +40,8 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     rotatable: true,
     scalable: true,
     onMaskClick: noop,
+    changeable: true,
+    customToolbar: (toolbars) => toolbars,
   };
 
   private prefixCls: string;
@@ -69,17 +71,6 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
       loading: false,
     };
 
-    this.handleChangeImg = this.handleChangeImg.bind(this);
-    this.handleChangeImgState = this.handleChangeImgState.bind(this);
-    this.handleAction = this.handleAction.bind(this);
-    this.handleResize = this.handleResize.bind(this);
-    this.handleZoom = this.handleZoom.bind(this);
-    this.handleRotate = this.handleRotate.bind(this);
-    this.handleKeydown = this.handleKeydown.bind(this);
-    this.handleScaleX = this.handleScaleX.bind(this);
-    this.handleScaleY = this.handleScaleY.bind(this);
-    this.getImageCenterXY = this.getImageCenterXY.bind(this);
-
     this.setContainerWidthHeight();
     this.footerHeight = 84;
   }
@@ -93,7 +84,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     }
   }
 
-  handleClose(e) {
+  handleClose = (e) => {
     this.props.onClose();
   }
 
@@ -119,20 +110,24 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
   }
 
   componentDidMount() {
-    (this.refs['viewerCore'] as HTMLDivElement).addEventListener('transitionend', this.handleTransitionEnd, false);
+    (this.refs['viewerCore'] as HTMLDivElement).addEventListener(
+      'transitionend',
+      this.handleTransitionEnd,
+      false
+    );
     this.startVisible(this.state.activeIndex);
   }
 
   getImgWidthHeight(imgWidth, imgHeight) {
     let width = 0;
     let height = 0;
-    let maxWidth = this.containerWidth * .8;
-    let maxHeight = (this.containerHeight - this.footerHeight) * .8;
+    let maxWidth = this.containerWidth * 0.8;
+    let maxHeight = (this.containerHeight - this.footerHeight) * 0.8;
     width = Math.min(maxWidth, imgWidth);
-    height = (width / imgWidth) * imgHeight;
+    height = width / imgWidth * imgHeight;
     if (height > maxHeight) {
       height = maxHeight;
-      width = (height / imgHeight) * imgWidth;
+      width = height / imgHeight * imgWidth;
     }
     return [width, height];
   }
@@ -151,13 +146,13 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
         width: 0,
         height: 0,
         left: 0,
-        top:  0,
+        top: 0,
         rotate: 0,
         scaleX: 1,
         scaleY: 1,
         loading: true,
       });
-    }else {
+    } else {
       this.setState({
         activeIndex: activeIndex,
         loading: true,
@@ -176,16 +171,16 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
           let imgCenterXY = this.getImageCenterXY();
           this.handleZoom(imgCenterXY.x, imgCenterXY.y, 1, 1);
         }, 50);
-      }else {
-        const [ width, height ] = this.getImgWidthHeight(imgWidth, imgHeight);
-        let left = ( this.containerWidth - width ) / 2;
+      } else {
+        const [width, height] = this.getImgWidthHeight(imgWidth, imgHeight);
+        let left = (this.containerWidth - width) / 2;
         let top = (this.containerHeight - height - this.footerHeight) / 2;
         this.setState({
           activeIndex: activeIndex,
           width: width,
           height: height,
           left: left,
-          top:  top,
+          top: top,
           imageWidth: imgWidth,
           imageHeight: imgHeight,
           loading: false,
@@ -205,7 +200,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     };
   }
 
-  handleChangeImg(newIndex: number) {
+  handleChangeImg = (newIndex: number) => {
     // let imgCenterXY2 = this.getImageCenterXY();
     // this.handleZoom(imgCenterXY2.x, imgCenterXY2.y, -1, 1);
     // setTimeout(() => {
@@ -214,7 +209,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     this.loadImg(newIndex);
   }
 
-  handleChangeImgState(width, height, top, left) {
+  handleChangeImgState = (width, height, top, left) => {
     this.setState({
       width: width,
       height: height,
@@ -223,7 +218,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     });
   }
 
-  handleAction(type: ActionType) {
+  handleDefaultAction = (type: ActionType) => {
     switch (type) {
       case ActionType.prev:
         if (this.state.activeIndex - 1 >= 0) {
@@ -237,11 +232,11 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
         break;
       case ActionType.zoomIn:
         let imgCenterXY = this.getImageCenterXY();
-        this.handleZoom(imgCenterXY.x, imgCenterXY.y, 1, .05);
+        this.handleZoom(imgCenterXY.x, imgCenterXY.y, 1, 0.05);
         break;
       case ActionType.zoomOut:
         let imgCenterXY2 = this.getImageCenterXY();
-        this.handleZoom(imgCenterXY2.x, imgCenterXY2.y, -1, .05);
+        this.handleZoom(imgCenterXY2.x, imgCenterXY2.y, -1, 0.05);
         break;
       case ActionType.rotateLeft:
         this.handleRotate();
@@ -258,24 +253,43 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
       case ActionType.scaleY:
         this.handleScaleY(-1);
         break;
+      case ActionType.download:
+        this.handleDownload();
+        break;
       default:
         break;
     }
   }
 
-  handleScaleX(newScale: 1 | -1) {
+  handleAction = (config: ToolbarConfig) => {
+    this.handleDefaultAction(config.actionType);
+
+    if (config.onClick) {
+      const activeImage = this.getActiveImage();
+      config.onClick(activeImage);
+    }
+  }
+
+  handleDownload = () => {
+    const activeImage = this.getActiveImage();
+    if (activeImage.downloadUrl) {
+      location.href = activeImage.downloadUrl;
+    }
+  };
+
+  handleScaleX = (newScale: 1 | -1) => {
     this.setState({
       scaleX: this.state.scaleX * newScale,
     });
   }
 
-  handleScaleY(newScale: 1 | -1) {
+  handleScaleY = (newScale: 1 | -1) => {
     this.setState({
       scaleY: this.state.scaleY * newScale,
     });
   }
 
-  handleZoom(targetX, targetY, direct, scale) {
+  handleZoom = (targetX, targetY, direct, scale) => {
     let imgCenterXY = this.getImageCenterXY();
     let diffX = targetX - imgCenterXY.x;
     let diffY = targetY - imgCenterXY.y;
@@ -288,14 +302,17 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     let scaleX = 0;
     let scaleY = 0;
     if (this.state.width === 0) {
-      const [ imgWidth, imgHeight ] = this.getImgWidthHeight(this.state.imageWidth, this.state.imageHeight);
+      const [imgWidth, imgHeight] = this.getImgWidthHeight(
+        this.state.imageWidth,
+        this.state.imageHeight
+      );
       reset = true;
       left = (this.containerWidth - imgWidth) / 2;
       top = (this.containerHeight - this.footerHeight - imgHeight) / 2;
       width = this.state.width + imgWidth;
       height = this.state.height + imgHeight;
       scaleX = scaleY = 1;
-    }else {
+    } else {
       let directX = this.state.scaleX > 0 ? 1 : -1;
       let directY = this.state.scaleY > 0 ? 1 : -1;
       scaleX = this.state.scaleX + scale * direct * directX;
@@ -319,30 +336,30 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     });
   }
 
-  getImageCenterXY() {
+  getImageCenterXY = () => {
     return {
-      x: (this.state.left + this.state.width / 2),
-      y: (this.state.top + this.state.height / 2),
+      x: this.state.left + this.state.width / 2,
+      y: this.state.top + this.state.height / 2,
     };
   }
 
-  handleRotate(isRight: boolean = false) {
+  handleRotate = (isRight: boolean = false) => {
     this.setState({
       rotate: this.state.rotate + 90 * (isRight ? 1 : -1),
     });
   }
 
-  handleResize() {
+  handleResize = () => {
     this.setContainerWidthHeight();
     if (this.props.visible) {
-      const [ width, height ] = this.getImgWidthHeight(this.state.imageWidth, this.state.imageHeight);
-      let left = ( this.containerWidth - width ) / 2;
+      const [width, height] = this.getImgWidthHeight(this.state.imageWidth, this.state.imageHeight);
+      let left = (this.containerWidth - width) / 2;
       let top = (this.containerHeight - height - this.footerHeight) / 2;
       this.setState({
         width: width,
         height: height,
         left: left,
-        top:  top,
+        top: top,
         rotate: 0,
         scaleX: 1,
         scaleY: 1,
@@ -350,7 +367,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     }
   }
 
-  handleKeydown(e) {
+  handleKeydown = (e) => {
     let keyCode = e.keyCode || e.which || e.charCode;
     let isFeatrue = false;
     switch (keyCode) {
@@ -362,29 +379,29 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
       // key: ←
       case 37:
         if (e.ctrlKey) {
-          this.handleAction(ActionType.rotateLeft);
-        }else {
-          this.handleAction(ActionType.prev);
+          this.handleDefaultAction(ActionType.rotateLeft);
+        } else {
+          this.handleDefaultAction(ActionType.prev);
         }
         isFeatrue = true;
         break;
       // key: →
       case 39:
         if (e.ctrlKey) {
-          this.handleAction(ActionType.rotateRight);
-        }else {
-          this.handleAction(ActionType.next);
+          this.handleDefaultAction(ActionType.rotateRight);
+        } else {
+          this.handleDefaultAction(ActionType.next);
         }
         isFeatrue = true;
         break;
       // key: ↑
       case 38:
-        this.handleAction(ActionType.zoomIn);
+        this.handleDefaultAction(ActionType.zoomIn);
         isFeatrue = true;
         break;
       // key: ↓
       case 40:
-        this.handleAction(ActionType.zoomOut);
+        this.handleDefaultAction(ActionType.zoomOut);
         isFeatrue = true;
         break;
       // key: Ctrl + 1
@@ -402,14 +419,14 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     }
   }
 
-  handleTransitionEnd = (e) => {
+  handleTransitionEnd = e => {
     if (!this.state.transitionEnd || this.state.visibleStart) {
       this.setState({
         visibleStart: false,
         transitionEnd: true,
       });
     }
-  }
+  };
 
   bindEvent(remove: boolean = false) {
     let funcName = 'addEventListener';
@@ -421,7 +438,11 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
 
   componentWillUnmount() {
     this.bindEvent(true);
-    (this.refs['viewerCore'] as HTMLDivElement).removeEventListener('transitionend', this.handleTransitionEnd, false);
+    (this.refs['viewerCore'] as HTMLDivElement).removeEventListener(
+      'transitionend',
+      this.handleTransitionEnd,
+      false
+    );
   }
 
   componentWillReceiveProps(nextProps: ViewerProps) {
@@ -435,7 +456,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
         this.containerWidth / 2,
         (this.containerHeight - this.footerHeight) / 2,
         -1,
-        (this.state.scaleX > 0 ? 1 : -1) * this.state.scaleX - 0.11,
+        (this.state.scaleX > 0 ? 1 : -1) * this.state.scaleX - 0.11
       );
       setTimeout(() => {
         document.body.style.overflow = '';
@@ -457,7 +478,22 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
 
   handleCanvasMouseDown = e => {
     this.props.onMaskClick(e);
-  }
+  };
+
+  getActiveImage = () => {
+    let activeImg: ImageDecorator = {
+      src: '',
+      alt: '',
+      downloadUrl: '',
+    };
+
+    let images = this.props.images || [];
+    if (images.length > 0 && this.state.activeIndex >= 0) {
+      activeImg = images[this.state.activeIndex];
+    }
+
+    return activeImg;
+  };
 
   render() {
     let activeImg: ImageDecorator = {
@@ -482,10 +518,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
       viewerStryle.display = 'block';
     }
     if (this.state.visible && this.state.transitionEnd) {
-      let images = this.props.images || [];
-      if (images.length > 0 && this.state.activeIndex >= 0) {
-        activeImg = images[this.state.activeIndex];
-      }
+      activeImg = this.getActiveImage();
     }
 
     let className = `${this.prefixCls} ${this.prefixCls}-transition`;
@@ -494,59 +527,66 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     }
 
     return (
-      <div
-      ref="viewerCore"
-      className={className}
-      style={viewerStryle}
-      >
-        <div className={`${this.prefixCls}-mask`} style={{zIndex: zIndex}}></div>
-        <div
-        className={`${this.prefixCls}-close ${this.prefixCls}-btn`}
-        onClick={this.handleClose.bind(this)}
-        style={{zIndex: zIndex + 10}}
-        >
-          <Icon type={ActionType.close}/>
-        </div>
+      <div ref="viewerCore" className={className} style={viewerStryle}>
+        <div className={`${this.prefixCls}-mask`} style={{ zIndex: zIndex }} />
+        {this.props.noClose || (
+          <div
+            className={`${this.prefixCls}-close ${this.prefixCls}-btn`}
+            onClick={this.handleClose}
+            style={{ zIndex: zIndex + 10 }}
+          >
+            <Icon type={ActionType.close} />
+          </div>
+        )}
         <ViewerCanvas
-        prefixCls={this.prefixCls}
-        imgSrc={activeImg.src}
-        visible={this.props.visible}
-        width={this.state.width}
-        height={this.state.height}
-        top={this.state.top}
-        left={this.state.left}
-        rotate={this.state.rotate}
-        onChangeImgState={this.handleChangeImgState}
-        onResize={this.handleResize}
-        onZoom={this.handleZoom}
-        zIndex={zIndex + 5}
-        scaleX={this.state.scaleX}
-        scaleY={this.state.scaleY}
-        loading={this.state.loading}
-        drag={this.props.drag}
-        container={this.props.container}
-        onCanvasMouseDown={this.handleCanvasMouseDown}
+          prefixCls={this.prefixCls}
+          imgSrc={activeImg.src}
+          visible={this.props.visible}
+          width={this.state.width}
+          height={this.state.height}
+          top={this.state.top}
+          left={this.state.left}
+          rotate={this.state.rotate}
+          onChangeImgState={this.handleChangeImgState}
+          onResize={this.handleResize}
+          onZoom={this.handleZoom}
+          zIndex={zIndex + 5}
+          scaleX={this.state.scaleX}
+          scaleY={this.state.scaleY}
+          loading={this.state.loading}
+          drag={this.props.drag}
+          container={this.props.container}
+          onCanvasMouseDown={this.handleCanvasMouseDown}
         />
-        <div className={`${this.prefixCls}-footer`} style={{zIndex: zIndex + 5}}>
-          <ViewerToolbar
-          prefixCls={this.prefixCls}
-          onAction={this.handleAction}
-          alt={activeImg.alt}
-          width={this.state.imageWidth}
-          height={this.state.imageHeight}
-          attribute={this.props.attribute}
-          zoomable={this.props.zoomable}
-          rotatable={this.props.rotatable}
-          scalable={this.props.scalable}
-          changeable={true}
-          />
-          <ViewerNav
-          prefixCls={this.prefixCls}
-          images={this.props.images}
-          activeIndex={this.state.activeIndex}
-          onChangeImg={this.handleChangeImg}
-          />
-        </div>
+        {this.props.noFooter || (
+          <div className={`${this.prefixCls}-footer`} style={{ zIndex: zIndex + 5 }}>
+            {this.props.noToolbar || (
+              <ViewerToolbar
+                prefixCls={this.prefixCls}
+                onAction={this.handleAction}
+                alt={activeImg.alt}
+                width={this.state.imageWidth}
+                height={this.state.imageHeight}
+                attribute={this.props.attribute}
+                zoomable={this.props.zoomable}
+                rotatable={this.props.rotatable}
+                scalable={this.props.scalable}
+                changeable={this.props.changeable}
+                downloadable={this.props.downloadable}
+                noImgDetails={this.props.noImgDetails}
+                toolbars={this.props.customToolbar(defaultToolbars)}
+              />
+            )}
+            {this.props.noNavbar || (
+              <ViewerNav
+                prefixCls={this.prefixCls}
+                images={this.props.images}
+                activeIndex={this.state.activeIndex}
+                onChangeImg={this.handleChangeImg}
+              />
+            )}
+          </div>
+        )}
       </div>
     );
   }

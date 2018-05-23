@@ -1,6 +1,14 @@
 export interface ImageDecorator {
   src: string;
   alt?: string;
+  downloadUrl?: string;
+}
+
+export interface ToolbarConfig {
+  key: string;
+  actionType?: number;
+  render?: React.ReactNode;
+  onClick?: (activeImage: ImageDecorator) => void;
 }
 
 interface ViewerProps {
@@ -28,6 +36,29 @@ interface ViewerProps {
   scalable?: boolean;
   /** callback function when mask is clicked */
   onMaskClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
+  /** 是否显示下载按钮 */
+  downloadable?: boolean;
+
+  // no render close button
+  noClose?: boolean;
+
+  // no render image details
+  noImgDetails?: boolean;
+
+  // no render navbar
+  noNavbar?: boolean;
+
+  // no render toolbar
+  noToolbar?: boolean;
+
+  // no render footer
+  noFooter?: boolean;
+
+  // wheather to show change button
+  changeable?: boolean;
+
+  // custom toolbar
+  customToolbar?: (toolbars: ToolbarConfig[]) => ToolbarConfig[];
 }
 
 export default ViewerProps;

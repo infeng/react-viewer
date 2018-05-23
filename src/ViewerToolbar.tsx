@@ -1,9 +1,10 @@
 import * as React from 'react';
 import Icon, { ActionType } from './Icon';
+import { ToolbarConfig } from './ViewerProps';
 
 export interface ViewerToolbarProps {
   prefixCls: string;
-  onAction: (type: ActionType) => void;
+  onAction: (config: ToolbarConfig) => void;
   alt: string;
   width: number;
   height: number;
@@ -12,6 +13,58 @@ export interface ViewerToolbarProps {
   rotatable: boolean;
   scalable: boolean;
   changeable: boolean;
+  downloadable: boolean;
+  noImgDetails: boolean;
+  toolbars: ToolbarConfig[];
+}
+
+export const defaultToolbars: ToolbarConfig[] = [
+ {
+   key: 'zoomIn',
+   actionType: ActionType.zoomIn,
+ },
+ {
+   key: 'zoomOut',
+   actionType: ActionType.zoomOut,
+ },
+ {
+   key: 'prev',
+   actionType: ActionType.prev,
+ },
+ {
+   key: 'reset',
+   actionType: ActionType.reset,
+ },
+ {
+   key: 'next',
+   actionType: ActionType.next,
+ },
+ {
+   key: 'rotateLeft',
+   actionType: ActionType.rotateLeft,
+ },
+ {
+   key: 'rotateRight',
+   actionType: ActionType.rotateRight,
+ },
+ {
+   key: 'scaleX',
+   actionType: ActionType.scaleX,
+ },
+ {
+   key: 'scaleY',
+   actionType: ActionType.scaleY,
+ },
+ {
+   key: 'download',
+   actionType: ActionType.download,
+ },
+];
+
+function deleteToolbarFromKey(toolbars: ToolbarConfig[], keys: string[]) {
+  const targetToolbar = toolbars.filter(item => keys.indexOf(item.key) < 0);
+
+  return targetToolbar;
 }
 
 export default class ViewerToolbar extends React.Component<ViewerToolbarProps, any> {
@@ -20,89 +73,61 @@ export default class ViewerToolbar extends React.Component<ViewerToolbarProps, a
     super();
   }
 
-  handleAction(type: ActionType) {
-    this.props.onAction(type);
+  handleAction(config: ToolbarConfig) {
+    this.props.onAction(config);
+  }
+
+  renderAction = (config: ToolbarConfig) => {
+    let content = null;
+    // default toolbar
+    if (typeof ActionType[config.actionType] !== 'undefined') {
+      content = <Icon type={config.actionType}/>;
+    }
+    // extra toolbar
+    if (config.render) {
+      content = config.render;
+    }
+    return (
+      <li
+        key={config.key}
+        className={`${this.props.prefixCls}-btn`}
+        onClick={() => {this.handleAction(config);}}
+      >
+          {content}
+      </li>
+    );
   }
 
   render() {
     let attributeNode = this.props.attribute ? (
       <p className={`${this.props.prefixCls}-attribute`}>
-        {`${this.props.alt}(${this.props.width} x ${this.props.height})`}
+        {this.props.alt && `${this.props.alt}`}
+        {this.props.noImgDetails || `(${this.props.width} x ${this.props.height})`}
       </p>
     ) : null;
-    let featureNodeArr = [];
-    if (this.props.zoomable) {
-      featureNodeArr = featureNodeArr.concat([
-        <li
-        key="zoomIn"
-        className={`${this.props.prefixCls}-btn`}
-        onClick={() => {this.handleAction(ActionType.zoomIn);}}>
-          <Icon type={ActionType.zoomIn}/>
-        </li>,
-        <li
-        key="zoomOut"
-        className={`${this.props.prefixCls}-btn`}
-        onClick={() => {this.handleAction(ActionType.zoomOut);}}>
-          <Icon type={ActionType.zoomOut}/>
-        </li>,
-      ]);
+    let toolbars = this.props.toolbars;
+    if (!this.props.zoomable) {
+      toolbars = deleteToolbarFromKey(toolbars, ['zoomIn', 'zoomOut']);
     }
-    if (this.props.changeable) {
-      featureNodeArr = featureNodeArr.concat([
-        <li
-        key="prev"
-        className={`${this.props.prefixCls}-btn`} onClick={() => {this.handleAction(ActionType.prev);}}>
-          <Icon type={ActionType.prev}/>
-        </li>,
-        <li
-        key="reset"
-        className={`${this.props.prefixCls}-btn`} onClick={() => {this.handleAction(ActionType.reset);}}>
-          <Icon type={ActionType.reset}/>
-        </li>,
-        <li
-        key="next"
-        className={`${this.props.prefixCls}-btn`} onClick={() => {this.handleAction(ActionType.next);}}>
-          <Icon type={ActionType.next}/>
-        </li>,
-      ]);
+    if (!this.props.changeable) {
+      toolbars = deleteToolbarFromKey(toolbars, ['prev', 'next']);
     }
-    if (this.props.rotatable) {
-      featureNodeArr = featureNodeArr.concat([
-        <li
-        key="rotateLeft"
-        className={`${this.props.prefixCls}-btn`}
-        onClick={() => {this.handleAction(ActionType.rotateLeft);}}>
-          <Icon type={ActionType.rotateLeft}/>
-        </li>,
-        <li
-        key="rotateRight"
-        className={`${this.props.prefixCls}-btn`}
-        onClick={() => {this.handleAction(ActionType.rotateRight);}}>
-          <Icon type={ActionType.rotateRight}/>
-        </li>,
-      ]);
+    if (!this.props.rotatable) {
+      toolbars = deleteToolbarFromKey(toolbars, ['rotateLeft', 'rotateRight']);
     }
-    if (this.props.scalable) {
-      featureNodeArr = featureNodeArr.concat([
-        <li
-        key="scaleX"
-        className={`${this.props.prefixCls}-btn`}
-        onClick={() => {this.handleAction(ActionType.scaleX);}}>
-          <Icon type={ActionType.scaleX}/>
-        </li>,
-        <li
-        key="scaleY"
-        className={`${this.props.prefixCls}-btn`}
-        onClick={() => {this.handleAction(ActionType.scaleY);}}>
-          <Icon type={ActionType.scaleY}/>
-        </li>,
-      ]);
+    if (!this.props.scalable) {
+      toolbars = deleteToolbarFromKey(toolbars, ['scaleX', 'scaleY']);
+    }
+    if (!this.props.downloadable) {
+      toolbars = deleteToolbarFromKey(toolbars, ['download']);
     }
     return (
       <div>
         {attributeNode}
         <ul className={`${this.props.prefixCls}-toolbar`}>
-          {featureNodeArr}
+          {toolbars.map(item => {
+            return this.renderAction(item);
+          })}
         </ul>
       </div>
     );

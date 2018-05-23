@@ -13,7 +13,7 @@ export default class ViewerNav extends React.Component<ViewerNavProps, any> {
     activeIndex: 0,
   };
 
-  handleChangeImg(newIndex) {
+  handleChangeImg = (newIndex) => {
     if (this.props.activeIndex === newIndex) {
       return;
     }
@@ -33,7 +33,7 @@ export default class ViewerNav extends React.Component<ViewerNavProps, any> {
             <li
             key={index}
             className={index === this.props.activeIndex ? 'active' : ''}
-            onClick={this.handleChangeImg.bind(this, index)}
+            onClick={() => { this.handleChangeImg(index); }}
             >
               <img src={item.src} alt={item.alt} />
             </li>

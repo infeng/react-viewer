@@ -11,6 +11,7 @@ export enum ActionType {
   close = 8,
   scaleX = 9,
   scaleY = 10,
+  download = 11,
 }
 
 export interface IconProps {

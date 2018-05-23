@@ -38,12 +38,6 @@ export default class ViewerCanvas extends React.Component<ViewerCanvasProps, Vie
       mouseX: 0,
       mouseY: 0,
     };
-
-    this.handleMouseScroll = this.handleMouseScroll.bind(this);
-    this.handleMouseDown = this.handleMouseDown.bind(this);
-    this.bindEvent = this.bindEvent.bind(this);
-    this.handleMouseMove = this.handleMouseMove.bind(this);
-    this.handleMouseUp = this.handleMouseUp.bind(this);
   }
 
   componentDidMount() {
@@ -61,7 +55,7 @@ export default class ViewerCanvas extends React.Component<ViewerCanvasProps, Vie
     this.handleMouseDown(e);
   }
 
-  handleMouseDown(e) {
+  handleMouseDown = (e) => {
     if (!this.props.visible || !this.props.drag) {
       return;
     }
@@ -74,7 +68,7 @@ export default class ViewerCanvas extends React.Component<ViewerCanvasProps, Vie
     });
   }
 
-  handleMouseMove(e) {
+  handleMouseMove = (e) => {
     if (this.state.isMouseDown) {
       let diffX = e.clientX - this.state.mouseX;
       let diffY = e.clientY - this.state.mouseY;
@@ -86,13 +80,14 @@ export default class ViewerCanvas extends React.Component<ViewerCanvasProps, Vie
     }
   }
 
-  handleMouseUp(e) {
+  handleMouseUp = (e) => {
     this.setState({
       isMouseDown: false,
     });
   }
 
-  handleMouseScroll(e) {
+  handleMouseScroll = (e) => {
+    e.preventDefault();
     let direct: 0 | 1 | -1 = 0;
     if (e.wheelDelta) {
       direct = e.wheelDelta > 0 ? 1 : -1;
@@ -102,11 +97,16 @@ export default class ViewerCanvas extends React.Component<ViewerCanvasProps, Vie
     if (direct !== 0) {
       let x = e.clientX;
       let y = e.clientY;
+      if (this.props.container) {
+        const containerRect = this.props.container.getBoundingClientRect();
+        x -= containerRect.left;
+        y -= containerRect.top;
+      }
       this.props.onZoom(x, y, direct, .05);
     }
   }
 
-  bindEvent(remove?: boolean) {
+  bindEvent = (remove?: boolean) => {
     let funcName = 'addEventListener';
     if (remove) {
       funcName = 'removeEventListener';

@@ -47,15 +47,19 @@ class App extends React.Component<any, Partial<State>> {
     let images = [{
       src: img,
       alt: 'lake',
+      downloadUrl: '',
     }, {
       src: img2,
       alt: 'mountain',
+      downloadUrl: '',
     }, {
       src: img3,
       alt: '',
+      downloadUrl: '',
     }, {
       src: img4,
       alt: '',
+      downloadUrl: '',
     }];
 
     let inline = this.state.mode === 'inline';
@@ -125,8 +129,17 @@ class App extends React.Component<any, Partial<State>> {
           onClose={() => { this.setState({ visible: false }); } }
           images={images}
           activeIndex={this.state.activeIndex}
-          attribute={false}
           container={inline ? this.container : null}
+          downloadable
+          customToolbar={(toolbars) => {
+            return toolbars.concat([{
+              key: 'test',
+              render: <div>C</div>,
+              onClick: (activeImage) => {
+                console.log(activeImage);
+              },
+            }]);
+          }}
           />
         </div>
         <div className="footer">
