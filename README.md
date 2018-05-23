@@ -49,7 +49,7 @@ class App extends React.Component<any, any> {
 | props        | type         | default | description                 | required |
 |--------------|--------------|---------|-----------------------------|----------|
 | visible      | string       |  false  | Viewer visible             | true |
-| onClose      | string       |  -      | Specify a function that will be called when Visible close   | true |
+| onClose      | function       |  -      | Specify a function that will be called when Visible close   | true |
 | images       | [ImageDecorator](#imagedecorator)[]     | []      | image source array | true  |
 | activeIndex  | number       | 0       | active image index | false |
 | zIndex       | number       | 1000    | Viewer css z-index | false |
@@ -83,7 +83,7 @@ class App extends React.Component<any, any> {
 |-------------|--------------|---------|-----------------------------|----------|
 | key  | string  |  -  | tool key | true |
 | render  | React.ReactNode  |  -  | tool render | false |
-| onClick  | string  |  -  | callback function when action is clicked | false |
+| onClick  | function  |  -  | callback function when action is clicked | false |
 
 ## Keyboard support
 
