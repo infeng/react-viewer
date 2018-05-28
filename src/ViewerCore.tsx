@@ -42,6 +42,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     onMaskClick: noop,
     changeable: true,
     customToolbar: (toolbars) => toolbars,
+    zoomSpeed: .05,
   };
 
   private prefixCls: string;
@@ -232,11 +233,11 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
         break;
       case ActionType.zoomIn:
         let imgCenterXY = this.getImageCenterXY();
-        this.handleZoom(imgCenterXY.x, imgCenterXY.y, 1, 0.05);
+        this.handleZoom(imgCenterXY.x, imgCenterXY.y, 1, this.props.zoomSpeed);
         break;
       case ActionType.zoomOut:
         let imgCenterXY2 = this.getImageCenterXY();
-        this.handleZoom(imgCenterXY2.x, imgCenterXY2.y, -1, 0.05);
+        this.handleZoom(imgCenterXY2.x, imgCenterXY2.y, -1, this.props.zoomSpeed);
         break;
       case ActionType.rotateLeft:
         this.handleRotate();
@@ -287,6 +288,10 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     this.setState({
       scaleY: this.state.scaleY * newScale,
     });
+  }
+
+  handleScrollZoom = (targetX, targetY, direct) => {
+    this.handleZoom(targetX, targetY, direct, this.props.zoomSpeed);
   }
 
   handleZoom = (targetX, targetY, direct, scale) => {
@@ -549,7 +554,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
           rotate={this.state.rotate}
           onChangeImgState={this.handleChangeImgState}
           onResize={this.handleResize}
-          onZoom={this.handleZoom}
+          onZoom={this.handleScrollZoom}
           zIndex={zIndex + 5}
           scaleX={this.state.scaleX}
           scaleY={this.state.scaleY}

@@ -12,7 +12,7 @@ export interface ViewerCanvasProps {
   rotate: number;
   onChangeImgState: (width: number, height: number, top: number, left: number) => void;
   onResize: () => void;
-  onZoom: (targetX: number, targetY: number, direct: number, scale: number) => void;
+  onZoom: (targetX: number, targetY: number, direct: number) => void;
   zIndex: number;
   scaleX: number;
   scaleY: number;
@@ -102,7 +102,7 @@ export default class ViewerCanvas extends React.Component<ViewerCanvasProps, Vie
         x -= containerRect.left;
         y -= containerRect.top;
       }
-      this.props.onZoom(x, y, direct, .05);
+      this.props.onZoom(x, y, direct);
     }
   }
 

@@ -59,6 +59,9 @@ interface ViewerProps {
 
   // custom toolbar
   customToolbar?: (toolbars: ToolbarConfig[]) => ToolbarConfig[];
+
+  // zoom speed
+  zoomSpeed?: number;
 }
 
 export default ViewerProps;
