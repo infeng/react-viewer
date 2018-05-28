@@ -68,6 +68,7 @@ class App extends React.Component<any, any> {
 | noFooter     | boolean      |  false  | to not render the entire footer | false |
 | changeable   | boolean      |  true   | wheather to show change button  | false |
 | customToolbar | (defaultToolbarConfigs: [ToolbarConfig](#toolbarconfig)[]) => ToolbarConfig[] | - | customer toolbar | false |
+| zoomSpeed    | number       | 0.05    | zoom speed | false |
 
 ### ImageDecorator
 
