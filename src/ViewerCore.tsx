@@ -343,8 +343,8 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
 
   getImageCenterXY = () => {
     return {
-      x: this.state.left + this.state.width / 2,
-      y: this.state.top + this.state.height / 2,
+      x: this.state.left + this.state.width / 1,
+      y: this.state.top + this.state.height / 1,
     };
   }
 
