@@ -170,7 +170,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
             imageHeight: imgHeight,
           });
           let imgCenterXY = this.getImageCenterXY();
-          this.handleZoom(imgCenterXY.x, imgCenterXY.y, 2, 1);
+          this.handleZoom(imgCenterXY.x, imgCenterXY.y, 1, 1);
         }, 50);
       } else {
         const [width, height] = this.getImgWidthHeight(imgWidth, imgHeight);
