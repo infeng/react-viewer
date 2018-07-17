@@ -687,8 +687,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        };
 	        _this.getImageCenterXY = function () {
 	            return {
-	                x: _this.state.left + _this.state.width / 1,
-	                y: _this.state.top + _this.state.height / 1
+	                x: _this.state.left + _this.state.width / 2,
+	                y: _this.state.top + _this.state.height / 2
 	            };
 	        };
 	        _this.handleRotate = function () {
@@ -907,7 +907,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                        imageHeight: imgHeight
 	                    });
 	                    var imgCenterXY = _this3.getImageCenterXY();
-	                    _this3.handleZoom(imgCenterXY.x, imgCenterXY.y, 1, 1);
+	                    _this3.handleZoom(imgCenterXY.x, imgCenterXY.y, 2, 1);
 	                }, 50);
 	            } else {
 	                var _getImgWidthHeight = _this3.getImgWidthHeight(imgWidth, imgHeight),
