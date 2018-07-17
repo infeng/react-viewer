@@ -122,8 +122,8 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
   getImgWidthHeight(imgWidth, imgHeight) {
     let width = 0;
     let height = 0;
-    let maxWidth = this.containerWidth * 0.8;
-    let maxHeight = (this.containerHeight - this.footerHeight) * 0.8;
+    let maxWidth = this.containerWidth * 2.5;
+    let maxHeight = (this.containerHeight - this.footerHeight) * 2.5;
     width = Math.min(maxWidth, imgWidth);
     height = width / imgWidth * imgHeight;
     if (height > maxHeight) {
@@ -313,7 +313,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
       );
       reset = true;
       left = (this.containerWidth - imgWidth) / 2;
-      top = (this.containerHeight - this.footerHeight - imgHeight) / 2;
+      top = (this.containerHeight - this.footerHeight - imgHeight) / 30;
       width = this.state.width + imgWidth;
       height = this.state.height + imgHeight;
       scaleX = scaleY = 1;

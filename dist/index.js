@@ -658,7 +658,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	                reset = true;
 	                left = (_this.containerWidth - imgWidth) / 2;
-	                top = (_this.containerHeight - _this.footerHeight - imgHeight) / 2;
+	                top = (_this.containerHeight - _this.footerHeight - imgHeight) / 30;
 	                width = _this.state.width + imgWidth;
 	                height = _this.state.height + imgHeight;
 	                scaleX = scaleY = 1;
@@ -855,8 +855,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    ViewerCore.prototype.getImgWidthHeight = function getImgWidthHeight(imgWidth, imgHeight) {
 	        var width = 0;
 	        var height = 0;
-	        var maxWidth = this.containerWidth * 0.8;
-	        var maxHeight = (this.containerHeight - this.footerHeight) * 0.8;
+	        var maxWidth = this.containerWidth * 2.5;
+	        var maxHeight = (this.containerHeight - this.footerHeight) * 2.5;
 	        width = Math.min(maxWidth, imgWidth);
 	        height = width / imgWidth * imgHeight;
 	        if (height > maxHeight) {
@@ -907,7 +907,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                        imageHeight: imgHeight
 	                    });
 	                    var imgCenterXY = _this3.getImageCenterXY();
-	                    _this3.handleZoom(imgCenterXY.x, imgCenterXY.y, 2, 1);
+	                    _this3.handleZoom(imgCenterXY.x, imgCenterXY.y, 1, 1);
 	                }, 50);
 	            } else {
 	                var _getImgWidthHeight = _this3.getImgWidthHeight(imgWidth, imgHeight),
