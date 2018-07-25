@@ -12,7 +12,6 @@ export interface ViewerCanvasProps {
   rotate: number;
   onChangeImgState: (width: number, height: number, top: number, left: number) => void;
   onResize: () => void;
-  onZoom: (targetX: number, targetY: number, direct: number) => void;
   zIndex: number;
   scaleX: number;
   scaleY: number;
@@ -86,40 +85,12 @@ export default class ViewerCanvas extends React.Component<ViewerCanvasProps, Vie
     });
   }
 
-  handleMouseScroll = (e) => {
-    e.preventDefault();
-    let direct: 0 | 1 | -1 = 0;
-    if (e.wheelDelta) {
-      direct = e.wheelDelta > 0 ? 1 : -1;
-    }else if (e.detail) {
-      direct = e.detail > 0 ? -1 : 1;
-    }
-    if (direct !== 0) {
-      let x = e.clientX;
-      let y = e.clientY;
-      if (this.props.container) {
-        const containerRect = this.props.container.getBoundingClientRect();
-        x -= containerRect.left;
-        y -= containerRect.top;
-      }
-      this.props.onZoom(x, y, direct);
-    }
-  }
-
   bindEvent = (remove?: boolean) => {
     let funcName = 'addEventListener';
     if (remove) {
       funcName = 'removeEventListener';
     }
 
-    let mouseScrollArea: Document | HTMLElement = document;
-
-    if (this.props.container) {
-      mouseScrollArea = this.props.container;
-    }
-
-    mouseScrollArea[funcName]('DOMMouseScroll', this.handleMouseScroll, false);
-    mouseScrollArea[funcName]('mousewheel', this.handleMouseScroll, false);
     document[funcName]('click', this.handleMouseUp, false);
     document[funcName]('mousemove', this.handleMouseMove, false);
     window[funcName]('resize', this.handleResize, false);

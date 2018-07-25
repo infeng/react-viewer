@@ -35,7 +35,7 @@
     "@types/node": "^6.0.45",
     "@types/react": "^0.14.39",
     "@types/react-dom": "^0.14.17",
-    "antd": "^2.13.11",
+    "antd": "^3.7.1",
     "atool-build": "^1.0.2",
     "babel-plugin-import": "^1.2.1",
     "babel-plugin-transform-runtime": "^6.15.0",
@@ -59,7 +59,8 @@
     "webpack": "^1.13.2"
   },
   "dependencies": {
-    "classnames": "^2.2.5"
+    "classnames": "^2.2.5",
+    "rc-table": "^6.2.7"
   },
   "pre-commit": [
     "lint"

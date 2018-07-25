@@ -500,6 +500,26 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     return activeImg;
   };
 
+  handleMouseScroll = (e) => {
+    e.preventDefault();
+    let direct: 0 | 1 | -1 = 0;
+    if (e.deltaY === 0) {
+      direct = 0;
+    } else {
+      direct = e.deltaY > 0 ? -1 : 1;
+    }
+    if (direct !== 0) {
+      let x = e.clientX;
+      let y = e.clientY;
+      if (this.props.container) {
+        const containerRect = this.props.container.getBoundingClientRect();
+        x -= containerRect.left;
+        y -= containerRect.top;
+      }
+      this.handleScrollZoom(x, y, direct);
+    }
+  }
+
   render() {
     let activeImg: ImageDecorator = {
       src: '',
@@ -532,7 +552,12 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     }
 
     return (
-      <div ref="viewerCore" className={className} style={viewerStryle}>
+      <div
+        ref="viewerCore"
+        className={className}
+        style={viewerStryle}
+        onWheel={this.handleMouseScroll}
+      >
         <div className={`${this.prefixCls}-mask`} style={{ zIndex: zIndex }} />
         {this.props.noClose || (
           <div
@@ -554,7 +579,6 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
           rotate={this.state.rotate}
           onChangeImgState={this.handleChangeImgState}
           onResize={this.handleResize}
-          onZoom={this.handleScrollZoom}
           zIndex={zIndex + 5}
           scaleX={this.state.scaleX}
           scaleY={this.state.scaleY}
