@@ -202,11 +202,15 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
   }
 
   handleChangeImg = (newIndex: number) => {
-    // let imgCenterXY2 = this.getImageCenterXY();
-    // this.handleZoom(imgCenterXY2.x, imgCenterXY2.y, -1, 1);
-    // setTimeout(() => {
-    //   this.loadImg(newIndex);
-    // }, transitionDuration);
+    if (newIndex >= this.props.images.length) {
+      newIndex = 0;
+    }
+    if (newIndex < 0) {
+      newIndex = this.props.images.length - 1;
+    }
+    if (newIndex === this.state.activeIndex) {
+      return;
+    }
     this.loadImg(newIndex);
   }
 
@@ -222,14 +226,10 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
   handleDefaultAction = (type: ActionType) => {
     switch (type) {
       case ActionType.prev:
-        if (this.state.activeIndex - 1 >= 0) {
-          this.handleChangeImg(this.state.activeIndex - 1);
-        }
+        this.handleChangeImg(this.state.activeIndex - 1);
         break;
       case ActionType.next:
-        if (this.state.activeIndex + 1 < this.props.images.length) {
-          this.handleChangeImg(this.state.activeIndex + 1);
-        }
+        this.handleChangeImg(this.state.activeIndex + 1);
         break;
       case ActionType.zoomIn:
         let imgCenterXY = this.getImageCenterXY();
