@@ -59,8 +59,7 @@
     "webpack": "^1.13.2"
   },
   "dependencies": {
-    "classnames": "^2.2.5",
-    "rc-table": "^6.2.7"
+    "classnames": "^2.2.5"
   },
   "pre-commit": [
     "lint"
