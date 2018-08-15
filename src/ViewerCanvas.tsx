@@ -1,5 +1,6 @@
 import * as React from 'react';
 import Loading from './Loading';
+import classnames from 'classnames';
 
 export interface ViewerCanvasProps {
   prefixCls: string;
@@ -130,10 +131,10 @@ export default class ViewerCanvas extends React.Component<ViewerCanvasProps, Vie
       rotate(${this.props.rotate}deg) scaleX(${this.props.scaleX}) scaleY(${this.props.scaleY})`,
     };
 
-    let imgClass = this.props.drag ? 'drag' : '';
-    if (!this.state.isMouseDown) {
-      imgClass += ` ${this.props.prefixCls}-image-transition`;
-    }
+    const imgClass = classnames(`${this.props.prefixCls}-image`, {
+      drag: this.props.drag,
+      [`${this.props.prefixCls}-image-transition`]: !this.state.isMouseDown,
+    });
 
     let style = {
       zIndex: this.props.zIndex,

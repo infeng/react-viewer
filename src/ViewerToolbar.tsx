@@ -92,6 +92,7 @@ export default class ViewerToolbar extends React.Component<ViewerToolbarProps, a
         key={config.key}
         className={`${this.props.prefixCls}-btn`}
         onClick={() => {this.handleAction(config);}}
+        data-key={config.key}
       >
           {content}
       </li>
@@ -102,7 +103,9 @@ export default class ViewerToolbar extends React.Component<ViewerToolbarProps, a
     let attributeNode = this.props.attribute ? (
       <p className={`${this.props.prefixCls}-attribute`}>
         {this.props.alt && `${this.props.alt}`}
-        {this.props.noImgDetails || `(${this.props.width} x ${this.props.height})`}
+        {this.props.noImgDetails || <span className={`${this.props.prefixCls}-img-details`}>
+          {`(${this.props.width} x ${this.props.height})`}
+        </span>}
       </p>
     ) : null;
     let toolbars = this.props.toolbars;

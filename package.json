@@ -4,7 +4,7 @@
   "description": "react image viewer",
   "main": "dist/index",
   "scripts": {
-    "test": "npm run lint",
+    "test": "jest",
     "start": "dora --port 8001 --plugins \"webpack,webpack-hmr,browser-history?index=/demo/index.html\"",
     "lint": "tslint -c tslint.json src/**/*.ts src/**/*.tsx",
     "build": "atool-build --config webpack.config.prop.js && gulp",
@@ -32,11 +32,13 @@
   "typings": "lib/index.d.ts",
   "homepage": "https://github.com/infeng/react-viewer#readme",
   "devDependencies": {
+    "@types/jest": "^23.3.1",
     "@types/node": "^6.0.45",
     "@types/react": "^0.14.39",
     "@types/react-dom": "^0.14.17",
     "antd": "^3.7.1",
     "atool-build": "^1.0.2",
+    "babel-jest": "^23.4.2",
     "babel-plugin-import": "^1.2.1",
     "babel-plugin-transform-runtime": "^6.15.0",
     "babel-runtime": "^6.11.6",
@@ -44,24 +46,63 @@
     "dora-plugin-browser-history": "^0.2.0",
     "dora-plugin-webpack": "^1.0.0",
     "dora-plugin-webpack-hmr": "^0.2.1",
+    "enzyme": "^3.4.1",
+    "enzyme-adapter-react-16": "^1.2.0",
+    "enzyme-to-json": "^3.3.4",
     "gulp": "^3.9.1",
     "gulp-babel": "^6.1.2",
     "gulp-typescript": "^3.0.2",
     "html-loader": "^0.4.4",
     "html-webpack-plugin": "^2.22.0",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^23.5.0",
+    "jest-environment-jsdom": "^23.4.0",
+    "jest-environment-jsdom-global": "^1.1.0",
+    "jest-static-stubs": "0.0.1",
     "merge2": "^1.0.2",
     "pre-commit": "^1.1.3",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
+    "react-test-render": "^1.1.1",
     "through2": "^2.0.1",
+    "ts-jest": "^23.1.3",
     "tslint": "^3.15.1",
     "typescript": "^2.6.2",
-    "webpack": "^1.13.2"
+    "webpack": "^1.13.2",
+    "wolfy87-eventemitter": "^5.2.5"
   },
   "dependencies": {
     "classnames": "^2.2.5"
   },
   "pre-commit": [
     "lint"
-  ]
+  ],
+  "jest": {
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest",
+      "\\.js$": "babel-jest"
+    },
+    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx"
+    ],
+    "moduleNameMapper": {
+      "^.+\\.(jpg|jpeg)$": "jest-static-stubs/jpg",
+      "\\.(css|less)$": "identity-obj-proxy"
+    },
+    "moduleDirectories": [
+      "node_modules"
+    ],
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ],
+    "globals": {
+      "ts-jest": {
+        "tsConfigFile": "tsconfig.test.json"
+      }
+    }
+  }
 }

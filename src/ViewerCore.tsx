@@ -140,7 +140,6 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
       imgSrc = images[activeIndex].src;
     }
     let img = new Image();
-    img.src = imgSrc;
     if (firstLoad) {
       this.setState({
         activeIndex: activeIndex,
@@ -199,6 +198,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
         loading: false,
       });
     };
+    img.src = imgSrc;
   }
 
   handleChangeImg = (newIndex: number) => {
