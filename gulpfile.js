@@ -34,8 +34,9 @@ gulp.task('default', () => {
   const img = gulp.src(['src/' + '**/' + '*.png']).pipe(gulp.dest('lib'));
   const fonts = gulp.src(['src/**/*.eot', 'src/**/*.svg', 'src/**/*.ttf', 'src/**/*.woff']).pipe(gulp.dest('lib'));  
   const tsResult = gulp.src([
-    'src/' + '**/' + '*.tsx',
-    'src/' + '**/' + '*.ts',
+    'src/**/*.tsx',
+    'src/**/*.ts',
+    '!src/__tests__/**/*.tsx',
   ]).pipe(ts(tsConfig));
   const tsFiles = babelify(tsResult.js);
   const tsd = tsResult.dts.pipe(gulp.dest('lib'));  
