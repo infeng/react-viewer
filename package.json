@@ -103,6 +103,8 @@
       "ts-jest": {
         "tsConfigFile": "tsconfig.test.json"
       }
-    }
+    },
+    "coverageDirectory": "./coverage/",
+    "collectCoverage": true    
   }
 }
