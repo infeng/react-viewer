@@ -10,11 +10,10 @@ export default class Loading extends React.Component<LoadingProps, any> {
   }
 
   render() {
-    let cls = 'spin spin-spinning';
+    let cls = 'circle-loading';
     return (
-      <div className="spin-wrap" style={this.props.style}>
+      <div className="loading-wrap" style={this.props.style}>
         <div className={cls}>
-          <div className="spin-dot"></div>
         </div>
       </div>
     );

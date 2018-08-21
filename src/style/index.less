@@ -262,68 +262,18 @@
   }   
 }
 
-.spin {
-  color: #2db7f5;
-  vertical-align: middle;
-  text-align: center;
-  opacity: 0;
-  position: absolute;
-  -webkit-transition: -webkit-transform .3s cubic-bezier(.78,.14,.15,.86);
-  transition: -webkit-transform .3s cubic-bezier(.78,.14,.15,.86);
-  transition: transform .3s cubic-bezier(.78,.14,.15,.86);
-  transition: transform .3s cubic-bezier(.78,.14,.15,.86),-webkit-transform .3s cubic-bezier(.78,.14,.15,.86);
-  font-size: 12px;
-  display: none;  
+.circle-loading {
+  box-sizing: border-box;
+  width: 80px;
+  height: 80px;
+  border-radius: 100%;
+  border: 10px solid rgba(255, 255, 255, 0.2);
+  border-top-color: #FFF;
+  animation: spin 1s infinite linear;
 }
-.spin-spinning {
-  opacity: 1;
-  position: static;
-  display: inline-block;  
-}
-.spin-dot {
-  position: relative;
-  display: block;
-  width: 20px;
-  height: 20px;  
-}
-.spin-dot:after, .spin-dot:before {
-  content: '';
-  border-radius: 50%;
-  background-color: #2db7f5;
-  -webkit-animation: antSpinBounce 2.2s infinite ease-in-out;
-  animation: antSpinBounce 2.2s infinite ease-in-out;
-  display: block;
-  position: absolute;
-  opacity: .5;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-}
-.spin-dot:after, .spin-dot:before {
-  content: '';
-  border-radius: 50%;
-  background-color: #2db7f5;
-  -webkit-animation: antSpinBounce 2.2s infinite ease-in-out;
-  animation: antSpinBounce 2.2s infinite ease-in-out;
-  display: block;
-  position: absolute;
-  opacity: .5;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-}
-.spin-dot:after {
-  -webkit-animation-delay: -1.1s;
-  animation-delay: -1.1s;
-}
-@keyframes antSpinBounce {
-  0%,
-  100% {
-    transform: scale(0);
-  }
-  50% {
-    transform: scale(1);
-  }
-}
+
+@keyframes spin { 
+  100% { 
+    transform: rotate(360deg); 
+  } 
+} 

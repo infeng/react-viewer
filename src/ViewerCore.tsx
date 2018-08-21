@@ -5,6 +5,7 @@ import ViewerNav from './ViewerNav';
 import ViewerToolbar, { defaultToolbars } from './ViewerToolbar';
 import ViewerProps, { ImageDecorator, ToolbarConfig } from './ViewerProps';
 import Icon, { ActionType } from './Icon';
+import * as constants from './constants';
 
 function noop() {}
 
@@ -73,7 +74,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     };
 
     this.setContainerWidthHeight();
-    this.footerHeight = 84;
+    this.footerHeight = constants.FOOTER_HEIGHT;
   }
 
   setContainerWidthHeight() {
@@ -102,6 +103,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     setTimeout(() => {
       this.setState({
         visible: true,
+        activeIndex,
       });
       setTimeout(() => {
         this.bindEvent();
@@ -133,61 +135,39 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     return [width, height];
   }
 
+  loadImgSuccess = (imgWidth, imgHeight) => {
+    const [width, height] = this.getImgWidthHeight(imgWidth, imgHeight);
+    let left = (this.containerWidth - width) / 2;
+    let top = (this.containerHeight - height - this.footerHeight) / 2;
+    this.setState({
+      width: width,
+      height: height,
+      left: left,
+      top: top,
+      imageWidth: imgWidth,
+      imageHeight: imgHeight,
+      loading: false,
+      rotate: 0,
+      scaleX: 1,
+      scaleY: 1,
+    });
+  }
+
   loadImg(activeIndex, firstLoad: boolean = false) {
     let imgSrc = '';
     let images = this.props.images || [];
     if (images.length > 0) {
       imgSrc = images[activeIndex].src;
     }
+    let loadComplete = false;
     let img = new Image();
-    if (firstLoad) {
-      this.setState({
-        activeIndex: activeIndex,
-        width: 0,
-        height: 0,
-        left: 0,
-        top: 0,
-        rotate: 0,
-        scaleX: 1,
-        scaleY: 1,
-        loading: true,
-      });
-    } else {
-      this.setState({
-        activeIndex: activeIndex,
-        loading: true,
-      });
-    }
+    this.setState({
+      activeIndex: activeIndex,
+      loading: true,
+    });
     img.onload = () => {
-      let imgWidth = img.width;
-      let imgHeight = img.height;
-      if (firstLoad) {
-        setTimeout(() => {
-          this.setState({
-            activeIndex: activeIndex,
-            imageWidth: imgWidth,
-            imageHeight: imgHeight,
-          });
-          let imgCenterXY = this.getImageCenterXY();
-          this.handleZoom(imgCenterXY.x, imgCenterXY.y, 1, 1);
-        }, 50);
-      } else {
-        const [width, height] = this.getImgWidthHeight(imgWidth, imgHeight);
-        let left = (this.containerWidth - width) / 2;
-        let top = (this.containerHeight - height - this.footerHeight) / 2;
-        this.setState({
-          activeIndex: activeIndex,
-          width: width,
-          height: height,
-          left: left,
-          top: top,
-          imageWidth: imgWidth,
-          imageHeight: imgHeight,
-          loading: false,
-          rotate: 0,
-          scaleX: 1,
-          scaleY: 1,
-        });
+      if (!loadComplete) {
+        this.loadImgSuccess(img.width, img.height);
       }
     };
     img.onerror = () => {
@@ -199,6 +179,10 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
       });
     };
     img.src = imgSrc;
+    if (img.complete) {
+      loadComplete = true;
+      this.loadImgSuccess(img.width, img.height);
+    }
   }
 
   handleChangeImg = (newIndex: number) => {
@@ -471,6 +455,11 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
           transitionEnd: false,
           width: 0,
           height: 0,
+          scaleX: 1,
+          scaleY: 1,
+          rotate: 1,
+          imageWidth: 0,
+          imageHeight: 0,
         });
       }, transitionDuration);
       return;

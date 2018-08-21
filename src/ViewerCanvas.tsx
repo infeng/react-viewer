@@ -154,7 +154,7 @@ export default class ViewerCanvas extends React.Component<ViewerCanvasProps, Vie
         <div
           style={{
             display: 'flex',
-            height: '100%',
+            height: `${window.innerHeight - 84}px`,
             justifyContent: 'center',
             alignItems: 'center',
           }}
