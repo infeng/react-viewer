@@ -1,6 +1,6 @@
 {
   "name": "react-viewer",
-  "version": "2.5.3",
+  "version": "2.5.4",
   "description": "react image viewer",
   "main": "dist/index",
   "scripts": {
@@ -105,6 +105,6 @@
       }
     },
     "coverageDirectory": "./coverage/",
-    "collectCoverage": true    
+    "collectCoverage": true
   }
 }
