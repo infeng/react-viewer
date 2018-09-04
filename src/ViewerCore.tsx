@@ -135,8 +135,18 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     return [width, height];
   }
 
-  loadImgSuccess = (imgWidth, imgHeight) => {
-    const [width, height] = this.getImgWidthHeight(imgWidth, imgHeight);
+  loadImgSuccess = (activeImage: ImageDecorator, imgWidth, imgHeight) => {
+    let realImgWidth = imgWidth;
+    let realImgHeight = imgHeight;
+    if (this.props.defaultSize) {
+      realImgWidth = this.props.defaultSize.width;
+      realImgHeight = this.props.defaultSize.height;
+    }
+    if (activeImage.defaultSize) {
+      realImgWidth = activeImage.defaultSize.width;
+      realImgHeight = activeImage.defaultSize.height;
+    }
+    const [width, height] = this.getImgWidthHeight(realImgWidth, realImgHeight);
     let left = (this.containerWidth - width) / 2;
     let top = (this.containerHeight - height - this.footerHeight) / 2;
     this.setState({
@@ -154,10 +164,10 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
   }
 
   loadImg(activeIndex, firstLoad: boolean = false) {
-    let imgSrc = '';
+    let activeImage: ImageDecorator = null;
     let images = this.props.images || [];
     if (images.length > 0) {
-      imgSrc = images[activeIndex].src;
+      activeImage = images[activeIndex];
     }
     let loadComplete = false;
     let img = new Image();
@@ -167,7 +177,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     });
     img.onload = () => {
       if (!loadComplete) {
-        this.loadImgSuccess(img.width, img.height);
+        this.loadImgSuccess(activeImage, img.width, img.height);
       }
     };
     img.onerror = () => {
@@ -178,10 +188,10 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
         loading: false,
       });
     };
-    img.src = imgSrc;
+    img.src = activeImage.src;
     if (img.complete) {
       loadComplete = true;
-      this.loadImgSuccess(img.width, img.height);
+      this.loadImgSuccess(activeImage, img.width, img.height);
     }
   }
 

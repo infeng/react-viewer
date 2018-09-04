@@ -332,7 +332,7 @@ describe('Viewer', () => {
   });
 
   it('change active iamge whith prev and next button', () => {
-    viewerHelper.open();
+    viewerHelper.new();
     viewerHelper.open();
 
     $$('li[data-key=next]')[0].click();
@@ -529,5 +529,38 @@ describe('Viewer', () => {
     viewerHelper.skipAnimation();
     imgNode = $$('img.react-viewer-image')[0];
     expect(getTransformValue(imgNode.style.transform).rotate).toBe('0');
+  });
+
+  it('set default size', () => {
+    viewerHelper.new({
+      downloadable: true,
+      defaultSize: {
+        width: 100,
+        height: 100,
+      },
+      images: [{
+        src: img,
+        alt: 'lake',
+        downloadUrl: '',
+      }, {
+        src: img2,
+        alt: 'mountain',
+        downloadUrl: '',
+        defaultSize: {
+          width: 200,
+          height: 200,
+        },
+      }],
+    });
+    viewerHelper.open();
+
+    let imgNode = $$('img.react-viewer-image')[0];
+    expect(imgNode.style.width).toBe('100px');
+    expect(imgNode.style.width).toBe('100px');
+
+    $$('li[data-key=next]')[0].click();
+    imgNode = $$('img.react-viewer-image')[0];
+    expect(imgNode.style.width).toBe('200px');
+    expect(imgNode.style.width).toBe('200px');
   });
 });

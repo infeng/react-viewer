@@ -1,7 +1,13 @@
+export interface ImageSize {
+  width: number;
+  height: number;
+}
+
 export interface ImageDecorator {
   src: string;
   alt?: string;
   downloadUrl?: string;
+  defaultSize?: ImageSize;
 }
 
 export interface ToolbarConfig {
@@ -62,6 +68,8 @@ interface ViewerProps {
 
   // zoom speed
   zoomSpeed?: number;
+
+  defaultSize?: ImageSize;
 }
 
 export default ViewerProps;
