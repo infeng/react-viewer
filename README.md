@@ -69,6 +69,8 @@ class App extends React.Component<any, any> {
 | changeable   | boolean      |  true   | wheather to show change button  | false |
 | customToolbar | (defaultToolbarConfigs: [ToolbarConfig](#toolbarconfig)[]) => ToolbarConfig[] | - | customer toolbar | false |
 | zoomSpeed    | number       | 0.05    | zoom speed | false |
+| defaultSize    | [ViewerImageSize](#viewerimagesize) | - | default image size | false |
+| defaultImg    | [viewerdefaultimg](#viewerimagesize) | - | if load img failed, show default img | false |
 
 ### ImageDecorator
 
@@ -77,6 +79,22 @@ class App extends React.Component<any, any> {
 | src  | string  |  -  | image source | true |
 | alt  | string  |  -  | image description | false |
 | downloadUrl  | string  |  -  | image downlaod url | false |
+| defaultSize  | [ViewerImageSize](#viewerimagesize)  |  -  | image size | false |
+
+### ViewerImageSize
+
+| props       | type         | default | description                 | required |
+|-------------|--------------|---------|-----------------------------|----------|
+| width  | number  |  -  | image width | true |
+| height  | number  |  -  | image height | true |
+
+### ViewerDefaultImg
+
+| props       | type         | default | description                 | required |
+|-------------|--------------|---------|-----------------------------|----------|
+| src  | number  |  -  | image source | true |
+| width  | number  |  -  | image width | false |
+| height  | number  |  -  | image height | false |
 
 ### ToolbarConfig
 
@@ -96,7 +114,6 @@ class App extends React.Component<any, any> {
 - `Ctrl + 1`: Reset the image.
 - `Ctrl + ←`: Rotate left the image.
 - `Ctrl + →`: Rotate right the image.
-
 
 ## License
 
