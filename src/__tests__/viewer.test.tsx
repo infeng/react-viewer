@@ -78,6 +78,8 @@ class ViewerTester extends React.Component<ViewerTesterProps & ViewerProps, any>
 
 import * as EventEmitter from 'wolfy87-eventemitter';
 
+const FAILED_IMG = 'fail_img';
+
 class MockImage {
   source = '';
   width = 0;
@@ -90,7 +92,11 @@ class MockImage {
   set src(value: string) {
     this.source = value;
     this.width = this.height = 100;
-    this.ee.emitEvent('load');
+    if (this.source === FAILED_IMG) {
+      this.ee.emitEvent('error');
+    } else {
+      this.ee.emitEvent('load');
+    }
   }
 
   set onerror(ev) {
@@ -562,5 +568,31 @@ describe('Viewer', () => {
     imgNode = $$('img.react-viewer-image')[0];
     expect(imgNode.style.width).toBe('200px');
     expect(imgNode.style.width).toBe('200px');
+  });
+
+  it('set defaultImg', () => {
+    const defaultImg = 'deafult_img';
+
+    viewerHelper.new({
+      images: [{
+        src: FAILED_IMG,
+        alt: 'lake',
+      }, {
+        src: img2,
+        alt: 'mountain',
+      }],
+      defaultImg: {
+        src: defaultImg,
+        width: 100,
+        height: 100,
+      },
+    });
+
+    viewerHelper.open();
+
+    const imgNode = $$('img.react-viewer-image')[0];
+    expect(imgNode.src).toBe(`http://localhost/${defaultImg}`);
+    expect(imgNode.style.width).toBe('100px');
+    expect(imgNode.style.width).toBe('100px');
   });
 });

@@ -1,4 +1,4 @@
-export interface ImageSize {
+export interface ViewerImageSize {
   width: number;
   height: number;
 }
@@ -7,7 +7,7 @@ export interface ImageDecorator {
   src: string;
   alt?: string;
   downloadUrl?: string;
-  defaultSize?: ImageSize;
+  defaultSize?: ViewerImageSize;
 }
 
 export interface ToolbarConfig {
@@ -15,6 +15,12 @@ export interface ToolbarConfig {
   actionType?: number;
   render?: React.ReactNode;
   onClick?: (activeImage: ImageDecorator) => void;
+}
+
+export interface ViewerDefaultImg {
+  src: string;
+  width?: number;
+  height?: number;
 }
 
 interface ViewerProps {
@@ -69,7 +75,11 @@ interface ViewerProps {
   // zoom speed
   zoomSpeed?: number;
 
-  defaultSize?: ImageSize;
+  // default image size
+  defaultSize?: ViewerImageSize;
+
+  // if load img failed, show default img
+  defaultImg?: ViewerDefaultImg;
 }
 
 export default ViewerProps;

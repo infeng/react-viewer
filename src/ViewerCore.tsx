@@ -26,6 +26,7 @@ export interface ViewerCoreState {
   scaleX?: number;
   scaleY?: number;
   loading?: boolean;
+  loadFailed?: boolean;
 }
 
 export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreState> {
@@ -71,6 +72,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
       scaleX: 1,
       scaleY: 1,
       loading: false,
+      loadFailed: false,
     };
 
     this.setContainerWidthHeight();
@@ -174,6 +176,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     this.setState({
       activeIndex: activeIndex,
       loading: true,
+      loadFailed: false,
     });
     img.onload = () => {
       if (!loadComplete) {
@@ -181,12 +184,21 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
       }
     };
     img.onerror = () => {
-      this.setState({
-        activeIndex: activeIndex,
-        imageWidth: 0,
-        imageHeight: 0,
-        loading: false,
-      });
+      if (this.props.defaultImg) {
+        this.setState({
+          loadFailed: true,
+        });
+        const deafultImgWidth = this.props.defaultImg.width || this.containerWidth * .5;
+        const defaultImgHeight = this.props.defaultImg.height || this.containerHeight * .5;
+        this.loadImgSuccess(activeImage, deafultImgWidth, defaultImgHeight);
+      } else {
+        this.setState({
+          activeIndex: activeIndex,
+          imageWidth: 0,
+          imageHeight: 0,
+          loading: false,
+        });
+      }
     };
     img.src = activeImage.src;
     if (img.complete) {
@@ -470,6 +482,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
           rotate: 1,
           imageWidth: 0,
           imageHeight: 0,
+          loadFailed: false,
         });
       }, transitionDuration);
       return;
@@ -569,7 +582,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
         )}
         <ViewerCanvas
           prefixCls={this.prefixCls}
-          imgSrc={activeImg.src}
+          imgSrc={this.state.loadFailed ? this.props.defaultImg.src || activeImg.src : activeImg.src}
           visible={this.props.visible}
           width={this.state.width}
           height={this.state.height}
