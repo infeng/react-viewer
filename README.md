@@ -5,7 +5,7 @@
 
 ## Introduction
 
-Because I can`t be comfortable useing [viewerjs](https://github.com/fengyuanchen/viewerjs) in react, so I created react-viewer to replace it.
+Because I can`t be comfortable using [viewerjs](https://github.com/fengyuanchen/viewerjs) in react, so I created react-viewer to replace it.
 
 ## Installation
 
