@@ -113,6 +113,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    ActionType[ActionType["scaleX"] = 9] = "scaleX";
 	    ActionType[ActionType["scaleY"] = 10] = "scaleY";
 	    ActionType[ActionType["download"] = 11] = "download";
+	    ActionType[ActionType["bookmark"] = 12] = "bookmark";
 	})(ActionType || (exports.ActionType = ActionType = {}));
 
 	var Icon = function (_React$Component) {
@@ -607,6 +608,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    break;
 	                case _Icon.ActionType.download:
 	                    _this.handleDownload();
+						break;
+					case _Icon.ActionType.bookmark:
+	                    _this.handleBookmark();
 	                    break;
 	                default:
 	                    break;
@@ -624,7 +628,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	            if (activeImage.downloadUrl) {
 	                location.href = activeImage.downloadUrl;
 	            }
-	        };
+			};
+			_this.handleBookmark = function () {
+	            var activeImage = _this.getActiveImage();
+	            if (activeImage.downloadUrl) {
+	                location.href = activeImage.downloadUrl;
+	            }
+			};
 	        _this.handleScaleX = function (newScale) {
 	            _this.setState({
 	                scaleX: _this.state.scaleX * newScale

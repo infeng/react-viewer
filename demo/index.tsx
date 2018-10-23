@@ -132,13 +132,13 @@ class App extends React.Component<any, Partial<State>> {
           container={inline ? this.container : null}
           downloadable
           customToolbar={(toolbars) => {
-            return toolbars.concat([{
-              key: 'test',
-              render: <div>C</div>,
-              onClick: (activeImage) => {
-                console.log(activeImage);
-              },
-            }]);
+             return toolbars//.concat([{
+            //   key: 'test',
+            //   render: <div></div>,
+            //   onClick: (activeImage) => {
+            //     console.log(activeImage);
+            //   },
+            // }]);
           }}
           />
         </div>

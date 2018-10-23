@@ -257,6 +257,9 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
       case ActionType.download:
         this.handleDownload();
         break;
+      case ActionType.bookmark:
+        this.handleBookmark();
+        break;
       default:
         break;
     }
@@ -278,6 +281,12 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     }
   };
 
+  handleBookmark = () => {
+    const activeImage = this.getActiveImage();
+    if (activeImage.downloadUrl) {
+      location.href = activeImage.downloadUrl;
+    }
+  };
   handleScaleX = (newScale: 1 | -1) => {
     this.setState({
       scaleX: this.state.scaleX * newScale,
