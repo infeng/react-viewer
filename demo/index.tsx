@@ -95,13 +95,13 @@ class App extends React.Component<any, Partial<State>> {
                     type={inline ? null : 'primary'}
                     onClick={this.handleChangeModal}
                   >
-                      Modal mode
+                    Modal mode
                   </Button>
                   <Button
                     type={inline ? 'primary' : null}
                     onClick={this.handleChangeInline}
                   >
-                      Inline mode
+                    Inline mode
                   </Button>
                 </ButtonGroup>
               </div>
@@ -116,30 +116,30 @@ class App extends React.Component<any, Partial<State>> {
                           visible: true,
                           activeIndex: index,
                         });
-                      }}/>
+                      }} />
                     </div>
                   );
                 })}
               </div>
-              <div className={inlineContainerClass} ref={ref => {this.container = ref;}}></div>
+              <div className={inlineContainerClass} ref={ref => { this.container = ref; }}></div>
             </Col>
           </Row>
           <Viewer
-          visible={this.state.visible}
-          onClose={() => { this.setState({ visible: false }); } }
-          images={images}
-          activeIndex={this.state.activeIndex}
-          container={inline ? this.container : null}
-          downloadable
-          customToolbar={(toolbars) => {
-             return toolbars//.concat([{
-            //   key: 'test',
-            //   render: <div></div>,
-            //   onClick: (activeImage) => {
-            //     console.log(activeImage);
-            //   },
-            // }]);
-          }}
+            visible={this.state.visible}
+            onClose={() => { this.setState({ visible: false }); }}
+            images={images}
+            activeIndex={this.state.activeIndex}
+            container={inline ? this.container : null}
+            downloadable
+            customToolbar={(toolbars) => {
+              return toolbars//.concat([{
+              //   key: 'test',
+              //   render: <div></div>,
+              //   onClick: (activeImage) => {
+              //     console.log(activeImage);
+              //   },
+              // }]);
+            }}
           />
         </div>
         <div className="footer">

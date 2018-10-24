@@ -608,8 +608,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    break;
 	                case _Icon.ActionType.download:
 	                    _this.handleDownload();
-						break;
-					case _Icon.ActionType.bookmark:
+	                    break;
+	                case _Icon.ActionType.bookmark:
 	                    _this.handleBookmark();
 	                    break;
 	                default:
@@ -628,13 +628,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	            if (activeImage.downloadUrl) {
 	                location.href = activeImage.downloadUrl;
 	            }
-			};
-			_this.handleBookmark = function () {
-	            var activeImage = _this.getActiveImage();
-	            if (activeImage.downloadUrl) {
-	                location.href = activeImage.downloadUrl;
-	            }
-			};
+	        };
+	        _this.handleBookmark = function () {
+	            console.log("aqui!");
+	        };
 	        _this.handleScaleX = function (newScale) {
 	            _this.setState({
 	                scaleX: _this.state.scaleX * newScale
@@ -1203,6 +1200,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	}, {
 	    key: 'download',
 	    actionType: _Icon.ActionType.download
+	}, {
+	    key: 'bookmark',
+	    actionType: _Icon.ActionType.bookmark
 	}];
 	function deleteToolbarFromKey(toolbars, keys) {
 	    var targetToolbar = toolbars.filter(function (item) {
