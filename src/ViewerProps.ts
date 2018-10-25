@@ -16,6 +16,7 @@ interface ViewerProps {
   visible?: boolean;
   /** 点击关闭按钮的回调 */
   onClose?: () => void;
+  handleBookmark?: () => void;
   /** 需要进行浏览的图片地址集合 */
   images?: ImageDecorator[];
   /** 当前图像index */

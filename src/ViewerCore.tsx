@@ -282,10 +282,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
   };
 
   handleBookmark = () => {
-    const activeImage = this.getActiveImage();
-    if (activeImage.downloadUrl) {
-      location.href = activeImage.downloadUrl;
-    }
+    this.props.handleBookmark();
   };
   handleScaleX = (newScale: 1 | -1) => {
     this.setState({
