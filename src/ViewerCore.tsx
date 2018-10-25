@@ -6,7 +6,7 @@ import ViewerToolbar, { defaultToolbars } from './ViewerToolbar';
 import ViewerProps, { ImageDecorator, ToolbarConfig } from './ViewerProps';
 import Icon, { ActionType } from './Icon';
 
-function noop() {}
+function noop() { }
 
 const transitionDuration = 300;
 
@@ -384,50 +384,51 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
   handleKeydown = (e) => {
     let keyCode = e.keyCode || e.which || e.charCode;
     let isFeatrue = false;
-    switch (keyCode) {
-      // key: esc
-      case 27:
-        this.props.onClose();
-        isFeatrue = true;
-        break;
-      // key: ←
-      case 37:
-        if (e.ctrlKey) {
-          this.handleDefaultAction(ActionType.rotateLeft);
-        } else {
-          this.handleDefaultAction(ActionType.prev);
-        }
-        isFeatrue = true;
-        break;
-      // key: →
-      case 39:
-        if (e.ctrlKey) {
-          this.handleDefaultAction(ActionType.rotateRight);
-        } else {
-          this.handleDefaultAction(ActionType.next);
-        }
-        isFeatrue = true;
-        break;
-      // key: ↑
-      case 38:
-        this.handleDefaultAction(ActionType.zoomIn);
-        isFeatrue = true;
-        break;
-      // key: ↓
-      case 40:
-        this.handleDefaultAction(ActionType.zoomOut);
-        isFeatrue = true;
-        break;
-      // key: Ctrl + 1
-      case 49:
-        if (e.ctrlKey) {
-          this.loadImg(this.state.activeIndex);
+    if (e.ctrlKey)
+      switch (keyCode) {
+        // key: esc
+        case 27:
+          this.props.onClose();
           isFeatrue = true;
-        }
-        break;
-      default:
-        break;
-    }
+          break;
+        // key: ←
+        case 37:
+          if (e.shiftKey) {
+            this.handleDefaultAction(ActionType.rotateLeft);
+          } else {
+            this.handleDefaultAction(ActionType.prev);
+          }
+          isFeatrue = true;
+          break;
+        // key: →
+        case 39:
+          if (e.shiftKey) {
+            this.handleDefaultAction(ActionType.rotateRight);
+          } else {
+            this.handleDefaultAction(ActionType.next);
+          }
+          isFeatrue = true;
+          break;
+        // key: ↑
+        case 38:
+          this.handleDefaultAction(ActionType.zoomIn);
+          isFeatrue = true;
+          break;
+        // key: ↓
+        case 40:
+          this.handleDefaultAction(ActionType.zoomOut);
+          isFeatrue = true;
+          break;
+        // key: Ctrl + 1
+        case 49:
+          if (e.ctrlKey) {
+            this.loadImg(this.state.activeIndex);
+            isFeatrue = true;
+          }
+          break;
+        default:
+          break;
+      }
     if (isFeatrue) {
       e.preventDefault();
     }
