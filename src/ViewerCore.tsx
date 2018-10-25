@@ -384,7 +384,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
   handleKeydown = (e) => {
     let keyCode = e.keyCode || e.which || e.charCode;
     let isFeatrue = false;
-    if (e.ctrlKey)
+    if (e.ctrlKey) {
       switch (keyCode) {
         // key: esc
         case 27:
@@ -429,6 +429,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
         default:
           break;
       }
+    }
     if (isFeatrue) {
       e.preventDefault();
     }
