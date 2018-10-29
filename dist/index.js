@@ -630,10 +630,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            }
 	        };
 	        _this.handleBookmark = function () {
-	            var activeImage = _this.getActiveImage();
-	            if (activeImage.downloadUrl) {
-	                location.href = activeImage.downloadUrl;
-	            }
+	            _this.props.handleBookmark();
 	        };
 	        _this.handleScaleX = function (newScale) {
 	            _this.setState({
