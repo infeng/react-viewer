@@ -609,9 +609,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	                case _Icon.ActionType.download:
 	                    _this.handleDownload();
 	                    break;
-	                case _Icon.ActionType.bookmark:
-	                    _this.handleBookmark();
-	                    break;
 	                default:
 	                    break;
 	            }
@@ -628,9 +625,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	            if (activeImage.downloadUrl) {
 	                location.href = activeImage.downloadUrl;
 	            }
-	        };
-	        _this.handleBookmark = function () {
-	            _this.props.handleBookmark();
 	        };
 	        _this.handleScaleX = function (newScale) {
 	            _this.setState({
@@ -1202,9 +1196,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	}, {
 	    key: 'download',
 	    actionType: _Icon.ActionType.download
-	}, {
-	    key: 'bookmark',
-	    actionType: _Icon.ActionType.bookmark
 	}];
 	function deleteToolbarFromKey(toolbars, keys) {
 	    var targetToolbar = toolbars.filter(function (item) {

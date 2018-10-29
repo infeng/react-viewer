@@ -257,9 +257,6 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
       case ActionType.download:
         this.handleDownload();
         break;
-      case ActionType.bookmark:
-        this.handleMarcador();
-        break;
       default:
         break;
     }
@@ -281,9 +278,6 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     }
   };
 
-  handleMarcador = () => {
-    this.props.handleMarcador();
-  };
   handleScaleX = (newScale: 1 | -1) => {
     this.setState({
       scaleX: this.state.scaleX * newScale,

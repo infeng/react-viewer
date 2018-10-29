@@ -59,10 +59,6 @@ export const defaultToolbars: ToolbarConfig[] = [
    key: 'download',
    actionType: ActionType.download,
  },
- {
-  key: 'bookmark',
-  actionType: ActionType.bookmark,
- },
 ];
 
 function deleteToolbarFromKey(toolbars: ToolbarConfig[], keys: string[]) {

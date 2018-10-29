@@ -127,20 +127,20 @@ class App extends React.Component<any, Partial<State>> {
           <Viewer
             visible={this.state.visible}
             onClose={() => { this.setState({ visible: false }); }}
-            handleMarcador={() => { console.log('teste') }}
             images={images}
             activeIndex={this.state.activeIndex}
             container={inline ? this.container : null}
             downloadable
             
             customToolbar={(toolbars) => {
-              return toolbars//.concat([{
-              //   key: 'test',
-              //   render: <div></div>,
-              //   onClick: (activeImage) => {
-              //     console.log(activeImage);
-              //   },
-              // }]);
+              return toolbars.concat([{
+                key: 'bookmark',
+                actionType: 12,
+                //render: <div></div>,
+                onClick: (activeImage) => {
+                  console.log(activeImage);
+                },
+              }]);
             }}
           />
         </div>
