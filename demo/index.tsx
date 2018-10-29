@@ -127,10 +127,12 @@ class App extends React.Component<any, Partial<State>> {
           <Viewer
             visible={this.state.visible}
             onClose={() => { this.setState({ visible: false }); }}
+            handleMarcador={() => { console.log('teste') }}
             images={images}
             activeIndex={this.state.activeIndex}
             container={inline ? this.container : null}
             downloadable
+            
             customToolbar={(toolbars) => {
               return toolbars//.concat([{
               //   key: 'test',
