@@ -21,7 +21,7 @@ export default class ViewerNav extends React.Component<ViewerNavProps, any> {
   }
 
   render() {
-    var marginLeft = `calc(50% - ${this.props.activeIndex + 1} * 31px)`;
+    let marginLeft = `calc(50% - ${this.props.activeIndex + 1} * 31px)`;
     let listStyle = {
       marginLeft: marginLeft
     };
