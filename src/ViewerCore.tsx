@@ -46,6 +46,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     customToolbar: (toolbars) => toolbars,
     zoomSpeed: .05,
     disableKeyboardSupport: false,
+    noResetZoomAfterChange: false,
   };
 
   private prefixCls: string;
@@ -152,6 +153,12 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     const [width, height] = this.getImgWidthHeight(realImgWidth, realImgHeight);
     let left = (this.containerWidth - width) / 2;
     let top = (this.containerHeight - height - this.footerHeight) / 2;
+    let scaleX = 1;
+    let scaleY = 1;
+    if (this.props.noResetZoomAfterChange) {
+      scaleX = this.state.scaleX;
+      scaleY = this.state.scaleY;
+    }
     this.setState({
       width: width,
       height: height,
@@ -161,8 +168,8 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
       imageHeight: imgHeight,
       loading: false,
       rotate: 0,
-      scaleX: 1,
-      scaleY: 1,
+      scaleX: scaleX,
+      scaleY: scaleY,
     });
   }
 

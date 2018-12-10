@@ -83,6 +83,9 @@ interface ViewerProps {
 
   // disable keyboard support
   disableKeyboardSupport?: boolean;
+
+  // no reset zoom after image change
+  noResetZoomAfterChange?: boolean;
 }
 
 export default ViewerProps;
