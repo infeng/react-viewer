@@ -80,6 +80,9 @@ interface ViewerProps {
 
   // if load img failed, show default img
   defaultImg?: ViewerDefaultImg;
+
+  // disable keyboard support
+  disableKeyboardSupport?: boolean;
 }
 
 export default ViewerProps;

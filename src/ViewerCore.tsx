@@ -30,7 +30,7 @@ export interface ViewerCoreState {
 }
 
 export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreState> {
-  static defaultProps = {
+  static defaultProps: Partial<ViewerProps> = {
     visible: false,
     onClose: noop,
     images: [],
@@ -45,6 +45,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     changeable: true,
     customToolbar: (toolbars) => toolbars,
     zoomSpeed: .05,
+    disableKeyboardSupport: false,
   };
 
   private prefixCls: string;
@@ -444,7 +445,9 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     if (remove) {
       funcName = 'removeEventListener';
     }
-    document[funcName]('keydown', this.handleKeydown, false);
+    if (!this.props.disableKeyboardSupport) {
+      document[funcName]('keydown', this.handleKeydown, false);
+    }
   }
 
   componentWillUnmount() {
