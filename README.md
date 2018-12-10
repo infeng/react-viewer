@@ -71,6 +71,8 @@ class App extends React.Component<any, any> {
 | zoomSpeed    | number       | 0.05    | zoom speed | false |
 | defaultSize    | [ViewerImageSize](#viewerimagesize) | - | default image size | false |
 | defaultImg    | [viewerdefaultimg](#viewerimagesize) | - | if load img failed, show default img | false |
+| disableKeyboardSupport | boolean | false | disable keyboard support | false |
+| noResetZoomAfterChange | boolean | false | preserve zoom after image change | false |
 
 ### ImageDecorator
 
