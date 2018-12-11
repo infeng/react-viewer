@@ -86,6 +86,9 @@ interface ViewerProps {
 
   // no reset zoom after image change
   noResetZoomAfterChange?: boolean;
+
+  // no limit image initialization size
+  noLimitInitializationSize?: boolean;
 }
 
 export default ViewerProps;

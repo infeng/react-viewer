@@ -47,6 +47,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     zoomSpeed: .05,
     disableKeyboardSupport: false,
     noResetZoomAfterChange: false,
+    noLimitInitializationSize: false,
   };
 
   private prefixCls: string;
@@ -150,7 +151,16 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
       realImgWidth = activeImage.defaultSize.width;
       realImgHeight = activeImage.defaultSize.height;
     }
-    const [width, height] = this.getImgWidthHeight(realImgWidth, realImgHeight);
+    let width = null;
+    let height = null;
+    if (this.props.noLimitInitializationSize) {
+      width = realImgWidth;
+      height = realImgHeight;
+    } else {
+      const imgSize = this.getImgWidthHeight(realImgWidth, realImgHeight);
+      width = imgSize[0];
+      height = imgSize[1];
+    }
     let left = (this.containerWidth - width) / 2;
     let top = (this.containerHeight - height - this.footerHeight) / 2;
     let scaleX = 1;
