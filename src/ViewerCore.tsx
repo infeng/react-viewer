@@ -48,6 +48,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     disableKeyboardSupport: false,
     noResetZoomAfterChange: false,
     noLimitInitializationSize: false,
+    defaultScale: 1,
   };
 
   private prefixCls: string;
@@ -72,8 +73,8 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
       rotate: 0,
       imageWidth: 0,
       imageHeight: 0,
-      scaleX: 1,
-      scaleY: 1,
+      scaleX: this.props.defaultScale,
+      scaleY: this.props.defaultScale,
       loading: false,
       loadFailed: false,
     };
@@ -161,10 +162,12 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
       width = imgSize[0];
       height = imgSize[1];
     }
+    width *= this.props.defaultScale;
+    height *= this.props.defaultScale;
     let left = (this.containerWidth - width) / 2;
     let top = (this.containerHeight - height - this.footerHeight) / 2;
-    let scaleX = 1;
-    let scaleY = 1;
+    let scaleX = this.props.defaultScale;
+    let scaleY = this.props.defaultScale;
     if (this.props.noResetZoomAfterChange) {
       scaleX = this.state.scaleX;
       scaleY = this.state.scaleY;
@@ -497,8 +500,8 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
           transitionEnd: false,
           width: 0,
           height: 0,
-          scaleX: 1,
-          scaleY: 1,
+          scaleX: this.props.defaultScale,
+          scaleY: this.props.defaultScale,
           rotate: 1,
           imageWidth: 0,
           imageHeight: 0,

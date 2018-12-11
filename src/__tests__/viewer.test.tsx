@@ -595,4 +595,31 @@ describe('Viewer', () => {
     expect(imgNode.style.width).toBe('100px');
     expect(imgNode.style.width).toBe('100px');
   });
+
+  it('set defaultScale', () => {
+    const defaultImg = 'deafult_img';
+
+    viewerHelper.new({
+      images: [{
+        src: FAILED_IMG,
+        alt: 'lake',
+      }, {
+        src: img2,
+        alt: 'mountain',
+      }],
+      defaultImg: {
+        src: defaultImg,
+        width: 100,
+        height: 100,
+      },
+      defaultScale: .5,
+    });
+
+    viewerHelper.open();
+
+    const imgNode = $$('img.react-viewer-image')[0];
+    expect(imgNode.src).toBe(`http://localhost/${defaultImg}`);
+    expect(imgNode.style.width).toBe('50px');
+    expect(imgNode.style.width).toBe('50px');
+  });
 });

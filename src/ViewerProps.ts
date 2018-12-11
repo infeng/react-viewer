@@ -89,6 +89,9 @@ interface ViewerProps {
 
   // no limit image initialization size
   noLimitInitializationSize?: boolean;
+
+  // default scale
+  defaultScale?: number;
 }
 
 export default ViewerProps;
