@@ -622,4 +622,28 @@ describe('Viewer', () => {
     expect(imgNode.style.width).toBe('50px');
     expect(imgNode.style.width).toBe('50px');
   });
+
+  it('set noLimitInitializationSize', () => {
+    viewerHelper.new({
+      defaultSize: {
+        width: 2000,
+        height: 2000,
+      },
+      images: [{
+        src: img,
+        alt: 'lake',
+        downloadUrl: '',
+      }, {
+        src: img2,
+        alt: 'mountain',
+        downloadUrl: '',
+      }],
+      noLimitInitializationSize: true,
+    });
+    viewerHelper.open();
+
+    let imgNode = $$('img.react-viewer-image')[0];
+    expect(imgNode.style.width).toBe('2000px');
+    expect(imgNode.style.width).toBe('2000px');
+  });
 });
