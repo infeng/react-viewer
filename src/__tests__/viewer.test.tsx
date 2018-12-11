@@ -646,4 +646,21 @@ describe('Viewer', () => {
     expect(imgNode.style.width).toBe('2000px');
     expect(imgNode.style.width).toBe('2000px');
   });
+
+  it('set noResetZoomAfterChange', () => {
+    viewerHelper.new({
+      noResetZoomAfterChange: true,
+    });
+    viewerHelper.open();
+
+    let imgNode = $$('img.react-viewer-image')[0];
+
+    $$('li[data-key=zoomIn]')[0].click();
+
+    expect(getTransformValue(imgNode.style.transform).scaleX).toBe('1.05');
+
+    $$('li[data-key=next]')[0].click();
+    imgNode = $$('img.react-viewer-image')[0];
+    expect(getTransformValue(imgNode.style.transform).scaleX).toBe('1.05');
+  });
 });
