@@ -73,6 +73,9 @@ class App extends React.Component<any, any> {
 | defaultImg    | [viewerdefaultimg](#viewerimagesize) | - | if load img failed, show default img | false |
 | disableKeyboardSupport | boolean | false | disable keyboard support | false |
 | noResetZoomAfterChange | boolean | false | preserve zoom after image change | false |
+| noLimitInitializationSize | boolean | false | no limit image initialization size | false |
+| defaultScale | number | 1 | set default scale | false |
+| onChange | (activeImage: [ImageDecorator](#imagedecorator), index: number) => void | - | callback when iamge change | false |
 
 ### ImageDecorator
 
