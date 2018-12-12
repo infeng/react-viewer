@@ -157,8 +157,6 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
       realImgHeight = activeImage.defaultSize.height;
     }
     let [ width, height ] = this.getImgWidthHeight(realImgWidth, realImgHeight);
-    width *= this.props.defaultScale;
-    height *= this.props.defaultScale;
     let left = (this.containerWidth - width) / 2;
     let top = (this.containerHeight - height - this.footerHeight) / 2;
     let scaleX = this.props.defaultScale;

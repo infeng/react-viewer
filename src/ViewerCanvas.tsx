@@ -127,7 +127,7 @@ export default class ViewerCanvas extends React.Component<ViewerCanvasProps, Vie
     let imgStyle: React.CSSProperties = {
       width: `${this.props.width}px`,
       height: `${this.props.height}px`,
-      transform: `translateX(${this.props.left ? this.props.left + 'px' : 'aoto'}) translateY(${this.props.top}px)
+      transform: `translateX(${this.props.left !== null ? this.props.left + 'px' : 'aoto'}) translateY(${this.props.top}px)
       rotate(${this.props.rotate}deg) scaleX(${this.props.scaleX}) scaleY(${this.props.scaleY})`,
     };
 
