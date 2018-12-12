@@ -474,9 +474,10 @@ describe('Viewer', () => {
 
     const oldTransformValue = getTransformValue(imgNode.style.transform);
 
-    $$('li[data-key=scaleX]')[0].click();
+    $$('li[data-key=zoomIn]')[0].click();
     $$('li[data-key=reset]')[0].click();
 
+    imgNode = $$('img.react-viewer-image')[0];
     const newTransformValue = getTransformValue(imgNode.style.transform);
 
     expect(oldTransformValue.scaleX - newTransformValue.scaleX).toBe(0);

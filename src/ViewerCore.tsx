@@ -113,7 +113,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
       });
       setTimeout(() => {
         this.bindEvent();
-        this.loadImg(activeIndex, true);
+        this.loadImg(activeIndex);
       }, 300);
     }, 10);
   }
@@ -145,7 +145,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     return [width, height];
   }
 
-  loadImgSuccess = (activeImage: ImageDecorator, imgWidth, imgHeight) => {
+  loadImgSuccess = (activeImage: ImageDecorator, imgWidth, imgHeight, isNewImage: boolean) => {
     let realImgWidth = imgWidth;
     let realImgHeight = imgHeight;
     if (this.props.defaultSize) {
@@ -161,7 +161,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     let top = (this.containerHeight - height - this.footerHeight) / 2;
     let scaleX = this.props.defaultScale;
     let scaleY = this.props.defaultScale;
-    if (this.props.noResetZoomAfterChange) {
+    if (this.props.noResetZoomAfterChange && isNewImage) {
       scaleX = this.state.scaleX;
       scaleY = this.state.scaleY;
     }
@@ -179,7 +179,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     });
   }
 
-  loadImg(activeIndex, firstLoad: boolean = false) {
+  loadImg(activeIndex, isNewImage: boolean = false) {
     let activeImage: ImageDecorator = null;
     let images = this.props.images || [];
     if (images.length > 0) {
@@ -191,34 +191,35 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
       activeIndex: activeIndex,
       loading: true,
       loadFailed: false,
+    }, () => {
+      img.onload = () => {
+        if (!loadComplete) {
+          this.loadImgSuccess(activeImage, img.width, img.height, isNewImage);
+        }
+      };
+      img.onerror = () => {
+        if (this.props.defaultImg) {
+          this.setState({
+            loadFailed: true,
+          });
+          const deafultImgWidth = this.props.defaultImg.width || this.containerWidth * .5;
+          const defaultImgHeight = this.props.defaultImg.height || this.containerHeight * .5;
+          this.loadImgSuccess(activeImage, deafultImgWidth, defaultImgHeight, isNewImage);
+        } else {
+          this.setState({
+            activeIndex: activeIndex,
+            imageWidth: 0,
+            imageHeight: 0,
+            loading: false,
+          });
+        }
+      };
+      img.src = activeImage.src;
+      if (img.complete) {
+        loadComplete = true;
+        this.loadImgSuccess(activeImage, img.width, img.height, isNewImage);
+      }
     });
-    img.onload = () => {
-      if (!loadComplete) {
-        this.loadImgSuccess(activeImage, img.width, img.height);
-      }
-    };
-    img.onerror = () => {
-      if (this.props.defaultImg) {
-        this.setState({
-          loadFailed: true,
-        });
-        const deafultImgWidth = this.props.defaultImg.width || this.containerWidth * .5;
-        const defaultImgHeight = this.props.defaultImg.height || this.containerHeight * .5;
-        this.loadImgSuccess(activeImage, deafultImgWidth, defaultImgHeight);
-      } else {
-        this.setState({
-          activeIndex: activeIndex,
-          imageWidth: 0,
-          imageHeight: 0,
-          loading: false,
-        });
-      }
-    };
-    img.src = activeImage.src;
-    if (img.complete) {
-      loadComplete = true;
-      this.loadImgSuccess(activeImage, img.width, img.height);
-    }
   }
 
   handleChangeImg = (newIndex: number) => {
@@ -231,7 +232,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     if (newIndex === this.state.activeIndex) {
       return;
     }
-    this.loadImg(newIndex);
+    this.loadImg(newIndex, true);
   }
 
   handleChangeImgState = (width, height, top, left) => {
