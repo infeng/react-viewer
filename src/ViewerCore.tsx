@@ -138,6 +138,10 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
       height = maxHeight;
       width = height / imgHeight * imgWidth;
     }
+    if (this.props.noLimitInitializationSize) {
+      width = imgWidth;
+      height = imgHeight;
+    }
     return [width, height];
   }
 
@@ -152,16 +156,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
       realImgWidth = activeImage.defaultSize.width;
       realImgHeight = activeImage.defaultSize.height;
     }
-    let width = null;
-    let height = null;
-    if (this.props.noLimitInitializationSize) {
-      width = realImgWidth;
-      height = realImgHeight;
-    } else {
-      const imgSize = this.getImgWidthHeight(realImgWidth, realImgHeight);
-      width = imgSize[0];
-      height = imgSize[1];
-    }
+    let [ width, height ] = this.getImgWidthHeight(realImgWidth, realImgHeight);
     width *= this.props.defaultScale;
     height *= this.props.defaultScale;
     let left = (this.containerWidth - width) / 2;
@@ -384,17 +379,11 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
   handleResize = () => {
     this.setContainerWidthHeight();
     if (this.props.visible) {
-      const [width, height] = this.getImgWidthHeight(this.state.imageWidth, this.state.imageHeight);
-      let left = (this.containerWidth - width) / 2;
-      let top = (this.containerHeight - height - this.footerHeight) / 2;
+      let left = (this.containerWidth - this.state.width) / 2;
+      let top = (this.containerHeight - this.state.height - this.footerHeight) / 2;
       this.setState({
-        width: width,
-        height: height,
         left: left,
         top: top,
-        rotate: 0,
-        scaleX: 1,
-        scaleY: 1,
       });
     }
   }
