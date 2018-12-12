@@ -660,4 +660,20 @@ describe('Viewer', () => {
     imgNode = $$('img.react-viewer-image')[0];
     expect(getTransformValue(imgNode.style.transform).scaleX).toBe('1.05');
   });
+
+  it('handle image change', () => {
+    const handleImageChange = jest.fn();
+    viewerHelper.new({
+      onChange: handleImageChange,
+    });
+    viewerHelper.open();
+
+    $$('li[data-key=next]')[0].click();
+
+    expect(handleImageChange).toBeCalledWith(expect.objectContaining({
+      alt: 'mountain',
+      downloadUrl: '',
+      src: expect.any(String),
+    }), 1);
+  });
 });

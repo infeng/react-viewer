@@ -92,6 +92,9 @@ interface ViewerProps {
 
   // default scale
   defaultScale?: number;
+
+  // callback when iamge change
+  onChange?: (activeImage: ImageDecorator, index: number) => void;
 }
 
 export default ViewerProps;

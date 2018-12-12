@@ -232,6 +232,10 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     if (newIndex === this.state.activeIndex) {
       return;
     }
+    if (this.props.onChange) {
+      const activeImage = this.getActiveImage(newIndex);
+      this.props.onChange(activeImage, newIndex);
+    }
     this.loadImg(newIndex, true);
   }
 
@@ -508,7 +512,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     this.props.onMaskClick(e);
   };
 
-  getActiveImage = () => {
+  getActiveImage = (activeIndex = undefined) => {
     let activeImg: ImageDecorator = {
       src: '',
       alt: '',
@@ -516,8 +520,14 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     };
 
     let images = this.props.images || [];
-    if (images.length > 0 && this.state.activeIndex >= 0) {
-      activeImg = images[this.state.activeIndex];
+    let realActiveIndex = null;
+    if (activeIndex !== undefined) {
+      realActiveIndex = activeIndex;
+    } else {
+      realActiveIndex = this.state.activeIndex;
+    }
+    if (images.length > 0 && realActiveIndex >= 0) {
+      activeImg = images[realActiveIndex];
     }
 
     return activeImg;
