@@ -723,51 +723,61 @@ return /******/ (function(modules) { // webpackBootstrap
 	        _this.handleKeydown = function (e) {
 	            var keyCode = e.keyCode || e.which || e.charCode;
 	            var isFeatrue = false;
-	            if (e.ctrlKey) {
-	                switch (keyCode) {
-	                    // key: esc
-	                    case 27:
-	                        _this.props.onClose();
-	                        isFeatrue = true;
-	                        break;
-	                    // key: ←
-	                    case 37:
-	                        if (e.shiftKey) {
-	                            _this.handleDefaultAction(_Icon.ActionType.rotateLeft);
-	                        } else {
-	                            _this.handleDefaultAction(_Icon.ActionType.prev);
-	                        }
-	                        isFeatrue = true;
-	                        break;
-	                    // key: →
-	                    case 39:
-	                        if (e.shiftKey) {
-	                            _this.handleDefaultAction(_Icon.ActionType.rotateRight);
-	                        } else {
-	                            _this.handleDefaultAction(_Icon.ActionType.next);
-	                        }
-	                        isFeatrue = true;
-	                        break;
-	                    // key: ↑
-	                    case 38:
+	            switch (keyCode) {
+	                // key: esc
+	                case 27:
+	                    _this.props.onClose();
+	                    isFeatrue = true;
+	                    break;
+	                // key: ←
+	                case 37:
+	                    if (e.shiftKey) {
+	                        _this.handleDefaultAction(_Icon.ActionType.rotateLeft);
+	                    }
+	                    if (e.ctrlKey) {
+	                        _this.handleDefaultAction(_Icon.ActionType.prev);
+	                    }
+	                    isFeatrue = true;
+	                    break;
+	                // key: →
+	                case 39:
+	                    if (e.shiftKey) {
+	                        _this.handleDefaultAction(_Icon.ActionType.rotateRight);
+	                    }
+	                    if (e.ctrlKey) {
+	                        _this.handleDefaultAction(_Icon.ActionType.next);
+	                    }
+	                    isFeatrue = true;
+	                    break;
+	                // key: ↑
+	                case 38:
+	                    if (e.ctrlKey) {
 	                        _this.handleDefaultAction(_Icon.ActionType.zoomIn);
 	                        isFeatrue = true;
-	                        break;
-	                    // key: ↓
-	                    case 40:
+	                    }
+	                    if (e.shiftKey) {
+	                        _this.handleDefaultAction(_Icon.ActionType.scaleX);
+	                    }
+	                    break;
+	                // key: ↓
+	                case 40:
+	                    if (e.ctrlKey) {
 	                        _this.handleDefaultAction(_Icon.ActionType.zoomOut);
 	                        isFeatrue = true;
-	                        break;
-	                    // key: Ctrl + 1
-	                    case 49:
-	                        if (e.ctrlKey) {
-	                            _this.loadImg(_this.state.activeIndex);
-	                            isFeatrue = true;
-	                        }
-	                        break;
-	                    default:
-	                        break;
-	                }
+	                    }
+	                    if (e.shiftKey) {
+	                        _this.handleDefaultAction(_Icon.ActionType.scaleY);
+	                    }
+	                    break;
+	                // key: Ctrl + z
+	                case 90:
+	                    if (e.ctrlKey) {
+	                        _this.loadImg(_this.state.activeIndex);
+	                        isFeatrue = true;
+	                    }
+	                    break;
+	                default:
+	                    break;
 	            }
 	            if (isFeatrue) {
 	                e.preventDefault();
