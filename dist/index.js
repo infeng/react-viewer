@@ -819,8 +819,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	            rotate: 0,
 	            imageWidth: 0,
 	            imageHeight: 0,
-	            scaleX: 1,
-	            scaleY: 1,
+	            scaleX: _this.props.scaleX ? _this.props.scaleX : 1,
+	            scaleY: _this.props.scaleY ? _this.props.scaleY : 1,
 	            loading: false
 	        };
 	        _this.setContainerWidthHeight();
@@ -899,8 +899,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	                left: 0,
 	                top: 0,
 	                rotate: 0,
-	                scaleX: 1,
-	                scaleY: 1,
+	                scaleX: this.props.scaleX ? this.props.scaleX : 1,
+	                scaleY: this.props.scaleY ? this.props.scaleY : 1,
 	                loading: true
 	            });
 	        } else {
@@ -912,38 +912,39 @@ return /******/ (function(modules) { // webpackBootstrap
 	        img.onload = function () {
 	            var imgWidth = img.width;
 	            var imgHeight = img.height;
-	            if (firstLoad) {
-	                setTimeout(function () {
-	                    _this3.setState({
-	                        activeIndex: activeIndex,
-	                        imageWidth: imgWidth,
-	                        imageHeight: imgHeight
-	                    });
-	                    var imgCenterXY = _this3.getImageCenterXY();
-	                    _this3.handleZoom(imgCenterXY.x, imgCenterXY.y, 1, 1);
-	                }, 50);
-	            } else {
-	                var _getImgWidthHeight = _this3.getImgWidthHeight(imgWidth, imgHeight),
-	                    _getImgWidthHeight2 = _slicedToArray(_getImgWidthHeight, 2),
-	                    width = _getImgWidthHeight2[0],
-	                    height = _getImgWidthHeight2[1];
+	            // if (firstLoad) {
+	            //   setTimeout(() => {
+	            //     this.setState({
+	            //       activeIndex: activeIndex,
+	            //       imageWidth: imgWidth,
+	            //       imageHeight: imgHeight,
+	            //     });
+	            //     let imgCenterXY = this.getImageCenterXY();
+	            //     this.handleZoom(this.props.scaleX, this.props.scaleY, 1, 1);
+	            //   }, 50);
+	            // } else {
 
-	                var left = (_this3.containerWidth - width) / 2;
-	                var top = (_this3.containerHeight - height - _this3.footerHeight) / 2;
-	                _this3.setState({
-	                    activeIndex: activeIndex,
-	                    width: width,
-	                    height: height,
-	                    left: left,
-	                    top: top,
-	                    imageWidth: imgWidth,
-	                    imageHeight: imgHeight,
-	                    loading: false,
-	                    rotate: 0,
-	                    scaleX: 1,
-	                    scaleY: 1
-	                });
-	            }
+	            var _getImgWidthHeight = _this3.getImgWidthHeight(imgWidth, imgHeight),
+	                _getImgWidthHeight2 = _slicedToArray(_getImgWidthHeight, 2),
+	                width = _getImgWidthHeight2[0],
+	                height = _getImgWidthHeight2[1];
+
+	            var left = (_this3.containerWidth - width) / 2;
+	            var top = (_this3.containerHeight - height - _this3.footerHeight) / 2;
+	            _this3.setState({
+	                activeIndex: activeIndex,
+	                width: width,
+	                height: height,
+	                left: left,
+	                top: top,
+	                imageWidth: imgWidth,
+	                imageHeight: imgHeight,
+	                loading: false,
+	                rotate: 0,
+	                scaleX: _this3.props.scaleX ? _this3.props.scaleX : 1,
+	                scaleY: _this3.props.scaleY ? _this3.props.scaleY : 1
+	            });
+	            // }
 	        };
 	        img.onerror = function () {
 	            _this3.setState({

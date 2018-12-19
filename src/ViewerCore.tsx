@@ -67,8 +67,8 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
       rotate: 0,
       imageWidth: 0,
       imageHeight: 0,
-      scaleX: 1,
-      scaleY: 1,
+      scaleX: this.props.scaleX ? this.props.scaleX : 1,
+      scaleY: this.props.scaleY ? this.props.scaleY : 1,
       loading: false,
     };
 
@@ -149,8 +149,8 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
         left: 0,
         top: 0,
         rotate: 0,
-        scaleX: 1,
-        scaleY: 1,
+        scaleX: this.props.scaleX ? this.props.scaleX : 1,
+        scaleY: this.props.scaleY ? this.props.scaleY : 1,
         loading: true,
       });
     } else {
@@ -162,17 +162,17 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     img.onload = () => {
       let imgWidth = img.width;
       let imgHeight = img.height;
-      if (firstLoad) {
-        setTimeout(() => {
-          this.setState({
-            activeIndex: activeIndex,
-            imageWidth: imgWidth,
-            imageHeight: imgHeight,
-          });
-          let imgCenterXY = this.getImageCenterXY();
-          this.handleZoom(imgCenterXY.x, imgCenterXY.y, 1, 1);
-        }, 50);
-      } else {
+      // if (firstLoad) {
+      //   setTimeout(() => {
+      //     this.setState({
+      //       activeIndex: activeIndex,
+      //       imageWidth: imgWidth,
+      //       imageHeight: imgHeight,
+      //     });
+      //     let imgCenterXY = this.getImageCenterXY();
+      //     this.handleZoom(this.props.scaleX, this.props.scaleY, 1, 1);
+      //   }, 50);
+      // } else {
         const [width, height] = this.getImgWidthHeight(imgWidth, imgHeight);
         let left = (this.containerWidth - width) / 2;
         let top = (this.containerHeight - height - this.footerHeight) / 2;
@@ -186,10 +186,10 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
           imageHeight: imgHeight,
           loading: false,
           rotate: 0,
-          scaleX: 1,
-          scaleY: 1,
+          scaleX: this.props.scaleX ? this.props.scaleX : 1,
+          scaleY: this.props.scaleY ? this.props.scaleY : 1
         });
-      }
+      // }
     };
     img.onerror = () => {
       this.setState({
@@ -430,7 +430,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
         }
         break;
 
-        
+
       default:
         break;
     }
