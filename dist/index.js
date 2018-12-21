@@ -940,6 +940,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	                width = _this3.containerWidth * (stretch / 100);
 	                height = _this3.containerHeight * (stretch / 100);
 	            }
+	            if (_this3.props.stretchHeight) {
+	                top = 2;
+	                height = _this3.containerHeight;
+	                width = imgWidth * (_this3.containerHeight / imgHeight);
+	                left = (_this3.containerWidth - width) / 2;
+	            }
+	            if (_this3.props.stretchWidth) {
+	                top = 2;
+	                height = imgHeight * (_this3.containerWidth / imgWidth);
+	                width = _this3.containerWidth - _this3.containerWidth * 0.01;
+	                left = (_this3.containerWidth - width) / 2;
+	            }
 	            _this3.setState({
 	                activeIndex: activeIndex,
 	                width: width,
