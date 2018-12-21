@@ -931,6 +931,14 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	            var left = (_this3.containerWidth - width) / 2;
 	            var top = (_this3.containerHeight - height - _this3.footerHeight) / 2;
+	            if (_this3.props.stretch) {
+	                var stretch = 99;
+	                stretch = _this3.props.stretch == 1 ? 99 : _this3.props.stretch;
+	                top = (_this3.containerWidth - _this3.containerWidth * (stretch / 100)) / 2;
+	                left = (_this3.containerWidth - _this3.containerWidth * (stretch / 100)) / 2;
+	                width = _this3.containerWidth * (stretch / 100);
+	                height = _this3.containerHeight * (stretch / 100);
+	            }
 	            _this3.setState({
 	                activeIndex: activeIndex,
 	                width: width,

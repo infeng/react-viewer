@@ -162,8 +162,6 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     img.onload = () => {
       let imgWidth = img.width;
       let imgHeight = img.height;
-
-      console.log('onload');
       // if (firstLoad) {
       //   setTimeout(() => {
       //     this.setState({
@@ -389,9 +387,6 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
   handleKeydown = (e) => {
     let keyCode = e.keyCode || e.which || e.charCode;
     let isFeatrue = false;
-
-    console.log(keyCode);
-
     switch (keyCode) {
       // key: esc
       case 27:
