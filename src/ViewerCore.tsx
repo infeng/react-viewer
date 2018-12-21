@@ -177,6 +177,15 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
       let left = (this.containerWidth - width) / 2;
       let top = (this.containerHeight - height - this.footerHeight) / 2;
 
+      let stretchWidth = false
+      if (!this.props.stretch &&
+        !this.props.stretchHeight &&
+        !this.props.stretchWidth &&
+        !this.props.scaleX &&
+        !this.props.scaleX) {
+        stretchWidth = true
+      }
+
       if (this.props.stretch) {
         let stretch = 99
 
@@ -197,7 +206,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
         left = (this.containerWidth - width) / 2
       }
 
-      if (this.props.stretchWidth) {
+      if (this.props.stretchWidth || stretchWidth) {
         top = 2
         height = imgHeight * ((this.containerWidth / imgWidth))
         width = this.containerWidth - (this.containerWidth * 0.01)

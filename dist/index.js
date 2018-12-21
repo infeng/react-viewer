@@ -931,6 +931,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	            var left = (_this3.containerWidth - width) / 2;
 	            var top = (_this3.containerHeight - height - _this3.footerHeight) / 2;
+	            var stretchWidth = false;
+	            if (!_this3.props.stretch && !_this3.props.stretchHeight && !_this3.props.stretchWidth && !_this3.props.scaleX && !_this3.props.scaleX) {
+	                stretchWidth = true;
+	            }
 	            if (_this3.props.stretch) {
 	                var stretch = 99;
 	                if (_this3.props.stretch > 1) stretch = _this3.props.stretch;
@@ -946,7 +950,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                width = imgWidth * (_this3.containerHeight / imgHeight);
 	                left = (_this3.containerWidth - width) / 2;
 	            }
-	            if (_this3.props.stretchWidth) {
+	            if (_this3.props.stretchWidth || stretchWidth) {
 	                top = 2;
 	                height = imgHeight * (_this3.containerWidth / imgWidth);
 	                width = _this3.containerWidth - _this3.containerWidth * 0.01;
