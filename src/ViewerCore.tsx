@@ -179,7 +179,11 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
 
       if (this.props.stretch) {
         let stretch = 99
-        stretch = this.props.stretch == 1 ? 99 : this.props.stretch
+
+        if (this.props.stretch > 1)
+          stretch = this.props.stretch
+
+        stretch = stretch
         top = (this.containerWidth - (this.containerWidth * (stretch / 100))) / 2
         left = (this.containerWidth - (this.containerWidth * (stretch / 100))) / 2
         width = this.containerWidth * (stretch / 100);
