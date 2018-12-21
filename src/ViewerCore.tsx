@@ -190,6 +190,20 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
         height = this.containerHeight * (stretch / 100);
       }
 
+      if (this.props.stretchHeight) {
+        top = 2
+        height = this.containerHeight
+        width = imgWidth * ((this.containerHeight / imgHeight))
+        left = (this.containerWidth - width) / 2
+      }
+
+      if (this.props.stretchWidth) {
+        top = 2
+        height = imgHeight * ((this.containerWidth / imgWidth))
+        width = this.containerWidth - (this.containerWidth * 0.01)
+        left = (this.containerWidth - width) / 2
+      }
+
       this.setState({
         activeIndex: activeIndex,
         width: width,

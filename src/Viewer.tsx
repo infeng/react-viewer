@@ -31,6 +31,8 @@ export default class Viewer extends React.Component<ViewerProps, any> {
         this,
         <ViewerCore
           {...this.props}
+          // stretch={true}
+          // stretchHeight={true}
           />,
         this.container,
         function () {

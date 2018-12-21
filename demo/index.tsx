@@ -5,6 +5,7 @@ const img2 = require('./images/landscape2.jpg');
 const img = require('./images/landscape.jpg');
 const img3 = require('./images/tibet-6.jpg');
 const img4 = require('./images/image4.jpg');
+const img5 = require('./images/418f4037db8ad4685aa604c503a09604.png');
 const forkImg = require('./images/fork_me_ribbon.svg');
 import './index.less';
 import classNames from 'classnames';
@@ -58,6 +59,10 @@ class App extends React.Component<any, Partial<State>> {
       downloadUrl: '',
     }, {
       src: img4,
+      alt: '',
+      downloadUrl: '',
+    }, {
+      src: img5,
       alt: '',
       downloadUrl: '',
     }];
@@ -131,7 +136,7 @@ class App extends React.Component<any, Partial<State>> {
             activeIndex={this.state.activeIndex}
             container={inline ? this.container : null}
             downloadable
-            
+
             customToolbar={(toolbars) => {
               return toolbars.concat([{
                 key: 'bookmark',
