@@ -639,6 +639,45 @@ return /******/ (function(modules) { // webpackBootstrap
 	        _this.handleScrollZoom = function (targetX, targetY, direct) {
 	            _this.handleZoom(targetX, targetY, direct, _this.props.zoomSpeed);
 	        };
+	        _this.handleMoveImg = function (value, direct) {
+	            var stateTop = _this.state.top;
+	            var stateLeft = _this.state.left;
+	            // inline mode 
+	            if (_this.props.container) {
+	                var h_img = document.getElementsByClassName('drag react-viewer-image-transition')[0].height;
+	                // console.log('translate---', document.getElementsByClassName('drag react-viewer-image-transition')[0].style.cssText);
+	                var up = Math.abs(stateTop) - value;
+	                var down = stateTop + value;
+	                var left = Math.abs(stateLeft - value - 30);
+	                var rigth = Math.abs(stateLeft + value + 30);
+	                switch (direct) {
+	                    case "up":
+	                        if (up < h_img) {
+	                            if (up + value < h_img) stateTop -= value;
+	                            console.log('up', stateTop, h_img);
+	                        }
+	                        break;
+	                    case "down":
+	                        if (down < h_img) {
+	                            stateTop += value;
+	                            console.log('3down', stateTop, h_img);
+	                        }
+	                        break;
+	                    case "left":
+	                        if (left < _this.containerWidth) stateLeft -= value;
+	                        break;
+	                    case "right":
+	                        if (rigth < _this.containerWidth) stateLeft += value;
+	                        break;
+	                    default:
+	                        break;
+	                }
+	                _this.setState({
+	                    top: stateTop,
+	                    left: stateLeft
+	                });
+	            }
+	        };
 	        _this.handleZoom = function (targetX, targetY, direct, scale) {
 	            var imgCenterXY = _this.getImageCenterXY();
 	            var diffX = targetX - imgCenterXY.x;
@@ -723,61 +762,83 @@ return /******/ (function(modules) { // webpackBootstrap
 	        _this.handleKeydown = function (e) {
 	            var keyCode = e.keyCode || e.which || e.charCode;
 	            var isFeatrue = false;
-	            switch (keyCode) {
-	                // key: esc
-	                case 27:
-	                    _this.props.onClose();
-	                    isFeatrue = true;
-	                    break;
-	                // key: ←
-	                case 37:
-	                    if (e.shiftKey) {
-	                        _this.handleDefaultAction(_Icon.ActionType.rotateLeft);
-	                    }
-	                    if (e.ctrlKey) {
-	                        _this.handleDefaultAction(_Icon.ActionType.prev);
-	                    }
-	                    isFeatrue = true;
-	                    break;
-	                // key: →
-	                case 39:
-	                    if (e.shiftKey) {
-	                        _this.handleDefaultAction(_Icon.ActionType.rotateRight);
-	                    }
-	                    if (e.ctrlKey) {
-	                        _this.handleDefaultAction(_Icon.ActionType.next);
-	                    }
-	                    isFeatrue = true;
-	                    break;
-	                // key: ↑
-	                case 38:
-	                    if (e.ctrlKey) {
-	                        _this.handleDefaultAction(_Icon.ActionType.zoomIn);
+	            // Move img
+	            if (e.ctrlKey && e.shiftKey) {
+	                switch (keyCode) {
+	                    case 37:
+	                        _this.handleMoveImg(50, "left");
 	                        isFeatrue = true;
-	                    }
-	                    if (e.shiftKey) {
-	                        _this.handleDefaultAction(_Icon.ActionType.scaleX);
-	                    }
-	                    break;
-	                // key: ↓
-	                case 40:
-	                    if (e.ctrlKey) {
-	                        _this.handleDefaultAction(_Icon.ActionType.zoomOut);
+	                        break;
+	                    case 39:
+	                        _this.handleMoveImg(50, "right");
 	                        isFeatrue = true;
-	                    }
-	                    if (e.shiftKey) {
-	                        _this.handleDefaultAction(_Icon.ActionType.scaleY);
-	                    }
-	                    break;
-	                // key: Ctrl + z
-	                case 90:
-	                    if (e.ctrlKey) {
-	                        _this.loadImg(_this.state.activeIndex);
+	                        break;
+	                    case 38:
+	                        _this.handleMoveImg(50, "up");
 	                        isFeatrue = true;
-	                    }
-	                    break;
-	                default:
-	                    break;
+	                        break;
+	                    case 40:
+	                        _this.handleMoveImg(50, "down");
+	                        isFeatrue = true;
+	                        break;
+	                }
+	            } else {
+	                switch (keyCode) {
+	                    // key: esc
+	                    case 27:
+	                        _this.props.onClose();
+	                        isFeatrue = true;
+	                        break;
+	                    // key: ←
+	                    case 37:
+	                        if (e.shiftKey) {
+	                            _this.handleDefaultAction(_Icon.ActionType.rotateLeft);
+	                        }
+	                        if (e.ctrlKey) {
+	                            _this.handleDefaultAction(_Icon.ActionType.prev);
+	                        }
+	                        isFeatrue = true;
+	                        break;
+	                    // key: →
+	                    case 39:
+	                        if (e.shiftKey) {
+	                            _this.handleDefaultAction(_Icon.ActionType.rotateRight);
+	                        }
+	                        if (e.ctrlKey) {
+	                            _this.handleDefaultAction(_Icon.ActionType.next);
+	                        }
+	                        isFeatrue = true;
+	                        break;
+	                    // key: ↑
+	                    case 38:
+	                        if (e.ctrlKey) {
+	                            _this.handleDefaultAction(_Icon.ActionType.zoomIn);
+	                        }
+	                        if (e.shiftKey) {
+	                            _this.handleDefaultAction(_Icon.ActionType.scaleX);
+	                        }
+	                        isFeatrue = true;
+	                        break;
+	                    // key: ↓
+	                    case 40:
+	                        if (e.ctrlKey) {
+	                            _this.handleDefaultAction(_Icon.ActionType.zoomOut);
+	                        }
+	                        if (e.shiftKey) {
+	                            _this.handleDefaultAction(_Icon.ActionType.scaleY);
+	                        }
+	                        isFeatrue = true;
+	                        break;
+	                    // key: Ctrl + z
+	                    case 90:
+	                        if (e.ctrlKey) {
+	                            _this.loadImg(_this.state.activeIndex);
+	                            isFeatrue = true;
+	                        }
+	                        break;
+	                    default:
+	                        break;
+	                }
 	            }
 	            if (isFeatrue) {
 	                e.preventDefault();

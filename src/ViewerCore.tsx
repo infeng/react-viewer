@@ -332,6 +332,59 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
   handleScrollZoom = (targetX, targetY, direct) => {
     this.handleZoom(targetX, targetY, direct, this.props.zoomSpeed);
   }
+  handleMoveImg = (value, direct) => {
+
+    let stateTop = this.state.top
+    let stateLeft = this.state.left
+
+    // inline mode 
+    if (this.props.container) {
+      let h_img = document.getElementsByClassName('drag react-viewer-image-transition')[0].height
+
+      // console.log('translate---', document.getElementsByClassName('drag react-viewer-image-transition')[0].style.cssText);
+
+
+
+
+      let up = Math.abs(stateTop) - value
+      let down = stateTop + value
+      let left = Math.abs(stateLeft - value - 30)
+      let rigth = Math.abs(stateLeft + value + 30)
+
+      switch (direct) {
+        case "up":
+          if (up < h_img) {
+            if (up + value < h_img)
+              stateTop -= value
+            console.log('up', stateTop, h_img);
+          }
+          break;
+        case "down":
+          if (down < h_img) {
+            stateTop += value
+            console.log('3down', stateTop, h_img);
+          }
+          break;
+
+        case "left":
+          if (left < this.containerWidth)
+            stateLeft -= value
+          break;
+
+        case "right":
+          if (rigth < this.containerWidth)
+            stateLeft += value
+          break;
+        default:
+          break;
+      }
+
+      this.setState({
+        top: stateTop,
+        left: stateLeft
+      });
+    }
+  }
 
   handleZoom = (targetX, targetY, direct, scale) => {
     let imgCenterXY = this.getImageCenterXY();
@@ -414,65 +467,97 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
   handleKeydown = (e) => {
     let keyCode = e.keyCode || e.which || e.charCode;
     let isFeatrue = false;
-    switch (keyCode) {
-      // key: esc
-      case 27:
-        this.props.onClose();
-        isFeatrue = true;
-        break;
-      // key: ←
-      case 37:
-        if (e.shiftKey) {
-          this.handleDefaultAction(ActionType.rotateLeft);
-        }
-        if (e.ctrlKey) {
-          this.handleDefaultAction(ActionType.prev);
-        }
-        isFeatrue = true;
-        break;
-      // key: →
-      case 39:
-        if (e.shiftKey) {
-          this.handleDefaultAction(ActionType.rotateRight);
-        }
-        if (e.ctrlKey) {
-          this.handleDefaultAction(ActionType.next);
-        }
-        isFeatrue = true;
-        break;
-      // key: ↑
-      case 38:
-        if (e.ctrlKey) {
-          this.handleDefaultAction(ActionType.zoomIn);
+
+    // Move img
+    if (e.ctrlKey && e.shiftKey) {
+      switch (keyCode) {
+
+        case 37:
+          this.handleMoveImg(50, "left");
           isFeatrue = true;
-        }
-        if (e.shiftKey) {
-          this.handleDefaultAction(ActionType.scaleX);
-        }
-        break;
-      // key: ↓
-      case 40:
-        if (e.ctrlKey) {
-          this.handleDefaultAction(ActionType.zoomOut);
+          break;
+
+        case 39:
+          this.handleMoveImg(50, "right");
           isFeatrue = true;
-        }
-        if (e.shiftKey) {
-          this.handleDefaultAction(ActionType.scaleY);
-        }
-        break;
-      // key: Ctrl + z
-      case 90:
-        if (e.ctrlKey) {
-          this.loadImg(this.state.activeIndex);
+          break;
+
+        case 38:
+          this.handleMoveImg(50, "up");
           isFeatrue = true;
-        }
-        break;
-      default:
-        break;
+          break;
+
+        case 40:
+          this.handleMoveImg(50, "down");
+          isFeatrue = true;
+          break;
+
+      }
     }
+    else {
+      switch (keyCode) {
+        // key: esc
+        case 27:
+          this.props.onClose();
+          isFeatrue = true;
+          break;
+        // key: ←
+        case 37:
+          if (e.shiftKey) {
+            this.handleDefaultAction(ActionType.rotateLeft);
+          }
+          if (e.ctrlKey) {
+            this.handleDefaultAction(ActionType.prev);
+          }
+          isFeatrue = true;
+          break;
+        // key: →
+        case 39:
+          if (e.shiftKey) {
+            this.handleDefaultAction(ActionType.rotateRight);
+          }
+          if (e.ctrlKey) {
+            this.handleDefaultAction(ActionType.next);
+          }
+          isFeatrue = true;
+          break;
+        // key: ↑
+        case 38:
+          if (e.ctrlKey) {
+            this.handleDefaultAction(ActionType.zoomIn);
+          }
+          if (e.shiftKey) {
+            this.handleDefaultAction(ActionType.scaleX);
+          }
+          isFeatrue = true;
+          break;
+        // key: ↓
+        case 40:
+          if (e.ctrlKey) {
+            this.handleDefaultAction(ActionType.zoomOut);
+          }
+          if (e.shiftKey) {
+            this.handleDefaultAction(ActionType.scaleY);
+          }
+          isFeatrue = true;
+          break;
+        // key: Ctrl + z
+        case 90:
+          if (e.ctrlKey) {
+            this.loadImg(this.state.activeIndex);
+            isFeatrue = true;
+          }
+          break;
+        default:
+          break;
+      }
+
+    }
+
     if (isFeatrue) {
       e.preventDefault();
     }
+
   }
 
   handleTransitionEnd = e => {
