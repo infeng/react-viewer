@@ -199,6 +199,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	});
 	exports.default = undefined;
 
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 	var _react = __webpack_require__(1);
 
 	var React = _interopRequireWildcard(_react);
@@ -248,7 +250,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                }
 	            }
 	            var instance = this;
-	            ReactDOM.unstable_renderSubtreeIntoContainer(this, React.createElement(_ViewerCore2.default, this.props), this.container, function () {
+	            ReactDOM.unstable_renderSubtreeIntoContainer(this, React.createElement(_ViewerCore2.default, _extends({}, this.props, { noClose: this.props.noClose || true })), this.container, function () {
 	                instance.component = this;
 	            });
 	        }
@@ -1090,6 +1092,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            src: '',
 	            alt: ''
 	        };
+	        console.log('--noClose', this.props.noClose);
 	        var zIndex = 1000;
 	        if (this.props.zIndex) {
 	            zIndex = this.props.zIndex;
