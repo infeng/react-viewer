@@ -1092,7 +1092,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	            src: '',
 	            alt: ''
 	        };
-	        console.log('--noClose', this.props.noClose);
 	        var zIndex = 1000;
 	        if (this.props.zIndex) {
 	            zIndex = this.props.zIndex;
@@ -1268,31 +1267,40 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var defaultToolbars = exports.defaultToolbars = [{
 	    key: 'zoomIn',
-	    actionType: _Icon.ActionType.zoomIn
+	    actionType: _Icon.ActionType.zoomIn,
+	    title: 'CTRL + ↑'
 	}, {
 	    key: 'zoomOut',
-	    actionType: _Icon.ActionType.zoomOut
+	    actionType: _Icon.ActionType.zoomOut,
+	    title: 'CTRL + ↓'
 	}, {
 	    key: 'prev',
-	    actionType: _Icon.ActionType.prev
+	    actionType: _Icon.ActionType.prev,
+	    title: 'CTRL + ←'
 	}, {
 	    key: 'reset',
-	    actionType: _Icon.ActionType.reset
+	    actionType: _Icon.ActionType.reset,
+	    title: 'CTRL + Z'
 	}, {
 	    key: 'next',
-	    actionType: _Icon.ActionType.next
+	    actionType: _Icon.ActionType.next,
+	    title: 'CTRL + →'
 	}, {
 	    key: 'rotateLeft',
-	    actionType: _Icon.ActionType.rotateLeft
+	    actionType: _Icon.ActionType.rotateLeft,
+	    title: "SHIFT + ←"
 	}, {
 	    key: 'rotateRight',
-	    actionType: _Icon.ActionType.rotateRight
+	    actionType: _Icon.ActionType.rotateRight,
+	    title: "SHIFT + →"
 	}, {
 	    key: 'scaleX',
-	    actionType: _Icon.ActionType.scaleX
+	    actionType: _Icon.ActionType.scaleX,
+	    title: "SHIFT + ↑"
 	}, {
 	    key: 'scaleY',
-	    actionType: _Icon.ActionType.scaleY
+	    actionType: _Icon.ActionType.scaleY,
+	    title: 'SHIFT + ↓'
 	}, {
 	    key: 'download',
 	    actionType: _Icon.ActionType.download
@@ -1326,7 +1334,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                'li',
 	                { key: config.key, className: _this.props.prefixCls + '-btn', onClick: function onClick() {
 	                        _this.handleAction(config);
-	                    } },
+	                    }, title: config.title },
 	                content
 	            );
 	        };
@@ -1370,6 +1378,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                'ul',
 	                { className: this.props.prefixCls + '-toolbar' },
 	                toolbars.map(function (item) {
+	                    console.log(item);
 	                    return _this2.renderAction(item);
 	                })
 	            )
