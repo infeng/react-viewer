@@ -1378,7 +1378,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	                'ul',
 	                { className: this.props.prefixCls + '-toolbar' },
 	                toolbars.map(function (item) {
-	                    console.log(item);
 	                    return _this2.renderAction(item);
 	                })
 	            )

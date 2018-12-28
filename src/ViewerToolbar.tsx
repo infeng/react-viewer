@@ -136,7 +136,6 @@ export default class ViewerToolbar extends React.Component<ViewerToolbarProps, a
         {attributeNode}
         <ul className={`${this.props.prefixCls}-toolbar`}>
           {toolbars.map(item => {
-            console.log(item);
             return this.renderAction(item);
           })}
         </ul>
