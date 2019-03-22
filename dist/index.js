@@ -646,30 +646,35 @@ return /******/ (function(modules) { // webpackBootstrap
 	            var stateLeft = _this.state.left;
 	            // inline mode 
 	            if (_this.props.container) {
-	                var h_img = document.getElementsByClassName('drag react-viewer-image-transition')[0].height;
-	                // console.log('translate---', document.getElementsByClassName('drag react-viewer-image-transition')[0].style.cssText);
+	                var hImg = document.getElementsByClassName('drag react-viewer-image-transition')[0].height;
 	                var up = Math.abs(stateTop) - value;
 	                var down = stateTop + value;
 	                var left = Math.abs(stateLeft - value - 30);
 	                var rigth = Math.abs(stateLeft + value + 30);
 	                switch (direct) {
-	                    case "up":
-	                        if (up < h_img) {
-	                            if (up + value < h_img) stateTop -= value;
-	                            console.log('up', stateTop, h_img);
+	                    case 'up':
+	                        if (up < hImg) {
+	                            if (up + value < hImg) {
+	                                stateTop -= value;
+	                            }
+	                            console.log('up', stateTop, hImg);
 	                        }
 	                        break;
-	                    case "down":
-	                        if (down < h_img) {
+	                    case 'down':
+	                        if (down < hImg) {
 	                            stateTop += value;
-	                            console.log('3down', stateTop, h_img);
+	                            console.log('3down', stateTop, hImg);
 	                        }
 	                        break;
-	                    case "left":
-	                        if (left < _this.containerWidth) stateLeft -= value;
+	                    case 'left':
+	                        if (left < _this.containerWidth) {
+	                            stateLeft -= value;
+	                        }
 	                        break;
-	                    case "right":
-	                        if (rigth < _this.containerWidth) stateLeft += value;
+	                    case 'right':
+	                        if (rigth < _this.containerWidth) {
+	                            stateLeft += value;
+	                        }
 	                        break;
 	                    default:
 	                        break;
@@ -764,24 +769,29 @@ return /******/ (function(modules) { // webpackBootstrap
 	        _this.handleKeydown = function (e) {
 	            var keyCode = e.keyCode || e.which || e.charCode;
 	            var isFeatrue = false;
+	            if (_this.props.noKeyDown) {
+	                return;
+	            }
 	            // Move img
 	            if (e.ctrlKey && e.shiftKey) {
 	                switch (keyCode) {
 	                    case 37:
-	                        _this.handleMoveImg(50, "left");
+	                        _this.handleMoveImg(50, 'left');
 	                        isFeatrue = true;
 	                        break;
 	                    case 39:
-	                        _this.handleMoveImg(50, "right");
+	                        _this.handleMoveImg(50, 'right');
 	                        isFeatrue = true;
 	                        break;
 	                    case 38:
-	                        _this.handleMoveImg(50, "up");
+	                        _this.handleMoveImg(50, 'up');
 	                        isFeatrue = true;
 	                        break;
 	                    case 40:
-	                        _this.handleMoveImg(50, "down");
+	                        _this.handleMoveImg(50, 'down');
 	                        isFeatrue = true;
+	                        break;
+	                    default:
 	                        break;
 	                }
 	            } else {
@@ -1000,7 +1010,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	            }
 	            if (_this3.props.stretch) {
 	                var stretch = 99;
-	                if (_this3.props.stretch > 1) stretch = _this3.props.stretch;
+	                if (_this3.props.stretch > 1) {
+	                    stretch = _this3.props.stretch;
+	                }
 	                stretch = stretch;
 	                top = (_this3.containerWidth - _this3.containerWidth * (stretch / 100)) / 2;
 	                left = (_this3.containerWidth - _this3.containerWidth * (stretch / 100)) / 2;
@@ -1288,22 +1300,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	}, {
 	    key: 'rotateLeft',
 	    actionType: _Icon.ActionType.rotateLeft,
-	    title: "SHIFT + ←"
+	    title: 'SHIFT + ←'
 	}, {
 	    key: 'rotateRight',
 	    actionType: _Icon.ActionType.rotateRight,
-	    title: "SHIFT + →"
+	    title: 'SHIFT + →'
 	}, {
 	    key: 'scaleX',
 	    actionType: _Icon.ActionType.scaleX,
-	    title: "SHIFT + ↑"
+	    title: 'SHIFT + ↑'
 	}, {
 	    key: 'scaleY',
 	    actionType: _Icon.ActionType.scaleY,
 	    title: 'SHIFT + ↓'
 	}, {
 	    key: 'download',
-	    actionType: _Icon.ActionType.download
+	    actionType: _Icon.ActionType.download,
+	    title: ''
 	}];
 	function deleteToolbarFromKey(toolbars, keys) {
 	    var targetToolbar = toolbars.filter(function (item) {

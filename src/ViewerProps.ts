@@ -9,6 +9,7 @@ export interface ToolbarConfig {
   actionType?: number;
   render?: React.ReactNode;
   onClick?: (activeImage: ImageDecorator) => void;
+  title: string;
 }
 
 interface ViewerProps {
@@ -62,6 +63,27 @@ interface ViewerProps {
 
   // zoom speed
   zoomSpeed?: number;
+
+  // define scaleX
+  scaleX?: number;
+
+  // define scaleY
+  scaleY?: number;
+
+  // define stretch
+  stretch?: number;
+
+  // define stretchHeight
+  stretchHeight?: number;
+
+  // define stretchWidth
+  stretchWidth?: number;
+
+  // define height
+  height?: number;
+
+  // no disabled Keydown
+  noKeyDown?: boolean;
 }
 
 export default ViewerProps;

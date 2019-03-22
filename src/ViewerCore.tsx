@@ -177,40 +177,41 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
       let left = (this.containerWidth - width) / 2;
       let top = (this.containerHeight - height - this.footerHeight) / 2;
 
-      let stretchWidth = false
+      let stretchWidth = false;
       if (!this.props.stretch &&
         !this.props.stretchHeight &&
         !this.props.stretchWidth &&
         !this.props.scaleX &&
         !this.props.scaleX) {
-        stretchWidth = true
+        stretchWidth = true;
       }
 
       if (this.props.stretch) {
-        let stretch = 99
+        let stretch = 99;
 
-        if (this.props.stretch > 1)
-          stretch = this.props.stretch
+        if (this.props.stretch > 1) {
+          stretch = this.props.stretch;
+        }
 
-        stretch = stretch
-        top = (this.containerWidth - (this.containerWidth * (stretch / 100))) / 2
-        left = (this.containerWidth - (this.containerWidth * (stretch / 100))) / 2
+        stretch = stretch;
+        top = (this.containerWidth - (this.containerWidth * (stretch / 100))) / 2;
+        left = (this.containerWidth - (this.containerWidth * (stretch / 100))) / 2;
         width = this.containerWidth * (stretch / 100);
         height = this.containerHeight * (stretch / 100);
       }
 
       if (this.props.stretchHeight) {
-        top = 2
-        height = this.containerHeight
-        width = imgWidth * ((this.containerHeight / imgHeight))
-        left = (this.containerWidth - width) / 2
+        top = 2;
+        height = this.containerHeight;
+        width = imgWidth * ((this.containerHeight / imgHeight));
+        left = (this.containerWidth - width) / 2;
       }
 
       if (this.props.stretchWidth || stretchWidth) {
-        top = 2
-        height = imgHeight * ((this.containerWidth / imgWidth))
-        width = this.containerWidth - (this.containerWidth * 0.01)
-        left = (this.containerWidth - width) / 2
+        top = 2;
+        height = imgHeight * ((this.containerWidth / imgWidth));
+        width = this.containerWidth - (this.containerWidth * 0.01);
+        left = (this.containerWidth - width) / 2;
       }
 
       this.setState({
@@ -224,7 +225,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
         loading: false,
         rotate: 0,
         scaleX: this.props.scaleX ? this.props.scaleX : 1,
-        scaleY: this.props.scaleY ? this.props.scaleY : 1
+        scaleY: this.props.scaleY ? this.props.scaleY : 1,
       });
       // }
     };
@@ -334,46 +335,43 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
   }
   handleMoveImg = (value, direct) => {
 
-    let stateTop = this.state.top
-    let stateLeft = this.state.left
+    let stateTop = this.state.top;
+    let stateLeft = this.state.left;
 
     // inline mode 
     if (this.props.container) {
-      let h_img = document.getElementsByClassName('drag react-viewer-image-transition')[0].height
-
-      // console.log('translate---', document.getElementsByClassName('drag react-viewer-image-transition')[0].style.cssText);
-
-
-
-
-      let up = Math.abs(stateTop) - value
-      let down = stateTop + value
-      let left = Math.abs(stateLeft - value - 30)
-      let rigth = Math.abs(stateLeft + value + 30)
+      let hImg = document.getElementsByClassName('drag react-viewer-image-transition')[0].height;
+      let up = Math.abs(stateTop) - value;
+      let down = stateTop + value;
+      let left = Math.abs(stateLeft - value - 30);
+      let rigth = Math.abs(stateLeft + value + 30);
 
       switch (direct) {
-        case "up":
-          if (up < h_img) {
-            if (up + value < h_img)
-              stateTop -= value
-            console.log('up', stateTop, h_img);
+        case 'up':
+          if (up < hImg) {
+            if (up + value < hImg) {
+              stateTop -= value;
+            }
+            console.log('up', stateTop, hImg);
           }
           break;
-        case "down":
-          if (down < h_img) {
-            stateTop += value
-            console.log('3down', stateTop, h_img);
+        case 'down':
+          if (down < hImg) {
+            stateTop += value;
+            console.log('3down', stateTop, hImg);
           }
           break;
 
-        case "left":
-          if (left < this.containerWidth)
-            stateLeft -= value
+        case 'left':
+          if (left < this.containerWidth) {
+            stateLeft -= value;
+          }
           break;
 
-        case "right":
-          if (rigth < this.containerWidth)
-            stateLeft += value
+        case 'right':
+          if (rigth < this.containerWidth) {
+            stateLeft += value;
+          }
           break;
         default:
           break;
@@ -381,7 +379,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
 
       this.setState({
         top: stateTop,
-        left: stateLeft
+        left: stateLeft,
       });
     }
   }
@@ -468,33 +466,38 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     let keyCode = e.keyCode || e.which || e.charCode;
     let isFeatrue = false;
 
+    if (this.props.noKeyDown) {
+      return;
+    }
+
     // Move img
     if (e.ctrlKey && e.shiftKey) {
       switch (keyCode) {
 
         case 37:
-          this.handleMoveImg(50, "left");
+          this.handleMoveImg(50, 'left');
           isFeatrue = true;
           break;
 
         case 39:
-          this.handleMoveImg(50, "right");
+          this.handleMoveImg(50, 'right');
           isFeatrue = true;
           break;
 
         case 38:
-          this.handleMoveImg(50, "up");
+          this.handleMoveImg(50, 'up');
           isFeatrue = true;
           break;
 
         case 40:
-          this.handleMoveImg(50, "down");
+          this.handleMoveImg(50, 'down');
           isFeatrue = true;
+          break;
+        default:
           break;
 
       }
-    }
-    else {
+    } else {
       switch (keyCode) {
         // key: esc
         case 27:

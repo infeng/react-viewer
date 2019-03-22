@@ -22,51 +22,52 @@ export const defaultToolbars: ToolbarConfig[] = [
   {
     key: 'zoomIn',
     actionType: ActionType.zoomIn,
-    title: 'CTRL + ↑'
+    title: 'CTRL + ↑',
   },
   {
     key: 'zoomOut',
     actionType: ActionType.zoomOut,
-    title: 'CTRL + ↓'
+    title: 'CTRL + ↓',
   },
   {
     key: 'prev',
     actionType: ActionType.prev,
-    title: 'CTRL + ←'
+    title: 'CTRL + ←',
   },
   {
     key: 'reset',
     actionType: ActionType.reset,
-    title: 'CTRL + Z'
+    title: 'CTRL + Z',
   },
   {
     key: 'next',
     actionType: ActionType.next,
-    title: 'CTRL + →'
+    title: 'CTRL + →',
   },
   {
     key: 'rotateLeft',
     actionType: ActionType.rotateLeft,
-    title: "SHIFT + ←"
+    title: 'SHIFT + ←',
   },
   {
     key: 'rotateRight',
     actionType: ActionType.rotateRight,
-    title: "SHIFT + →"
+    title: 'SHIFT + →',
   },
   {
     key: 'scaleX',
     actionType: ActionType.scaleX,
-    title: "SHIFT + ↑"
+    title: 'SHIFT + ↑',
   },
   {
     key: 'scaleY',
     actionType: ActionType.scaleY,
-    title: 'SHIFT + ↓'
+    title: 'SHIFT + ↓',
   },
   {
     key: 'download',
     actionType: ActionType.download,
+    title: '',
   },
 ];
 
@@ -100,8 +101,8 @@ export default class ViewerToolbar extends React.Component<ViewerToolbarProps, a
       <li
         key={config.key}
         className={`${this.props.prefixCls}-btn`}
-        onClick={() => { this.handleAction(config); }}   
-        title={config.title}     
+        onClick={() => { this.handleAction(config); }}
+        title={config.title}
       >
         {content}
       </li>
