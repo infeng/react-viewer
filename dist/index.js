@@ -657,13 +657,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	                            if (up + value < hImg) {
 	                                stateTop -= value;
 	                            }
-	                            console.log('up', stateTop, hImg);
+	                            // console.log('up', stateTop, hImg);
 	                        }
 	                        break;
 	                    case 'down':
 	                        if (down < hImg) {
 	                            stateTop += value;
-	                            console.log('3down', stateTop, hImg);
+	                            // console.log('3down', stateTop, hImg);
 	                        }
 	                        break;
 	                    case 'left':
