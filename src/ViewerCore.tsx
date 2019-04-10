@@ -89,6 +89,14 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     if (this.props.container) {
       this.containerWidth = this.props.container.offsetWidth;
       this.containerHeight = this.props.container.offsetHeight;
+      this.setInlineContainerHeight();
+    }
+  }
+
+  setInlineContainerHeight() {
+    const core = (this.refs['viewerCore'] as HTMLDivElement);
+    if (core) {
+      this.containerHeight = core.offsetHeight;
     }
   }
 
@@ -119,11 +127,15 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
   }
 
   componentDidMount() {
-    (this.refs['viewerCore'] as HTMLDivElement).addEventListener(
+    const core = (this.refs['viewerCore'] as HTMLDivElement);
+    core.addEventListener(
       'transitionend',
       this.handleTransitionEnd,
       false
     );
+    if (this.containerHeight === 0) {
+      this.setInlineContainerHeight();
+    }
     this.startVisible(this.state.activeIndex);
   }
 
