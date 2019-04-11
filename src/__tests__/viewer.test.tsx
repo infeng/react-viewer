@@ -61,7 +61,7 @@ class ViewerTester extends React.Component<ViewerTesterProps & ViewerProps, any>
       <div>
         <button id="viewer-tester-open-btn" onClick={this.handleOpen}>open viewer</button>
         <button id="viewer-tester-change-btn" onClick={this.handleChangeActiveIndex}>change active index</button>
-        <div id="container" ref={ref => {this.container = ref;}} style={{ width: '150px', height: '150px' }}></div>
+        <div id="container" ref={ref => { this.container = ref; }} style={{ width: '150px', height: '150px' }}></div>
         <Viewer
           visible={this.state.visible}
           images={images}
@@ -118,7 +118,7 @@ class MockImage {
 
 global.Image = MockImage;
 
-function triggerMouseEvent (node, eventType, x = 0, y = 0) {
+function triggerMouseEvent(node, eventType, x = 0, y = 0) {
   const clickEvent = new MouseEvent(eventType, {
     clientX: x,
     clientY: y,
@@ -126,7 +126,7 @@ function triggerMouseEvent (node, eventType, x = 0, y = 0) {
     bubbles: true,
     cancelable: true,
   });
-  node.dispatchEvent (clickEvent);
+  node.dispatchEvent(clickEvent);
 }
 
 function triggerWheel(node, eventType, deltaY) {
@@ -136,7 +136,7 @@ function triggerWheel(node, eventType, deltaY) {
     cancelable: true,
     deltaY,
   });
-  node.dispatchEvent (wheelEvent);
+  node.dispatchEvent(wheelEvent);
 }
 
 function triggerKeyboard(node, eventType, keyCode, ctrlKey = false) {
@@ -147,7 +147,7 @@ function triggerKeyboard(node, eventType, keyCode, ctrlKey = false) {
     keyCode: keyCode,
     ctrlKey,
   });
-  node.dispatchEvent (wheelEvent);
+  node.dispatchEvent(wheelEvent);
 }
 
 function getTransformValue(transform) {
@@ -174,7 +174,7 @@ jest.useFakeTimers();
 
 let wrapper = null;
 
-interface ViewerHelperNewOptions extends ViewerProps, ViewerTesterProps {}
+interface ViewerHelperNewOptions extends ViewerProps, ViewerTesterProps { }
 
 class ViewerHelper {
   new(props: ViewerHelperNewOptions = {}) {
@@ -402,11 +402,11 @@ describe('Viewer', () => {
 
     const viewer = $$('.react-viewer')[0];
 
-    triggerWheel(viewer, 'wheel', -1);
+    triggerWheel(viewer, 'mousewheel', -1);
 
     expect(getTransformValue(imgNode.style.transform).scaleX).toBe('1.05');
 
-    triggerWheel(viewer, 'wheel', 1);
+    triggerWheel(viewer, 'mousewheel', 1);
 
     expect(getTransformValue(imgNode.style.transform).scaleX).toBe('1');
   });

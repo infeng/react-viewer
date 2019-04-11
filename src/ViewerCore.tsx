@@ -7,7 +7,7 @@ import ViewerProps, { ImageDecorator, ToolbarConfig } from './ViewerProps';
 import Icon, { ActionType } from './Icon';
 import * as constants from './constants';
 
-function noop() {}
+function noop() { }
 
 const transitionDuration = 300;
 
@@ -133,6 +133,13 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
       this.handleTransitionEnd,
       false
     );
+    // Though onWheel can be directly used on the div "viewerCore", to be able to
+    // prevent default action, a listener is added here instead
+    (this.refs['viewerCore'] as HTMLDivElement).addEventListener(
+      'mousewheel',
+      this.handleMouseScroll,
+      false
+    );
     if (this.containerHeight === 0) {
       this.setInlineContainerHeight();
     }
@@ -168,7 +175,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
       realImgWidth = activeImage.defaultSize.width;
       realImgHeight = activeImage.defaultSize.height;
     }
-    let [ width, height ] = this.getImgWidthHeight(realImgWidth, realImgHeight);
+    let [width, height] = this.getImgWidthHeight(realImgWidth, realImgHeight);
     let left = (this.containerWidth - width) / 2;
     let top = (this.containerHeight - height - this.footerHeight) / 2;
     let scaleX = this.props.defaultScale;
@@ -601,7 +608,6 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
         ref="viewerCore"
         className={className}
         style={viewerStryle}
-        onWheel={this.handleMouseScroll}
       >
         <div className={`${this.prefixCls}-mask`} style={{ zIndex: zIndex }} />
         {this.props.noClose || (
