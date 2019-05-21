@@ -76,6 +76,7 @@ class App extends React.Component<any, any> {
 | noLimitInitializationSize | boolean | false | no limit image initialization size | false |
 | defaultScale | number | 1 | set default scale | false |
 | onChange | (activeImage: [ImageDecorator](#imagedecorator), index: number) => void | - | callback when iamge change | false |
+| loop         | boolean      |  true   | whether enable image loop | false |
 
 ### ImageDecorator
 

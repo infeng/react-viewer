@@ -49,6 +49,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     noResetZoomAfterChange: false,
     noLimitInitializationSize: false,
     defaultScale: 1,
+    loop: true,
   };
 
   private prefixCls: string;
@@ -242,6 +243,9 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
   }
 
   handleChangeImg = (newIndex: number) => {
+    if (!this.props.loop && (newIndex >= this.props.images.length || newIndex < 0)) {
+      return;
+    }
     if (newIndex >= this.props.images.length) {
       newIndex = 0;
     }

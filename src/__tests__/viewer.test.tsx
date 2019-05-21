@@ -337,7 +337,7 @@ describe('Viewer', () => {
     expect(newTransformValue.translateY - oldTransformValue.translateY).toBe(50);
   });
 
-  it('change active iamge whith prev and next button', () => {
+  it('change active image with prev and next button', () => {
     viewerHelper.new();
     viewerHelper.open();
 
@@ -530,7 +530,7 @@ describe('Viewer', () => {
     triggerKeyboard(document, 'keydown', 39, true);
     expect(getTransformValue(imgNode.style.transform).rotate).toBe('0');
 
-    // reset 
+    // reset
     triggerKeyboard(document, 'keydown', 39, true);
     triggerKeyboard(document, 'keydown', 49, true);
     viewerHelper.skipAnimation();
@@ -675,5 +675,32 @@ describe('Viewer', () => {
       downloadUrl: '',
       src: expect.any(String),
     }), 1);
+  });
+
+  it('change image with no loop', () => {
+    viewerHelper.new({
+      loop: false,
+    });
+    viewerHelper.open();
+
+    $$('li[data-key=next]')[0].click();
+    $$('li[data-key=next]')[0].click();
+    expect($$('.react-viewer-attribute')[0].innerHTML).toContain('mountain');
+
+    $$('li[data-key=prev]')[0].click();
+    $$('li[data-key=prev]')[0].click();
+    expect($$('.react-viewer-attribute')[0].innerHTML).toContain('lake');
+
+    // next
+    triggerKeyboard(document, 'keydown', 39);
+    triggerKeyboard(document, 'keydown', 39);
+    viewerHelper.skipAnimation();
+    expect($$('.react-viewer-attribute')[0].innerHTML).toContain('mountain');
+
+    // prev
+    triggerKeyboard(document, 'keydown', 37);
+    triggerKeyboard(document, 'keydown', 37);
+    viewerHelper.skipAnimation();
+    expect($$('.react-viewer-attribute')[0].innerHTML).toContain('lake');
   });
 });
