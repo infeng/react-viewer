@@ -50,6 +50,8 @@ interface ViewerProps {
   onMaskClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
   /** 是否显示下载按钮 */
   downloadable?: boolean;
+  /** 图片是否可循环 */
+  loop?: boolean;
 
   // no render close button
   noClose?: boolean;
