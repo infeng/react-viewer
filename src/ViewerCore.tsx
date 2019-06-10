@@ -137,7 +137,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     let imgSrc = '';
     let images = this.props.images || [];
     if (images.length > 0) {
-      imgSrc = images[activeIndex].src;
+      imgSrc = images[activeIndex] ? images[activeIndex].src : "";
     }
     let img = new Image();
     img.src = imgSrc;
