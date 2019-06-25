@@ -35,7 +35,7 @@ export default class ViewerNav extends React.Component<ViewerNavProps, any> {
             className={index === this.props.activeIndex ? 'active' : ''}
             onClick={() => { this.handleChangeImg(index); }}
             >
-              <img src={item.src} alt={item.alt} />
+              <img src={item.thumb ? item.thumb : item.src} alt={item.alt} />
             </li>
             )
           }

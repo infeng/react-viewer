@@ -83,6 +83,7 @@ class App extends React.Component<any, any> {
 | props       | type         | default | description                 | required |
 |-------------|--------------|---------|-----------------------------|----------|
 | src  | string  |  -  | image source | true |
+| thumb  | string  |  -  | thumbnail source (if none provided, uses full-sized src) | false |
 | alt  | string  |  -  | image description | false |
 | downloadUrl  | string  |  -  | image downlaod url | false |
 | defaultSize  | [ViewerImageSize](#viewerimagesize)  |  -  | image size | false |
