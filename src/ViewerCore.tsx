@@ -102,7 +102,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     }
   }
 
-  handleClose = (e) => {
+  handleClose = () => {
     this.props.onClose();
   }
 
@@ -133,14 +133,14 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     core.addEventListener(
       'transitionend',
       this.handleTransitionEnd,
-      false
+      false,
     );
     // Though onWheel can be directly used on the div "viewerCore", to be able to
     // prevent default action, a listener is added here instead
     (this.refs['viewerCore'] as HTMLDivElement).addEventListener(
       'mousewheel',
       this.handleMouseScroll,
-      false
+      false,
     );
     if (this.containerHeight === 0) {
       this.setInlineContainerHeight();
@@ -325,7 +325,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     if (activeImage.downloadUrl) {
       location.href = activeImage.downloadUrl;
     }
-  };
+  }
 
   handleScaleX = (newScale: 1 | -1) => {
     this.setState({
@@ -347,8 +347,6 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     let imgCenterXY = this.getImageCenterXY();
     let diffX = targetX - imgCenterXY.x;
     let diffY = targetY - imgCenterXY.y;
-    // when image width is 0, set original width
-    let reset = false;
     let top = 0;
     let left = 0;
     let width = 0;
@@ -358,9 +356,8 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     if (this.state.width === 0) {
       const [imgWidth, imgHeight] = this.getImgWidthHeight(
         this.state.imageWidth,
-        this.state.imageHeight
+        this.state.imageHeight,
       );
-      reset = true;
       left = (this.containerWidth - imgWidth) / 2;
       top = (this.containerHeight - this.footerHeight - imgHeight) / 2;
       width = this.state.width + imgWidth;
@@ -467,14 +464,14 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     }
   }
 
-  handleTransitionEnd = e => {
+  handleTransitionEnd = () => {
     if (!this.state.transitionEnd || this.state.visibleStart) {
       this.setState({
         visibleStart: false,
         transitionEnd: true,
       });
     }
-  };
+  }
 
   bindEvent(remove: boolean = false) {
     let funcName = 'addEventListener';
@@ -491,7 +488,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     (this.refs['viewerCore'] as HTMLDivElement).removeEventListener(
       'transitionend',
       this.handleTransitionEnd,
-      false
+      false,
     );
   }
 
@@ -506,7 +503,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
         this.containerWidth / 2,
         (this.containerHeight - this.footerHeight) / 2,
         -1,
-        (this.state.scaleX > 0 ? 1 : -1) * this.state.scaleX - 0.11
+        (this.state.scaleX > 0 ? 1 : -1) * this.state.scaleX - 0.11,
       );
       setTimeout(() => {
         document.body.style.overflow = '';
@@ -534,7 +531,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
 
   handleCanvasMouseDown = e => {
     this.props.onMaskClick(e);
-  };
+  }
 
   getActiveImage = (activeIndex = undefined) => {
     let activeImg: ImageDecorator = {
@@ -555,7 +552,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     }
 
     return activeImg;
-  };
+  }
 
   handleMouseScroll = (e) => {
     if (this.props.disableMouseZoom) {

@@ -91,7 +91,7 @@ export default class ViewerToolbar extends React.Component<ViewerToolbarProps, a
       <li
         key={config.key}
         className={`${this.props.prefixCls}-btn`}
-        onClick={() => {this.handleAction(config);}}
+        onClick={() => {this.handleAction(config); }}
         data-key={config.key}
       >
           {content}
