@@ -138,7 +138,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     // Though onWheel can be directly used on the div "viewerCore", to be able to
     // prevent default action, a listener is added here instead
     (this.refs['viewerCore'] as HTMLDivElement).addEventListener(
-      'mousewheel',
+      'wheel',
       this.handleMouseScroll,
       false,
     );
@@ -560,10 +560,11 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     }
     e.preventDefault();
     let direct: 0 | 1 | -1 = 0;
-    if (e.deltaY === 0) {
+    const value = e.deltaY;
+    if (value === 0) {
       direct = 0;
     } else {
-      direct = e.deltaY > 0 ? -1 : 1;
+      direct = value > 0 ? -1 : 1;
     }
     if (direct !== 0) {
       let x = e.clientX;
