@@ -77,6 +77,7 @@ class App extends React.Component<any, any> {
 | defaultScale | number | 1 | set default scale | false |
 | onChange | (activeImage: [ImageDecorator](#imagedecorator), index: number) => void | - | callback when iamge change | false |
 | loop         | boolean      |  true   | whether enable image loop | false |
+| disableMouseZoom   | boolean      |  false   | whether disable mouse zoom | false |
 
 ### ImageDecorator
 

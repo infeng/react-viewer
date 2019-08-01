@@ -50,6 +50,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     noLimitInitializationSize: false,
     defaultScale: 1,
     loop: true,
+    disableMouseZoom: false,
   };
 
   private prefixCls: string;
@@ -557,6 +558,9 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
   };
 
   handleMouseScroll = (e) => {
+    if (this.props.disableMouseZoom) {
+      return;
+    }
     e.preventDefault();
     let direct: 0 | 1 | -1 = 0;
     if (e.deltaY === 0) {

@@ -411,6 +411,21 @@ describe('Viewer', () => {
     expect(getTransformValue(imgNode.style.transform).scaleX).toBe('1');
   });
 
+  it('disable mouse wheel', () => {
+    viewerHelper.new({
+      disableMouseZoom: true,
+    });
+    viewerHelper.open();
+
+    let imgNode = $$('img.react-viewer-image')[0];
+
+    const viewer = $$('.react-viewer')[0];
+
+    triggerWheel(viewer, 'mousewheel', -1);
+
+    expect(getTransformValue(imgNode.style.transform).scaleX).toBe('1');
+  });
+
   it('can not drag', () => {
     viewerHelper.new({
       drag: false,
