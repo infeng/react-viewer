@@ -12,8 +12,15 @@ export default class Viewer extends React.Component<ViewerProps, any> {
     super();
 
     this.container = null;
-    this.defaultContainer = document.createElement('div');
+    this.defaultContainer = null;
+    if (typeof document !== 'undefined') {
+      this.setDefaultContainer();
+    }
     this.component = null;
+  }
+
+  setDefaultContainer() {
+    this.defaultContainer = document.createElement('div');
   }
 
   renderViewer() {
@@ -22,6 +29,9 @@ export default class Viewer extends React.Component<ViewerProps, any> {
         if (this.props.container) {
           this.container = this.props.container;
         } else {
+          if (!this.defaultContainer) {
+            this.setDefaultContainer();
+          }
           this.container = this.defaultContainer;
           document.body.appendChild(this.container);
         }

@@ -1,0 +1,25 @@
+{
+  "name": "ssr-test",
+  "version": "0.0.1",
+  "scripts": {
+    "start": "babel-node server.js",
+    "build": "webpack"
+  },
+  "dependencies": {
+    "@babel/cli": "^7.5.5",
+    "@babel/node": "^7.5.5",
+    "express": "^4.17.1",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.5.5",
+    "@babel/plugin-proposal-decorators": "^7.4.4",
+    "@babel/preset-react": "^7.0.0",
+    "@types/react": "^16.8.24",
+    "@types/react-dom": "^16.8.5",
+    "babel-loader": "^8.0.6",
+    "webpack": "^4.38.0",
+    "webpack-cli": "^3.3.6"
+  }
+}
