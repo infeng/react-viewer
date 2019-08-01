@@ -11,7 +11,8 @@
       "react",
       "react-dom",
       "node"
-    ]
+    ],
+    "noUnusedLocals": true
   },
   "exclude": [
     "node_modules",
