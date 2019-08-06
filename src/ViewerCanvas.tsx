@@ -56,6 +56,9 @@ export default class ViewerCanvas extends React.Component<ViewerCanvasProps, Vie
   }
 
   handleMouseDown = (e) => {
+    if (e.button !== 0) {
+      return;
+    }
     if (!this.props.visible || !this.props.drag) {
       return;
     }
