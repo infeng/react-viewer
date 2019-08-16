@@ -30,6 +30,8 @@ interface ViewerProps {
   onClose?: () => void;
   /** 需要进行浏览的图片地址集合 */
   images?: ImageDecorator[];
+  /** 默认图像index */
+  defaultActiveIndex: number;
   /** 当前图像index */
   activeIndex?: number;
   /** 自定义viewer组件的z-index */

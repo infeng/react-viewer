@@ -51,6 +51,7 @@ class App extends React.Component<any, any> {
 | visible      | string       |  false  | Viewer visible             | true |
 | onClose      | function       |  -      | Specify a function that will be called when Visible close   | true |
 | images       | [ImageDecorator](#imagedecorator)[]     | []      | image source array | true  |
+| defaultActiveIndex  | number       | 0       | default active image index | false |
 | activeIndex  | number       | 0       | active image index | false |
 | zIndex       | number       | 1000    | Viewer css z-index | false |
 | container    | HTMLElement  | null    | set parent node(inline mode) | false |

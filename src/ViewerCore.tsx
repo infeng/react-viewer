@@ -34,6 +34,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     visible: false,
     onClose: noop,
     images: [],
+    defaultActiveIndex: 0,
     activeIndex: 0,
     zIndex: 1000,
     drag: true,
@@ -66,7 +67,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
       visible: false,
       visibleStart: false,
       transitionEnd: false,
-      activeIndex: this.props.activeIndex,
+      activeIndex: this.props.defaultActiveIndex || this.props.activeIndex || 0,
       width: 0,
       height: 0,
       top: 15,
@@ -499,6 +500,11 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
       this.startVisible(nextProps.activeIndex);
       return;
     }
+
+    if (nextProps.activeIndex !== this.props.activeIndex) {
+      this.handleChangeImg(nextProps.activeIndex);
+    }
+    
     if (this.props.visible && !nextProps.visible) {
       this.bindEvent(true);
       this.handleZoom(
