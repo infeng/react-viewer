@@ -67,26 +67,23 @@ export default class Viewer extends React.Component<ViewerProps, any> {
     this.removeViewer();
   }
 
-  componentWillReceiveProps(nextProps: ViewerProps) {
-    if (this.props.container !== nextProps.container) {
+  componentDidMount() {
+    this.renderViewer();
+  }
+
+  componentDidUpdate(prevProps: ViewerProps) {
+    if (this.props.container !== prevProps.container) {
       this.component = null;
-      if (nextProps.container) {
-        if (this.container) {
+      if (this.props.container) {
+        if (this.container && !prevProps.container) {
           document.body.removeChild(this.container);
         }
-        this.container = nextProps.container;
+        this.container = this.props.container;
       } else {
         this.container = this.defaultContainer;
         document.body.appendChild(this.container);
       }
     }
-  }
-
-  componentDidMount() {
-    this.renderViewer();
-  }
-
-  componentDidUpdate() {
     this.renderViewer();
   }
 

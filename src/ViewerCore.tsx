@@ -492,12 +492,12 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     );
   }
 
-  componentWillReceiveProps(nextProps: ViewerProps) {
-    if (!this.props.visible && nextProps.visible) {
-      this.startVisible(nextProps.activeIndex);
+  componentDidUpdate(prevProps: ViewerProps) {
+    if (this.props.visible && !prevProps.visible) {
+      this.startVisible(this.props.activeIndex);
       return;
     }
-    if (this.props.visible && !nextProps.visible) {
+    if (!this.props.visible && prevProps.visible) {
       this.bindEvent(true);
       this.handleZoom(
         this.containerWidth / 2,
@@ -523,8 +523,8 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
       }, transitionDuration);
       return;
     }
-    if (this.props.activeIndex !== nextProps.activeIndex) {
-      this.handleChangeImg(nextProps.activeIndex);
+    if (this.props.activeIndex !== prevProps.activeIndex) {
+      this.handleChangeImg(this.props.activeIndex);
       return;
     }
   }

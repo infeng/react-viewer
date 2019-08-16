@@ -100,23 +100,23 @@ export default class ViewerCanvas extends React.Component<ViewerCanvasProps, Vie
     window[funcName]('resize', this.handleResize, false);
   }
 
-  componentWillReceiveProps(nextProps: ViewerCanvasProps) {
-    if (!this.props.visible && nextProps.visible) {
-      if (nextProps.drag) {
+  componentDidUpdate(prevProps: ViewerCanvasProps) {
+    if (this.props.visible && !prevProps.visible) {
+      if (this.props.drag) {
         return this.bindEvent();
       }
     }
-    if (this.props.visible && !nextProps.visible) {
+    if (!this.props.visible && prevProps.visible) {
       this.handleMouseUp({});
-      if (nextProps.drag) {
+      if (this.props.drag) {
         return this.bindEvent(true);
       }
     }
-    if (this.props.drag && !nextProps.drag) {
+    if (!this.props.drag && prevProps.drag) {
       return this.bindEvent(true);
     }
-    if (!this.props.drag && nextProps.drag) {
-      if (nextProps.visible) {
+    if (this.props.drag && !prevProps.drag) {
+      if (this.props.visible) {
         return this.bindEvent(true);
       }
     }
