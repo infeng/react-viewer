@@ -67,17 +67,12 @@ function deleteToolbarFromKey(toolbars: ToolbarConfig[], keys: string[]) {
   return targetToolbar;
 }
 
-export default class ViewerToolbar extends React.Component<ViewerToolbarProps, any> {
-
-  constructor() {
-    super();
+export default function ViewerToolbar(props: ViewerToolbarProps) {
+  function handleAction(config: ToolbarConfig) {
+    props.onAction(config);
   }
 
-  handleAction(config: ToolbarConfig) {
-    this.props.onAction(config);
-  }
-
-  renderAction = (config: ToolbarConfig) => {
+  function renderAction(config: ToolbarConfig) {
     let content = null;
     // default toolbar
     if (typeof ActionType[config.actionType] !== 'undefined') {
@@ -90,49 +85,46 @@ export default class ViewerToolbar extends React.Component<ViewerToolbarProps, a
     return (
       <li
         key={config.key}
-        className={`${this.props.prefixCls}-btn`}
-        onClick={() => {this.handleAction(config); }}
+        className={`${props.prefixCls}-btn`}
+        onClick={() => {handleAction(config); }}
         data-key={config.key}
       >
           {content}
       </li>
     );
   }
-
-  render() {
-    let attributeNode = this.props.attribute ? (
-      <p className={`${this.props.prefixCls}-attribute`}>
-        {this.props.alt && `${this.props.alt}`}
-        {this.props.noImgDetails || <span className={`${this.props.prefixCls}-img-details`}>
-          {`(${this.props.width} x ${this.props.height})`}
-        </span>}
-      </p>
-    ) : null;
-    let toolbars = this.props.toolbars;
-    if (!this.props.zoomable) {
-      toolbars = deleteToolbarFromKey(toolbars, ['zoomIn', 'zoomOut']);
-    }
-    if (!this.props.changeable) {
-      toolbars = deleteToolbarFromKey(toolbars, ['prev', 'next']);
-    }
-    if (!this.props.rotatable) {
-      toolbars = deleteToolbarFromKey(toolbars, ['rotateLeft', 'rotateRight']);
-    }
-    if (!this.props.scalable) {
-      toolbars = deleteToolbarFromKey(toolbars, ['scaleX', 'scaleY']);
-    }
-    if (!this.props.downloadable) {
-      toolbars = deleteToolbarFromKey(toolbars, ['download']);
-    }
-    return (
-      <div>
-        {attributeNode}
-        <ul className={`${this.props.prefixCls}-toolbar`}>
-          {toolbars.map(item => {
-            return this.renderAction(item);
-          })}
-        </ul>
-      </div>
-    );
+  let attributeNode = props.attribute ? (
+    <p className={`${props.prefixCls}-attribute`}>
+      {props.alt && `${props.alt}`}
+      {props.noImgDetails || <span className={`${props.prefixCls}-img-details`}>
+        {`(${props.width} x ${props.height})`}
+      </span>}
+    </p>
+  ) : null;
+  let toolbars = props.toolbars;
+  if (!props.zoomable) {
+    toolbars = deleteToolbarFromKey(toolbars, ['zoomIn', 'zoomOut']);
   }
+  if (!props.changeable) {
+    toolbars = deleteToolbarFromKey(toolbars, ['prev', 'next']);
+  }
+  if (!props.rotatable) {
+    toolbars = deleteToolbarFromKey(toolbars, ['rotateLeft', 'rotateRight']);
+  }
+  if (!props.scalable) {
+    toolbars = deleteToolbarFromKey(toolbars, ['scaleX', 'scaleY']);
+  }
+  if (!props.downloadable) {
+    toolbars = deleteToolbarFromKey(toolbars, ['download']);
+  }
+  return (
+    <div>
+      {attributeNode}
+      <ul className={`${props.prefixCls}-toolbar`}>
+        {toolbars.map(item => {
+          return renderAction(item);
+        })}
+      </ul>
+    </div>
+  );
 }

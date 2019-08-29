@@ -28,154 +28,154 @@ export interface ViewerCanvasState {
   mouseY?: number;
 }
 
-export default class ViewerCanvas extends React.Component<ViewerCanvasProps, ViewerCanvasState> {
+export default function ViewerCanvas(props: ViewerCanvasProps) {
+  const isMouseDown = React.useRef(false);
+  const prePosition = React.useRef({
+    x: 0,
+    y: 0,
+  });
+  const [ position, setPosition ] = React.useState({
+    x: 0,
+    y: 0,
+  });
 
-  constructor() {
-    super();
-
-    this.state = {
-      isMouseDown: false,
-      mouseX: 0,
-      mouseY: 0,
+  React.useEffect(() => {
+    return () => {
+      bindEvent(true);
+      bindWindowResizeEvent(true);
     };
-  }
+  }, []);
 
-  componentDidMount() {
-    if (this.props.drag) {
-      this.bindEvent();
+  React.useEffect(() => {
+    bindWindowResizeEvent(!props.visible);
+  }, [props.visible]);
+
+  React.useEffect(() => {
+    if (props.visible && props.drag) {
+      bindEvent();
     }
+    if (!props.visible && props.drag) {
+      handleMouseUp({});
+    }
+    return () => {
+      bindEvent(true);
+    };
+  }, [props.drag, props.visible]);
+
+  React.useEffect(() => {
+    let diffX = position.x - prePosition.current.x;
+    let diffY = position.y - prePosition.current.y;
+    prePosition.current = {
+      x: position.x,
+      y: position.y,
+    };
+    props.onChangeImgState(props.width, props.height, props.top + diffY, props.left + diffX);
+  }, [position]);
+
+  function handleResize(e) {
+    props.onResize();
   }
 
-  handleResize = (e) => {
-    this.props.onResize();
+  function handleCanvasMouseDown(e) {
+    props.onCanvasMouseDown(e);
+    handleMouseDown(e);
   }
 
-  handleCanvasMouseDown = (e) => {
-    this.props.onCanvasMouseDown(e);
-    this.handleMouseDown(e);
-  }
-
-  handleMouseDown = (e) => {
+  function handleMouseDown(e) {
     if (e.button !== 0) {
       return;
     }
-    if (!this.props.visible || !this.props.drag) {
+    if (!props.visible || !props.drag) {
       return;
     }
     e.preventDefault();
     e.stopPropagation();
-    this.setState({
-      isMouseDown: true,
-      mouseX: e.nativeEvent.clientX,
-      mouseY: e.nativeEvent.clientY,
-    });
+    isMouseDown.current = true;
+    prePosition.current = {
+      x: e.nativeEvent.clientX,
+      y: e.nativeEvent.clientY,
+    };
   }
 
-  handleMouseMove = (e) => {
-    if (this.state.isMouseDown) {
-      let diffX = e.clientX - this.state.mouseX;
-      let diffY = e.clientY - this.state.mouseY;
-      this.setState({
-        mouseX: e.clientX,
-        mouseY: e.clientY,
+  const handleMouseMove = (e) => {
+    if (isMouseDown.current) {
+      setPosition({
+        x: e.clientX,
+        y: e.clientY,
       });
-      this.props.onChangeImgState(this.props.width, this.props.height, this.props.top + diffY, this.props.left + diffX);
     }
+  };
+
+  function handleMouseUp(e) {
+    isMouseDown.current = false;
   }
 
-  handleMouseUp = (e) => {
-    this.setState({
-      isMouseDown: false,
-    });
+  function bindWindowResizeEvent(remove?: boolean) {
+    let funcName = 'addEventListener';
+    if (remove) {
+      funcName = 'removeEventListener';
+    }
+    window[funcName]('resize', handleResize, false);
   }
 
-  bindEvent = (remove?: boolean) => {
+  function bindEvent(remove?: boolean) {
     let funcName = 'addEventListener';
     if (remove) {
       funcName = 'removeEventListener';
     }
 
-    document[funcName]('click', this.handleMouseUp, false);
-    document[funcName]('mousemove', this.handleMouseMove, false);
-    window[funcName]('resize', this.handleResize, false);
+    document[funcName]('click', handleMouseUp, false);
+    document[funcName]('mousemove', handleMouseMove, false);
   }
 
-  componentWillReceiveProps(nextProps: ViewerCanvasProps) {
-    if (!this.props.visible && nextProps.visible) {
-      if (nextProps.drag) {
-        return this.bindEvent();
-      }
-    }
-    if (this.props.visible && !nextProps.visible) {
-      this.handleMouseUp({});
-      if (nextProps.drag) {
-        return this.bindEvent(true);
-      }
-    }
-    if (this.props.drag && !nextProps.drag) {
-      return this.bindEvent(true);
-    }
-    if (!this.props.drag && nextProps.drag) {
-      if (nextProps.visible) {
-        return this.bindEvent(true);
-      }
-    }
+  let imgStyle: React.CSSProperties = {
+    width: `${props.width}px`,
+    height: `${props.height}px`,
+    transform: `
+translateX(${props.left !== null ? props.left + 'px' : 'aoto'}) translateY(${props.top}px)
+    rotate(${props.rotate}deg) scaleX(${props.scaleX}) scaleY(${props.scaleY})`,
+  };
+
+  const imgClass = classnames(`${props.prefixCls}-image`, {
+    drag: props.drag,
+    [`${props.prefixCls}-image-transition`]: !isMouseDown.current,
+  });
+
+  let style = {
+    zIndex: props.zIndex,
+  };
+
+  let imgNode = null;
+  if (props.imgSrc !== '') {
+    imgNode = <img
+    className={imgClass}
+    src={props.imgSrc}
+    style={imgStyle}
+    onMouseDown={handleMouseDown}
+    />;
   }
-
-  componentWillUnmount() {
-    this.bindEvent(true);
-  }
-
-  render() {
-    let imgStyle: React.CSSProperties = {
-      width: `${this.props.width}px`,
-      height: `${this.props.height}px`,
-      transform: `
-translateX(${this.props.left !== null ? this.props.left + 'px' : 'aoto'}) translateY(${this.props.top}px)
-      rotate(${this.props.rotate}deg) scaleX(${this.props.scaleX}) scaleY(${this.props.scaleY})`,
-    };
-
-    const imgClass = classnames(`${this.props.prefixCls}-image`, {
-      drag: this.props.drag,
-      [`${this.props.prefixCls}-image-transition`]: !this.state.isMouseDown,
-    });
-
-    let style = {
-      zIndex: this.props.zIndex,
-    };
-
-    let imgNode = null;
-    if (this.props.imgSrc !== '') {
-      imgNode = <img
-      className={imgClass}
-      src={this.props.imgSrc}
-      style={imgStyle}
-      onMouseDown={this.handleMouseDown}
-      />;
-    }
-    if (this.props.loading) {
-      imgNode = (
-        <div
-          style={{
-            display: 'flex',
-            height: `${window.innerHeight - 84}px`,
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
-          <Loading/>
-        </div>
-      );
-    }
-
-    return (
+  if (props.loading) {
+    imgNode = (
       <div
-      className={`${this.props.prefixCls}-canvas`}
-      onMouseDown={this.handleCanvasMouseDown}
-      style={style}
+        style={{
+          display: 'flex',
+          height: `${window.innerHeight - 84}px`,
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
       >
-        {imgNode}
+        <Loading/>
       </div>
     );
   }
+
+  return (
+    <div
+    className={`${props.prefixCls}-canvas`}
+    onMouseDown={handleCanvasMouseDown}
+    style={style}
+    >
+      {imgNode}
+    </div>
+  );
 }

@@ -20,8 +20,8 @@ interface State {
 class App extends React.Component<any, Partial<State>> {
   container: HTMLDivElement;
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
       visible: false,
@@ -121,12 +121,14 @@ class App extends React.Component<any, Partial<State>> {
                   );
                 })}
               </div>
-              <div className={inlineContainerClass} ref={ref => {this.container = ref;}}></div>
+              <div className={inlineContainerClass} ref={ref => {this.container = ref; }}></div>
             </Col>
           </Row>
           <Viewer
           visible={this.state.visible}
-          onClose={() => { this.setState({ visible: false }); } }
+          onClose={() => {
+            this.setState({ visible: false });
+          }}
           images={images}
           activeIndex={this.state.activeIndex}
           container={inline ? this.container : null}
@@ -154,5 +156,5 @@ class App extends React.Component<any, Partial<State>> {
 
 ReactDOM.render(
   <App />,
-  document.getElementById('root')
+  document.getElementById('root'),
 );
