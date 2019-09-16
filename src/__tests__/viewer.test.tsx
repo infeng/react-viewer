@@ -67,7 +67,6 @@ class ViewerTester extends React.Component<ViewerTesterProps & ViewerProps, any>
           images={images}
           activeIndex={this.state.activeIndex}
           container={hasContainer ? this.container : false}
-          ref="viewer"
           onClose={() => { this.setState({ visible: false }); }}
           {...viewerProps}
         />
@@ -190,9 +189,7 @@ class ViewerHelper {
   }
 
   skipAnimation() {
-    jest.advanceTimersByTime(1000);
-
-    wrapper.ref('viewer').component.handleTransitionEnd();
+    jest.advanceTimersByTime(2000);
   }
 }
 
@@ -208,6 +205,8 @@ describe('Viewer', () => {
     $$('.react-viewer-close')[0].click();
 
     viewerHelper.skipAnimation();
+
+    wrapper.find('.react-viewer').simulate('transitionend');
 
     expect($$('.react-viewer')[0].style.display).toBe('none');
   });
@@ -326,7 +325,9 @@ describe('Viewer', () => {
     const canvas = $$('.react-viewer-canvas')[0];
     triggerMouseEvent(canvas, 'mousedown');
 
-    triggerMouseEvent(canvas, 'mousemove', 50, 50);
+    triggerMouseEvent(document, 'mousemove', 50, 50);
+
+    viewerHelper.skipAnimation();
 
     const newTransform = imgNode.style.transform;
 
@@ -402,11 +403,15 @@ describe('Viewer', () => {
 
     const viewer = $$('.react-viewer')[0];
 
-    triggerWheel(viewer, 'mousewheel', -1);
+    triggerWheel(viewer, 'wheel', -1);
+
+    viewerHelper.skipAnimation();
 
     expect(getTransformValue(imgNode.style.transform).scaleX).toBe('1.05');
 
-    triggerWheel(viewer, 'mousewheel', 1);
+    triggerWheel(viewer, 'wheel', 1);
+
+    viewerHelper.skipAnimation();
 
     expect(getTransformValue(imgNode.style.transform).scaleX).toBe('1');
   });
@@ -421,7 +426,7 @@ describe('Viewer', () => {
 
     const viewer = $$('.react-viewer')[0];
 
-    triggerWheel(viewer, 'mousewheel', -1);
+    triggerWheel(viewer, 'wheel', -1);
 
     expect(getTransformValue(imgNode.style.transform).scaleX).toBe('1');
   });
@@ -467,18 +472,12 @@ describe('Viewer', () => {
     viewerHelper.new({
       hasContainer: true,
     });
+
     viewerHelper.open();
 
-    expect(wrapper.render().find('.react-viewer-inline')).toHaveLength(1);
+    viewerHelper.skipAnimation();
 
-    wrapper.ref('viewer').component.handleMouseScroll(new WheelEvent('wheel', {
-      view: window,
-      bubbles: true,
-      cancelable: true,
-      deltaY: -1,
-    }));
-
-    expect(getTransformValue(wrapper.render().find('.react-viewer-image')[0].attribs.style).scaleX).toBe('1.05');
+    expect(wrapper.find('.react-viewer-inline')).toHaveLength(1);
   });
 
   it('reset image', () => {
@@ -514,6 +513,7 @@ describe('Viewer', () => {
     // close
     triggerKeyboard(document, 'keydown', 27);
     viewerHelper.skipAnimation();
+    wrapper.find('.react-viewer').simulate('transitionend');
     expect($$('.react-viewer')[0].style.display).toBe('none');
     viewerHelper.open();
 
@@ -531,18 +531,22 @@ describe('Viewer', () => {
 
     // zoomIn
     triggerKeyboard(document, 'keydown', 38);
+    viewerHelper.skipAnimation();
     expect(getTransformValue(imgNode.style.transform).scaleX).toBe('1.05');
 
     // zoomOut
     triggerKeyboard(document, 'keydown', 40);
+    viewerHelper.skipAnimation();
     expect(getTransformValue(imgNode.style.transform).scaleX).toBe('1');
 
     // rotateLeft
     triggerKeyboard(document, 'keydown', 37, true);
+    viewerHelper.skipAnimation();
     expect(getTransformValue(imgNode.style.transform).rotate).toBe('-90');
 
     // rotateRight
     triggerKeyboard(document, 'keydown', 39, true);
+    viewerHelper.skipAnimation();
     expect(getTransformValue(imgNode.style.transform).rotate).toBe('0');
 
     // reset
@@ -581,6 +585,7 @@ describe('Viewer', () => {
     expect(imgNode.style.width).toBe('100px');
 
     $$('li[data-key=next]')[0].click();
+    viewerHelper.skipAnimation();
     imgNode = $$('img.react-viewer-image')[0];
     expect(imgNode.style.width).toBe('200px');
     expect(imgNode.style.width).toBe('200px');
@@ -700,10 +705,12 @@ describe('Viewer', () => {
 
     $$('li[data-key=next]')[0].click();
     $$('li[data-key=next]')[0].click();
+    viewerHelper.skipAnimation();
     expect($$('.react-viewer-attribute')[0].innerHTML).toContain('mountain');
 
     $$('li[data-key=prev]')[0].click();
     $$('li[data-key=prev]')[0].click();
+    viewerHelper.skipAnimation();
     expect($$('.react-viewer-attribute')[0].innerHTML).toContain('lake');
 
     // next

@@ -44,7 +44,7 @@ export interface ViewerCoreState {
   startLoading: boolean;
 }
 
-export default React.forwardRef((props: ViewerProps, ref) => {
+export default (props: ViewerProps) => {
   const {
     visible = false,
     onClose = noop,
@@ -159,7 +159,7 @@ export default React.forwardRef((props: ViewerProps, ref) => {
   }, [props.container]);
 
   React.useEffect(() => {
-    if (props.visible) {
+    if (visible) {
       setTimeout(() => {
         if (init.current) {
           dispatch(createAction(ACTION_TYPES.setVisible, {
@@ -168,7 +168,7 @@ export default React.forwardRef((props: ViewerProps, ref) => {
         }
       }, 10);
     }
-  }, [props.visible]);
+  }, [visible]);
 
   React.useEffect(() => {
     bindEvent();
@@ -218,7 +218,7 @@ export default React.forwardRef((props: ViewerProps, ref) => {
         return;
       }
       if (!loadComplete) {
-        loadImgSuccess(img.width, img.height);
+        loadImgSuccess(img.width, img.height, true);
       }
     };
     img.onerror = () => {
@@ -231,6 +231,9 @@ export default React.forwardRef((props: ViewerProps, ref) => {
           loadFailed: true,
           startLoading: false,
         }));
+        const deafultImgWidth = props.defaultImg.width || containerSize.current.width * .5;
+        const defaultImgHeight = props.defaultImg.height || containerSize.current.height * .5;
+        loadImgSuccess(deafultImgWidth, defaultImgHeight, false);
       } else {
         dispatch(createAction(ACTION_TYPES.update, {
           loading: false,
@@ -242,9 +245,9 @@ export default React.forwardRef((props: ViewerProps, ref) => {
     img.src = activeImage.src;
     if (img.complete) {
       loadComplete = true;
-      loadImgSuccess(img.width, img.height);
+      loadImgSuccess(img.width, img.height, true);
     }
-    function loadImgSuccess(imgWidth, imgHeight, isNewImage: boolean = false) {
+    function loadImgSuccess(imgWidth, imgHeight, success) {
       if (currentActiveIndex !== currentLoadIndex.current) {
         return;
       }
@@ -278,7 +281,7 @@ export default React.forwardRef((props: ViewerProps, ref) => {
         rotate: 0,
         scaleX: scaleX,
         scaleY: scaleY,
-        loadFailed: false,
+        loadFailed: !success,
         startLoading: false,
       }));
     }
@@ -603,8 +606,8 @@ export default React.forwardRef((props: ViewerProps, ref) => {
   }
 
   let viewerStryle: React.CSSProperties = {
-    opacity: (props.visible && state.visible) ? 1 : 0,
-    display: (props.visible || state.visible) ? 'block' : 'none',
+    opacity: (visible && state.visible) ? 1 : 0,
+    display: (visible || state.visible) ? 'block' : 'none',
   };
 
   let activeImg: ImageDecorator = {
@@ -612,7 +615,7 @@ export default React.forwardRef((props: ViewerProps, ref) => {
     alt: '',
   };
 
-  if (props.visible && visible && !state.loading && state.activeIndex !== null && !state.startLoading) {
+  if (visible && state.visible && !state.loading && state.activeIndex !== null && !state.startLoading) {
     activeImg = getActiveImage();
   }
 
@@ -621,7 +624,7 @@ export default React.forwardRef((props: ViewerProps, ref) => {
       className={className}
       style={viewerStryle}
       onTransitionEnd={() => {
-        if (!props.visible) {
+        if (!visible) {
           dispatch(createAction(ACTION_TYPES.setVisible, {
             visible: false,
           }));
@@ -643,7 +646,7 @@ export default React.forwardRef((props: ViewerProps, ref) => {
       )}
       <ViewerCanvas
         prefixCls={prefixCls}
-        imgSrc={state.loadFailed ? props.defaultImg.src || activeImg.src : activeImg.src}
+        imgSrc={state.loadFailed ? (props.defaultImg.src || activeImg.src) : activeImg.src}
         visible={visible}
         width={state.width}
         height={state.height}
@@ -691,4 +694,4 @@ export default React.forwardRef((props: ViewerProps, ref) => {
       )}
     </div>
   );
-});
+};

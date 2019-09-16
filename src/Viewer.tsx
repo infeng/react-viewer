@@ -3,7 +3,7 @@ import * as ReactDOM from 'react-dom';
 import ViewerCore from './ViewerCore';
 import ViewerProps from './ViewerProps';
 
-export default React.forwardRef((props: ViewerProps, ref) => {
+export default (props: ViewerProps) => {
   const defaultContainer = React.useRef(document.createElement('div'));
   const [ container, setContainer ] = React.useState(props.container);
   const [ init, setInit ] = React.useState(false);
@@ -34,4 +34,4 @@ export default React.forwardRef((props: ViewerProps, ref) => {
       {...props}
     />
   ), container);
-});
+};
