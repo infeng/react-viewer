@@ -197,10 +197,12 @@ export default (props: ViewerProps) => {
   }, [state.visible]);
 
   React.useEffect(() => {
-    dispatch(createAction(ACTION_TYPES.setActiveIndex, {
-      index: activeIndex,
-    }));
-  }, [activeIndex]);
+    if (visible) {
+      dispatch(createAction(ACTION_TYPES.setActiveIndex, {
+        index: activeIndex,
+      }));
+    }
+  }, [activeIndex, visible]);
 
   function loadImg(currentActiveIndex, isReset = false) {
     dispatch(createAction(ACTION_TYPES.update, {
