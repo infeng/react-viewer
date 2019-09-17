@@ -114,6 +114,7 @@ export default (props: ViewerProps) => {
         return {
           ...s,
           activeIndex: action.payload.index,
+          startLoading: true,
         };
       case ACTION_TYPES.update:
         return {
@@ -160,13 +161,11 @@ export default (props: ViewerProps) => {
 
   React.useEffect(() => {
     if (visible) {
-      setTimeout(() => {
-        if (init.current) {
-          dispatch(createAction(ACTION_TYPES.setVisible, {
-            visible: true,
-          }));
-        }
-      }, 10);
+      if (init.current) {
+        dispatch(createAction(ACTION_TYPES.setVisible, {
+          visible: true,
+        }));
+      }
     }
   }, [visible]);
 
@@ -295,15 +294,6 @@ export default (props: ViewerProps) => {
       loadImg(state.activeIndex);
     }
   }, [state.startLoading, state.activeIndex]);
-
-  React.useEffect(() => {
-    if (state.activeIndex === null || !state.visible) {
-      return;
-    }
-    dispatch(createAction(ACTION_TYPES.update, {
-      startLoading: true,
-    }));
-  }, [state.activeIndex, state.visible]);
 
   function getImgWidthHeight(imgWidth, imgHeight) {
     let width = 0;
