@@ -344,9 +344,11 @@ describe('Viewer', () => {
 
     $$('li[data-key=next]')[0].click();
     $$('li[data-key=next]')[0].click();
+    viewerHelper.skipAnimation();
     expect($$('.react-viewer-attribute')[0].innerHTML).toContain('lake');
 
     $$('li[data-key=prev]')[0].click();
+    viewerHelper.skipAnimation();
     expect($$('.react-viewer-attribute')[0].innerHTML).toContain('mountain');
   });
 
@@ -673,10 +675,11 @@ describe('Viewer', () => {
     let imgNode = $$('img.react-viewer-image')[0];
 
     $$('li[data-key=zoomIn]')[0].click();
-
+    viewerHelper.skipAnimation();
     expect(getTransformValue(imgNode.style.transform).scaleX).toBe('1.05');
 
     $$('li[data-key=next]')[0].click();
+    viewerHelper.skipAnimation();
     imgNode = $$('img.react-viewer-image')[0];
     expect(getTransformValue(imgNode.style.transform).scaleX).toBe('1.05');
   });
