@@ -358,7 +358,11 @@ export default (props: ViewerProps) => {
   function handleDownload() {
     const activeImage = getActiveImage();
     if (activeImage.downloadUrl) {
-      location.href = activeImage.downloadUrl;
+      if (props.downloadInNewWindow) {
+        window.open(activeImage.downloadUrl, '_blank');
+      } else {
+        location.href = activeImage.downloadUrl;
+      }
     }
   }
 

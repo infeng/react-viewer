@@ -100,6 +100,9 @@ interface ViewerProps {
 
   // disable mouse zoom
   disableMouseZoom?: boolean;
+
+  // whether to download in a new window
+  downloadInNewWindow?: boolean;
 }
 
 export default ViewerProps;
