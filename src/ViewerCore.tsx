@@ -573,7 +573,6 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
       }
 
     }
-    console.log(keyCode);
     if (isFeatrue) {
       e.preventDefault();
     }
