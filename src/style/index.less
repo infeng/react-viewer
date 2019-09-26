@@ -77,6 +77,24 @@
     left: 18px;
   }
 
+  &-fullScreen {
+    position: fixed;
+    top: 0px;
+    right: 0px;
+    overflow: hidden;
+    width: 40px;
+    height: 40px;
+    border-radius: 0 0 0 40px;   
+    cursor: pointer;
+    z-index: @zIndex + 10;
+  }
+
+  &-fullScreen > i {
+    position: relative;
+    top: 4px;
+    left: 18px;
+  }
+
   &-canvas {
     position: fixed;
     top: 0;
@@ -106,7 +124,7 @@
     z-index: @zIndex + 5;
   }
 
-  &-inline > &-mask, &-inline > &-close, &-inline > &-canvas, &-inline > &-footer {
+  &-inline > &-mask, &-inline > &-close,  &-inline > &-fullScreen, &-inline > &-canvas, &-inline > &-footer {
     position: absolute;
   }
 
@@ -236,6 +254,16 @@
   &-close:before {
     content: '\ea0f';
   } 
+
+  &-fullScreen:before {
+    background-position: -220px 0;
+    content: '\ea0f';
+  } 
+  
+  &-fullscreen-exit::before {
+    background-position: -240px 0;
+    content: 'Exit Full Screen';
+  }
 
   &-rotateLeft:before {
     content: '\e967';

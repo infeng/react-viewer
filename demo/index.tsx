@@ -136,7 +136,7 @@ class App extends React.Component<any, Partial<State>> {
             activeIndex={this.state.activeIndex}
             container={inline ? this.container : null}
             downloadable
-
+            fullScreen={true}
             customToolbar={(toolbars) => {
               return toolbars.concat([{
                 key: 'bookmark',

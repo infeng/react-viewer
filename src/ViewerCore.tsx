@@ -25,6 +25,8 @@ export interface ViewerCoreState {
   scaleX?: number;
   scaleY?: number;
   loading?: boolean;
+  fullScreenImage?: boolean;
+
 }
 
 export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreState> {
@@ -43,6 +45,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     changeable: true,
     customToolbar: (toolbars) => toolbars,
     zoomSpeed: .05,
+    fullScreen: false,
   };
 
   private prefixCls: string;
@@ -70,6 +73,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
       scaleX: this.props.scaleX ? this.props.scaleX : 1,
       scaleY: this.props.scaleY ? this.props.scaleY : 1,
       loading: false,
+      fullScreenImage: false,
     };
 
     this.setContainerWidthHeight();
@@ -87,6 +91,10 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
 
   handleClose = (e) => {
     this.props.onClose();
+  }
+
+  handleFullScreen = () => {
+    this.setState({ fullScreenImage: !this.state.fullScreenImage });
   }
 
   startVisible(activeIndex: number) {
@@ -551,12 +559,21 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
             isFeatrue = true;
           }
           break;
+        // key: Ctrl + m
+        case 77:
+          if (e.ctrlKey) {
+            if (this.props.fullScreen) {
+              this.handleFullScreen();
+              isFeatrue = true;
+            }
+          }
+          break;
         default:
           break;
       }
 
     }
-
+    console.log(keyCode);
     if (isFeatrue) {
       e.preventDefault();
     }
@@ -667,7 +684,11 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
 
     let className = `${this.prefixCls} ${this.prefixCls}-transition`;
     if (this.props.container) {
-      className += ` ${this.prefixCls}-inline`;
+      if (this.state.fullScreenImage) {
+        className += ` ${this.prefixCls}-modal`;
+      } else {
+        className += ` ${this.prefixCls}-inline`;
+      }
     }
 
     return (
@@ -682,6 +703,17 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
             <Icon type={ActionType.close} />
           </div>
         )}
+
+        {this.props.fullScreen ? (
+          <div
+            className={`${this.prefixCls}-fullScreen ${this.prefixCls}-btn`}
+            onClick={this.handleFullScreen}
+            style={{ zIndex: zIndex + 10 }}
+          >
+            <Icon type={ActionType.zoomIn} />
+          </div>
+        ) : ''}
+
         <ViewerCanvas
           prefixCls={this.prefixCls}
           imgSrc={activeImg.src}

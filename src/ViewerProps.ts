@@ -84,6 +84,8 @@ interface ViewerProps {
 
   // no disabled Keydown
   noKeyDown?: boolean;
+
+  fullScreen?: boolean;
 }
 
 export default ViewerProps;
