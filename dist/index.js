@@ -801,7 +801,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	                switch (keyCode) {
 	                    // key: esc
 	                    case 27:
-	                        _this.props.onClose();
+	                        if (_this.props.fullScreen) {
+	                            _this.handleFullScreen();
+	                        } else {
+	                            _this.props.onClose();
+	                        }
 	                        isFeatrue = true;
 	                        break;
 	                    // key: ←
