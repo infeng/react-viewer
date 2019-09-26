@@ -509,7 +509,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
       switch (keyCode) {
         // key: esc
         case 27:
-          if (this.props.fullScreen) {
+          if (this.state.fullScreenImage) {
             this.handleFullScreen();
           } else {
             this.props.onClose();

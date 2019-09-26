@@ -801,7 +801,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                switch (keyCode) {
 	                    // key: esc
 	                    case 27:
-	                        if (_this.props.fullScreen) {
+	                        if (_this.state.fullScreenImage) {
 	                            _this.handleFullScreen();
 	                        } else {
 	                            _this.props.onClose();
