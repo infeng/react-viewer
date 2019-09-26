@@ -55,6 +55,22 @@
   top: 4px;
   left: 18px;
 }
+.react-viewer-fullScreen {
+  position: fixed;
+  top: 0px;
+  right: 0px;
+  overflow: hidden;
+  width: 40px;
+  height: 40px;
+  border-radius: 0 0 0 40px;
+  cursor: pointer;
+  z-index: 1010;
+}
+.react-viewer-fullScreen > i {
+  position: relative;
+  top: 4px;
+  left: 18px;
+}
 .react-viewer-canvas {
   position: fixed;
   top: 0;
@@ -87,6 +103,7 @@
 }
 .react-viewer-inline > .react-viewer-mask,
 .react-viewer-inline > .react-viewer-close,
+.react-viewer-inline > .react-viewer-fullScreen,
 .react-viewer-inline > .react-viewer-canvas,
 .react-viewer-inline > .react-viewer-footer {
   position: absolute;
@@ -191,6 +208,14 @@
 }
 .react-viewer-icon-close:before {
   content: '\EA0F';
+}
+.react-viewer-icon-fullScreen:before {
+  background-position: -220px 0;
+  content: '\EA0F';
+}
+.react-viewer-icon-fullscreen-exit::before {
+  background-position: -240px 0;
+  content: 'Exit Full Screen';
 }
 .react-viewer-icon-rotateLeft:before {
   content: '\E967';

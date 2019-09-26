@@ -557,6 +557,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        _this.handleClose = function (e) {
 	            _this.props.onClose();
 	        };
+	        _this.handleFullScreen = function () {
+	            _this.setState({ fullScreenImage: !_this.state.fullScreenImage });
+	        };
 	        _this.handleChangeImg = function (newIndex) {
 	            // let imgCenterXY2 = this.getImageCenterXY();
 	            // this.handleZoom(imgCenterXY2.x, imgCenterXY2.y, -1, 1);
@@ -848,10 +851,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	                            isFeatrue = true;
 	                        }
 	                        break;
+	                    // key: Ctrl + m
+	                    case 77:
+	                        if (e.ctrlKey) {
+	                            if (_this.props.fullScreen) {
+	                                _this.handleFullScreen();
+	                                isFeatrue = true;
+	                            }
+	                        }
+	                        break;
 	                    default:
 	                        break;
 	                }
 	            }
+	            console.log(keyCode);
 	            if (isFeatrue) {
 	                e.preventDefault();
 	            }
@@ -894,7 +907,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	            imageHeight: 0,
 	            scaleX: _this.props.scaleX ? _this.props.scaleX : 1,
 	            scaleY: _this.props.scaleY ? _this.props.scaleY : 1,
-	            loading: false
+	            loading: false,
+	            fullScreenImage: false
 	        };
 	        _this.setContainerWidthHeight();
 	        _this.footerHeight = 84;
@@ -960,7 +974,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var imgSrc = '';
 	        var images = this.props.images || [];
 	        if (images.length > 0) {
-	            imgSrc = images[activeIndex].src;
+	            imgSrc = images[activeIndex] ? images[activeIndex].src : '';
 	        }
 	        var img = new Image();
 	        img.src = imgSrc;
@@ -1122,7 +1136,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	        var className = this.prefixCls + ' ' + this.prefixCls + '-transition';
 	        if (this.props.container) {
-	            className += ' ' + this.prefixCls + '-inline';
+	            if (this.state.fullScreenImage) {
+	                className += ' ' + this.prefixCls + '-modal';
+	            } else {
+	                className += ' ' + this.prefixCls + '-inline';
+	            }
 	        }
 	        return React.createElement(
 	            'div',
@@ -1133,6 +1151,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	                { className: this.prefixCls + '-close ' + this.prefixCls + '-btn', onClick: this.handleClose, style: { zIndex: zIndex + 10 } },
 	                React.createElement(_Icon2.default, { type: _Icon.ActionType.close })
 	            ),
+	            this.props.fullScreen ? React.createElement(
+	                'div',
+	                { className: this.prefixCls + '-fullScreen ' + this.prefixCls + '-btn', onClick: this.handleFullScreen, style: { zIndex: zIndex + 10 } },
+	                React.createElement(_Icon2.default, { type: _Icon.ActionType.zoomIn })
+	            ) : '',
 	            React.createElement(_ViewerCanvas2.default, { prefixCls: this.prefixCls, imgSrc: activeImg.src, visible: this.props.visible, width: this.state.width, height: this.state.height, top: this.state.top, left: this.state.left, rotate: this.state.rotate, onChangeImgState: this.handleChangeImgState, onResize: this.handleResize, onZoom: this.handleScrollZoom, zIndex: zIndex + 5, scaleX: this.state.scaleX, scaleY: this.state.scaleY, loading: this.state.loading, drag: this.props.drag, container: this.props.container, onCanvasMouseDown: this.handleCanvasMouseDown }),
 	            this.props.noFooter || React.createElement(
 	                'div',
@@ -1164,7 +1187,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    customToolbar: function customToolbar(toolbars) {
 	        return toolbars;
 	    },
-	    zoomSpeed: .05
+	    zoomSpeed: .05,
+	    fullScreen: false
 	};
 	module.exports = exports['default'];
 
