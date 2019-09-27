@@ -163,10 +163,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	var Loading = function (_React$Component) {
 	    _inherits(Loading, _React$Component);
 
-	    function Loading() {
+	    function Loading(props) {
 	        _classCallCheck(this, Loading);
 
-	        return _possibleConstructorReturn(this, _React$Component.call(this));
+	        return _possibleConstructorReturn(this, _React$Component.call(this, props));
 	    }
 
 	    Loading.prototype.render = function render() {
@@ -228,10 +228,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	var Viewer = function (_React$Component) {
 	    _inherits(Viewer, _React$Component);
 
-	    function Viewer() {
+	    function Viewer(props) {
 	        _classCallCheck(this, Viewer);
 
-	        var _this = _possibleConstructorReturn(this, _React$Component.call(this));
+	        var _this = _possibleConstructorReturn(this, _React$Component.call(this, props));
 
 	        _this.container = null;
 	        _this.defaultContainer = document.createElement('div');
@@ -340,10 +340,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	var ViewerCanvas = function (_React$Component) {
 	    _inherits(ViewerCanvas, _React$Component);
 
-	    function ViewerCanvas() {
+	    function ViewerCanvas(props) {
 	        _classCallCheck(this, ViewerCanvas);
 
-	        var _this = _possibleConstructorReturn(this, _React$Component.call(this));
+	        var _this = _possibleConstructorReturn(this, _React$Component.call(this, props));
 
 	        _this.handleResize = function (e) {
 	            _this.props.onResize();
@@ -1355,10 +1355,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	var ViewerToolbar = function (_React$Component) {
 	    _inherits(ViewerToolbar, _React$Component);
 
-	    function ViewerToolbar() {
+	    function ViewerToolbar(props) {
 	        _classCallCheck(this, ViewerToolbar);
 
-	        var _this = _possibleConstructorReturn(this, _React$Component.call(this));
+	        var _this = _possibleConstructorReturn(this, _React$Component.call(this, props));
 
 	        _this.renderAction = function (config) {
 	            var content = null;

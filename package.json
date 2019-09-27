@@ -33,7 +33,7 @@
   "homepage": "https://github.com/infeng/react-viewer#readme",
   "devDependencies": {
     "@types/node": "^6.0.45",
-    "@types/react": "^0.14.39",
+    "@types/react": "^16.9.3",
     "@types/react-dom": "^0.14.17",
     "antd": "^2.13.11",
     "atool-build": "^1.0.2",

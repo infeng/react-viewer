@@ -79,8 +79,8 @@ function deleteToolbarFromKey(toolbars: ToolbarConfig[], keys: string[]) {
 
 export default class ViewerToolbar extends React.Component<ViewerToolbarProps, any> {
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
   }
 
   handleAction(config: ToolbarConfig) {

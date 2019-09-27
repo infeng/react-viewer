@@ -30,8 +30,8 @@ export interface ViewerCanvasState {
 
 export default class ViewerCanvas extends React.Component<ViewerCanvasProps, ViewerCanvasState> {
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
       isMouseDown: false,

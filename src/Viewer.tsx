@@ -8,8 +8,8 @@ export default class Viewer extends React.Component<ViewerProps, any> {
   private container: HTMLElement;
   private component: React.ReactNode;
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.container = null;
     this.defaultContainer = document.createElement('div');
