@@ -1002,7 +1002,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        img.onload = function () {
 	            // retorna o valor true/false para o carregamento da imagem
 	            if (_this3.props.waiting && typeof _this3.props.waiting === 'function') {
-	                _this3.props.waiting(_this3.state.loading);
+	                _this3.props.waiting(_this3.state.loading.toString() + new Date());
 	            }
 	            var imgWidth = img.width;
 	            var imgHeight = img.height;
@@ -1067,7 +1067,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            });
 	            // retorna o valor true/false para o carregamento da imagem
 	            if (_this3.props.waiting && typeof _this3.props.waiting === 'function') {
-	                _this3.props.waiting(_this3.state.loading);
+	                _this3.props.waiting(_this3.state.loading.toString() + new Date());
 	            }
 	        };
 	        img.onerror = function () {
