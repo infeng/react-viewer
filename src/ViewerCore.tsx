@@ -169,7 +169,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     img.onload = () => {
 
       // retorna o valor true/false para o carregamento da imagem
-      if (this.props.waiting) {
+      if (this.props.waiting && typeof (this.props.waiting) === 'function') {
         this.props.waiting(this.state.loading);
       }
 
@@ -242,7 +242,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
       });
 
       // retorna o valor true/false para o carregamento da imagem
-      if (this.props.waiting) {
+      if (this.props.waiting && typeof (this.props.waiting) === 'function') {
         this.props.waiting(this.state.loading);
       }
     };

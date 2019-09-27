@@ -1001,7 +1001,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	        img.onload = function () {
 	            // retorna o valor true/false para o carregamento da imagem
-	            if (_this3.props.waiting) {
+	            if (_this3.props.waiting && typeof _this3.props.waiting === 'function') {
 	                _this3.props.waiting(_this3.state.loading);
 	            }
 	            var imgWidth = img.width;
@@ -1066,7 +1066,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                scaleY: _this3.props.scaleY ? _this3.props.scaleY : 1
 	            });
 	            // retorna o valor true/false para o carregamento da imagem
-	            if (_this3.props.waiting) {
+	            if (_this3.props.waiting && typeof _this3.props.waiting === 'function') {
 	                _this3.props.waiting(_this3.state.loading);
 	            }
 	        };
