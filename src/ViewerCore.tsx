@@ -703,7 +703,6 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
       }
     }
 
-
     return (
       <div ref="viewerCore" className={className} style={viewerStryle}>
         <div className={`${this.prefixCls}-mask`} style={{ zIndex: zIndex }} />
