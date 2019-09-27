@@ -1066,7 +1066,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	                scaleY: _this3.props.scaleY ? _this3.props.scaleY : 1
 	            });
 	            // retorna o valor true/false para o carregamento da imagem
-	            if (_this3.props.waiting) _this3.props.waiting(_this3.state.loading);
+	            if (_this3.props.waiting) {
+	                _this3.props.waiting(_this3.state.loading);
+	            }
 	        };
 	        img.onerror = function () {
 	            _this3.setState({
