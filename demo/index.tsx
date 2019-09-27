@@ -16,18 +16,20 @@ interface State {
   visible: boolean;
   activeIndex: number;
   mode: 'modal' | 'inline';
+  childreen: '';
 }
 
 class App extends React.Component<any, Partial<State>> {
   container: HTMLDivElement;
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
       visible: false,
       activeIndex: 0,
       mode: 'modal',
+      childreen: '',
     };
   }
 
@@ -43,6 +45,11 @@ class App extends React.Component<any, Partial<State>> {
       visible: true,
     });
   }
+
+  handleWaiting(value) {
+    console.log('Parent -> get child value ', value);
+  }
+
 
   render() {
     let images = [{
@@ -76,6 +83,8 @@ class App extends React.Component<any, Partial<State>> {
     let imgListClass = classNames('img-list', {
       hide: this.state.visible && inline,
     });
+
+
 
     return (
       <div>
@@ -137,6 +146,7 @@ class App extends React.Component<any, Partial<State>> {
             container={inline ? this.container : null}
             downloadable
             fullScreen={true}
+            waiting={this.handleWaiting}
             customToolbar={(toolbars) => {
               return toolbars.concat([{
                 key: 'bookmark',

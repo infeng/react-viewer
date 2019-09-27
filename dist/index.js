@@ -1000,6 +1000,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	            });
 	        }
 	        img.onload = function () {
+	            // retorna o valor true/false para o carregamento da imagem
+	            if (_this3.props.waiting) {
+	                _this3.props.waiting(_this3.state.loading);
+	            }
 	            var imgWidth = img.width;
 	            var imgHeight = img.height;
 	            // if (firstLoad) {
@@ -1061,7 +1065,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	                scaleX: _this3.props.scaleX ? _this3.props.scaleX : 1,
 	                scaleY: _this3.props.scaleY ? _this3.props.scaleY : 1
 	            });
-	            // }
+	            // retorna o valor true/false para o carregamento da imagem
+	            if (_this3.props.waiting) _this3.props.waiting(_this3.state.loading);
 	        };
 	        img.onerror = function () {
 	            _this3.setState({

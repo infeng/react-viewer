@@ -26,7 +26,6 @@ export interface ViewerCoreState {
   scaleY?: number;
   loading?: boolean;
   fullScreenImage?: boolean;
-
 }
 
 export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreState> {
@@ -168,6 +167,12 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
       });
     }
     img.onload = () => {
+
+      // retorna o valor true/false para o carregamento da imagem
+      if (this.props.waiting) {
+        this.props.waiting(this.state.loading);
+      }
+
       let imgWidth = img.width;
       let imgHeight = img.height;
       // if (firstLoad) {
@@ -235,7 +240,11 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
         scaleX: this.props.scaleX ? this.props.scaleX : 1,
         scaleY: this.props.scaleY ? this.props.scaleY : 1,
       });
-      // }
+
+      // retorna o valor true/false para o carregamento da imagem
+      if (this.props.waiting) {
+        this.props.waiting(this.state.loading);
+      }
     };
 
     img.onerror = () => {
@@ -693,6 +702,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
         className += ` ${this.prefixCls}-inline`;
       }
     }
+
 
     return (
       <div ref="viewerCore" className={className} style={viewerStryle}>

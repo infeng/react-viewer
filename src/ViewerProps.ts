@@ -85,7 +85,11 @@ interface ViewerProps {
   // no disabled Keydown
   noKeyDown?: boolean;
 
+  // abrir imagem em Modalu
   fullScreen?: boolean;
+
+// informar o loading da imagem
+  waiting?: null;
 }
 
 export default ViewerProps;
