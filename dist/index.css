@@ -64,7 +64,7 @@
   height: 40px;
   border-radius: 0 0 0 40px;
   cursor: pointer;
-  z-index: 1100;
+  z-index: 1500;
 }
 .react-viewer-fullScreen > i {
   position: relative;
