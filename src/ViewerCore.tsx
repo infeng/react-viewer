@@ -725,7 +725,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
           <div
             className={`${this.prefixCls}-fullScreen ${this.prefixCls}-btn`}
             onClick={this.handleFullScreen}
-            style={{ zIndex: zIndex + 10 }}
+            style={{ zIndex: zIndex + 100 }}
           >
             <Icon type={ActionType.zoomIn} />
           </div>

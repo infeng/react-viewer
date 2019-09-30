@@ -1169,7 +1169,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            ),
 	            this.props.fullScreen ? React.createElement(
 	                'div',
-	                { className: this.prefixCls + '-fullScreen ' + this.prefixCls + '-btn', onClick: this.handleFullScreen, style: { zIndex: zIndex + 10 } },
+	                { className: this.prefixCls + '-fullScreen ' + this.prefixCls + '-btn', onClick: this.handleFullScreen, style: { zIndex: zIndex + 100 } },
 	                React.createElement(_Icon2.default, { type: _Icon.ActionType.zoomIn })
 	            ) : '',
 	            React.createElement(_ViewerCanvas2.default, { prefixCls: this.prefixCls, imgSrc: activeImg.src, visible: this.props.visible, width: this.state.width, height: this.state.height, top: this.state.top, left: this.state.left, rotate: this.state.rotate, onChangeImgState: this.handleChangeImgState, onResize: this.handleResize, onZoom: this.handleScrollZoom, zIndex: zIndex + 5, scaleX: this.state.scaleX, scaleY: this.state.scaleY, loading: this.state.loading, drag: this.props.drag, container: this.props.container, onCanvasMouseDown: this.handleCanvasMouseDown }),
