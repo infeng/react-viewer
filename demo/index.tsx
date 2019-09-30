@@ -47,7 +47,7 @@ class App extends React.Component<any, Partial<State>> {
   }
 
   handleWaiting(value) {
-    console.log('Parent -> get child value ', value);
+    console.log('Parent -> get child value ', value, new Date())
   }
 
 
