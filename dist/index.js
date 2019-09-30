@@ -566,6 +566,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	            // setTimeout(() => {
 	            //   this.loadImg(newIndex);
 	            // }, transitionDuration);
+	            // setTimeout(() => {
+	            //   this.bindEvent();
+	            //   this.loadImg(newIndex, true);
+	            // }, 25000);
 	            _this.loadImg(newIndex);
 	        };
 	        _this.handleChangeImgState = function (width, height, top, left) {
@@ -927,9 +931,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	    };
 
+	    ViewerCore.prototype.imageLoad = function imageLoad(val) {
+	        // retorna o valor true/false para o carregamento da imagem
+	        if (this.props.waiting && typeof this.props.waiting === 'function') {
+	            this.props.waiting(val);
+	            // console.log('children ',val, new Date())
+	        }
+	    };
+
 	    ViewerCore.prototype.startVisible = function startVisible(activeIndex) {
 	        var _this2 = this;
 
+	        this.imageLoad(true);
 	        if (!this.props.container) {
 	            document.body.style.overflow = 'hidden';
 	            if (document.body.scrollHeight > document.body.clientHeight) {
@@ -946,7 +959,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            setTimeout(function () {
 	                _this2.bindEvent();
 	                _this2.loadImg(activeIndex, true);
-	            }, 300);
+	            }, 3000);
 	        }, 10);
 	    };
 
@@ -1000,10 +1013,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	            });
 	        }
 	        img.onload = function () {
-	            // retorna o valor true/false para o carregamento da imagem
-	            if (_this3.props.waiting && typeof _this3.props.waiting === 'function') {
-	                _this3.props.waiting(_this3.state.loading);
-	            }
 	            var imgWidth = img.width;
 	            var imgHeight = img.height;
 	            // if (firstLoad) {
@@ -1065,10 +1074,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	                scaleX: _this3.props.scaleX ? _this3.props.scaleX : 1,
 	                scaleY: _this3.props.scaleY ? _this3.props.scaleY : 1
 	            });
-	            // retorna o valor true/false para o carregamento da imagem
-	            if (_this3.props.waiting && typeof _this3.props.waiting === 'function') {
-	                _this3.props.waiting(_this3.state.loading);
-	            }
 	        };
 	        img.onerror = function () {
 	            _this3.setState({
@@ -1078,6 +1083,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                loading: false
 	            });
 	        };
+	        this.imageLoad(false);
 	    };
 
 	    ViewerCore.prototype.bindEvent = function bindEvent() {

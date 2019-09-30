@@ -96,7 +96,16 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     this.setState({ fullScreenImage: !this.state.fullScreenImage });
   }
 
+  imageLoad(val) {
+    // retorna o valor true/false para o carregamento da imagem
+    if (this.props.waiting && typeof (this.props.waiting) === 'function') {
+      this.props.waiting(val);
+      // console.log('children ',val, new Date())
+    }
+  }
+
   startVisible(activeIndex: number) {
+    this.imageLoad(true);
     if (!this.props.container) {
       document.body.style.overflow = 'hidden';
       if (document.body.scrollHeight > document.body.clientHeight) {
@@ -113,7 +122,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
       setTimeout(() => {
         this.bindEvent();
         this.loadImg(activeIndex, true);
-      }, 300);
+      }, 3000);
     }, 10);
   }
 
@@ -167,12 +176,6 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
       });
     }
     img.onload = () => {
-
-      // retorna o valor true/false para o carregamento da imagem
-      if (this.props.waiting && typeof (this.props.waiting) === 'function') {
-        this.props.waiting(this.state.loading);
-      }
-
       let imgWidth = img.width;
       let imgHeight = img.height;
       // if (firstLoad) {
@@ -240,11 +243,6 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
         scaleX: this.props.scaleX ? this.props.scaleX : 1,
         scaleY: this.props.scaleY ? this.props.scaleY : 1,
       });
-
-      // retorna o valor true/false para o carregamento da imagem
-      if (this.props.waiting && typeof (this.props.waiting) === 'function') {
-        this.props.waiting(this.state.loading);
-      }
     };
 
     img.onerror = () => {
@@ -256,6 +254,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
       });
     };
 
+    this.imageLoad(false);
   }
 
   handleChangeImg = (newIndex: number) => {
@@ -264,6 +263,12 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     // setTimeout(() => {
     //   this.loadImg(newIndex);
     // }, transitionDuration);
+
+    // setTimeout(() => {
+    //   this.bindEvent();
+    //   this.loadImg(newIndex, true);
+    // }, 25000);
+
     this.loadImg(newIndex);
   }
 
