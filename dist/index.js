@@ -959,7 +959,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            setTimeout(function () {
 	                _this2.bindEvent();
 	                _this2.loadImg(activeIndex, true);
-	            }, 3000);
+	            }, 200);
 	        }, 10);
 	    };
 
