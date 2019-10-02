@@ -122,7 +122,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
       setTimeout(() => {
         this.bindEvent();
         this.loadImg(activeIndex, true);
-      }, 3000);
+      }, 200);
     }, 10);
   }
 
