@@ -153,12 +153,8 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     let imgSrc = '';
     let images = this.props.images || [];
     if (images.length > 0) {
-      if (activeIndex > images.length) {
-        activeIndex = 0;
-      }
       imgSrc = images[activeIndex] ? images[activeIndex].src : '';
     }
-
     let img = new Image();
     img.src = imgSrc;
     if (firstLoad) {
@@ -671,10 +667,8 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
 
     let images = this.props.images || [];
     if (images.length > 0 && this.state.activeIndex >= 0) {
-      if (this.state.activeIndex > images.length) {
-        this.setState({ activeIndex: 0 });
-      }
-      activeImg = images[this.state.activeIndex];
+      // activeImg = images[this.state.activeIndex];
+      activeImg = images[0];
     }
 
     return activeImg;
