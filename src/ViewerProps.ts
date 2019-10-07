@@ -103,8 +103,5 @@ interface ViewerProps {
   // informar o loading da imagem
   waiting?: object;
 
-  // remver o container
-  removeContainer?: boolean;
-
 }
 export default ViewerProps;

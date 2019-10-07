@@ -59,10 +59,6 @@ export default class Viewer extends React.Component<ViewerProps, any> {
 
   componentWillReceiveProps(nextProps: ViewerProps) {
 
-    if (nextProps.removeContainer) {
-      this.renderViewer();
-    }
-
     if (this.props.container !== nextProps.container) {
       this.component = null;
       if (nextProps.container) {
