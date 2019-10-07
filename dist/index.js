@@ -991,6 +991,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var imgSrc = '';
 	        var images = this.props.images || [];
 	        if (images.length > 0) {
+	            if (activeIndex > images.length) {
+	                activeIndex = 0;
+	            }
 	            imgSrc = images[activeIndex] ? images[activeIndex].src : '';
 	        }
 	        var img = new Image();
