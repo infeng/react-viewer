@@ -274,6 +274,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 
 	    Viewer.prototype.componentWillReceiveProps = function componentWillReceiveProps(nextProps) {
+	        this.component = null;
 	        if (this.props.container !== nextProps.container) {
 	            this.component = null;
 	            if (nextProps.container) {
