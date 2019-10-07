@@ -896,10 +896,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	            };
 	            var images = _this.props.images || [];
 	            if (images.length > 0 && _this.state.activeIndex >= 0) {
-	                if (_this.state.activeIndex > images.length) {
-	                    _this.setState({ activeIndex: 0 });
-	                }
-	                activeImg = images[_this.state.activeIndex];
+	                // activeImg = images[this.state.activeIndex];
+	                activeImg = images[0];
 	            }
 	            return activeImg;
 	        };
@@ -994,9 +992,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var imgSrc = '';
 	        var images = this.props.images || [];
 	        if (images.length > 0) {
-	            if (activeIndex > images.length) {
-	                activeIndex = 0;
-	            }
 	            imgSrc = images[activeIndex] ? images[activeIndex].src : '';
 	        }
 	        var img = new Image();
