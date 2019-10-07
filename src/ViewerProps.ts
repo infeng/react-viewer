@@ -102,6 +102,6 @@ interface ViewerProps {
 
   // informar o loading da imagem
   waiting?: object;
-}
 
+}
 export default ViewerProps;

@@ -10,7 +10,6 @@ export default class Viewer extends React.Component<ViewerProps, any> {
 
   constructor(props) {
     super(props);
-
     this.container = null;
     this.defaultContainer = document.createElement('div');
     this.component = null;
@@ -32,8 +31,6 @@ export default class Viewer extends React.Component<ViewerProps, any> {
         <ViewerCore
           {...this.props}
           noClose={this.props.noClose || true}
-        // stretch={true}
-        // stretchHeight={true}
         />,
         this.container,
         function () {
@@ -61,6 +58,7 @@ export default class Viewer extends React.Component<ViewerProps, any> {
   }
 
   componentWillReceiveProps(nextProps: ViewerProps) {
+    this.component = null;
     if (this.props.container !== nextProps.container) {
       this.component = null;
       if (nextProps.container) {

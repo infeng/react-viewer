@@ -274,6 +274,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 
 	    Viewer.prototype.componentWillReceiveProps = function componentWillReceiveProps(nextProps) {
+	        this.component = null;
 	        if (this.props.container !== nextProps.container) {
 	            this.component = null;
 	            if (nextProps.container) {
@@ -895,7 +896,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	            };
 	            var images = _this.props.images || [];
 	            if (images.length > 0 && _this.state.activeIndex >= 0) {
-	                activeImg = images[_this.state.activeIndex];
+	                if (_this.state.activeIndex > images.length) {
+	                    activeImg = images[0];
+	                    _this.setState({ activeIndex: 0 });
+	                } else {
+	                    activeImg = images[_this.state.activeIndex];
+	                }
 	            }
 	            return activeImg;
 	        };
@@ -904,7 +910,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            visible: false,
 	            visibleStart: false,
 	            transitionEnd: false,
-	            activeIndex: _this.props.activeIndex,
+	            activeIndex: _this.props.activeIndex || 0,
 	            width: 0,
 	            height: 0,
 	            top: 15,
