@@ -896,6 +896,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	            };
 	            var images = _this.props.images || [];
 	            if (images.length > 0 && _this.state.activeIndex >= 0) {
+	                if (_this.state.activeIndex > images.length) {
+	                    _this.setState({ activeIndex: 0 });
+	                }
 	                activeImg = images[_this.state.activeIndex];
 	            }
 	            return activeImg;

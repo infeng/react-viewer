@@ -671,6 +671,9 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
 
     let images = this.props.images || [];
     if (images.length > 0 && this.state.activeIndex >= 0) {
+      if (this.state.activeIndex > images.length) {
+        this.setState({ activeIndex: 0 });
+      }
       activeImg = images[this.state.activeIndex];
     }
 
