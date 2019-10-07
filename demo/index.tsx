@@ -147,7 +147,7 @@ class App extends React.Component<any, Partial<State>> {
             downloadable
             fullScreen={true}
             waiting={this.handleWaiting}
-
+            removeContainer={true}
             customToolbar={(toolbars) => {
               return toolbars.concat([{
                 key: 'bookmark',

@@ -61,7 +61,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
       visible: false,
       visibleStart: false,
       transitionEnd: false,
-      activeIndex: this.props.activeIndex,
+      activeIndex: this.props.activeIndex || 0,
       width: 0,
       height: 0,
       top: 15,
@@ -155,6 +155,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     if (images.length > 0) {
       imgSrc = images[activeIndex] ? images[activeIndex].src : '';
     }
+
     let img = new Image();
     img.src = imgSrc;
     if (firstLoad) {

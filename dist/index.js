@@ -274,6 +274,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 
 	    Viewer.prototype.componentWillReceiveProps = function componentWillReceiveProps(nextProps) {
+	        if (nextProps.removeContainer) {
+	            this.renderViewer();
+	        }
 	        if (this.props.container !== nextProps.container) {
 	            this.component = null;
 	            if (nextProps.container) {
@@ -904,7 +907,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            visible: false,
 	            visibleStart: false,
 	            transitionEnd: false,
-	            activeIndex: _this.props.activeIndex,
+	            activeIndex: _this.props.activeIndex || 0,
 	            width: 0,
 	            height: 0,
 	            top: 15,
