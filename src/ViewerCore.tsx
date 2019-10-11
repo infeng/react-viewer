@@ -102,8 +102,15 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     }
   }
 
-  handleClose = () => {
-    this.props.onClose();
+  handleClose = (e) => {
+    // Stop the event from bubbling
+    const { target } = e;
+    if (
+      target.matches(".react-viewer-canvas") ||
+      target.matches(".react-viewer-close")
+    ) {
+      this.props.onClose();
+    }
   }
 
   startVisible(activeIndex: number) {
@@ -604,7 +611,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
       activeImg = this.getActiveImage();
     }
 
-    let className = `${this.prefixCls} ${this.prefixCls}-transition`;
+    let className = `${this.prefixCls} ${this.prefixCls}-container ${this.prefixCls}-transition`;
     if (this.props.container) {
       className += ` ${this.prefixCls}-inline`;
     }
@@ -614,8 +621,8 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
         ref="viewerCore"
         className={className}
         style={viewerStryle}
+        onClick={this.handleClose}
       >
-        <div className={`${this.prefixCls}-mask`} style={{ zIndex: zIndex }} />
         {this.props.noClose || (
           <div
             className={`${this.prefixCls}-close ${this.prefixCls}-btn`}
