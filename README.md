@@ -78,6 +78,7 @@ class App extends React.Component<any, any> {
 | onChange | (activeImage: [ImageDecorator](#imagedecorator), index: number) => void | - | callback when iamge change | false |
 | loop         | boolean      |  true   | whether enable image loop | false |
 | disableMouseZoom   | boolean      |  false   | whether disable mouse zoom | false |
+| className   | string    |  -  | customized CSS class | false |
 
 ### ImageDecorator
 

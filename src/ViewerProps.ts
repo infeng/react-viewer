@@ -100,6 +100,8 @@ interface ViewerProps {
 
   // disable mouse zoom
   disableMouseZoom?: boolean;
+
+  className?: string;
 }
 
 export default ViewerProps;

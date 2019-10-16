@@ -6,6 +6,7 @@ import ViewerToolbar, { defaultToolbars } from './ViewerToolbar';
 import ViewerProps, { ImageDecorator, ToolbarConfig } from './ViewerProps';
 import Icon, { ActionType } from './Icon';
 import * as constants from './constants';
+import classnames from 'classnames';
 
 function noop() { }
 
@@ -604,10 +605,10 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
       activeImg = this.getActiveImage();
     }
 
-    let className = `${this.prefixCls} ${this.prefixCls}-transition`;
-    if (this.props.container) {
-      className += ` ${this.prefixCls}-inline`;
-    }
+    const className = classnames(`${this.prefixCls}`, `${this.prefixCls}-transition`, {
+      [`${this.prefixCls}-inline`]: this.props.container,
+      [this.props.className]: this.props.className,
+    });
 
     return (
       <div
