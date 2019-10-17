@@ -15,6 +15,7 @@ interface State {
   visible: boolean;
   activeIndex: number;
   mode: 'modal' | 'inline';
+  drawerVisible: boolean;
 }
 
 class App extends React.Component<any, Partial<State>> {
@@ -121,7 +122,7 @@ class App extends React.Component<any, Partial<State>> {
                   );
                 })}
               </div>
-              <div className={inlineContainerClass} ref={ref => {this.container = ref;}}></div>
+              <div className={inlineContainerClass} ref={ref => {this.container = ref; }}></div>
             </Col>
           </Row>
           <Viewer
@@ -154,5 +155,5 @@ class App extends React.Component<any, Partial<State>> {
 
 ReactDOM.render(
   <App />,
-  document.getElementById('root')
+  document.getElementById('root'),
 );

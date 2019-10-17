@@ -462,6 +462,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     }
     if (isFeatrue) {
       e.preventDefault();
+      e.stopPropagation();
     }
   }
 
@@ -480,7 +481,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
       funcName = 'removeEventListener';
     }
     if (!this.props.disableKeyboardSupport) {
-      document[funcName]('keydown', this.handleKeydown, false);
+      document[funcName]('keydown', this.handleKeydown, true);
     }
   }
 

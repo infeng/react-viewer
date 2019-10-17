@@ -37,7 +37,7 @@
     "@types/node": "^6.0.45",
     "@types/react": "^0.14.39",
     "@types/react-dom": "^0.14.17",
-    "antd": "^3.16.2",
+    "antd": "^3.24.0",
     "atool-build": "^1.0.8",
     "babel-jest": "^23.4.2",
     "babel-plugin-import": "^1.2.1",
