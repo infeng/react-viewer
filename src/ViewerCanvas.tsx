@@ -47,8 +47,12 @@ export default function ViewerCanvas(props: ViewerCanvasProps) {
   }, []);
 
   React.useEffect(() => {
-    bindWindowResizeEvent(!props.visible);
-  }, [props.visible]);
+    bindWindowResizeEvent();
+
+    return () => {
+      bindWindowResizeEvent(true);
+    };
+  });
 
   React.useEffect(() => {
     if (props.visible && props.drag) {

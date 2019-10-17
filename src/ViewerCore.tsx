@@ -442,7 +442,17 @@ export default (props: ViewerProps) => {
     }));
   }
 
-  function handleResize() {}
+  function handleResize() {
+    containerSize.current = setContainerWidthHeight();
+    if (visible) {
+      let left = (containerSize.current.width - state.width) / 2;
+      let top = (containerSize.current.height - state.height - footerHeight) / 2;
+      dispatch(createAction(ACTION_TYPES.update, {
+        left: left,
+        top: top,
+      }));
+    }
+  }
 
   function handleCanvasMouseDown(e) {
     onMaskClick(e);
