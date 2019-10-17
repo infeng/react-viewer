@@ -15,6 +15,7 @@ interface State {
   visible: boolean;
   activeIndex: number;
   mode: 'modal' | 'inline';
+  drawerVisible: boolean;
 }
 
 class App extends React.Component<any, Partial<State>> {

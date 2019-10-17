@@ -1,6 +1,6 @@
 {
   "name": "react-viewer",
-  "version": "2.10.0",
+  "version": "2.11.1",
   "description": "react image viewer",
   "main": "dist/index",
   "scripts": {
@@ -9,7 +9,8 @@
     "lint": "tslint -c tslint.json src/**/*.ts src/**/*.tsx",
     "build": "atool-build --config webpack.config.prop.js && gulp",
     "doc": "atool-build --config webpack.config.doc.js",
-    "pub": "npm run build && npm publish"
+    "pub": "npm run build && npm publish",
+    "prepublish": "npm run build"
   },
   "repository": {
     "type": "git",
@@ -36,7 +37,7 @@
     "@types/node": "^6.0.45",
     "@types/react": "^16.9.1",
     "@types/react-dom": "^16.8.5",
-    "antd": "^3.16.2",
+    "antd": "^3.24.1",
     "atool-build": "^1.0.8",
     "babel-jest": "^23.4.2",
     "babel-plugin-import": "^1.2.1",

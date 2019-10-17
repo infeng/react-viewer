@@ -6,6 +6,7 @@ import ViewerToolbar, { defaultToolbars } from './ViewerToolbar';
 import ViewerProps, { ImageDecorator, ToolbarConfig } from './ViewerProps';
 import Icon, { ActionType } from './Icon';
 import * as constants from './constants';
+import classnames from 'classnames';
 
 function noop() { }
 
@@ -453,7 +454,7 @@ export default (props: ViewerProps) => {
       funcName = 'removeEventListener';
     }
     if (!disableKeyboardSupport) {
-      document[funcName]('keydown', handleKeydown, false);
+      document[funcName]('keydown', handleKeydown, true);
     }
     if (viewerCore.current) {
       viewerCore.current[funcName](
@@ -513,6 +514,7 @@ export default (props: ViewerProps) => {
     }
     if (isFeatrue) {
       e.preventDefault();
+      e.stopPropagation();
     }
   }
 
@@ -596,10 +598,10 @@ export default (props: ViewerProps) => {
 
   const prefixCls = 'react-viewer';
 
-  let className = `${prefixCls} ${prefixCls}-transition`;
-  if (props.container) {
-    className += ` ${prefixCls}-inline`;
-  }
+  const className = classnames(`${prefixCls}`, `${prefixCls}-transition`, {
+    [`${prefixCls}-inline`]: props.container,
+    [props.className]: props.className,
+  });
 
   let viewerStryle: React.CSSProperties = {
     opacity: (visible && state.visible) ? 1 : 0,

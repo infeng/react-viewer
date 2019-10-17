@@ -728,4 +728,13 @@ describe('Viewer', () => {
     viewerHelper.skipAnimation();
     expect($$('.react-viewer-attribute')[0].innerHTML).toContain('lake');
   });
+
+  it('customized CSS class', () => {
+    viewerHelper.new({
+      className: 'my-react-viewer',
+    });
+    viewerHelper.open();
+
+    expect($$('.my-react-viewer')).toHaveLength(1);
+  });
 });

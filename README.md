@@ -79,6 +79,7 @@ class App extends React.Component<any, any> {
 | loop         | boolean      |  true   | whether enable image loop | false |
 | disableMouseZoom   | boolean      |  false   | whether disable mouse zoom | false |
 | downloadInNewWindow | boolean | false | whether to download in a new window | false |
+| className   | string    |  -  | customized CSS class | false |
 
 ### ImageDecorator
 

@@ -103,6 +103,8 @@ interface ViewerProps {
 
   // whether to download in a new window
   downloadInNewWindow?: boolean;
+
+  className?: string;
 }
 
 export default ViewerProps;
