@@ -4,7 +4,7 @@ import ViewerCore from './ViewerCore';
 import ViewerProps from './ViewerProps';
 
 export default (props: ViewerProps) => {
-  const defaultContainer = React.useRef(document.createElement('div'));
+  const defaultContainer = React.useRef(typeof document !== 'undefined' ? document.createElement('div') : null);
   const [ container, setContainer ] = React.useState(props.container);
   const [ init, setInit ] = React.useState(false);
 

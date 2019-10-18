@@ -1,5 +1,5 @@
 const React = require('react');
-const Viewer = require('../dist/index.js');
+const Viewer = require('./dist/index');
 
 function App () {
   const [ visible, setVisible ] = React.useState(false);

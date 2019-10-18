@@ -5,7 +5,7 @@ module.exports = {
   entry: './client.js',
   output: {
     filename: 'main.js',
-    path: path.resolve(__dirname, 'dist')
+    path: path.resolve(__dirname, 'client-dist')
   },
   mode: 'development',
   module: {

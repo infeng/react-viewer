@@ -1,5 +1,3 @@
-'use strict';
-
 const express = require('express');
 const React = require('react');
 const ReactDOMServer = require('react-dom/server');
@@ -7,7 +5,7 @@ const App = require('./app');
 const path = require('path');
 
 const app = express();
-app.use(express.static(path.join(__dirname, 'dist')));
+app.use(express.static(path.join(__dirname, 'client-dist')));
 
 app.get('*', function response(req, res) {
   const html = ReactDOMServer.renderToString(<App />);

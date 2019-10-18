@@ -4,3 +4,4 @@ lib/
 .DS_STORE
 coverage
 pages-build
+client-dist
