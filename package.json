@@ -10,7 +10,9 @@
     "build": "atool-build --config webpack.config.prop.js && gulp",
     "doc": "atool-build --config webpack.config.doc.js",
     "pub": "npm run build && npm publish",
-    "prepublish": "npm run build"
+    "prepublish": "npm run build",
+    "predeploy": "npm run doc",
+    "deploy": "gh-pages -d pages-build"
   },
   "repository": {
     "type": "git",
@@ -50,6 +52,7 @@
     "enzyme": "^3.9.0",
     "enzyme-adapter-react-16": "^1.2.0",
     "enzyme-to-json": "^3.3.4",
+    "gh-pages": "^2.1.1",
     "gulp": "^3.9.1",
     "gulp-babel": "^6.1.2",
     "gulp-typescript": "^3.0.2",
