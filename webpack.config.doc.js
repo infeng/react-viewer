@@ -21,7 +21,7 @@ module.exports = function (webpackConfig) {
     index: './demo/index.tsx',
   };
 
-  webpackConfig.output.path = './docs';
+  webpackConfig.output.path = './pages-build';
   webpackConfig.output.publicPath = '/react-viewer/';
 
   webpackConfig.module.loaders.forEach(function (loader, index) {
