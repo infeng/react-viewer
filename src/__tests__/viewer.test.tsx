@@ -739,4 +739,15 @@ describe('Viewer', () => {
 
     expect($$('.my-react-viewer')).toHaveLength(1);
   });
+
+  it('showTotal', () => {
+    viewerHelper.new({
+      className: 'my-react-viewer',
+    });
+    viewerHelper.open();
+
+    expect($$('.react-viewer-showTotal')[0].innerHTML).toBe('1 of 2');
+    triggerKeyboard(document, 'keydown', 39);
+    expect($$('.react-viewer-showTotal')[0].innerHTML).toBe('2 of 2');
+  });
 });

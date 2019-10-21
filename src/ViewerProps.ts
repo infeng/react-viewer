@@ -105,6 +105,9 @@ interface ViewerProps {
   downloadInNewWindow?: boolean;
 
   className?: string;
+
+  // whether to display the total number and range
+  showTotal?: boolean;
 }
 
 export default ViewerProps;

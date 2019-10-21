@@ -16,6 +16,9 @@ export interface ViewerToolbarProps {
   downloadable: boolean;
   noImgDetails: boolean;
   toolbars: ToolbarConfig[];
+  activeIndex: number;
+  count: number;
+  showTotal: boolean;
 }
 
 export const defaultToolbars: ToolbarConfig[] = [
@@ -99,6 +102,8 @@ export default function ViewerToolbar(props: ViewerToolbarProps) {
       {props.noImgDetails || <span className={`${props.prefixCls}-img-details`}>
         {`(${props.width} x ${props.height})`}
       </span>}
+      {props.showTotal
+        && <span className={`${props.prefixCls}-showTotal`}>{`${props.activeIndex + 1} of ${props.count}`}</span>}
     </p>
   ) : null;
   let toolbars = props.toolbars;

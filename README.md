@@ -80,6 +80,7 @@ class App extends React.Component<any, any> {
 | disableMouseZoom   | boolean      |  false   | whether disable mouse zoom | false |
 | downloadInNewWindow | boolean | false | whether to download in a new window | false |
 | className   | string    |  -  | customized CSS class | false |
+| showTotal   | boolean    |  true  | whether to display the total number and range | false |
 
 ### ImageDecorator
 

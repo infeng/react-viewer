@@ -70,6 +70,7 @@ export default (props: ViewerProps) => {
     downloadable = false,
     noImgDetails = false,
     noToolbar = false,
+    showTotal = true,
    } = props;
 
   const initialState: ViewerCoreState = {
@@ -688,6 +689,9 @@ export default (props: ViewerProps) => {
               downloadable={downloadable}
               noImgDetails={noImgDetails}
               toolbars={customToolbar(defaultToolbars)}
+              activeIndex={state.activeIndex}
+              count={images.length}
+              showTotal={showTotal}
             />
           )}
           {props.noNavbar || (
