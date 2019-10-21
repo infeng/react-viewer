@@ -9,6 +9,8 @@ Because I can`t be comfortable using [viewerjs](https://github.com/fengyuanchen/
 
 ## Installation
 
+> react >= 16.8.0 | react-dom >= 16.8.0
+
 ```bash
 npm install react-viewer --save
 ```
@@ -18,29 +20,20 @@ npm install react-viewer --save
 ```javascript
 import * as React from 'react';
 import Viewer from 'react-viewer';
-import 'react-viewer/dist/index.css';
 
-class App extends React.Component<any, any> {
-  constructor() {
-    super();
+function App() {
+  const [ visible, setVisible ] = React.useState(false);
 
-    this.state = {
-      visible: false,
-    };
-  }
-
-  render() {
-    return (
-      <div>
-        <button onClick={() => { this.setState({ visible: !this.state.visible }); } }>show</button>
-        <Viewer
-        visible={this.state.visible}
-        onClose={() => { this.setState({ visible: false }); } }
-        images={[{src: '', alt: ''}]}
-        />
-      </div>
-    );
-  }
+  return (
+    <div>
+      <button onClick={() => { setVisible(true); } }>show</button>
+      <Viewer
+      visible={visible}
+      onClose={() => { setVisible(false); } }
+      images={[{src: '', alt: ''}]}
+      />
+    </div>
+  );
 }
 ```
 
