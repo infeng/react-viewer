@@ -1,46 +1,27 @@
-const webpack = require('atool-build/lib/webpack');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const config = require('./webpack.config.common');
+const path = require('path');
+const fs = require('fs-extra');
 
-var conf = {
-  filename: 'index.html',
-  template: './demo/index.html',
-  inject: true,
-  minify: {
-    removeComments: true,
-    collapseWhitespace: false
-  },
-  hash: true,
+const distPath = path.join(__dirname, 'pages-build');
+if (fs.existsSync(distPath)) {
+  fs.removeSync(distPath);
 }
 
-module.exports = function (webpackConfig) {
-  webpackConfig.babel.plugins.push(['import', {
-    libraryName: 'antd',
-    style: true,
-  }]);  
-  webpackConfig.entry = {
-    index: './demo/index.tsx',
-  };
+config.entry('index').clear().add('./demo/index.tsx');
+config.output.path(distPath);
+config.mode('production');
+config.plugin('html-webpack-plugin')
+  .use(HtmlWebpackPlugin, [{
+    filename: 'index.html',
+    template: './demo/index.html',
+    inject: true,
+    minify: {
+      removeComments: true,
+      collapseWhitespace: false
+    },
+    hash: true,
+  }]);
 
-  webpackConfig.output.path = './pages-build';
-  webpackConfig.output.publicPath = '/react-viewer/';
 
-  webpackConfig.module.loaders.forEach(function (loader, index) {
-    if (loader.test.toString().indexOf('html') > 0) {
-      loader.loader = 'html';
-    }
-  });
-
-  webpackConfig.plugins.push(
-    new HtmlWebpackPlugin(conf)
-  );
-
-  webpackConfig.plugins.some(function (plugin, i) {
-    if (plugin instanceof webpack.optimize.CommonsChunkPlugin) {
-      webpackConfig.plugins.splice(i, 1);
-
-      return true;
-    }
-  });
-
-  return webpackConfig;
-};
+module.exports = config.toConfig();

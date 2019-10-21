@@ -7,11 +7,6 @@
     "removeComments": false,
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
-    "types": [
-      "react",
-      "react-dom",
-      "node"
-    ],
     "noUnusedLocals": true
   },
   "exclude": [

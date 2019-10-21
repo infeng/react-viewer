@@ -1,68 +1,38 @@
-const webpack = require('atool-build/lib/webpack');
-var path = require('path');
+const config = require('./webpack.config.common');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const fs = require('fs-extra');
+const path = require('path');
 
-const packageName = require(path.join(process.cwd(), 'package.json')).name;
+const distPath = path.join(__dirname, 'dist');
+if (fs.existsSync(distPath)) {
+  fs.removeSync(distPath);
+}
 
-const entry = './src/index.tsx';
+config.output.merge({
+  library: 'react-viewer',
+  libraryTarget: 'umd',
+});
 
-module.exports = function (webpackConfig) {
+config.mode('production');
 
-  webpackConfig.entry = Object.assign({}, webpackConfig.entry, {
-    ['index.min']: entry,
-  });
+config.externals({
+  react: {
+    root: 'React',
+    commonjs2: 'react',
+    commonjs: 'react',
+    amd: 'react',
+  },
+  'react-dom': {
+    root: 'ReactDOM',
+    commonjs2: 'react-dom',
+    commonjs: 'react-dom',
+    amd: 'react-dom',
+  },
+});
 
-  webpackConfig.externals = {
-    react: {
-      root: 'React',
-      commonjs2: 'react',
-      commonjs: 'react',
-      amd: 'react',
-    },
-    'react-dom': {
-      root: 'ReactDOM',
-      commonjs2: 'react-dom',
-      commonjs: 'react-dom',
-      amd: 'react-dom',
-    },
-  };
+if (process.env.ANALYZE) {
+  config.plugin('BundleAnalyzerPlugin')
+    .use(BundleAnalyzerPlugin);
+}
 
-  webpackConfig.output = {
-    path: path.resolve(__dirname, './dist'),
-    filename: '[name].js',
-    library: packageName,
-    libraryTarget: 'umd',
-  };
-
-  webpackConfig.plugins.some(function (plugin, i) {
-    if (plugin instanceof webpack.optimize.CommonsChunkPlugin) {
-      webpackConfig.plugins.splice(i, 1);
-
-      return true;
-    }
-  });
-
-  const uncompressedWebpackConfig = Object.assign({}, webpackConfig);
-
-  uncompressedWebpackConfig.entry = {
-    [`index`]: entry,
-  };
-
-  uncompressedWebpackConfig.plugins = webpackConfig.plugins.filter((plugin) => {
-    const ret = !(plugin instanceof webpack.optimize.UglifyJsPlugin);
-    return ret;
-  });
-
-  uncompressedWebpackConfig.plugins = uncompressedWebpackConfig.plugins.filter((plugin) => {
-    const ret = !(plugin instanceof webpack.DefinePlugin);
-    return ret;
-  });
-
-  uncompressedWebpackConfig.plugins.push(new webpack.DefinePlugin({
-    'process.env.NODE_ENV': JSON.stringify('development'),
-  }));
-
-  return [
-    webpackConfig,
-    uncompressedWebpackConfig,
-  ];
-};
+module.exports = config.toConfig();

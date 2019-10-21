@@ -75,7 +75,7 @@ class ViewerTester extends React.Component<ViewerTesterProps & ViewerProps, any>
   }
 }
 
-import * as EventEmitter from 'wolfy87-eventemitter';
+const EventEmitter = require('wolfy87-eventemitter');
 
 const FAILED_IMG = 'fail_img';
 
@@ -115,6 +115,8 @@ class MockImage {
   }
 }
 
+declare const global: any;
+
 global.Image = MockImage;
 
 function triggerMouseEvent(node, eventType, x = 0, y = 0) {
@@ -145,7 +147,7 @@ function triggerKeyboard(node, eventType, keyCode, ctrlKey = false) {
     cancelable: true,
     keyCode: keyCode,
     ctrlKey,
-  });
+  } as any);
   node.dispatchEvent(wheelEvent);
 }
 
