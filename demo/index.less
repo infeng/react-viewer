@@ -19,11 +19,6 @@ ul, li {
   background-color: #0074d9;
 }
 
-.navbar-fixed-top {
-  position: fixed;
-  top: 0;
-}
-
 .img-fork {
   position: absolute;
   width: 130px;
@@ -35,33 +30,44 @@ ul, li {
   padding-right: 15px;
   padding-left: 15px;
   margin-right: auto;
-  margin-left: auto;   
+  margin-left: auto; 
+  display: flex;
+  align-items: center;
+  height: 100%;
 }
 
 .navbar-brand {
   color: white;
   font-size: 2rem;
-  line-height: @navbarHeight;
+  margin-right: 24px;
+}
+
+.bagde {
+  margin-left: 6px;
+  display: flex;
+  align-items: center;
+}
+
+.github {
+  position: absolute;
+  right: 15px;
 }
 
 .container {
-  top: 50px;
-  padding: 2em;
+  padding: 1.5em 2em 2em 2em;
 }
 
-.title {
-  font-size: 3rem;
-  font-weight: bold;
-  border-bottom: 1px solid #eee;
-  margin-bottom: 1.5rem;
+.wrap {
+  display: flex;
+}
+
+.img-list-wrap {
+  flex: 1;
 }
 
 .img-list {
   display: flex;
-  width: 640px;
-  height: 500px;
-  margin: 0 auto;
-  justify-content: center;
+  justify-content: flex-start;
 
   &.hide {
     display: none;
@@ -101,14 +107,21 @@ ul, li {
 }
 .inline-container {
   display: none;
-  // width: 600px;
+  max-width: 600px;
   // height: 400px;
-  margin: 0 auto;
 
   &.show {
     display: block;
   }
 }
+.options {
+  margin-top: 12px;
+  width: 100%;
+  max-width: 250px;
+  margin-right: 48px;
+}
 .options-list {
   margin-top: 12px;
+  height: 440px;
+  overflow: auto;
 }
