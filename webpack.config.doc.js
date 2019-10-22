@@ -10,6 +10,7 @@ if (fs.existsSync(distPath)) {
 
 config.entry('index').clear().add('./demo/index.tsx');
 config.output.path(distPath);
+config.output.filename('index.[contenthash].js');
 config.mode('production');
 config.plugin('html-webpack-plugin')
   .use(HtmlWebpackPlugin, [{
