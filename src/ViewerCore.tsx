@@ -265,8 +265,8 @@ export default (props: ViewerProps) => {
         realImgHeight = activeImage.defaultSize.height;
       }
       let [width, height] = getImgWidthHeight(realImgWidth, realImgHeight);
-      let left = (containerSize.current.width - width) / 2;
-      let top = (containerSize.current.height - height - footerHeight) / 2;
+      let left = Math.floor((containerSize.current.width - width) / 2);
+      let top = Math.floor((containerSize.current.height - height - footerHeight) / 2);
       let scaleX = defaultScale;
       let scaleY = defaultScale;
       if (noResetZoomAfterChange && !isReset) {
@@ -446,8 +446,8 @@ export default (props: ViewerProps) => {
   function handleResize() {
     containerSize.current = setContainerWidthHeight();
     if (visible) {
-      let left = (containerSize.current.width - state.width) / 2;
-      let top = (containerSize.current.height - state.height - footerHeight) / 2;
+      let left = Math.floor((containerSize.current.width - state.width) / 2);
+      let top = Math.floor((containerSize.current.height - state.height - footerHeight) / 2);
       dispatch(createAction(ACTION_TYPES.update, {
         left: left,
         top: top,
@@ -578,8 +578,8 @@ export default (props: ViewerProps) => {
         state.imageWidth,
         state.imageHeight,
       );
-      left = (containerSize.current.width - imgWidth) / 2;
-      top = (containerSize.current.height - footerHeight - imgHeight) / 2;
+      left = Math.floor((containerSize.current.width - imgWidth) / 2);
+      top = Math.floor((containerSize.current.height - footerHeight - imgHeight) / 2);
       width = state.width + imgWidth;
       height = state.height + imgHeight;
       scaleX = scaleY = 1;
@@ -591,8 +591,8 @@ export default (props: ViewerProps) => {
       if (Math.abs(scaleX) < 0.1 || Math.abs(scaleY) < 0.1) {
         return;
       }
-      top = state.top + -direct * diffY / state.scaleX * scale * directX;
-      left = state.left + -direct * diffX / state.scaleY * scale * directY;
+      top = Math.floor(state.top + -direct * diffY / state.scaleX * scale * directX);
+      left = Math.floor(state.left + -direct * diffX / state.scaleY * scale * directY);
       width = state.width;
       height = state.height;
     }
