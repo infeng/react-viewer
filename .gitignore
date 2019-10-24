@@ -1,7 +1,7 @@
 node_modules/
-dist/
 lib/
 .DS_STORE
+.idea
 coverage
 pages-build
 client-dist

@@ -7,10 +7,10 @@
     "removeComments": false,
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
-    "noUnusedLocals": true
+    "noUnusedLocals": true,
+    "types": ["jest"],
+    "typeRoots": ["./src/types", "node_modules/@types"]
   },
-  "exclude": [
-    "node_modules",
-    "__tests__"
-  ]
+  "exclude": ["node_modules", "__tests__", "**/*.spec.ts", "**/*.test.ts"],
+  "include": ["./src/**/*.tsx", "./src/**/*.ts"]
 }

@@ -5,6 +5,9 @@ const img2 = require('./images/landscape2.jpg');
 const img = require('./images/landscape.jpg');
 const img3 = require('./images/tibet-6.jpg');
 const img4 = require('./images/image4.jpg');
+const img5 = require('./images/mobile-application.png');
+const img6 = require('./images/test1.jpg');
+
 import './index.less';
 import classNames from 'classnames';
 import { Button, List, Checkbox } from 'antd';
@@ -150,6 +153,12 @@ class App extends React.Component<any, Partial<State>> {
       src: img4,
       alt: '',
       downloadUrl: '',
+    }, {
+      src: img5,
+      alt: '',
+      downloadUrl: '',
+    }, {
+      src: img6,
     }];
 
     let inline = this.state.mode === 'inline';
@@ -267,6 +276,11 @@ class App extends React.Component<any, Partial<State>> {
           activeIndex={this.state.activeIndex}
           container={inline ? this.container : null}
           downloadable
+          onMaskClick={(event) => {
+            this.setState({
+              visible: false,
+            });
+          }}
           customToolbar={(toolbars) => {
             return toolbars.concat([{
               key: 'test',
