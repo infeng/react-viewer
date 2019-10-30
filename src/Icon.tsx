@@ -18,12 +18,10 @@ export interface IconProps {
   type: ActionType;
 }
 
-export default class Icon extends React.Component<IconProps, any> {
-  render() {
-    let prefixCls = 'react-viewer-icon';
+export default function Icon(props: IconProps) {
+  let prefixCls = 'react-viewer-icon';
 
-    return (
-      <i className={`${prefixCls} ${prefixCls}-${ActionType[this.props.type]}`}></i>
-    );
-  }
+  return (
+    <i className={`${prefixCls} ${prefixCls}-${ActionType[props.type]}`}></i>
+  );
 }
