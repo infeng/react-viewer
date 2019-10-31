@@ -31,7 +31,7 @@ export default class ViewerNav extends React.Component<ViewerNavProps, any> {
     if (this.props.showPaginator) {
       paginator = (
         <div className={`${this.props.prefixCls}-navbar-paginator`}>
-          Página {this.props.activeIndex + 1} de {this.props.images.length}
+          Imagem {this.props.activeIndex + 1} de {this.props.images.length}
         </div>
       );
     }
