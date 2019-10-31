@@ -3,6 +3,7 @@ import Loading from './Loading';
 
 export interface ViewerCanvasProps {
   prefixCls: string;
+  imgAlt: string;
   imgSrc: string;
   visible: boolean;
   width: number;
@@ -20,6 +21,7 @@ export interface ViewerCanvasProps {
   drag: boolean;
   container: HTMLElement;
   onCanvasMouseDown: (e: React.MouseEvent<HTMLDivElement>) => void;
+  showTitle: boolean;
 }
 
 export interface ViewerCanvasState {
@@ -169,6 +171,7 @@ export default class ViewerCanvas extends React.Component<ViewerCanvasProps, Vie
     };
 
     let imgNode = null;
+    let imgTitle = null;
     if (this.props.imgSrc !== '') {
       imgNode = <img
       className={imgClass}
@@ -192,12 +195,21 @@ export default class ViewerCanvas extends React.Component<ViewerCanvasProps, Vie
       );
     }
 
+    if (this.props.imgAlt && this.props.showTitle) {
+      imgTitle = (
+        <div className={`${this.props.prefixCls}-canvas-title`} >
+          <div className="title-container">{ this.props.imgAlt }</div>
+        </div>
+      );
+    }
+
     return (
       <div
       className={`${this.props.prefixCls}-canvas`}
       onMouseDown={this.handleCanvasMouseDown}
       style={style}
       >
+        {imgTitle}
         {imgNode}
       </div>
     );

@@ -22,47 +22,47 @@ export const defaultToolbars: ToolbarConfig[] = [
   {
     key: 'zoomIn',
     actionType: ActionType.zoomIn,
-    title: 'CTRL + ↑',
+    title: 'Mais Zoom - CTRL + ↑',
   },
   {
     key: 'zoomOut',
     actionType: ActionType.zoomOut,
-    title: 'CTRL + ↓',
+    title: 'Menos Zoom - CTRL + ↓',
   },
   {
     key: 'prev',
     actionType: ActionType.prev,
-    title: 'CTRL + ←',
+    title: 'Anterior - CTRL + ←',
   },
   {
     key: 'reset',
     actionType: ActionType.reset,
-    title: 'CTRL + Z',
+    title: 'Resetar - CTRL + Z',
   },
   {
     key: 'next',
     actionType: ActionType.next,
-    title: 'CTRL + →',
+    title: 'Próximo - CTRL + →',
   },
   {
     key: 'rotateLeft',
     actionType: ActionType.rotateLeft,
-    title: 'SHIFT + ←',
+    title: 'Rotacionar Esquerda - SHIFT + ←',
   },
   {
     key: 'rotateRight',
     actionType: ActionType.rotateRight,
-    title: 'SHIFT + →',
+    title: 'Rotacionar Direita - SHIFT + →',
   },
   {
     key: 'scaleX',
     actionType: ActionType.scaleX,
-    title: 'SHIFT + ↑',
+    title: 'Inverter Horizontal - SHIFT + ↑',
   },
   {
     key: 'scaleY',
     actionType: ActionType.scaleY,
-    title: 'SHIFT + ↓',
+    title: 'Inverter Vertical - SHIFT + ↓',
   },
   {
     key: 'download',
