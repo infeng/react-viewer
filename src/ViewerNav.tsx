@@ -5,6 +5,7 @@ export interface ViewerNavProps {
   prefixCls: string;
   images: ImageDecorator[];
   activeIndex: number;
+  showPaginator: boolean;
   onChangeImg: (index: number) => void;
 }
 
@@ -26,6 +27,15 @@ export default class ViewerNav extends React.Component<ViewerNavProps, any> {
       marginLeft: `${marginLeft}px`,
     };
 
+    let paginator = null;
+    if (this.props.showPaginator) {
+      paginator = (
+        <div className={`${this.props.prefixCls}-navbar-paginator`}>
+          Imagem {this.props.activeIndex + 1} de {this.props.images.length}
+        </div>
+      );
+    }
+
     return (
       <div className={`${this.props.prefixCls}-navbar`}>
         <ul className={`${this.props.prefixCls}-list ${this.props.prefixCls}-list-transition`} style={listStyle}>
@@ -35,11 +45,12 @@ export default class ViewerNav extends React.Component<ViewerNavProps, any> {
             className={index === this.props.activeIndex ? 'active' : ''}
             onClick={() => { this.handleChangeImg(index); }}
             >
-              <img src={item.src} alt={item.alt} />
+              <img src={item.src} alt={item.alt} title={item.alt} />
             </li>
             )
           }
         </ul>
+        {paginator}
       </div>
     );
   }

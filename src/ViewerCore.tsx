@@ -45,6 +45,8 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     customToolbar: (toolbars) => toolbars,
     zoomSpeed: .05,
     fullScreen: false,
+    showTitle: false,
+    showPaginator: false
   };
 
   private prefixCls: string;
@@ -738,6 +740,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
 
         <ViewerCanvas
           prefixCls={this.prefixCls}
+          imgAlt={activeImg.alt}
           imgSrc={activeImg.src}
           visible={this.props.visible}
           width={this.state.width}
@@ -755,6 +758,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
           drag={this.props.drag}
           container={this.props.container}
           onCanvasMouseDown={this.handleCanvasMouseDown}
+          showTitle={this.props.showTitle}
         />
         {this.props.noFooter || (
           <div className={`${this.prefixCls}-footer`} style={{ zIndex: zIndex + 5 }}>
@@ -781,6 +785,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
                 images={this.props.images}
                 activeIndex={this.state.activeIndex}
                 onChangeImg={this.handleChangeImg}
+                showPaginator={this.props.showPaginator}
               />
             )}
           </div>
