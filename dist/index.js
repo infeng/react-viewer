@@ -469,6 +469,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            zIndex: this.props.zIndex
 	        };
 	        var imgNode = null;
+	        var imgTitle = null;
 	        if (this.props.imgSrc !== '') {
 	            imgNode = React.createElement('img', { className: imgClass, src: this.props.imgSrc, style: imgStyle, onMouseDown: this.handleMouseDown });
 	        }
@@ -484,9 +485,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	                React.createElement(_Loading2.default, null)
 	            );
 	        }
+	        if (this.props.imgAlt && this.props.showTitle) {
+	            imgTitle = React.createElement(
+	                'div',
+	                { className: this.props.prefixCls + '-canvas-title' },
+	                React.createElement(
+	                    'div',
+	                    { className: 'title-container' },
+	                    this.props.imgAlt
+	                )
+	            );
+	        }
 	        return React.createElement(
 	            'div',
 	            { className: this.props.prefixCls + '-canvas', onMouseDown: this.handleCanvasMouseDown, style: style },
+	            imgTitle,
 	            imgNode
 	        );
 	    };
@@ -1178,12 +1191,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	                { className: this.prefixCls + '-fullScreen ' + this.prefixCls + '-btn', onClick: this.handleFullScreen, style: { zIndex: zIndex + 100 } },
 	                React.createElement(_Icon2.default, { type: _Icon.ActionType.zoomIn })
 	            ) : '',
-	            React.createElement(_ViewerCanvas2.default, { prefixCls: this.prefixCls, imgSrc: activeImg.src, visible: this.props.visible, width: this.state.width, height: this.state.height, top: this.state.top, left: this.state.left, rotate: this.state.rotate, onChangeImgState: this.handleChangeImgState, onResize: this.handleResize, onZoom: this.handleScrollZoom, zIndex: zIndex + 5, scaleX: this.state.scaleX, scaleY: this.state.scaleY, loading: this.state.loading, drag: this.props.drag, container: this.props.container, onCanvasMouseDown: this.handleCanvasMouseDown }),
+	            React.createElement(_ViewerCanvas2.default, { prefixCls: this.prefixCls, imgAlt: activeImg.alt, imgSrc: activeImg.src, visible: this.props.visible, width: this.state.width, height: this.state.height, top: this.state.top, left: this.state.left, rotate: this.state.rotate, onChangeImgState: this.handleChangeImgState, onResize: this.handleResize, onZoom: this.handleScrollZoom, zIndex: zIndex + 5, scaleX: this.state.scaleX, scaleY: this.state.scaleY, loading: this.state.loading, drag: this.props.drag, container: this.props.container, onCanvasMouseDown: this.handleCanvasMouseDown, showTitle: this.props.showTitle }),
 	            this.props.noFooter || React.createElement(
 	                'div',
 	                { className: this.prefixCls + '-footer', style: { zIndex: zIndex + 5 } },
 	                this.props.noToolbar || React.createElement(_ViewerToolbar2.default, { prefixCls: this.prefixCls, onAction: this.handleAction, alt: activeImg.alt, width: this.state.imageWidth, height: this.state.imageHeight, attribute: this.props.attribute, zoomable: this.props.zoomable, rotatable: this.props.rotatable, scalable: this.props.scalable, changeable: this.props.changeable, downloadable: this.props.downloadable, noImgDetails: this.props.noImgDetails, toolbars: this.props.customToolbar(_ViewerToolbar.defaultToolbars) }),
-	                this.props.noNavbar || React.createElement(_ViewerNav2.default, { prefixCls: this.prefixCls, images: this.props.images, activeIndex: this.state.activeIndex, onChangeImg: this.handleChangeImg })
+	                this.props.noNavbar || React.createElement(_ViewerNav2.default, { prefixCls: this.prefixCls, images: this.props.images, activeIndex: this.state.activeIndex, onChangeImg: this.handleChangeImg, showPaginator: this.props.showPaginator })
 	            )
 	        );
 	    };
@@ -1210,7 +1223,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return toolbars;
 	    },
 	    zoomSpeed: .05,
-	    fullScreen: false
+	    fullScreen: false,
+	    showTitle: false,
+	    showPaginator: false
 	};
 	module.exports = exports['default'];
 
@@ -1263,6 +1278,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var listStyle = {
 	            marginLeft: marginLeft + 'px'
 	        };
+	        var paginator = null;
+	        if (this.props.showPaginator) {
+	            paginator = React.createElement(
+	                'div',
+	                { className: this.props.prefixCls + '-navbar-paginator' },
+	                'Imagem ',
+	                this.props.activeIndex + 1,
+	                ' de ',
+	                this.props.images.length
+	            );
+	        }
 	        return React.createElement(
 	            'div',
 	            { className: this.props.prefixCls + '-navbar' },
@@ -1275,10 +1301,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	                        { key: index, className: index === _this2.props.activeIndex ? 'active' : '', onClick: function onClick() {
 	                                _this2.handleChangeImg(index);
 	                            } },
-	                        React.createElement('img', { src: item.src, alt: item.alt })
+	                        React.createElement('img', { src: item.src, alt: item.alt, title: item.alt })
 	                    );
 	                })
-	            )
+	            ),
+	            paginator
 	        );
 	    };
 
@@ -1326,39 +1353,39 @@ return /******/ (function(modules) { // webpackBootstrap
 	var defaultToolbars = exports.defaultToolbars = [{
 	    key: 'zoomIn',
 	    actionType: _Icon.ActionType.zoomIn,
-	    title: 'CTRL + ↑'
+	    title: 'Mais Zoom - CTRL + ↑'
 	}, {
 	    key: 'zoomOut',
 	    actionType: _Icon.ActionType.zoomOut,
-	    title: 'CTRL + ↓'
+	    title: 'Menos Zoom - CTRL + ↓'
 	}, {
 	    key: 'prev',
 	    actionType: _Icon.ActionType.prev,
-	    title: 'CTRL + ←'
+	    title: 'Anterior - CTRL + ←'
 	}, {
 	    key: 'reset',
 	    actionType: _Icon.ActionType.reset,
-	    title: 'CTRL + Z'
+	    title: 'Resetar - CTRL + Z'
 	}, {
 	    key: 'next',
 	    actionType: _Icon.ActionType.next,
-	    title: 'CTRL + →'
+	    title: 'Próximo - CTRL + →'
 	}, {
 	    key: 'rotateLeft',
 	    actionType: _Icon.ActionType.rotateLeft,
-	    title: 'SHIFT + ←'
+	    title: 'Rotacionar Esquerda - SHIFT + ←'
 	}, {
 	    key: 'rotateRight',
 	    actionType: _Icon.ActionType.rotateRight,
-	    title: 'SHIFT + →'
+	    title: 'Rotacionar Direita - SHIFT + →'
 	}, {
 	    key: 'scaleX',
 	    actionType: _Icon.ActionType.scaleX,
-	    title: 'SHIFT + ↑'
+	    title: 'Inverter Horizontal - SHIFT + ↑'
 	}, {
 	    key: 'scaleY',
 	    actionType: _Icon.ActionType.scaleY,
-	    title: 'SHIFT + ↓'
+	    title: 'Inverter Vertical - SHIFT + ↓'
 	}, {
 	    key: 'download',
 	    actionType: _Icon.ActionType.download,

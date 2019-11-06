@@ -92,6 +92,21 @@
 .react-viewer-canvas > img.drag {
   cursor: move;
 }
+.react-viewer-canvas-title {
+  position: absolute;
+  width: 100%;
+  z-index: 2;
+  text-align: center;
+  margin-top: 5px;
+}
+.react-viewer-canvas-title .title-container {
+  color: #ccc;
+  padding: 5px 20px;
+  display: inline-block;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 15px;
+  min-width: 100px;
+}
 .react-viewer-footer {
   position: fixed;
   right: 0;
@@ -137,8 +152,16 @@
   cursor: default;
 }
 .react-viewer-navbar {
-  overflow: hidden;
   background-color: rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+}
+.react-viewer-navbar-paginator {
+  font-style: italic;
+  position: absolute;
+  bottom: calc(60px);
+  right: 10px;
+  color: #ccc;
+  font-size: 15px;
 }
 .react-viewer-list {
   height: 50px;
