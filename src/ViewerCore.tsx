@@ -46,7 +46,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     zoomSpeed: .05,
     fullScreen: false,
     showTitle: false,
-    showPaginator: false
+    showPaginator: false,
   };
 
   private prefixCls: string;
