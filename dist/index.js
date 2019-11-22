@@ -7,7 +7,7 @@
 		exports["react-viewer"] = factory(require("react"), require("react-dom"));
 	else
 		root["react-viewer"] = factory(root["React"], root["ReactDOM"]);
-})(this, function(__WEBPACK_EXTERNAL_MODULE_1__, __WEBPACK_EXTERNAL_MODULE_10__) {
+})(this, function(__WEBPACK_EXTERNAL_MODULE_1__, __WEBPACK_EXTERNAL_MODULE_11__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -205,7 +205,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var React = _interopRequireWildcard(_react);
 
-	var _reactDom = __webpack_require__(10);
+	var _reactDom = __webpack_require__(11);
 
 	var ReactDOM = _interopRequireWildcard(_reactDom);
 
@@ -469,6 +469,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            zIndex: this.props.zIndex
 	        };
 	        var imgNode = null;
+	        var imgTitle = null;
 	        if (this.props.imgSrc !== '') {
 	            imgNode = React.createElement('img', { className: imgClass, src: this.props.imgSrc, style: imgStyle, onMouseDown: this.handleMouseDown });
 	        }
@@ -484,9 +485,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	                React.createElement(_Loading2.default, null)
 	            );
 	        }
+	        if (this.props.imgAlt && this.props.showTitle) {
+	            imgTitle = React.createElement(
+	                'div',
+	                { className: this.props.prefixCls + '-canvas-title' },
+	                React.createElement(
+	                    'div',
+	                    { className: 'title-container' },
+	                    this.props.imgAlt
+	                )
+	            );
+	        }
 	        return React.createElement(
 	            'div',
 	            { className: this.props.prefixCls + '-canvas', onMouseDown: this.handleCanvasMouseDown, style: style },
+	            imgTitle,
 	            imgNode
 	        );
 	    };
@@ -514,7 +527,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var React = _interopRequireWildcard(_react);
 
-	__webpack_require__(9);
+	__webpack_require__(10);
 
 	var _ViewerCanvas = __webpack_require__(5);
 
@@ -524,7 +537,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _ViewerNav2 = _interopRequireDefault(_ViewerNav);
 
-	var _ViewerToolbar = __webpack_require__(8);
+	var _ViewerNavSide = __webpack_require__(8);
+
+	var _ViewerNavSide2 = _interopRequireDefault(_ViewerNavSide);
+
+	var _ViewerToolbar = __webpack_require__(9);
 
 	var _ViewerToolbar2 = _interopRequireDefault(_ViewerToolbar);
 
@@ -1178,12 +1195,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	                { className: this.prefixCls + '-fullScreen ' + this.prefixCls + '-btn', onClick: this.handleFullScreen, style: { zIndex: zIndex + 100 } },
 	                React.createElement(_Icon2.default, { type: _Icon.ActionType.zoomIn })
 	            ) : '',
-	            React.createElement(_ViewerCanvas2.default, { prefixCls: this.prefixCls, imgSrc: activeImg.src, visible: this.props.visible, width: this.state.width, height: this.state.height, top: this.state.top, left: this.state.left, rotate: this.state.rotate, onChangeImgState: this.handleChangeImgState, onResize: this.handleResize, onZoom: this.handleScrollZoom, zIndex: zIndex + 5, scaleX: this.state.scaleX, scaleY: this.state.scaleY, loading: this.state.loading, drag: this.props.drag, container: this.props.container, onCanvasMouseDown: this.handleCanvasMouseDown }),
+	            this.props.navBarSide || React.createElement(_ViewerNavSide2.default, { prefixCls: this.prefixCls, images: this.props.images, activeIndex: this.state.activeIndex, onChangeImg: this.handleChangeImg, showPaginator: this.props.showPaginator }),
+	            React.createElement(_ViewerCanvas2.default, { prefixCls: this.prefixCls, imgAlt: activeImg.alt, imgSrc: activeImg.src, visible: this.props.visible, width: this.state.width, height: this.state.height, top: this.state.top, left: this.state.left, rotate: this.state.rotate, onChangeImgState: this.handleChangeImgState, onResize: this.handleResize, onZoom: this.handleScrollZoom, zIndex: zIndex + 5, scaleX: this.state.scaleX, scaleY: this.state.scaleY, loading: this.state.loading, drag: this.props.drag, container: this.props.container, onCanvasMouseDown: this.handleCanvasMouseDown, showTitle: this.props.showTitle }),
 	            this.props.noFooter || React.createElement(
 	                'div',
 	                { className: this.prefixCls + '-footer', style: { zIndex: zIndex + 5 } },
 	                this.props.noToolbar || React.createElement(_ViewerToolbar2.default, { prefixCls: this.prefixCls, onAction: this.handleAction, alt: activeImg.alt, width: this.state.imageWidth, height: this.state.imageHeight, attribute: this.props.attribute, zoomable: this.props.zoomable, rotatable: this.props.rotatable, scalable: this.props.scalable, changeable: this.props.changeable, downloadable: this.props.downloadable, noImgDetails: this.props.noImgDetails, toolbars: this.props.customToolbar(_ViewerToolbar.defaultToolbars) }),
-	                this.props.noNavbar || React.createElement(_ViewerNav2.default, { prefixCls: this.prefixCls, images: this.props.images, activeIndex: this.state.activeIndex, onChangeImg: this.handleChangeImg })
+	                this.props.noNavbar && !this.props.navBarSide || React.createElement(_ViewerNav2.default, { prefixCls: this.prefixCls, images: this.props.images, activeIndex: this.state.activeIndex, onChangeImg: this.handleChangeImg, showPaginator: this.props.showPaginator })
 	            )
 	        );
 	    };
@@ -1210,7 +1228,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return toolbars;
 	    },
 	    zoomSpeed: .05,
-	    fullScreen: false
+	    fullScreen: false,
+	    showTitle: false,
+	    showPaginator: false
 	};
 	module.exports = exports['default'];
 
@@ -1263,6 +1283,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var listStyle = {
 	            marginLeft: marginLeft + 'px'
 	        };
+	        var paginator = null;
+	        if (this.props.showPaginator) {
+	            paginator = React.createElement(
+	                'div',
+	                { className: this.props.prefixCls + '-navbar-paginator' },
+	                'Imagem ',
+	                this.props.activeIndex + 1,
+	                ' de ',
+	                this.props.images.length
+	            );
+	        }
 	        return React.createElement(
 	            'div',
 	            { className: this.props.prefixCls + '-navbar' },
@@ -1275,10 +1306,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	                        { key: index, className: index === _this2.props.activeIndex ? 'active' : '', onClick: function onClick() {
 	                                _this2.handleChangeImg(index);
 	                            } },
-	                        React.createElement('img', { src: item.src, alt: item.alt })
+	                        React.createElement('img', { src: item.src, alt: item.alt, title: item.alt })
 	                    );
 	                })
-	            )
+	            ),
+	            paginator
 	        );
 	    };
 
@@ -1294,6 +1326,96 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ }),
 /* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.default = undefined;
+
+	var _react = __webpack_require__(1);
+
+	var React = _interopRequireWildcard(_react);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : _defaults(subClass, superClass); }
+
+	var ViewerNavSide = function (_React$Component) {
+	    _inherits(ViewerNavSide, _React$Component);
+
+	    function ViewerNavSide() {
+	        _classCallCheck(this, ViewerNavSide);
+
+	        var _this = _possibleConstructorReturn(this, _React$Component.apply(this, arguments));
+
+	        _this.handleChangeImg = function (newIndex) {
+	            if (_this.props.activeIndex === newIndex) {
+	                return;
+	            }
+	            _this.props.onChangeImg(newIndex);
+	        };
+	        return _this;
+	    }
+
+	    ViewerNavSide.prototype.render = function render() {
+	        var _this2 = this;
+
+	        var marginLeft = (Math.ceil(this.props.images.length / 2) - this.props.activeIndex - 1) * 1.5 * 30;
+	        var listStyle = {
+	            marginLeft: marginLeft + 'px'
+	        };
+	        var paginator = null;
+	        if (this.props.showPaginator) {
+	            paginator = React.createElement(
+	                'div',
+	                { className: this.props.prefixCls + '-navbar-paginator' },
+	                'Imagem ',
+	                this.props.activeIndex + 1,
+	                ' de ',
+	                this.props.images.length
+	            );
+	        }
+	        return React.createElement(
+	            'div',
+	            { className: this.props.prefixCls + '-navbar' },
+	            React.createElement(
+	                'ul',
+	                { className: this.props.prefixCls + '-list ' + this.props.prefixCls + '-list-transition', style: listStyle },
+	                this.props.images.map(function (item, index) {
+	                    return React.createElement(
+	                        'li',
+	                        { key: index, className: index === _this2.props.activeIndex ? 'active' : '', onClick: function onClick() {
+	                                _this2.handleChangeImg(index);
+	                            } },
+	                        React.createElement('img', { src: item.src, alt: item.alt, title: item.alt })
+	                    );
+	                })
+	            ),
+	            paginator
+	        );
+	    };
+
+	    return ViewerNavSide;
+	}(React.Component);
+
+	exports.default = ViewerNavSide;
+
+	ViewerNavSide.defaultProps = {
+	    activeIndex: 0
+	};
+	module.exports = exports['default'];
+
+/***/ }),
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1326,39 +1448,39 @@ return /******/ (function(modules) { // webpackBootstrap
 	var defaultToolbars = exports.defaultToolbars = [{
 	    key: 'zoomIn',
 	    actionType: _Icon.ActionType.zoomIn,
-	    title: 'CTRL + ↑'
+	    title: 'Mais Zoom - CTRL + ↑'
 	}, {
 	    key: 'zoomOut',
 	    actionType: _Icon.ActionType.zoomOut,
-	    title: 'CTRL + ↓'
+	    title: 'Menos Zoom - CTRL + ↓'
 	}, {
 	    key: 'prev',
 	    actionType: _Icon.ActionType.prev,
-	    title: 'CTRL + ←'
+	    title: 'Anterior - CTRL + ←'
 	}, {
 	    key: 'reset',
 	    actionType: _Icon.ActionType.reset,
-	    title: 'CTRL + Z'
+	    title: 'Resetar - CTRL + Z'
 	}, {
 	    key: 'next',
 	    actionType: _Icon.ActionType.next,
-	    title: 'CTRL + →'
+	    title: 'Próximo - CTRL + →'
 	}, {
 	    key: 'rotateLeft',
 	    actionType: _Icon.ActionType.rotateLeft,
-	    title: 'SHIFT + ←'
+	    title: 'Rotacionar Esquerda - SHIFT + ←'
 	}, {
 	    key: 'rotateRight',
 	    actionType: _Icon.ActionType.rotateRight,
-	    title: 'SHIFT + →'
+	    title: 'Rotacionar Direita - SHIFT + →'
 	}, {
 	    key: 'scaleX',
 	    actionType: _Icon.ActionType.scaleX,
-	    title: 'SHIFT + ↑'
+	    title: 'Inverter Horizontal - SHIFT + ↑'
 	}, {
 	    key: 'scaleY',
 	    actionType: _Icon.ActionType.scaleY,
-	    title: 'SHIFT + ↓'
+	    title: 'Inverter Vertical - SHIFT + ↓'
 	}, {
 	    key: 'download',
 	    actionType: _Icon.ActionType.download,
@@ -1449,16 +1571,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = ViewerToolbar;
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, exports) {
 
-	module.exports = __WEBPACK_EXTERNAL_MODULE_10__;
+	module.exports = __WEBPACK_EXTERNAL_MODULE_11__;
 
 /***/ })
 /******/ ])

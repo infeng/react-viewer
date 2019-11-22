@@ -61,6 +61,9 @@ interface ViewerProps {
   // no render navbar
   noNavbar?: boolean;
 
+  // render sideNavBar
+  navBarSide?: boolean;
+
   // no render toolbar
   noToolbar?: boolean;
 
@@ -102,6 +105,12 @@ interface ViewerProps {
 
   // informar o loading da imagem
   waiting?: object;
+
+  // Mostra o title da img no canvas
+  showTitle?: boolean;
+
+  // Mostra o paginator no toolbar
+  showPaginator?: boolean;
 
 }
 export default ViewerProps;

@@ -146,6 +146,7 @@ class App extends React.Component<any, Partial<State>> {
             container={inline ? this.container : null}
             downloadable
             fullScreen={true}
+            navBarSide={true}
             waiting={this.handleWaiting}
             removeContainer={true}
             customToolbar={(toolbars) => {

@@ -113,6 +113,23 @@
       cursor: move;
     }
   }
+  
+  &-canvas-title {
+    position: absolute;
+    width: 100%;
+    z-index: 2;
+    text-align: center;
+    margin-top: 5px;
+
+    .title-container {
+      color: #ccc;
+      padding: 5px 20px;
+      display: inline-block;
+      background-color: rgba(0, 0, 0, 0.5);
+      border-radius: 15px;
+      min-width: 100px;
+    }
+  }
 
   &-footer {
     position: fixed;
@@ -164,8 +181,40 @@
   }
 
   &-navbar {
-    overflow: hidden;
     background-color: @btn-background-color;
+    overflow: hidden;
+  }
+
+  &-navbarside {
+    .react-viewer-list li {
+      display: block;
+      margin-top: 10px;
+    }
+    background-color: @btn-background-color;
+    overflow: hidden;
+    position: absolute;
+    z-index: 1006;
+    justify-content: center;
+    right: 0;
+    height: 100%;
+    padding: 17px;
+  }
+
+  &-modal{
+    .react-viewer-navbarside{
+      position: fixed;
+      height: 100%;
+      top: 0;
+    }
+  }
+
+  &-navbar-paginator {
+    font-style: italic;
+    position: absolute;
+    bottom: calc(@viewer-list-item-height + 10);
+    right: 10px;
+    color: #ccc;
+    font-size: 15px;
   }
 
   @viewer-list-item-width: 30px;

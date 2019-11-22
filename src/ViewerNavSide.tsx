@@ -1,18 +1,21 @@
 import * as React from 'react';
 import { ImageDecorator } from './ViewerProps';
 
-export interface ViewerNavProps {
+export interface ViewerNavSideProps {
   prefixCls: string;
   images: ImageDecorator[];
   activeIndex: number;
   showPaginator: boolean;
   onChangeImg: (index: number) => void;
 }
+var pxChange = -30;
 
-export default class ViewerNav extends React.Component<ViewerNavProps, any> {
+export default class ViewerNavSide extends React.Component<ViewerNavSideProps, any> {
   static defaultProps = {
     activeIndex: 0,
   };
+
+  
 
   handleChangeImg = (newIndex) => {
     if (this.props.activeIndex === newIndex) {
@@ -22,9 +25,10 @@ export default class ViewerNav extends React.Component<ViewerNavProps, any> {
   }
 
   render() {
-    let marginLeft = (Math.ceil(this.props.images.length / 2) - this.props.activeIndex - 1) * 1.5 * 30;
+    let marginTop = 0
+    if(this.props.activeIndex > 0) marginTop = ((this.props.activeIndex - 1 ) * 2 * pxChange)
     let listStyle = {
-      marginLeft: `${marginLeft}px`,
+      marginTop: `${marginTop}px`,
     };
 
     let paginator = null;
@@ -37,7 +41,7 @@ export default class ViewerNav extends React.Component<ViewerNavProps, any> {
     }
 
     return (
-      <div className={`${this.props.prefixCls}-navbar`}>
+      <div className={`${this.props.prefixCls}-navbarside`}>
         <ul className={`${this.props.prefixCls}-list ${this.props.prefixCls}-list-transition`} style={listStyle}>
           {this.props.images.map((item, index) =>
             <li
