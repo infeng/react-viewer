@@ -1190,18 +1190,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	                { className: this.prefixCls + '-close ' + this.prefixCls + '-btn', onClick: this.handleClose, style: { zIndex: zIndex + 10 } },
 	                React.createElement(_Icon2.default, { type: _Icon.ActionType.close })
 	            ),
-	            this.props.fullScreen ? React.createElement(
+	            this.props.navBarSide && React.createElement(_ViewerNavSide2.default, { prefixCls: this.prefixCls, images: this.props.images, activeIndex: this.state.activeIndex, onChangeImg: this.handleChangeImg, showPaginator: this.props.showPaginator }),
+	            !this.props.navBarSide && React.createElement(
 	                'div',
 	                { className: this.prefixCls + '-fullScreen ' + this.prefixCls + '-btn', onClick: this.handleFullScreen, style: { zIndex: zIndex + 100 } },
 	                React.createElement(_Icon2.default, { type: _Icon.ActionType.zoomIn })
-	            ) : '',
-	            this.props.navBarSide || React.createElement(_ViewerNavSide2.default, { prefixCls: this.prefixCls, images: this.props.images, activeIndex: this.state.activeIndex, onChangeImg: this.handleChangeImg, showPaginator: this.props.showPaginator }),
+	            ),
 	            React.createElement(_ViewerCanvas2.default, { prefixCls: this.prefixCls, imgAlt: activeImg.alt, imgSrc: activeImg.src, visible: this.props.visible, width: this.state.width, height: this.state.height, top: this.state.top, left: this.state.left, rotate: this.state.rotate, onChangeImgState: this.handleChangeImgState, onResize: this.handleResize, onZoom: this.handleScrollZoom, zIndex: zIndex + 5, scaleX: this.state.scaleX, scaleY: this.state.scaleY, loading: this.state.loading, drag: this.props.drag, container: this.props.container, onCanvasMouseDown: this.handleCanvasMouseDown, showTitle: this.props.showTitle }),
 	            this.props.noFooter || React.createElement(
 	                'div',
 	                { className: this.prefixCls + '-footer', style: { zIndex: zIndex + 5 } },
 	                this.props.noToolbar || React.createElement(_ViewerToolbar2.default, { prefixCls: this.prefixCls, onAction: this.handleAction, alt: activeImg.alt, width: this.state.imageWidth, height: this.state.imageHeight, attribute: this.props.attribute, zoomable: this.props.zoomable, rotatable: this.props.rotatable, scalable: this.props.scalable, changeable: this.props.changeable, downloadable: this.props.downloadable, noImgDetails: this.props.noImgDetails, toolbars: this.props.customToolbar(_ViewerToolbar.defaultToolbars) }),
-	                this.props.noNavbar && !this.props.navBarSide || React.createElement(_ViewerNav2.default, { prefixCls: this.prefixCls, images: this.props.images, activeIndex: this.state.activeIndex, onChangeImg: this.handleChangeImg, showPaginator: this.props.showPaginator })
+	                !this.props.noNavbar && !this.props.navBarSide && React.createElement(_ViewerNav2.default, { prefixCls: this.prefixCls, images: this.props.images, activeIndex: this.state.activeIndex, onChangeImg: this.handleChangeImg, showPaginator: this.props.showPaginator })
 	            )
 	        );
 	    };
@@ -1349,6 +1349,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : _defaults(subClass, superClass); }
 
+	var pxChange = -30;
+
 	var ViewerNavSide = function (_React$Component) {
 	    _inherits(ViewerNavSide, _React$Component);
 
@@ -1369,9 +1371,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    ViewerNavSide.prototype.render = function render() {
 	        var _this2 = this;
 
-	        var marginLeft = (Math.ceil(this.props.images.length / 2) - this.props.activeIndex - 1) * 1.5 * 30;
+	        var marginTop = 0;
+	        if (this.props.activeIndex > 0) marginTop = (this.props.activeIndex - 1) * 2 * pxChange;
 	        var listStyle = {
-	            marginLeft: marginLeft + 'px'
+	            marginTop: marginTop + 'px'
 	        };
 	        var paginator = null;
 	        if (this.props.showPaginator) {
@@ -1386,7 +1389,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	        return React.createElement(
 	            'div',
-	            { className: this.props.prefixCls + '-navbar' },
+	            { className: this.props.prefixCls + '-navbarside' },
 	            React.createElement(
 	                'ul',
 	                { className: this.props.prefixCls + '-list ' + this.props.prefixCls + '-list-transition', style: listStyle },
