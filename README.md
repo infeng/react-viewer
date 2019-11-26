@@ -74,6 +74,8 @@ function App() {
 | downloadInNewWindow | boolean | false | whether to download in a new window | false |
 | className   | string    |  -  | customized CSS class | false |
 | showTotal   | boolean    |  true  | whether to display the total number and range | false |
+| maxScale   | number    |  -  | maximum scaling | false |
+| minScale   | number    |  0.1  | minimum scaling | false |
 
 ### ImageDecorator
 
