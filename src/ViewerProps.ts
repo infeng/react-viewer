@@ -108,6 +108,12 @@ interface ViewerProps {
 
   // whether to display the total number and range
   showTotal?: boolean;
+
+  // max scale
+  maxScale?: number;
+
+  // min scale
+  minScale?: number;
 }
 
 export default ViewerProps;

@@ -71,6 +71,7 @@ export default (props: ViewerProps) => {
     noImgDetails = false,
     noToolbar = false,
     showTotal = true,
+    minScale = 0.1,
    } = props;
 
   const initialState: ViewerCoreState = {
@@ -588,8 +589,19 @@ export default (props: ViewerProps) => {
       let directY = state.scaleY > 0 ? 1 : -1;
       scaleX = state.scaleX + scale * direct * directX;
       scaleY = state.scaleY + scale * direct * directY;
-      if (Math.abs(scaleX) < 0.1 || Math.abs(scaleY) < 0.1) {
-        return;
+      if (typeof props.maxScale !== 'undefined') {
+        if (Math.abs(scaleX) > props.maxScale) {
+          scaleX = props.maxScale * directX;
+        }
+        if (Math.abs(scaleY) > props.maxScale) {
+          scaleY = props.maxScale * directY;
+        }
+      }
+      if (Math.abs(scaleX) < minScale) {
+        scaleX = minScale * directX;
+      }
+      if (Math.abs(scaleY) < minScale) {
+        scaleY = minScale * directY;
       }
       top = state.top + -direct * diffY / state.scaleX * scale * directX;
       left = state.left + -direct * diffX / state.scaleY * scale * directY;

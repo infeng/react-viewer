@@ -750,4 +750,24 @@ describe('Viewer', () => {
     triggerKeyboard(document, 'keydown', 39);
     expect($$('.react-viewer-showTotal')[0].innerHTML).toBe('2 of 2');
   });
+
+  it('max scale and min scale', () => {
+    viewerHelper.new({
+      className: 'my-react-viewer',
+      maxScale: 1.06,
+      minScale: 0.88,
+    });
+    viewerHelper.open();
+
+    let imgNode = $$('img.react-viewer-image')[0];
+
+    $$('li[data-key=zoomIn]')[0].click();
+    $$('li[data-key=zoomIn]')[0].click();
+    expect(getTransformValue(imgNode.style.transform).scaleX).toBe('1.06');
+    $$('li[data-key=reset]')[0].click();
+    $$('li[data-key=zoomOut]')[0].click();
+    $$('li[data-key=zoomOut]')[0].click();
+    $$('li[data-key=zoomOut]')[0].click();
+    expect(getTransformValue(imgNode.style.transform).scaleX).toBe('0.88');
+  });
 });
