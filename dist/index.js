@@ -1191,7 +1191,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                React.createElement(_Icon2.default, { type: _Icon.ActionType.close })
 	            ),
 	            this.props.navBarSide && React.createElement(_ViewerNavSide2.default, { prefixCls: this.prefixCls, images: this.props.images, activeIndex: this.state.activeIndex, onChangeImg: this.handleChangeImg, showPaginator: this.props.showPaginator }),
-	            !this.props.navBarSide && React.createElement(
+	            !this.props.navBarSide && !this.props.hideFullScreen && React.createElement(
 	                'div',
 	                { className: this.prefixCls + '-fullScreen ' + this.prefixCls + '-btn', onClick: this.handleFullScreen, style: { zIndex: zIndex + 100 } },
 	                React.createElement(_Icon2.default, { type: _Icon.ActionType.zoomIn })
