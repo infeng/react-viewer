@@ -63,6 +63,8 @@ interface ViewerProps {
 
   // render sideNavBar
   navBarSide?: boolean;
+  // hide zoom FullScreen
+  hideFullScreen?: boolean;
 
   // no render toolbar
   noToolbar?: boolean;
