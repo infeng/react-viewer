@@ -117,7 +117,7 @@
   z-index: 1005;
 }
 .react-viewer-uptoolbar {
-  position: fixed;
+  position: absolute;
   right: 0;
   left: 0;
   overflow: hidden;
