@@ -141,6 +141,15 @@
     z-index: @zIndex + 5;
   }
 
+  &-uptoolbar {
+    position: fixed;
+    right: 0;
+    left: 0;
+    overflow: hidden;
+    text-align: center;
+    z-index: @zIndex + 5;
+  }
+
   &-inline > &-mask, &-inline > &-close,  &-inline > &-fullScreen, &-inline > &-canvas, &-inline > &-footer {
     position: absolute;
   }
@@ -183,6 +192,32 @@
   &-navbar {
     background-color: @btn-background-color;
     overflow: hidden;
+  }
+
+  &-navbarside {
+    .react-viewer-list li {
+      display: block;
+      margin-top: 10px;
+    }
+    background-color: @btn-background-color;
+    overflow: hidden;
+    position: absolute;
+    z-index: 1006;
+    justify-content: center;
+    right: 0;
+    height: 100%;
+    padding: 17px;
+  }
+
+  &-modal{
+    .react-viewer-navbarside{
+      position: fixed;
+      height: 100%;
+      top: 0;
+    }
+    .react-viewer-uptoolbar{
+      top:0;
+    }
   }
 
   &-navbar-paginator {

@@ -116,6 +116,14 @@
   text-align: center;
   z-index: 1005;
 }
+.react-viewer-uptoolbar {
+  position: fixed;
+  right: 0;
+  left: 0;
+  overflow: hidden;
+  text-align: center;
+  z-index: 1005;
+}
 .react-viewer-inline > .react-viewer-mask,
 .react-viewer-inline > .react-viewer-close,
 .react-viewer-inline > .react-viewer-fullScreen,
@@ -154,6 +162,31 @@
 .react-viewer-navbar {
   background-color: rgba(0, 0, 0, 0.5);
   overflow: hidden;
+}
+.react-viewer-navbarside {
+  background-color: rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  position: absolute;
+  z-index: 1006;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  right: 0;
+  height: 100%;
+  padding: 17px;
+}
+.react-viewer-navbarside .react-viewer-list li {
+  display: block;
+  margin-top: 10px;
+}
+.react-viewer-modal .react-viewer-navbarside {
+  position: fixed;
+  height: 100%;
+  top: 0;
+}
+.react-viewer-modal .react-viewer-uptoolbar {
+  top: 0;
 }
 .react-viewer-navbar-paginator {
   font-style: italic;

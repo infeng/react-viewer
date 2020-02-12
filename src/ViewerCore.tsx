@@ -2,6 +2,7 @@ import * as React from 'react';
 import './style/index.less';
 import ViewerCanvas from './ViewerCanvas';
 import ViewerNav from './ViewerNav';
+import ViewerNavSide from './ViewerNavSide';
 import ViewerToolbar, { defaultToolbars } from './ViewerToolbar';
 import ViewerProps, { ImageDecorator, ToolbarConfig } from './ViewerProps';
 import Icon, { ActionType } from './Icon';
@@ -728,15 +729,24 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
           </div>
         )}
 
-        {this.props.fullScreen ? (
+          {this.props.navBarSide &&  (
+            <ViewerNavSide
+              prefixCls={this.prefixCls}
+              images={this.props.images}
+              activeIndex={this.state.activeIndex}
+              onChangeImg={this.handleChangeImg}
+              showPaginator={this.props.showPaginator}
+            />
+          )}
+        {!this.props.navBarSide && 
           <div
-            className={`${this.prefixCls}-fullScreen ${this.prefixCls}-btn`}
-            onClick={this.handleFullScreen}
-            style={{ zIndex: zIndex + 100 }}
+          className={`${this.prefixCls}-fullScreen ${this.prefixCls}-btn`}
+          onClick={this.handleFullScreen}
+          style={{ zIndex: zIndex + 100 }}
           >
-            <Icon type={ActionType.zoomIn} />
+          <Icon type={ActionType.zoomIn} />
           </div>
-        ) : ''}
+        }
 
         <ViewerCanvas
           prefixCls={this.prefixCls}
@@ -760,9 +770,28 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
           onCanvasMouseDown={this.handleCanvasMouseDown}
           showTitle={this.props.showTitle}
         />
+
+         { this.props.noToolbar || (this.props.upToolbar &&( <div className={`${this.prefixCls}-uptoolbar`} style={{ zIndex: zIndex + 5 }}>
+              <ViewerToolbar
+                prefixCls={this.prefixCls}
+                onAction={this.handleAction}
+                alt={activeImg.alt}
+                width={this.state.imageWidth}
+                height={this.state.imageHeight}
+                attribute={this.props.attribute}
+                zoomable={this.props.zoomable}
+                rotatable={this.props.rotatable}
+                scalable={this.props.scalable}
+                changeable={this.props.changeable}
+                downloadable={this.props.downloadable}
+                noImgDetails={this.props.noImgDetails}
+                toolbars={this.props.customToolbar(defaultToolbars)}
+              />              
+          </div>
+         ))}
         {this.props.noFooter || (
           <div className={`${this.prefixCls}-footer`} style={{ zIndex: zIndex + 5 }}>
-            {this.props.noToolbar || (
+            {this.props.noToolbar || this.props.upToolbar || (
               <ViewerToolbar
                 prefixCls={this.prefixCls}
                 onAction={this.handleAction}
@@ -779,7 +808,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
                 toolbars={this.props.customToolbar(defaultToolbars)}
               />
             )}
-            {this.props.noNavbar || (
+            {!this.props.noNavbar && !this.props.navBarSide &&
               <ViewerNav
                 prefixCls={this.prefixCls}
                 images={this.props.images}
@@ -787,7 +816,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
                 onChangeImg={this.handleChangeImg}
                 showPaginator={this.props.showPaginator}
               />
-            )}
+            }
           </div>
         )}
       </div>
