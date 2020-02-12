@@ -738,7 +738,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
               showPaginator={this.props.showPaginator}
             />
           )}
-        {!this.props.navBarSide && !this.props.hideFullScreen   && 
+        {!this.props.navBarSide && !this.props.hideFullScreen &&
           <div
           className={`${this.prefixCls}-fullScreen ${this.prefixCls}-btn`}
           onClick={this.handleFullScreen}
@@ -771,7 +771,8 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
           showTitle={this.props.showTitle}
         />
 
-         { this.props.noToolbar || (this.props.upToolbar &&( <div className={`${this.prefixCls}-uptoolbar`} style={{ zIndex: zIndex + 5 }}>
+          {this.props.noToolbar || (this.props.upToolbar && (
+            <div className={`${this.prefixCls}-uptoolbar`} style={{ zIndex: zIndex + 5 }}>
               <ViewerToolbar
                 prefixCls={this.prefixCls}
                 onAction={this.handleAction}
@@ -786,8 +787,8 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
                 downloadable={this.props.downloadable}
                 noImgDetails={this.props.noImgDetails}
                 toolbars={this.props.customToolbar(defaultToolbars)}
-              />              
-          </div>
+              />
+            </div>
          ))}
         {this.props.noFooter || (
           <div className={`${this.prefixCls}-footer`} style={{ zIndex: zIndex + 5 }}>
