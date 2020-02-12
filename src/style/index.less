@@ -141,6 +141,15 @@
     z-index: @zIndex + 5;
   }
 
+  &-uptoolbar {
+    position: fixed;
+    right: 0;
+    left: 0;
+    overflow: hidden;
+    text-align: center;
+    z-index: @zIndex + 5;
+  }
+
   &-inline > &-mask, &-inline > &-close,  &-inline > &-fullScreen, &-inline > &-canvas, &-inline > &-footer {
     position: absolute;
   }
@@ -205,6 +214,9 @@
       position: fixed;
       height: 100%;
       top: 0;
+    }
+    .react-viewer-uptoolbar{
+      top:0;
     }
   }
 

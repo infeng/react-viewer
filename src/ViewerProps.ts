@@ -66,6 +66,9 @@ interface ViewerProps {
 
   // no render toolbar
   noToolbar?: boolean;
+  
+  // render up toolbar
+  upToolbar?: boolean;
 
   // no render footer
   noFooter?: boolean;
