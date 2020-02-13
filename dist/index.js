@@ -563,8 +563,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : _defaults(subClass, superClass); }
-	//import { Modal } from 'antd';
-
 
 	function noop() {}
 	var transitionDuration = 300;
@@ -662,7 +660,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	            }
 	        };
 	        _this.handleExport = function () {
-	            var images = _this.props.images || [];
 	            _this.toggleModalExport();
 	        };
 	        _this.toggleModalExport = function () {
@@ -979,7 +976,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	        // retorna o valor true/false para o carregamento da imagem
 	        if (this.props.waiting && typeof this.props.waiting === 'function') {
 	            this.props.waiting(val);
-	            //console.log('children ',val, new Date())
 	        }
 	    };
 
@@ -1213,7 +1209,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                React.createElement(_Icon2.default, { type: _Icon.ActionType.close })
 	            ),
 	            this.props.navBarSide && React.createElement(_ViewerNavSide2.default, { prefixCls: this.prefixCls, images: this.props.images, activeIndex: this.state.activeIndex, onChangeImg: this.handleChangeImg, showPaginator: this.props.showPaginator }),
-	            !this.props.navBarSide && !this.props.hideFullScreen && React.createElement(
+	            !this.props.navBarSide && React.createElement(
 	                'div',
 	                { className: this.prefixCls + '-fullScreen ' + this.prefixCls + '-btn', onClick: this.handleFullScreen, style: { zIndex: zIndex + 100 } },
 	                React.createElement(_Icon2.default, { type: _Icon.ActionType.zoomIn })
@@ -1227,7 +1223,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            this.props.noFooter || React.createElement(
 	                'div',
 	                { className: this.prefixCls + '-footer', style: { zIndex: zIndex + 5 } },
-	                this.props.noToolbar || React.createElement(_ViewerToolbar2.default, { prefixCls: this.prefixCls, onAction: this.handleAction, alt: activeImg.alt, width: this.state.imageWidth, height: this.state.imageHeight, attribute: this.props.attribute, zoomable: this.props.zoomable, rotatable: this.props.rotatable, scalable: this.props.scalable, changeable: this.props.changeable, downloadable: this.props.downloadable, noImgDetails: this.props.noImgDetails, toolbars: this.props.customToolbar(_ViewerToolbar.defaultToolbars), 'export': this.props.showExport }),
+	                this.props.noToolbar || this.props.upToolbar || React.createElement(_ViewerToolbar2.default, { prefixCls: this.prefixCls, onAction: this.handleAction, alt: activeImg.alt, width: this.state.imageWidth, height: this.state.imageHeight, attribute: this.props.attribute, zoomable: this.props.zoomable, rotatable: this.props.rotatable, scalable: this.props.scalable, changeable: this.props.changeable, downloadable: this.props.downloadable, noImgDetails: this.props.noImgDetails, toolbars: this.props.customToolbar(_ViewerToolbar.defaultToolbars), 'export': this.props.showExport }),
 	                !this.props.noNavbar && !this.props.navBarSide && React.createElement(_ViewerNav2.default, { prefixCls: this.prefixCls, images: this.props.images, activeIndex: this.state.activeIndex, onChangeImg: this.handleChangeImg, showPaginator: this.props.showPaginator })
 	            )
 	        );
@@ -1338,7 +1334,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    onSubmit(itensSelected);
 	    onCloseHandle();
 	  };
-	  if (!isOpen) return _react2.default.createElement(_react2.default.Fragment, null);
+	  if (!isOpen) {
+	    return _react2.default.createElement(_react2.default.Fragment, null);
+	  }
 	  return _react2.default.createElement(
 	    _react2.default.Fragment,
 	    null,
@@ -1553,7 +1551,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var _this2 = this;
 
 	        var marginTop = 0;
-	        if (this.props.activeIndex > 0) marginTop = (this.props.activeIndex - 1) * 2 * pxChange;
+	        if (this.props.activeIndex > 0) {
+	            marginTop = (this.props.activeIndex - 1) * 2 * pxChange;
+	        }
 	        var listStyle = {
 	            marginTop: marginTop + 'px'
 	        };
