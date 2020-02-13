@@ -1,12 +1,17 @@
-import * as React from 'react';
 import './style/index.less';
+
+import { pdf } from '@react-pdf/renderer';
+import download from 'downloadjs';
+import * as React from 'react';
+
+import Icon, { ActionType } from './Icon';
 import ViewerCanvas from './ViewerCanvas';
+import { ViewerDownloadPDF } from './ViewerDownloadPDF';
+import { ViewerModal } from './ViewerModalExport';
 import ViewerNav from './ViewerNav';
 import ViewerNavSide from './ViewerNavSide';
-import ViewerToolbar, { defaultToolbars } from './ViewerToolbar';
 import ViewerProps, { ImageDecorator, ToolbarConfig } from './ViewerProps';
-import Icon, { ActionType } from './Icon';
-import { ViewerModal } from './ViewerModalExport';
+import ViewerToolbar, { defaultToolbars } from './ViewerToolbar';
 
 function noop() { }
 
@@ -358,8 +363,10 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     });
   }
 
-  onExport = (itens) => {
-    console.log(itens);
+  onExport = async (itens) => {
+    const renderDoc = () => <ViewerDownloadPDF images={itens}/>;
+    const blob = await pdf(renderDoc()).toBlob();
+    download(window.URL.createObjectURL(blob));
   }
 
   handleScaleX = (newScale: 1 | -1) => {

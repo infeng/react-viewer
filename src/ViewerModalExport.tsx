@@ -4,7 +4,7 @@ const parseImagens = (images) => {
   return images.map((image, index) => ({
     ...image,
     id: index,
-    checked: false
+    checked: false,
   }));
 };
 
@@ -18,16 +18,16 @@ const ViewerModal = ({ images, isOpen, onClose, onSubmit }) => {
   const onChangeCheckbox = (id, checked) => {
     const newItens = itens.map(item => ({
       ...item,
-      checked: item.id === id ? !checked : item.checked
+      checked: item.id === id ? !checked : item.checked,
     }));
     setItens(newItens);
-  }
+  };
   const onChangeSelectAll = () => {
     const newSelectAll = !selectAll;
     setSelectAll(newSelectAll);
     const newItens = itens.map(item => ({
       ...item,
-      checked: newSelectAll
+      checked: newSelectAll,
     }));
     setItens(newItens);
   };
@@ -35,11 +35,11 @@ const ViewerModal = ({ images, isOpen, onClose, onSubmit }) => {
     setSelectAll(false);
     const newItens = itens.map(item => ({
       ...item,
-      checked: false
+      checked: false,
     }));
     setItens(newItens);
-    onClose()
-  }
+    onClose();
+  };
   useEffect(() => {
     setItens(parseImagens(images));
   }, []);
@@ -48,10 +48,10 @@ const ViewerModal = ({ images, isOpen, onClose, onSubmit }) => {
     const itensSelected = itens.filter(({ checked }) => !!checked);
     onSubmit(itensSelected);
     onCloseHandle();
-  }
+  };
 
-  if(!isOpen){ 
-    return(<React.Fragment />); 
+  if (!isOpen) {
+    return(<React.Fragment />);
   }
 
   return (
@@ -62,7 +62,7 @@ const ViewerModal = ({ images, isOpen, onClose, onSubmit }) => {
           Total de Documentos: {itens.length}
         </div>
         <div className="modal-export__body">
-          <div className="modal-export__container" 
+          <div className="modal-export__container"
             style={{ minWidth: `${widthItemImageUploaded * halfFilesUploadedSize}px` }}>
             {itens.map(({ src, checked, id }, index) => {
               return (
@@ -85,7 +85,7 @@ const ViewerModal = ({ images, isOpen, onClose, onSubmit }) => {
                   </label>
                   {index + 1 === halfFilesUploadedSize && (<div className="modal-export__break" />)}
                 </React.Fragment>
-              )
+              );
             })}
           </div>
         </div>
@@ -103,8 +103,8 @@ const ViewerModal = ({ images, isOpen, onClose, onSubmit }) => {
 
       </div>
     </React.Fragment>
-  )
-}
+  );
+};
 
 export {
   ViewerModal
