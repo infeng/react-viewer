@@ -498,10 +498,11 @@
       -ms-flex-direction: row;
           flex-direction: row;
 }
-label.modal-export__text {
+.modal-export__text {
   max-width: 180px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   display: inline-block;
+  padding-left: 5px;
 }
