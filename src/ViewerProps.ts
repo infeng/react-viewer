@@ -2,6 +2,7 @@ export interface ImageDecorator {
   src: string;
   alt?: string;
   downloadUrl?: string;
+  name?: string;
 }
 
 export interface ToolbarConfig {

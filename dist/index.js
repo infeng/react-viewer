@@ -926,7 +926,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	            var activeImg = {
 	                src: '',
 	                alt: '',
-	                downloadUrl: ''
+	                downloadUrl: '',
+	                name: ''
 	            };
 	            var images = _this.props.images || [];
 	            if (images.length > 0 && _this.state.activeIndex >= 0) {
@@ -1172,7 +1173,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    ViewerCore.prototype.render = function render() {
 	        var activeImg = {
 	            src: '',
-	            alt: ''
+	            alt: '',
+	            name: ''
 	        };
 	        var zIndex = 1000;
 	        if (this.props.zIndex) {
@@ -1201,7 +1203,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return React.createElement(
 	            'div',
 	            { ref: 'viewerCore', className: className, style: viewerStryle },
-	            React.createElement(_ViewerModalExport.ViewerModal, { images: this.props.images, isOpen: this.state.modalExport, onClose: this.toggleModalExport, onSubmit: this.onExport }),
+	            !!this.state.modalExport && React.createElement(_ViewerModalExport.ViewerModal, { images: this.props.images, onClose: this.toggleModalExport, onSubmit: this.onExport }),
 	            React.createElement('div', { className: this.prefixCls + '-mask', style: { zIndex: zIndex } }),
 	            this.props.noClose || React.createElement(
 	                'div',
@@ -1285,7 +1287,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 	var ViewerModal = function ViewerModal(_ref) {
 	  var images = _ref.images,
-	      isOpen = _ref.isOpen,
 	      onClose = _ref.onClose,
 	      onSubmit = _ref.onSubmit;
 
@@ -1334,9 +1335,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    onSubmit(itensSelected);
 	    onCloseHandle();
 	  };
-	  if (!isOpen) {
-	    return _react2.default.createElement(_react2.default.Fragment, null);
-	  }
 	  return _react2.default.createElement(
 	    _react2.default.Fragment,
 	    null,
@@ -1359,14 +1357,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	          itens.map(function (_ref3, index) {
 	            var src = _ref3.src,
 	                checked = _ref3.checked,
-	                id = _ref3.id;
+	                id = _ref3.id,
+	                name = _ref3.name;
 
 	            return _react2.default.createElement(
 	              _react2.default.Fragment,
-	              null,
+	              { key: "" + index },
 	              _react2.default.createElement(
 	                "label",
-	                { className: "modal-export__label", key: "" + index },
+	                { className: "modal-export__label" },
 	                _react2.default.createElement(
 	                  "div",
 	                  { className: "modal-export__name" },
@@ -1378,7 +1377,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    { className: "modal-export__text", title: src, onClick: function onClick() {
 	                        return onChangeCheckbox(id, checked);
 	                      } },
-	                    src
+	                    name
 	                  )
 	                ),
 	                _react2.default.createElement("img", { className: "modal-export__img-item", src: src })
@@ -1404,7 +1403,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        ),
 	        _react2.default.createElement(
 	          "button",
-	          { className: "modal-export__buttonPDF", type: "button", onClick: onClickGenerate },
+	          { className: "modal-export__buttonPDF", type: "button", disabled: true },
 	          "Gerar PDF"
 	        )
 	      )

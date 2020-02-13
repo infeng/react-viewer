@@ -692,6 +692,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
       src: '',
       alt: '',
       downloadUrl: '',
+      name: '',
     };
 
     let images = this.props.images || [];
@@ -711,6 +712,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     let activeImg: ImageDecorator = {
       src: '',
       alt: '',
+      name: '',
     };
 
     let zIndex = 1000;
@@ -744,11 +746,12 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
 
     return (
       <div ref="viewerCore" className={className} style={viewerStryle}>
-        <ViewerModal
-          images={this.props.images}
-          isOpen={this.state.modalExport}
-          onClose={this.toggleModalExport}
-          onSubmit={this.onExport}/>
+        {!!this.state.modalExport && (
+          <ViewerModal
+            images={this.props.images}
+            onClose={this.toggleModalExport}
+            onSubmit={this.onExport}/>
+        )}
 
         <div className={`${this.prefixCls}-mask`} style={{ zIndex: zIndex }} />
 

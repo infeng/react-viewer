@@ -8,7 +8,7 @@ const parseImagens = (images) => {
   }));
 };
 
-const ViewerModal = ({ images, isOpen, onClose, onSubmit }) => {
+const ViewerModal = ({ images, onClose, onSubmit }) => {
   const [itens, setItens] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
 
@@ -50,9 +50,7 @@ const ViewerModal = ({ images, isOpen, onClose, onSubmit }) => {
     onCloseHandle();
   };
 
-  if (!isOpen) {
-    return(<React.Fragment />);
-  }
+  const hasAnySelected = () => itens.some(({ checked }) => !!checked);
 
   return (
     <React.Fragment>
@@ -64,10 +62,10 @@ const ViewerModal = ({ images, isOpen, onClose, onSubmit }) => {
         <div className="modal-export__body">
           <div className="modal-export__container"
             style={{ minWidth: `${widthItemImageUploaded * halfFilesUploadedSize}px` }}>
-            {itens.map(({ src, checked, id }, index) => {
+            {itens.map(({ src, checked, id, name }, index) => {
               return (
-                <React.Fragment>
-                  <label className="modal-export__label" key={`${index}`}>
+                <React.Fragment key={`${index}`}>
+                  <label className="modal-export__label">
                     <div className="modal-export__name">
                       <input
                         type="checkbox"
@@ -78,7 +76,7 @@ const ViewerModal = ({ images, isOpen, onClose, onSubmit }) => {
                         className="modal-export__text"
                         title={src}
                         onClick={() => onChangeCheckbox(id, checked)}
-                      >{src}
+                      >{name}
                       </label>
                     </div>
                     <img className="modal-export__img-item" src={src} />
@@ -98,7 +96,7 @@ const ViewerModal = ({ images, isOpen, onClose, onSubmit }) => {
           </label>
 
           <button className="modal-export__buttonSair" type="button" onClick={onCloseHandle}>Sair</button>
-          <button className="modal-export__buttonPDF" type="button" onClick={onClickGenerate}>Gerar PDF</button>
+          <button className="modal-export__buttonPDF" type="button" onClick={onClickGenerate} disabled={hasAnySelected()}>Gerar PDF</button>
         </div>
 
       </div>
