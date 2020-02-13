@@ -96,7 +96,12 @@ const ViewerModal = ({ images, onClose, onSubmit }) => {
           </label>
 
           <button className="modal-export__buttonSair" type="button" onClick={onCloseHandle}>Sair</button>
-          <button className="modal-export__buttonPDF" type="button" onClick={onClickGenerate} disabled={hasAnySelected()}>Gerar PDF</button>
+          <button
+            className="modal-export__buttonPDF"
+            type="button"
+            onClick={onClickGenerate}
+            disabled={hasAnySelected()}
+          >Gerar PDF</button>
         </div>
 
       </div>
