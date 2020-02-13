@@ -65,19 +65,17 @@ const ViewerModal = ({ images, onClose, onSubmit }) => {
             {itens.map(({ src, checked, id, name }, index) => {
               return (
                 <React.Fragment key={`${index}`}>
-                  <label className="modal-export__label">
+                  <label className="modal-export__label" title={name}>
                     <div className="modal-export__name">
                       <input
                         type="checkbox"
                         checked={checked}
                         onChange={() => onChangeCheckbox(id, checked)}
                       />
-                      <label
+                      <span
                         className="modal-export__text"
-                        title={src}
                         onClick={() => onChangeCheckbox(id, checked)}
-                      >{name}
-                      </label>
+                      >{name}</span>
                     </div>
                     <img className="modal-export__img-item" src={src} />
                   </label>
@@ -100,7 +98,7 @@ const ViewerModal = ({ images, onClose, onSubmit }) => {
             className="modal-export__buttonPDF"
             type="button"
             onClick={onClickGenerate}
-            disabled={hasAnySelected()}
+            disabled={!hasAnySelected()}
           >Gerar PDF</button>
         </div>
 
