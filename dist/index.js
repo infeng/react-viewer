@@ -926,7 +926,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	            var activeImg = {
 	                src: '',
 	                alt: '',
-	                downloadUrl: ''
+	                downloadUrl: '',
+	                name: ''
 	            };
 	            var images = _this.props.images || [];
 	            if (images.length > 0 && _this.state.activeIndex >= 0) {
@@ -1359,7 +1360,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	          itens.map(function (_ref3, index) {
 	            var src = _ref3.src,
 	                checked = _ref3.checked,
-	                id = _ref3.id;
+	                id = _ref3.id,
+	                name = _ref3.name;
 
 	            return _react2.default.createElement(
 	              _react2.default.Fragment,
@@ -1378,7 +1380,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    { className: "modal-export__text", title: src, onClick: function onClick() {
 	                        return onChangeCheckbox(id, checked);
 	                      } },
-	                    src
+	                    name
 	                  )
 	                ),
 	                _react2.default.createElement("img", { className: "modal-export__img-item", src: src })

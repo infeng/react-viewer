@@ -685,6 +685,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
       src: '',
       alt: '',
       downloadUrl: '',
+      name: '',
     };
 
     let images = this.props.images || [];

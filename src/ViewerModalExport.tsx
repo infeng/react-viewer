@@ -64,7 +64,7 @@ const ViewerModal = ({ images, isOpen, onClose, onSubmit }) => {
         <div className="modal-export__body">
           <div className="modal-export__container" 
             style={{ minWidth: `${widthItemImageUploaded * halfFilesUploadedSize}px` }}>
-            {itens.map(({ src, checked, id }, index) => {
+            {itens.map(({ src, checked, id, name }, index) => {
               return (
                 <React.Fragment>
                   <label className="modal-export__label" key={`${index}`}>
@@ -78,7 +78,7 @@ const ViewerModal = ({ images, isOpen, onClose, onSubmit }) => {
                         className="modal-export__text"
                         title={src}
                         onClick={() => onChangeCheckbox(id, checked)}
-                      >{src}
+                      >{name}
                       </label>
                     </div>
                     <img className="modal-export__img-item" src={src} />
