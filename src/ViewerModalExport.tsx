@@ -4,7 +4,7 @@ const parseImagens = (images) => {
   return images.map((image, index) => ({
     ...image,
     id: index,
-    checked: false
+    checked: false,
   }));
 };
 
@@ -18,16 +18,16 @@ const ViewerModal = ({ images, onClose, onSubmit }) => {
   const onChangeCheckbox = (id, checked) => {
     const newItens = itens.map(item => ({
       ...item,
-      checked: item.id === id ? !checked : item.checked
+      checked: item.id === id ? !checked : item.checked,
     }));
     setItens(newItens);
-  }
+  };
   const onChangeSelectAll = () => {
     const newSelectAll = !selectAll;
     setSelectAll(newSelectAll);
     const newItens = itens.map(item => ({
       ...item,
-      checked: newSelectAll
+      checked: newSelectAll,
     }));
     setItens(newItens);
   };
@@ -35,11 +35,11 @@ const ViewerModal = ({ images, onClose, onSubmit }) => {
     setSelectAll(false);
     const newItens = itens.map(item => ({
       ...item,
-      checked: false
+      checked: false,
     }));
     setItens(newItens);
-    onClose()
-  }
+    onClose();
+  };
   useEffect(() => {
     setItens(parseImagens(images));
   }, []);
@@ -48,7 +48,9 @@ const ViewerModal = ({ images, onClose, onSubmit }) => {
     const itensSelected = itens.filter(({ checked }) => !!checked);
     onSubmit(itensSelected);
     onCloseHandle();
-  }
+  };
+
+  const hasAnySelected = () => itens.some(({ checked }) => !!checked);
 
   return (
     <React.Fragment>
@@ -58,30 +60,28 @@ const ViewerModal = ({ images, onClose, onSubmit }) => {
           Total de Documentos: {itens.length}
         </div>
         <div className="modal-export__body">
-          <div className="modal-export__container" 
+          <div className="modal-export__container"
             style={{ minWidth: `${widthItemImageUploaded * halfFilesUploadedSize}px` }}>
             {itens.map(({ src, checked, id, name }, index) => {
               return (
                 <React.Fragment key={`${index}`}>
-                  <label className="modal-export__label">
+                  <label className="modal-export__label" title={name}>
                     <div className="modal-export__name">
                       <input
                         type="checkbox"
                         checked={checked}
                         onChange={() => onChangeCheckbox(id, checked)}
                       />
-                      <label
+                      <span
                         className="modal-export__text"
-                        title={src}
                         onClick={() => onChangeCheckbox(id, checked)}
-                      >{name}
-                      </label>
+                      >{name}</span>
                     </div>
                     <img className="modal-export__img-item" src={src} />
                   </label>
                   {index + 1 === halfFilesUploadedSize && (<div className="modal-export__break" />)}
                 </React.Fragment>
-              )
+              );
             })}
           </div>
         </div>
@@ -94,13 +94,18 @@ const ViewerModal = ({ images, onClose, onSubmit }) => {
           </label>
 
           <button className="modal-export__buttonSair" type="button" onClick={onCloseHandle}>Sair</button>
-          <button className="modal-export__buttonPDF" type="button" disabled>Gerar PDF</button>
+          <button
+            className="modal-export__buttonPDF"
+            type="button"
+            onClick={onClickGenerate}
+            disabled={!hasAnySelected()}
+          >Gerar PDF</button>
         </div>
 
       </div>
     </React.Fragment>
-  )
-}
+  );
+};
 
 export {
   ViewerModal

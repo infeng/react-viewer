@@ -59,7 +59,9 @@
     "webpack": "^1.13.2"
   },
   "dependencies": {
-    "classnames": "^2.2.5"
+    "@react-pdf/renderer": "^1.6.8",
+    "classnames": "^2.2.5",
+    "downloadjs": "^1.4.7"
   },
   "pre-commit": [
     "lint"

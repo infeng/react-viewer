@@ -74,7 +74,7 @@ export const defaultToolbars: ToolbarConfig[] = [
     key: 'export',
     actionType: ActionType.export,
     title: '',
-  }
+  },
 ];
 
 function deleteToolbarFromKey(toolbars: ToolbarConfig[], keys: string[]) {
@@ -138,7 +138,7 @@ export default class ViewerToolbar extends React.Component<ViewerToolbarProps, a
     if (!this.props.downloadable) {
       toolbars = deleteToolbarFromKey(toolbars, ['download']);
     }
-    if (!this.props.export){
+    if (!this.props.export) {
       toolbars = deleteToolbarFromKey(toolbars, ['showExport']);
     }
     return (

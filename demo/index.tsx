@@ -149,7 +149,6 @@ class App extends React.Component<any, Partial<State>> {
             images={images}
             activeIndex={this.state.activeIndex}
             container={inline ? this.container : null}
-            downloadable
             fullScreen={true}
             waiting={this.handleWaiting}
             removeContainer={true}
