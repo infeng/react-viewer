@@ -822,6 +822,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
                 downloadable={this.props.downloadable}
                 noImgDetails={this.props.noImgDetails}
                 toolbars={this.props.customToolbar(defaultToolbars)}
+                showExport= {this.props.showExport}
               />
             </div>
          ))}
@@ -842,7 +843,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
                 downloadable={this.props.downloadable}
                 noImgDetails={this.props.noImgDetails}
                 toolbars={this.props.customToolbar(defaultToolbars)}
-                export= {this.props.showExport}
+                showExport= {this.props.showExport}
               />
             )}
             {!this.props.noNavbar && !this.props.navBarSide &&
