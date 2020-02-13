@@ -16,6 +16,7 @@ export interface ViewerToolbarProps {
   downloadable: boolean;
   noImgDetails: boolean;
   toolbars: ToolbarConfig[];
+  export: boolean;
 }
 
 export const defaultToolbars: ToolbarConfig[] = [
@@ -67,6 +68,11 @@ export const defaultToolbars: ToolbarConfig[] = [
   {
     key: 'download',
     actionType: ActionType.download,
+    title: '',
+  },
+  {
+    key: 'export',
+    actionType: ActionType.export,
     title: '',
   },
 ];
@@ -131,6 +137,9 @@ export default class ViewerToolbar extends React.Component<ViewerToolbarProps, a
     }
     if (!this.props.downloadable) {
       toolbars = deleteToolbarFromKey(toolbars, ['download']);
+    }
+    if (!this.props.export) {
+      toolbars = deleteToolbarFromKey(toolbars, ['showExport']);
     }
     return (
       <div>

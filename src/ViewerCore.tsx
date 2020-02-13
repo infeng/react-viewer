@@ -1,11 +1,17 @@
-import * as React from 'react';
 import './style/index.less';
+
+import { pdf } from '@react-pdf/renderer';
+import download from 'downloadjs';
+import * as React from 'react';
+
+import Icon, { ActionType } from './Icon';
 import ViewerCanvas from './ViewerCanvas';
+import { ViewerDownloadPDF } from './ViewerDownloadPDF';
+import { ViewerModal } from './ViewerModalExport';
 import ViewerNav from './ViewerNav';
 import ViewerNavSide from './ViewerNavSide';
-import ViewerToolbar, { defaultToolbars } from './ViewerToolbar';
 import ViewerProps, { ImageDecorator, ToolbarConfig } from './ViewerProps';
-import Icon, { ActionType } from './Icon';
+import ViewerToolbar, { defaultToolbars } from './ViewerToolbar';
 
 function noop() { }
 
@@ -27,6 +33,7 @@ export interface ViewerCoreState {
   scaleY?: number;
   loading?: boolean;
   fullScreenImage?: boolean;
+  modalExport?: boolean;
 }
 
 export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreState> {
@@ -76,6 +83,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
       scaleY: this.props.scaleY ? this.props.scaleY : 1,
       loading: false,
       fullScreenImage: false,
+      modalExport: false,
     };
 
     this.setContainerWidthHeight();
@@ -103,7 +111,6 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     // retorna o valor true/false para o carregamento da imagem
     if (this.props.waiting && typeof (this.props.waiting) === 'function') {
       this.props.waiting(val);
-      // console.log('children ',val, new Date())
     }
   }
 
@@ -322,6 +329,9 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
       case ActionType.download:
         this.handleDownload();
         break;
+      case ActionType.export:
+        this.handleExport();
+        break;
       default:
         break;
     }
@@ -342,6 +352,22 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
       location.href = activeImage.downloadUrl;
     }
   };
+
+  handleExport = () => {
+    this.toggleModalExport();
+  };
+
+  toggleModalExport = () => {
+    this.setState({
+      modalExport: !this.state.modalExport,
+    });
+  }
+
+  onExport = async (itens) => {
+    const renderDoc = () => <ViewerDownloadPDF images={itens}/>;
+    const blob = await pdf(renderDoc()).toBlob();
+    download(window.URL.createObjectURL(blob));
+  }
 
   handleScaleX = (newScale: 1 | -1) => {
     this.setState({
@@ -365,7 +391,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
 
     // inline mode 
     if (this.props.container) {
-      let hImg = document.getElementsByClassName('drag react-viewer-image-transition')[0].height;
+      let hImg = document.getElementsByClassName('drag react-viewer-image-transition')[0].scrollHeight;
       let up = Math.abs(stateTop) - value;
       let down = stateTop + value;
       let left = Math.abs(stateLeft - value - 30);
@@ -666,6 +692,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
       src: '',
       alt: '',
       downloadUrl: '',
+      name: '',
     };
 
     let images = this.props.images || [];
@@ -685,6 +712,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     let activeImg: ImageDecorator = {
       src: '',
       alt: '',
+      name: '',
     };
 
     let zIndex = 1000;
@@ -718,7 +746,15 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
 
     return (
       <div ref="viewerCore" className={className} style={viewerStryle}>
+        {!!this.state.modalExport && (
+          <ViewerModal
+            images={this.props.images}
+            onClose={this.toggleModalExport}
+            onSubmit={this.onExport}/>
+        )}
+
         <div className={`${this.prefixCls}-mask`} style={{ zIndex: zIndex }} />
+
         {this.props.noClose || (
           <div
             className={`${this.prefixCls}-close ${this.prefixCls}-btn`}
@@ -728,23 +764,22 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
             <Icon type={ActionType.close} />
           </div>
         )}
-
-          {this.props.navBarSide &&  (
-            <ViewerNavSide
-              prefixCls={this.prefixCls}
-              images={this.props.images}
-              activeIndex={this.state.activeIndex}
-              onChangeImg={this.handleChangeImg}
-              showPaginator={this.props.showPaginator}
-            />
-          )}
-        {!this.props.navBarSide && !this.props.hideFullScreen &&
+        {this.props.navBarSide && (
+          <ViewerNavSide
+            prefixCls={this.prefixCls}
+            images={this.props.images}
+            activeIndex={this.state.activeIndex}
+            onChangeImg={this.handleChangeImg}
+            showPaginator={this.props.showPaginator}
+          />
+        )}
+        {!this.props.navBarSide &&
           <div
-          className={`${this.prefixCls}-fullScreen ${this.prefixCls}-btn`}
-          onClick={this.handleFullScreen}
-          style={{ zIndex: zIndex + 100 }}
+            className={`${this.prefixCls}-fullScreen ${this.prefixCls}-btn`}
+            onClick={this.handleFullScreen}
+            style={{ zIndex: zIndex + 100 }}
           >
-          <Icon type={ActionType.zoomIn} />
+            <Icon type={ActionType.zoomIn} />
           </div>
         }
 
@@ -807,6 +842,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
                 downloadable={this.props.downloadable}
                 noImgDetails={this.props.noImgDetails}
                 toolbars={this.props.customToolbar(defaultToolbars)}
+                export= {this.props.showExport}
               />
             )}
             {!this.props.noNavbar && !this.props.navBarSide &&

@@ -56,22 +56,27 @@ class App extends React.Component<any, Partial<State>> {
       src: img,
       alt: 'lake',
       downloadUrl: '',
+      name: 'img1',
     }, {
       src: img2,
       alt: 'mountain',
       downloadUrl: '',
+      name: 'img2',
     }, {
       src: img3,
       alt: '',
       downloadUrl: '',
+      name: 'img3',
     }, {
       src: img4,
       alt: '',
       downloadUrl: '',
+      name: 'img4',
     }, {
       src: img5,
       alt: '',
       downloadUrl: '',
+      name: 'img5',
     }];
 
     let inline = this.state.mode === 'inline';
@@ -144,7 +149,6 @@ class App extends React.Component<any, Partial<State>> {
             images={images}
             activeIndex={this.state.activeIndex}
             container={inline ? this.container : null}
-            downloadable
             fullScreen={true}
             waiting={this.handleWaiting}
             removeContainer={true}
