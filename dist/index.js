@@ -7,7 +7,7 @@
 		exports["react-viewer"] = factory(require("react"), require("react-dom"));
 	else
 		root["react-viewer"] = factory(root["React"], root["ReactDOM"]);
-})(this, function(__WEBPACK_EXTERNAL_MODULE_1__, __WEBPACK_EXTERNAL_MODULE_11__) {
+})(this, function(__WEBPACK_EXTERNAL_MODULE_1__, __WEBPACK_EXTERNAL_MODULE_12__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -114,6 +114,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    ActionType[ActionType["scaleY"] = 10] = "scaleY";
 	    ActionType[ActionType["download"] = 11] = "download";
 	    ActionType[ActionType["bookmark"] = 12] = "bookmark";
+	    ActionType[ActionType["export"] = 13] = "export";
 	})(ActionType || (exports.ActionType = ActionType = {}));
 
 	var Icon = function (_React$Component) {
@@ -205,7 +206,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var React = _interopRequireWildcard(_react);
 
-	var _reactDom = __webpack_require__(11);
+	var _reactDom = __webpack_require__(12);
 
 	var ReactDOM = _interopRequireWildcard(_reactDom);
 
@@ -527,27 +528,29 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var React = _interopRequireWildcard(_react);
 
-	__webpack_require__(10);
+	__webpack_require__(11);
 
 	var _ViewerCanvas = __webpack_require__(5);
 
 	var _ViewerCanvas2 = _interopRequireDefault(_ViewerCanvas);
 
-	var _ViewerNav = __webpack_require__(7);
+	var _ViewerNav = __webpack_require__(8);
 
 	var _ViewerNav2 = _interopRequireDefault(_ViewerNav);
 
-	var _ViewerNavSide = __webpack_require__(8);
+	var _ViewerNavSide = __webpack_require__(9);
 
 	var _ViewerNavSide2 = _interopRequireDefault(_ViewerNavSide);
 
-	var _ViewerToolbar = __webpack_require__(9);
+	var _ViewerToolbar = __webpack_require__(10);
 
 	var _ViewerToolbar2 = _interopRequireDefault(_ViewerToolbar);
 
 	var _Icon = __webpack_require__(2);
 
 	var _Icon2 = _interopRequireDefault(_Icon);
+
+	var _ViewerModalExport = __webpack_require__(7);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -560,6 +563,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : _defaults(subClass, superClass); }
+	//import { Modal } from 'antd';
+
 
 	function noop() {}
 	var transitionDuration = 300;
@@ -636,6 +641,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	                case _Icon.ActionType.download:
 	                    _this.handleDownload();
 	                    break;
+	                case _Icon.ActionType.export:
+	                    _this.handleExport();
+	                    break;
 	                default:
 	                    break;
 	            }
@@ -652,6 +660,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	            if (activeImage.downloadUrl) {
 	                location.href = activeImage.downloadUrl;
 	            }
+	        };
+	        _this.handleExport = function () {
+	            var images = _this.props.images || [];
+	            _this.toggleModalExport();
+	        };
+	        _this.toggleModalExport = function () {
+	            _this.setState({
+	                modalExport: !_this.state.modalExport
+	            });
+	        };
+	        _this.onExport = function (itens) {
+	            console.log(itens);
 	        };
 	        _this.handleScaleX = function (newScale) {
 	            _this.setState({
@@ -671,7 +691,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            var stateLeft = _this.state.left;
 	            // inline mode 
 	            if (_this.props.container) {
-	                var hImg = document.getElementsByClassName('drag react-viewer-image-transition')[0].height;
+	                var hImg = document.getElementsByClassName('drag react-viewer-image-transition')[0].scrollHeight;
 	                var up = Math.abs(stateTop) - value;
 	                var down = stateTop + value;
 	                var left = Math.abs(stateLeft - value - 30);
@@ -938,7 +958,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	            scaleX: _this.props.scaleX ? _this.props.scaleX : 1,
 	            scaleY: _this.props.scaleY ? _this.props.scaleY : 1,
 	            loading: false,
-	            fullScreenImage: false
+	            fullScreenImage: false,
+	            modalExport: false
 	        };
 	        _this.setContainerWidthHeight();
 	        _this.footerHeight = 84;
@@ -958,7 +979,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        // retorna o valor true/false para o carregamento da imagem
 	        if (this.props.waiting && typeof this.props.waiting === 'function') {
 	            this.props.waiting(val);
-	            // console.log('children ',val, new Date())
+	            //console.log('children ',val, new Date())
 	        }
 	    };
 
@@ -1184,6 +1205,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return React.createElement(
 	            'div',
 	            { ref: 'viewerCore', className: className, style: viewerStryle },
+	            React.createElement(_ViewerModalExport.ViewerModal, { images: this.props.images, isOpen: this.state.modalExport, onClose: this.toggleModalExport, onSubmit: this.onExport }),
 	            React.createElement('div', { className: this.prefixCls + '-mask', style: { zIndex: zIndex } }),
 	            this.props.noClose || React.createElement(
 	                'div',
@@ -1205,7 +1227,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            this.props.noFooter || React.createElement(
 	                'div',
 	                { className: this.prefixCls + '-footer', style: { zIndex: zIndex + 5 } },
-	                this.props.noToolbar || this.props.upToolbar || React.createElement(_ViewerToolbar2.default, { prefixCls: this.prefixCls, onAction: this.handleAction, alt: activeImg.alt, width: this.state.imageWidth, height: this.state.imageHeight, attribute: this.props.attribute, zoomable: this.props.zoomable, rotatable: this.props.rotatable, scalable: this.props.scalable, changeable: this.props.changeable, downloadable: this.props.downloadable, noImgDetails: this.props.noImgDetails, toolbars: this.props.customToolbar(_ViewerToolbar.defaultToolbars) }),
+	                this.props.noToolbar || React.createElement(_ViewerToolbar2.default, { prefixCls: this.prefixCls, onAction: this.handleAction, alt: activeImg.alt, width: this.state.imageWidth, height: this.state.imageHeight, attribute: this.props.attribute, zoomable: this.props.zoomable, rotatable: this.props.rotatable, scalable: this.props.scalable, changeable: this.props.changeable, downloadable: this.props.downloadable, noImgDetails: this.props.noImgDetails, toolbars: this.props.customToolbar(_ViewerToolbar.defaultToolbars), 'export': this.props.showExport }),
 	                !this.props.noNavbar && !this.props.navBarSide && React.createElement(_ViewerNav2.default, { prefixCls: this.prefixCls, images: this.props.images, activeIndex: this.state.activeIndex, onChangeImg: this.handleChangeImg, showPaginator: this.props.showPaginator })
 	            )
 	        );
@@ -1241,6 +1263,160 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ }),
 /* 7 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.ViewerModal = undefined;
+
+	var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var parseImagens = function parseImagens(images) {
+	  return images.map(function (image, index) {
+	    return _extends({}, image, { id: index, checked: false });
+	  });
+	};
+	var ViewerModal = function ViewerModal(_ref) {
+	  var images = _ref.images,
+	      isOpen = _ref.isOpen,
+	      onClose = _ref.onClose,
+	      onSubmit = _ref.onSubmit;
+
+	  var _useState = (0, _react.useState)([]),
+	      _useState2 = _slicedToArray(_useState, 2),
+	      itens = _useState2[0],
+	      setItens = _useState2[1];
+
+	  var _useState3 = (0, _react.useState)(false),
+	      _useState4 = _slicedToArray(_useState3, 2),
+	      selectAll = _useState4[0],
+	      setSelectAll = _useState4[1];
+
+	  var widthItemImageUploaded = 200;
+	  var halfFilesUploadedSize = Math.round(itens.length / 2);
+	  var onChangeCheckbox = function onChangeCheckbox(id, checked) {
+	    var newItens = itens.map(function (item) {
+	      return _extends({}, item, { checked: item.id === id ? !checked : item.checked });
+	    });
+	    setItens(newItens);
+	  };
+	  var onChangeSelectAll = function onChangeSelectAll() {
+	    var newSelectAll = !selectAll;
+	    setSelectAll(newSelectAll);
+	    var newItens = itens.map(function (item) {
+	      return _extends({}, item, { checked: newSelectAll });
+	    });
+	    setItens(newItens);
+	  };
+	  var onCloseHandle = function onCloseHandle() {
+	    setSelectAll(false);
+	    var newItens = itens.map(function (item) {
+	      return _extends({}, item, { checked: false });
+	    });
+	    setItens(newItens);
+	    onClose();
+	  };
+	  (0, _react.useEffect)(function () {
+	    setItens(parseImagens(images));
+	  }, []);
+	  var onClickGenerate = function onClickGenerate() {
+	    var itensSelected = itens.filter(function (_ref2) {
+	      var checked = _ref2.checked;
+	      return !!checked;
+	    });
+	    onSubmit(itensSelected);
+	    onCloseHandle();
+	  };
+	  if (!isOpen) return _react2.default.createElement(_react2.default.Fragment, null);
+	  return _react2.default.createElement(
+	    _react2.default.Fragment,
+	    null,
+	    _react2.default.createElement("div", { className: "modal-export__mask", onClick: onCloseHandle }),
+	    _react2.default.createElement(
+	      "div",
+	      { className: "modal-export" },
+	      _react2.default.createElement(
+	        "div",
+	        { className: "modal-export__header" },
+	        "Total de Documentos: ",
+	        itens.length
+	      ),
+	      _react2.default.createElement(
+	        "div",
+	        { className: "modal-export__body" },
+	        _react2.default.createElement(
+	          "div",
+	          { className: "modal-export__container", style: { minWidth: widthItemImageUploaded * halfFilesUploadedSize + "px" } },
+	          itens.map(function (_ref3, index) {
+	            var src = _ref3.src,
+	                checked = _ref3.checked,
+	                id = _ref3.id;
+
+	            return _react2.default.createElement(
+	              _react2.default.Fragment,
+	              null,
+	              _react2.default.createElement(
+	                "label",
+	                { className: "modal-export__label", key: "" + index },
+	                _react2.default.createElement(
+	                  "div",
+	                  { className: "modal-export__name" },
+	                  _react2.default.createElement("input", { type: "checkbox", checked: checked, onChange: function onChange() {
+	                      return onChangeCheckbox(id, checked);
+	                    } }),
+	                  _react2.default.createElement(
+	                    "label",
+	                    { className: "modal-export__text", title: src, onClick: function onClick() {
+	                        return onChangeCheckbox(id, checked);
+	                      } },
+	                    src
+	                  )
+	                ),
+	                _react2.default.createElement("img", { className: "modal-export__img-item", src: src })
+	              ),
+	              index + 1 === halfFilesUploadedSize && _react2.default.createElement("div", { className: "modal-export__break" })
+	            );
+	          })
+	        )
+	      ),
+	      _react2.default.createElement(
+	        "div",
+	        { className: "modal-export__footer" },
+	        _react2.default.createElement("input", { type: "checkbox", checked: selectAll, onChange: onChangeSelectAll }),
+	        _react2.default.createElement(
+	          "label",
+	          { className: "modal-export__buttonLabel", onClick: onChangeSelectAll },
+	          "Selecionar Todos"
+	        ),
+	        _react2.default.createElement(
+	          "button",
+	          { className: "modal-export__buttonSair", type: "button", onClick: onCloseHandle },
+	          "Sair"
+	        ),
+	        _react2.default.createElement(
+	          "button",
+	          { className: "modal-export__buttonPDF", type: "button", onClick: onClickGenerate },
+	          "Gerar PDF"
+	        )
+	      )
+	    )
+	  );
+	};
+	exports.ViewerModal = ViewerModal;
+
+/***/ }),
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1330,7 +1506,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1423,7 +1599,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1493,6 +1669,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    key: 'download',
 	    actionType: _Icon.ActionType.download,
 	    title: ''
+	}, {
+	    key: 'export',
+	    actionType: _Icon.ActionType.export,
+	    title: ''
 	}];
 	function deleteToolbarFromKey(toolbars, keys) {
 	    var targetToolbar = toolbars.filter(function (item) {
@@ -1559,6 +1739,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        if (!this.props.downloadable) {
 	            toolbars = deleteToolbarFromKey(toolbars, ['download']);
 	        }
+	        if (!this.props.export) {
+	            toolbars = deleteToolbarFromKey(toolbars, ['showExport']);
+	        }
 	        return React.createElement(
 	            'div',
 	            null,
@@ -1579,16 +1762,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = ViewerToolbar;
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ }),
-/* 11 */
+/* 12 */
 /***/ (function(module, exports) {
 
-	module.exports = __WEBPACK_EXTERNAL_MODULE_11__;
+	module.exports = __WEBPACK_EXTERNAL_MODULE_12__;
 
 /***/ })
 /******/ ])

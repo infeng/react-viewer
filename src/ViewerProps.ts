@@ -117,5 +117,8 @@ interface ViewerProps {
   // Mostra o paginator no toolbar
   showPaginator?: boolean;
 
+  // Mostra o export no toolbar
+  showExport?: boolean;
+
 }
 export default ViewerProps;
