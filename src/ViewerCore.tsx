@@ -705,6 +705,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     let activeImg: ImageDecorator = {
       src: '',
       alt: '',
+      name: '',
     };
 
     let zIndex = 1000;

@@ -1173,7 +1173,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    ViewerCore.prototype.render = function render() {
 	        var activeImg = {
 	            src: '',
-	            alt: ''
+	            alt: '',
+	            name: ''
 	        };
 	        var zIndex = 1000;
 	        if (this.props.zIndex) {
