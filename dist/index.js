@@ -1366,10 +1366,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	            return _react2.default.createElement(
 	              _react2.default.Fragment,
-	              null,
+	              { key: "" + index },
 	              _react2.default.createElement(
 	                "label",
-	                { className: "modal-export__label", key: "" + index },
+	                { className: "modal-export__label" },
 	                _react2.default.createElement(
 	                  "div",
 	                  { className: "modal-export__name" },

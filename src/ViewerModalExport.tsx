@@ -66,8 +66,8 @@ const ViewerModal = ({ images, isOpen, onClose, onSubmit }) => {
             style={{ minWidth: `${widthItemImageUploaded * halfFilesUploadedSize}px` }}>
             {itens.map(({ src, checked, id, name }, index) => {
               return (
-                <React.Fragment>
-                  <label className="modal-export__label" key={`${index}`}>
+                <React.Fragment key={`${index}`}>
+                  <label className="modal-export__label">
                     <div className="modal-export__name">
                       <input
                         type="checkbox"
