@@ -8,7 +8,7 @@ const parseImagens = (images) => {
   }));
 };
 
-const ViewerModal = ({ images, isOpen, onClose, onSubmit }) => {
+const ViewerModal = ({ images, onClose, onSubmit }) => {
   const [itens, setItens] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
 
@@ -48,10 +48,6 @@ const ViewerModal = ({ images, isOpen, onClose, onSubmit }) => {
     const itensSelected = itens.filter(({ checked }) => !!checked);
     onSubmit(itensSelected);
     onCloseHandle();
-  }
-
-  if(!isOpen){ 
-    return(<React.Fragment />); 
   }
 
   return (

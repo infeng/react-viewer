@@ -739,11 +739,12 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
 
     return (
       <div ref="viewerCore" className={className} style={viewerStryle}>
-        <ViewerModal
-          images={this.props.images}
-          isOpen={this.state.modalExport}
-          onClose={this.toggleModalExport}
-          onSubmit={this.onExport}/>
+        {!!this.state.modalExport && (
+          <ViewerModal
+            images={this.props.images}
+            onClose={this.toggleModalExport}
+            onSubmit={this.onExport}/>
+        )}
 
         <div className={`${this.prefixCls}-mask`} style={{ zIndex: zIndex }} />
 

@@ -1203,7 +1203,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return React.createElement(
 	            'div',
 	            { ref: 'viewerCore', className: className, style: viewerStryle },
-	            React.createElement(_ViewerModalExport.ViewerModal, { images: this.props.images, isOpen: this.state.modalExport, onClose: this.toggleModalExport, onSubmit: this.onExport }),
+	            !!this.state.modalExport && React.createElement(_ViewerModalExport.ViewerModal, { images: this.props.images, onClose: this.toggleModalExport, onSubmit: this.onExport }),
 	            React.createElement('div', { className: this.prefixCls + '-mask', style: { zIndex: zIndex } }),
 	            this.props.noClose || React.createElement(
 	                'div',
@@ -1287,7 +1287,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 	var ViewerModal = function ViewerModal(_ref) {
 	  var images = _ref.images,
-	      isOpen = _ref.isOpen,
 	      onClose = _ref.onClose,
 	      onSubmit = _ref.onSubmit;
 
@@ -1336,9 +1335,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    onSubmit(itensSelected);
 	    onCloseHandle();
 	  };
-	  if (!isOpen) {
-	    return _react2.default.createElement(_react2.default.Fragment, null);
-	  }
 	  return _react2.default.createElement(
 	    _react2.default.Fragment,
 	    null,
