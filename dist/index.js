@@ -1403,7 +1403,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        ),
 	        _react2.default.createElement(
 	          "button",
-	          { className: "modal-export__buttonPDF", type: "button", onClick: onClickGenerate },
+	          { className: "modal-export__buttonPDF", type: "button", disabled: true },
 	          "Gerar PDF"
 	        )
 	      )
