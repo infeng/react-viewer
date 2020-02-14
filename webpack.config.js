@@ -1,6 +1,6 @@
 const webpack = require('atool-build/lib/webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
-
+const MinifyPlugin = require("babel-minify-webpack-plugin");
 var conf = {
   filename: 'index.html',
   template: './demo/index.html',
@@ -13,10 +13,19 @@ var conf = {
 }
 
 module.exports = function (webpackConfig) {
+
+  webpackConfig.babel.plugins = webpackConfig.babel.plugins.filter((plugin) => {
+    const ret = !(plugin instanceof webpack.optimize.UglifyJsPlugin);
+    return ret;
+  });
+
+  //webpackConfig.babel.plugins.push(new MinifyPlugin());  
+  
   webpackConfig.babel.plugins.push(['import', {
     libraryName: 'antd',
     style: true,
   }]);  
+
   webpackConfig.entry = {
     index: './demo/index.tsx',
   };
