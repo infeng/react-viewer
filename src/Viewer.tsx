@@ -9,7 +9,15 @@ export default (props: ViewerProps) => {
   const [ init, setInit ] = React.useState(false);
 
   React.useEffect(() => {
-    document.body.appendChild(defaultContainer.current);
+    const childContainer = defaultContainer.current;
+    document.body.appendChild(childContainer);
+    return () => {
+      try {
+        document.body.removeChild(childContainer);
+      } catch (ex) {
+        console.error("Failed to clean up default container element."); 
+      }
+    };
   }, []);
 
   React.useEffect(() => {
