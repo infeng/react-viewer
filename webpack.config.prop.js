@@ -4,7 +4,7 @@ const packageName = require(path.join(process.cwd(), 'package.json')).name;
 const entry = './src/index.tsx';
 module.exports = function (webpackConfig) {
   webpackConfig.entry = Object.assign({}, webpackConfig.entry, {
-    ['index']: entry,
+    ['index.min']: entry,
   });
   webpackConfig.externals = {
     react: {

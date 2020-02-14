@@ -19,7 +19,7 @@ module.exports = function (webpackConfig) {
     return ret;
   });
 
-  webpackConfig.babel.plugins.push(new MinifyPlugin());  
+  //webpackConfig.babel.plugins.push(new MinifyPlugin());  
   
   webpackConfig.babel.plugins.push(['import', {
     libraryName: 'antd',
