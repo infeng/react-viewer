@@ -26,6 +26,8 @@ module.exports = function (webpackConfig) {
     library: packageName,
     libraryTarget: 'umd',
   };
+
+
   webpackConfig.plugins = webpackConfig.plugins.filter((plugin) => {
     const ret = !(plugin instanceof webpack.optimize.UglifyJsPlugin);
     return ret;

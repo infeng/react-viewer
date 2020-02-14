@@ -37,6 +37,7 @@
     "@types/react-dom": "^0.14.17",
     "antd": "^2.13.11",
     "atool-build": "^1.0.2",
+    "babel-minify-webpack-plugin": "^0.3.1",
     "babel-plugin-import": "^1.2.1",
     "babel-plugin-transform-runtime": "^6.15.0",
     "babel-runtime": "^6.11.6",
