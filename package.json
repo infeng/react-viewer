@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest",
     "start": "webpack-dev-server",
-    "lint": "tslint -c tslint.json src/**/*.ts src/**/*.tsx",
+    "lint": "tslint -c tslint.json \"src/**/*.ts\" \"src/**/*.tsx\"",
     "build": "webpack --config webpack.config.prop.js && gulp",
     "build:analyze": "ANALYZE=true webpack --config webpack.config.prop.js",
     "doc": "webpack --config webpack.config.doc.js",
