@@ -2,7 +2,7 @@
   "name": "react-viewer",
   "version": "2.5.1",
   "description": "react image viewer",
-  "main": "dist/index",
+  "main": "dist/index.min",
   "scripts": {
     "test": "npm run lint",
     "start": "dora --port 3199 --plugins \"webpack,webpack-hmr,browser-history?index=/demo/index.html\"",
