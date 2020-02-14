@@ -46277,6 +46277,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var ViewerDownloadPDF = function ViewerDownloadPDF(_ref) {
 	        var images = _ref.images;
+
+	        var time = new Date().getTime();
 	        return _react2.default.createElement(
 	                _renderer.Document,
 	                null,
@@ -46285,7 +46287,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                        return _react2.default.createElement(
 	                                _renderer.Page,
 	                                { key: src, size: 'A4' },
-	                                _react2.default.createElement(_renderer.Image, { src: src })
+	                                _react2.default.createElement(_renderer.Image, { src: src + '?v=' + time })
 	                        );
 	                })
 	        );
