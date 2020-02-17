@@ -2,6 +2,7 @@ const webpack = require('atool-build/lib/webpack');
 var path = require('path');
 const packageName = require(path.join(process.cwd(), 'package.json')).name;
 const entry = './src/index.tsx';
+const MinifyPlugin = require("babel-minify-webpack-plugin");
 module.exports = function (webpackConfig) {
   webpackConfig.entry = Object.assign({}, webpackConfig.entry, {
     ['index.min']: entry,
@@ -28,27 +29,39 @@ module.exports = function (webpackConfig) {
   };
 
 
+  webpackConfig.plugins.push(new MinifyPlugin());  
+  
   webpackConfig.plugins = webpackConfig.plugins.filter((plugin) => {
     const ret = !(plugin instanceof webpack.optimize.UglifyJsPlugin);
     return ret;
   });
+
   webpackConfig.plugins.some(function (plugin, i) {
     if (plugin instanceof webpack.optimize.CommonsChunkPlugin) {
       webpackConfig.plugins.splice(i, 1);
       return true;
     }
   });
+
   const uncompressedWebpackConfig = Object.assign({}, webpackConfig);
+
   uncompressedWebpackConfig.entry = {
     [`index`]: entry,
   };
+
   uncompressedWebpackConfig.plugins = uncompressedWebpackConfig.plugins.filter((plugin) => {
     const ret = !(plugin instanceof webpack.DefinePlugin);
     return ret;
   });
+
   uncompressedWebpackConfig.plugins.push(new webpack.DefinePlugin({
     'process.env.NODE_ENV': JSON.stringify('development'),
   }));
+  uncompressedWebpackConfig.plugins = uncompressedWebpackConfig.plugins.filter((plugin) => {
+    const ret = !(plugin instanceof MinifyPlugin);
+    return ret;
+  });
+
   return [
     webpackConfig,
     uncompressedWebpackConfig,
