@@ -1,15 +1,19 @@
+import './index.less';
+
+import { Button, Col, Row } from 'antd';
+import classNames from 'classnames';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
+
 import Viewer from '../src/Viewer';
+
 const img2 = require('./images/landscape2.jpg');
 const img = require('./images/landscape.jpg');
 const img3 = require('./images/tibet-6.jpg');
 const img4 = require('./images/image4.jpg');
 const img5 = require('./images/418f4037db8ad4685aa604c503a09604.png');
 const forkImg = require('./images/fork_me_ribbon.svg');
-import './index.less';
-import classNames from 'classnames';
-import { Row, Col, Button } from 'antd';
+const watermarkSrc = require('./images/marca-dagua-copia.png');
 const ButtonGroup = Button.Group;
 
 interface State {
@@ -57,26 +61,31 @@ class App extends React.Component<any, Partial<State>> {
       alt: 'lake',
       downloadUrl: '',
       name: 'img1',
+      hasWatermark: true,
     }, {
       src: img2,
       alt: 'mountain',
       downloadUrl: '',
       name: 'img2',
+      hasWatermark: true,
     }, {
       src: img3,
       alt: '',
       downloadUrl: '',
       name: 'img3',
+      hasWatermark: true,
     }, {
       src: img4,
       alt: '',
       downloadUrl: '',
       name: 'img4',
+      hasWatermark: true,
     }, {
       src: img5,
       alt: '',
       downloadUrl: '',
       name: 'img5',
+      hasWatermark: true,
     }];
 
     let inline = this.state.mode === 'inline';
@@ -153,6 +162,9 @@ class App extends React.Component<any, Partial<State>> {
             waiting={this.handleWaiting}
             removeContainer={true}
             showExport={true}
+            watermark={{
+              src: watermarkSrc,
+            }}
             customToolbar={(toolbars) => {
               return toolbars.concat([{
                 key: 'bookmark',

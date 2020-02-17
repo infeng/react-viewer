@@ -3,6 +3,7 @@ export interface ImageDecorator {
   alt?: string;
   downloadUrl?: string;
   name?: string;
+  hasWatermark?: boolean;
 }
 
 export interface ToolbarConfig {
@@ -11,6 +12,14 @@ export interface ToolbarConfig {
   render?: React.ReactNode;
   onClick?: (activeImage: ImageDecorator) => void;
   title: string;
+}
+
+export interface IWatermark {
+  src: string;
+  width?: number | string;
+  height?: number | string;
+  left?: number | string;
+  top?: number | string;
 }
 
 interface ViewerProps {
@@ -121,5 +130,6 @@ interface ViewerProps {
   // Mostra o export no toolbar
   showExport?: boolean;
 
+  watermark?: IWatermark;
 }
 export default ViewerProps;
