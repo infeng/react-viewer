@@ -364,7 +364,8 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
   }
 
   onExport = async (itens) => {
-    const renderDoc = () => <ViewerDownloadPDF images={itens}/>;
+    const { watermark } = this.props;
+    const renderDoc = () => <ViewerDownloadPDF watermark={watermark} images={itens}/>;
     const blob = await pdf(renderDoc()).toBlob();
     download(window.URL.createObjectURL(blob));
   }
