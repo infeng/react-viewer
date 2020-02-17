@@ -45642,24 +45642,26 @@ return /******/ (function(modules) { // webpackBootstrap
 	        };
 	        _this.onExport = function (itens) {
 	            return __awaiter(_this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-	                var renderDoc, blob;
+	                var watermark, renderDoc, blob;
 	                return regeneratorRuntime.wrap(function _callee$(_context) {
 	                    while (1) {
 	                        switch (_context.prev = _context.next) {
 	                            case 0:
+	                                watermark = this.props.watermark;
+
 	                                renderDoc = function renderDoc() {
-	                                    return React.createElement(_ViewerDownloadPDF.ViewerDownloadPDF, { images: itens });
+	                                    return React.createElement(_ViewerDownloadPDF.ViewerDownloadPDF, { watermark: watermark, images: itens });
 	                                };
 
-	                                _context.next = 3;
+	                                _context.next = 4;
 	                                return (0, _renderer.pdf)(renderDoc()).toBlob();
 
-	                            case 3:
+	                            case 4:
 	                                blob = _context.sent;
 
 	                                (0, _downloadjs2.default)(window.URL.createObjectURL(blob));
 
-	                            case 5:
+	                            case 6:
 	                            case 'end':
 	                                return _context.stop();
 	                        }
@@ -46263,7 +46265,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-	        value: true
+	    value: true
 	});
 	exports.ViewerDownloadPDF = undefined;
 
@@ -46275,24 +46277,53 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var ViewerDownloadPDF = function ViewerDownloadPDF(_ref) {
-	        var images = _ref.images;
-
-	        var time = new Date().getTime();
-	        return _react2.default.createElement(
-	                _renderer.Document,
-	                null,
-	                images.map(function (_ref2) {
-	                        var src = _ref2.src;
-	                        return _react2.default.createElement(
-	                                _renderer.Page,
-	                                { key: src, size: 'A4' },
-	                                _react2.default.createElement(_renderer.Image, { src: src + '?v=' + time })
-	                        );
-	                })
-	        );
-	};
+	var style = _renderer.StyleSheet.create({
+	    page: {
+	        justifyContent: 'center',
+	        alignContent: 'center'
+	    },
+	    image: {
+	        maxWidth: '100%',
+	        maxHeight: '100%'
+	    }
+	});
 	// tslint:disable-next-line
+
+	var Watermark = function Watermark(_ref) {
+	    var src = _ref.src,
+	        width = _ref.width,
+	        height = _ref.height,
+	        left = _ref.left,
+	        top = _ref.top;
+
+	    return _react2.default.createElement(_renderer.Image, { src: src, style: {
+	            position: 'absolute',
+	            left: !!left || left === 0 ? left : '0',
+	            top: !!top || top === 0 ? top : '0',
+	            width: !!width || width === 0 ? width : '100%',
+	            height: !!height || height === 0 ? height : '100%'
+	        } });
+	};
+	var ViewerDownloadPDF = function ViewerDownloadPDF(_ref2) {
+	    var images = _ref2.images,
+	        watermark = _ref2.watermark;
+
+	    var time = new Date().getTime();
+	    return _react2.default.createElement(
+	        _renderer.Document,
+	        null,
+	        images.map(function (_ref3) {
+	            var src = _ref3.src,
+	                hasWatermark = _ref3.hasWatermark;
+	            return _react2.default.createElement(
+	                _renderer.Page,
+	                { key: src, size: 'A4', style: style.page },
+	                _react2.default.createElement(_renderer.Image, { src: src + '?v=' + time, style: style.image }),
+	                !!hasWatermark && !!watermark && _react2.default.createElement(Watermark, watermark)
+	            );
+	        })
+	    );
+	};
 	exports.ViewerDownloadPDF = ViewerDownloadPDF;
 
 /***/ }),
