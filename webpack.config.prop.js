@@ -11,6 +11,7 @@ if (fs.existsSync(distPath)) {
 config.output.merge({
   library: 'react-viewer',
   libraryTarget: 'umd',
+  globalObject: 'this'
 });
 
 config.mode('production');

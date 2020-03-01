@@ -1,5 +1,5 @@
 const React = require('react');
-const Viewer = require('./dist/index');
+const Viewer = require('../dist/index').default;
 
 function App () {
   const [ visible, setVisible ] = React.useState(false);
@@ -18,7 +18,7 @@ function App () {
   return (
     <div>
       <button onClick={() => { setVisible(true); }}>{visible ? 'close' : 'open'}</button>
-      <Viewer images={images} visible={visible} />
+      <Viewer images={images} visible={visible} onClose={() => { setVisible(false); }} />
     </div>
   );
 }

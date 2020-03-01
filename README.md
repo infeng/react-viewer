@@ -20,6 +20,7 @@ npm install react-viewer --save
 ```javascript
 import * as React from 'react';
 import Viewer from 'react-viewer';
+import 'react-viewer/dist/index.css';
 
 function App() {
   const [ visible, setVisible ] = React.useState(false);
