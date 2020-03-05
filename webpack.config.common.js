@@ -55,9 +55,12 @@ config.module
 config.module
   .rule('less')
     .test(/\.less/)
-    .use('MiniCssExtractPlugin.loader')
-      .loader(MiniCssExtractPlugin.loader)
+    .use('style-loader')
+      .loader('style-loader')
       .end()
+    // .use('MiniCssExtractPlugin.loader')
+    //   .loader(MiniCssExtractPlugin.loader)
+    //   .end()
     .use('css-loader')
       .loader('css-loader')
       .options({
@@ -133,7 +136,7 @@ config.resolve
   .end()
   .modules.add(path.join(__dirname, 'node_modules'));
 
-config.plugin('MiniCssExtractPlugin')
-  .use(MiniCssExtractPlugin)
+// config.plugin('MiniCssExtractPlugin')
+//   .use(MiniCssExtractPlugin)
 
 module.exports = config;

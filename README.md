@@ -20,7 +20,6 @@ npm install react-viewer --save
 ```javascript
 import * as React from 'react';
 import Viewer from 'react-viewer';
-import 'react-viewer/dist/index.css';
 
 function App() {
   const [ visible, setVisible ] = React.useState(false);
@@ -37,6 +36,10 @@ function App() {
   );
 }
 ```
+
+## Server Side Rendering
+
+I'm sorry, ssr is not currently supported in `3.x`, it will be fixed in `4.0`.
 
 ## Props
 
