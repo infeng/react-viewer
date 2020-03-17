@@ -6,7 +6,7 @@ export interface ViewerNavProps {
   images: ImageDecorator[];
   activeIndex: number;
   showPaginator: boolean;
-  showExpandButton: boolean;
+  showToggleNav: boolean;
   onChangeImg: (index: number) => void;
 }
 
@@ -50,7 +50,7 @@ export default class ViewerNav extends React.Component<ViewerNavProps, any> {
     return (
       <React.Fragment>
         <div className={`${this.props.prefixCls}-navbar`}>
-        {!!this.props.showExpandButton &&
+        {!!this.props.showToggleNav &&
           <button onClick={this.toggleVisible} className={`${this.props.prefixCls}-btn-toggle`}>
             {!!this.state.isVisible ? <FaAngleDown /> : <FaAngleUp />}
           </button>

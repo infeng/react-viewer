@@ -133,6 +133,6 @@ interface ViewerProps {
   watermark?: IWatermark;
 
   // Mostra botão de expandir e recolher miniaturas do viewer
-  showExpandButton?: boolean;
+  showToggleNav?: boolean;
 }
 export default ViewerProps;
