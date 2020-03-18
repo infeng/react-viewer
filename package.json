@@ -62,7 +62,8 @@
   "dependencies": {
     "@react-pdf/renderer": "^1.6.8",
     "classnames": "^2.2.5",
-    "downloadjs": "^1.4.7"
+    "downloadjs": "^1.4.7",
+    "react-icons": "^3.9.0"
   },
   "pre-commit": [
     "lint"
