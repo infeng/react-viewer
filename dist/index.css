@@ -36,6 +36,15 @@
   background-color: rgba(0, 0, 0, 0.5);
   color: white;
 }
+.react-viewer-btn-toggle {
+  background-color: transparent;
+  width: 40px;
+  height: 35px;
+  color: white;
+  position: relative;
+  left: 45%;
+  border: none;
+}
 .react-viewer-btn:hover {
   background-color: rgba(0, 0, 0, 0.8);
 }
