@@ -772,6 +772,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
             activeIndex={this.state.activeIndex}
             onChangeImg={this.handleChangeImg}
             showPaginator={this.props.showPaginator}
+            showToggleNav={this.props.showToggleNav}
           />
         )}
         {!this.props.navBarSide &&
@@ -854,6 +855,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
                 activeIndex={this.state.activeIndex}
                 onChangeImg={this.handleChangeImg}
                 showPaginator={this.props.showPaginator}
+                showToggleNav={this.props.showToggleNav}
               />
             }
           </div>
