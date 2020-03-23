@@ -1,5 +1,5 @@
 import './style/index.less';
-
+import {FaAngleLeft, FaAngleRight} from 'react-icons/fa';
 import { pdf } from '@react-pdf/renderer';
 import download from 'downloadjs';
 import * as React from 'react';
@@ -34,6 +34,7 @@ export interface ViewerCoreState {
   loading?: boolean;
   fullScreenImage?: boolean;
   modalExport?: boolean;
+  isVisible?: boolean;
 }
 
 export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreState> {
@@ -84,6 +85,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
       loading: false,
       fullScreenImage: false,
       modalExport: false,
+      isVisible: true,
     };
 
     this.setContainerWidthHeight();
@@ -708,7 +710,9 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
 
     return activeImg;
   };
-
+  toggleNavVisible = () => {
+      this.setState({isVisible: !this.state.isVisible});
+  }
   render() {
     let activeImg: ImageDecorator = {
       src: '',
@@ -754,6 +758,13 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
             onSubmit={this.onExport}/>
         )}
 
+        {!!this.props.showToggleNav &&
+          <div className={`${this.prefixCls}-btn-toggle`} >
+            <button onClick={this.toggleNavVisible} className={`${this.prefixCls}-btn-toggle-nav`} >
+                  {!!this.state.isVisible ? <FaAngleRight size="1.8em" /> : <FaAngleLeft size="1.8em"/>}
+            </button>
+          </div>
+        }
         <div className={`${this.prefixCls}-mask`} style={{ zIndex: zIndex }} />
 
         {this.props.noClose || (
@@ -772,7 +783,6 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
             activeIndex={this.state.activeIndex}
             onChangeImg={this.handleChangeImg}
             showPaginator={this.props.showPaginator}
-            showToggleNav={this.props.showToggleNav}
           />
         )}
         {!this.props.navBarSide &&

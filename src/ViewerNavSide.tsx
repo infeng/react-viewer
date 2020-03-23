@@ -1,12 +1,10 @@
 import * as React from 'react';
 import { ImageDecorator } from './ViewerProps';
-import {FaAngleLeft, FaAngleRight} from 'react-icons/fa';
 export interface ViewerNavSideProps {
   prefixCls: string;
   images: ImageDecorator[];
   activeIndex: number;
   showPaginator: boolean;
-  showToggleNav: boolean;
   onChangeImg: (index: number) => void;
 }
 const pxChange = -30;
@@ -55,14 +53,7 @@ export default class ViewerNavSide extends React.Component<ViewerNavSideProps, a
     }
 
     return (
-      <React.Fragment>
         <div className={`${this.props.prefixCls}-navbarside`}>
-          {!!this.props.showToggleNav &&
-            <button onClick={this.toggleNavVisible} className={`${this.props.prefixCls}-btn-toggle`}>
-              {!!this.state.isVisible ? <FaAngleRight /> : <FaAngleLeft />}
-            </button>
-          }
-          {this.state.isVisible &&
             <div>
               <ul className={`${this.props.prefixCls}-list ${this.props.prefixCls}-list-transition`} style={listStyle}>
                 {this.props.images.map((item, index) =>
@@ -78,9 +69,7 @@ export default class ViewerNavSide extends React.Component<ViewerNavSideProps, a
               </ul>
               {paginator}
             </div>
-          }
         </div>
-      </React.Fragment>
     );
   }
 }
