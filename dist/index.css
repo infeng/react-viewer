@@ -37,12 +37,23 @@
   color: white;
 }
 .react-viewer-btn-toggle {
-  background-color: transparent;
-  width: 40px;
-  height: 35px;
   color: white;
-  position: relative;
-  left: 45%;
+  position: absolute;
+  z-index: 1007;
+  left: 84%;
+  border: none;
+}
+.react-viewer-toggle-left {
+  color: white;
+  position: absolute;
+  z-index: 1007;
+  left: 94%;
+  border: none;
+}
+.react-viewer-btn-toggle-nav {
+  width: 33px;
+  height: 30px;
+  background-color: rgba(0, 0, 0, 0.5);
   border: none;
 }
 .react-viewer-btn:hover {
