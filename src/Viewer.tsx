@@ -1,7 +1,8 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import ViewerCore from './ViewerCore';
+
 import ViewerProps from './ViewerProps';
+import ViewerWrapper from './ViewerWrapper';
 
 export default class Viewer extends React.Component<ViewerProps, any> {
   private defaultContainer: HTMLElement;
@@ -28,7 +29,7 @@ export default class Viewer extends React.Component<ViewerProps, any> {
       let instance = this;
       ReactDOM.unstable_renderSubtreeIntoContainer(
         this,
-        <ViewerCore
+        <ViewerWrapper
           {...this.props}
           noClose={this.props.noClose || true}
         />,
