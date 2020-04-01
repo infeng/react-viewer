@@ -785,7 +785,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
             showPaginator={this.props.showPaginator}
           />
         )}
-        {!this.props.navBarSide &&
+        {!!this.props.fullScreen && !this.props.navBarSide &&
           <div
             className={`${this.prefixCls}-fullScreen ${this.prefixCls}-btn`}
             onClick={this.handleFullScreen}
