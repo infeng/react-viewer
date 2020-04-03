@@ -1,39 +1,68 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import ViewerImageCompare from './ViewerCompareImage';
 import ViewerCore from './ViewerCore';
 import ViewerProps from './ViewerProps';
 
-interface ViewerWrapperState {
-    showCapareImage: boolean;
-}
+const compareViewerConfig = {
+    noClose: true,
+    noNavbar: true,
+    changeable: false,
+    fullScreen: false,
+    showExport: false,
+    compareImages: false,
+};
 
-export default class ViewerWrapper extends React.Component<ViewerProps, ViewerWrapperState> {
-    public state: ViewerWrapperState;
+const ViewerWrapper: React.FC<ViewerProps> = ({ noClose, ...props }: ViewerProps) => {
+    const [showCompareImage, setShowCompareImage] = useState(false);
+    const [imageLeft, setImageLeft] = useState([]);
+    const [imageRight, setImageRight] = useState([]);
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            showCapareImage: false,
-        };
-    }
+    const onCompareImages = (images) => {
+        if (!images.length || images.length < 2) {
+            return;
+        }
+        setImageLeft(images[0]);
+        setImageRight(images[1]);
+        setShowCompareImage(true);
+    };
 
-    render() {
+    const onCloseCompare = () => {
+        setImageLeft([]);
+        setImageRight([]);
+        setShowCompareImage(false);
+    };
+
+    if (!showCompareImage) {
         return (
-            <ViewerImageCompare
-                renderComponentLeft={() => (
-                    <ViewerCore
-                        {...this.props}
-                        noClose={this.props.noClose || true}
-                    />
-                )}
-                renderComponentRight={() => (
-                    <ViewerCore
-                        {...this.props}
-                        noClose={this.props.noClose || true}
-                    />
-                )}
+            <ViewerCore
+                {...props}
+                noClose={noClose || true}
+                onCompareImages={onCompareImages}
             />
         );
     }
-}
+
+    return (
+        <ViewerImageCompare
+            renderComponentLeft={() => (
+                <ViewerCore
+                    {...props}
+                    {...compareViewerConfig}
+                    onCloseCompare={onCloseCompare}
+                    images={imageLeft}
+                />
+            )}
+            renderComponentRight={() => (
+                <ViewerCore
+                    {...props}
+                    {...compareViewerConfig}
+                    onCloseCompare={onCloseCompare}
+                    images={imageRight}
+                />
+            )}
+        />
+    );
+};
+
+export default ViewerWrapper;

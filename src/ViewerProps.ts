@@ -134,5 +134,8 @@ interface ViewerProps {
 
   // Mostra botão de expandir e recolher miniaturas do viewer
   showToggleNav?: boolean;
+  compareImages?: boolean;
+  onCompareImages?: (images: ImageDecorator[]) => void;
+  onCloseCompare?: () => void;
 }
 export default ViewerProps;

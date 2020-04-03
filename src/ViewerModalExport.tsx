@@ -1,4 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import { ImageDecorator } from './ViewerProps';
+
+interface ViewerModalProps {
+  images: ImageDecorator[];
+  onClose: () => void;
+  onSubmit: (images: ImageDecorator[]) => void;
+  buttonText?: string;
+  maxSelections?: number;
+}
 
 const parseImagens = (images) => {
   return images.map((image, index) => ({
@@ -8,7 +17,7 @@ const parseImagens = (images) => {
   }));
 };
 
-const ViewerModal = ({ images, onClose, onSubmit }) => {
+const ViewerModal: React.FC<ViewerModalProps> = ({ images, onClose, onSubmit, buttonText, maxSelections }) => {
   const [itens, setItens] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
 
@@ -71,6 +80,7 @@ const ViewerModal = ({ images, onClose, onSubmit }) => {
                         type="checkbox"
                         checked={checked}
                         onChange={() => onChangeCheckbox(id, checked)}
+                        disabled={!checked && !!maxSelections && itens.filter((i) => i.checked).length >= maxSelections}
                       />
                       <span
                         className="modal-export__text"
@@ -87,19 +97,21 @@ const ViewerModal = ({ images, onClose, onSubmit }) => {
         </div>
 
         <div className="modal-export__footer">
-          <input type="checkbox" checked={selectAll} onChange={onChangeSelectAll} />
-
-          <label className="modal-export__buttonLabel" onClick={onChangeSelectAll}>
-            Selecionar Todos
-          </label>
-
+          {!maxSelections && (
+            <React.Fragment>
+              <input type="checkbox" checked={selectAll} onChange={onChangeSelectAll} />
+              <label className="modal-export__buttonLabel" onClick={onChangeSelectAll}>
+                Selecionar Todos
+              </label>
+            </React.Fragment>
+          )}
           <button className="modal-export__buttonSair" type="button" onClick={onCloseHandle}>Sair</button>
           <button
             className="modal-export__buttonPDF"
             type="button"
             onClick={onClickGenerate}
             disabled={!hasAnySelected()}
-          >Gerar PDF</button>
+          >{buttonText || 'Selecionar'}</button>
         </div>
 
       </div>
