@@ -1,5 +1,16 @@
 // tslint:disable-next-line
 import React, { useRef, useEffect, useState } from 'react';
+interface ISizeProps {
+    wrapperWidth: number;
+    width: number;
+    left: number;
+}
+
+interface ViewerImageCompareProps {
+    renderComponentLeft: (sizeProps: ISizeProps) => JSX.Element;
+    renderComponentRight: (sizeProps: ISizeProps) => JSX.Element;
+    minWidth?: number;
+}
 
 const getCursorPos = (e, container) => {
     const event = e || window.event;
@@ -23,13 +34,19 @@ const setStyle = (ref, style) => {
     }
 };
 
-const ViewerImageCompare = ({ renderComponentLeft, renderComponentRight }) => {
+const ViewerImageCompare: React.FC<ViewerImageCompareProps> = ({
+    renderComponentLeft,
+    renderComponentRight,
+    minWidth,
+}) => {
     const wrapperRef = useRef();
     const sliderRef = useRef();
     const elementLeftRef = useRef();
     const elementRightRef = useRef();
     const [wrapperWidth, setWrapperWidth] = useState(0);
     const [sliderIsClicked, setSliderIsClicked] = useState(false);
+    const [sizePropsElementLeft, setSizePropsElementLeft] = useState({});
+    const [sizePropsElementRight, setSizePropsElementRight] = useState({});
 
     const onMouseDown = () => setSliderIsClicked(true);
     const onMouseUp = () => setSliderIsClicked(false);
@@ -40,6 +57,21 @@ const ViewerImageCompare = ({ renderComponentLeft, renderComponentRight }) => {
         const cursorPos = getCursorPos(e, wrapperRef.current);
         const widthElementLeft = cursorPos;
         const widthElementRight = wrapperWidth - cursorPos;
+
+        if (!!minWidth && (widthElementLeft <= minWidth || widthElementRight <= minWidth)) {
+            return;
+        }
+
+        setSizePropsElementLeft({
+            wrapperWidth,
+            width: widthElementLeft,
+            left: 0,
+        });
+        setSizePropsElementRight({
+            wrapperWidth,
+            width: widthElementRight,
+            left: cursorPos,
+        });
 
         setStyle(elementLeftRef, { width: `${widthElementLeft}px` });
         setStyle(elementRightRef, { width: `${widthElementRight}px`, left: `${cursorPos}px` });
@@ -52,6 +84,16 @@ const ViewerImageCompare = ({ renderComponentLeft, renderComponentRight }) => {
         }
 
         const width = wrapperRef.current.getBoundingClientRect().width;
+        setSizePropsElementLeft({
+            wrapperWidth: width,
+            width: width / 2,
+            left: 0,
+        });
+        setSizePropsElementRight({
+            wrapperWidth: width,
+            width: width / 2,
+            left: width / 2,
+        });
         setWrapperWidth(width);
         setStyle(sliderRef, {left: `${(width / 2)}px`});
     }, [wrapperRef]);
@@ -71,7 +113,7 @@ const ViewerImageCompare = ({ renderComponentLeft, renderComponentRight }) => {
                     className="image-compare__element__content"
                     style={{ width: `${wrapperWidth}px` }}
                 >
-                    {!!renderComponentLeft && renderComponentLeft()}
+                    {!!renderComponentLeft && renderComponentLeft(sizePropsElementLeft)}
                 </div>
             </div>
             <div ref={elementRightRef} className="image-compare__element image-compare__element--right">
@@ -79,7 +121,7 @@ const ViewerImageCompare = ({ renderComponentLeft, renderComponentRight }) => {
                     className="image-compare__element__content"
                     style={{ width: `${wrapperWidth}px` }}
                 >
-                    {!!renderComponentRight && renderComponentRight()}
+                    {!!renderComponentRight && renderComponentRight(sizePropsElementRight)}
                 </div>
             </div>
             <div

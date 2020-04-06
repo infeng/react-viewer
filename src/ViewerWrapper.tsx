@@ -11,9 +11,10 @@ const compareViewerConfig = {
     fullScreen: false,
     showExport: false,
     compareImages: false,
+    upToolbar: true,
 };
 
-const ViewerWrapper: React.FC<ViewerProps> = ({ noClose, ...props }: ViewerProps) => {
+const ViewerWrapper: React.FC<ViewerProps> = ({ noClose, customToolbar, ...props }: ViewerProps) => {
     const [showCompareImage, setShowCompareImage] = useState(false);
     const [imageLeft, setImageLeft] = useState([]);
     const [imageRight, setImageRight] = useState([]);
@@ -22,8 +23,8 @@ const ViewerWrapper: React.FC<ViewerProps> = ({ noClose, ...props }: ViewerProps
         if (!images.length || images.length < 2) {
             return;
         }
-        setImageLeft(images[0]);
-        setImageRight(images[1]);
+        setImageLeft([images[0]]);
+        setImageRight([images[1]]);
         setShowCompareImage(true);
     };
 
@@ -33,32 +34,49 @@ const ViewerWrapper: React.FC<ViewerProps> = ({ noClose, ...props }: ViewerProps
         setShowCompareImage(false);
     };
 
+    const getCustomToolbar = (toolbars) => [
+        ...(!!customToolbar ? customToolbar(toolbars) : toolbars),
+        {
+            key: 'close',
+            actionType: 8,
+            title: 'Fechar comparação',
+            onClick: onCloseCompare,
+        },
+    ];
+
     if (!showCompareImage) {
         return (
             <ViewerCore
                 {...props}
+                customToolbar={customToolbar}
                 noClose={noClose || true}
                 onCompareImages={onCompareImages}
+
             />
         );
     }
 
     return (
         <ViewerImageCompare
-            renderComponentLeft={() => (
+            minWidth={150}
+            renderComponentLeft={(wrapperSizeProps) => (
                 <ViewerCore
                     {...props}
                     {...compareViewerConfig}
-                    onCloseCompare={onCloseCompare}
+                    customToolbar={getCustomToolbar}
+                    onClose={onCloseCompare}
                     images={imageLeft}
+                    wrapperSizeProps={wrapperSizeProps}
                 />
             )}
-            renderComponentRight={() => (
+            renderComponentRight={(wrapperSizeProps) => (
                 <ViewerCore
                     {...props}
                     {...compareViewerConfig}
-                    onCloseCompare={onCloseCompare}
+                    customToolbar={getCustomToolbar}
+                    onClose={onCloseCompare}
                     images={imageRight}
+                    wrapperSizeProps={wrapperSizeProps}
                 />
             )}
         />

@@ -59,7 +59,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     showPaginator: false,
     compareImages: false,
     onCompareImages: noop,
-    onCloseCompate: noop,
+    wrapperSizeProps: {},
   };
 
   private prefixCls: string;
@@ -830,7 +830,11 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
         />
 
           {this.props.noToolbar || (this.props.upToolbar && (
-            <div className={`${this.prefixCls}-uptoolbar`} style={{ zIndex: zIndex + 5 }}>
+            <div className={`${this.prefixCls}-uptoolbar`} style={{
+              zIndex: zIndex + 5,
+              width: `${this.props.wrapperSizeProps.width}px`,
+              left: `${this.props.wrapperSizeProps.left}px`,
+            }}>
               <ViewerToolbar
                 prefixCls={this.prefixCls}
                 onAction={this.handleAction}
@@ -851,7 +855,11 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
             </div>
          ))}
         {this.props.noFooter || (
-          <div className={`${this.prefixCls}-footer`} style={{ zIndex: zIndex + 5 }}>
+          <div className={`${this.prefixCls}-footer`} style={{
+            zIndex: zIndex + 5,
+            width: `${this.props.wrapperSizeProps.width}px`,
+            left: `${this.props.wrapperSizeProps.left}px`,
+          }}>
             {this.props.noToolbar || this.props.upToolbar || (
               <ViewerToolbar
                 prefixCls={this.prefixCls}
