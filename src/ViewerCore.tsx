@@ -769,7 +769,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
           />
         )}
 
-        {!!this.props.showToggleNav &&
+        {this.props.navBarSide && !!this.props.showToggleNav &&
           <div className={`${this.prefixCls}${this.state.isVisible ? '-btn-toggle' : '-toggle-left'}`} >
             <button onClick={this.toggleNavVisible} className={`${this.prefixCls}-btn-toggle-nav`} >
                   {!!this.state.isVisible ? <FaAngleRight size="1.8em" /> : <FaAngleLeft size="1.8em"/>}

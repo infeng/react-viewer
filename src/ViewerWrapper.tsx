@@ -12,6 +12,7 @@ const compareViewerConfig = {
     showExport: false,
     compareImages: false,
     upToolbar: true,
+    navBarSide: false,
 };
 
 const ViewerWrapper: React.FC<ViewerProps> = ({ noClose, customToolbar, ...props }: ViewerProps) => {
