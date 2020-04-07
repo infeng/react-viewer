@@ -14,6 +14,7 @@ export enum ActionType {
   download = 11,
   bookmark = 12,
   export = 13,
+  compareImages = 14,
 }
 
 export interface IconProps {

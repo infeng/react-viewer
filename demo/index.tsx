@@ -162,6 +162,7 @@ class App extends React.Component<any, Partial<State>> {
             waiting={this.handleWaiting}
             removeContainer={true}
             showExport={true}
+            compareImages
             watermark={{
               src: watermarkSrc,
             }}
