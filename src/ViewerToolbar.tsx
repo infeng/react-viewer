@@ -17,6 +17,7 @@ export interface ViewerToolbarProps {
   noImgDetails: boolean;
   toolbars: ToolbarConfig[];
   showExport: boolean;
+  compareImages: boolean;
 }
 
 export const defaultToolbars: ToolbarConfig[] = [
@@ -73,6 +74,11 @@ export const defaultToolbars: ToolbarConfig[] = [
   {
     key: 'export',
     actionType: ActionType.export,
+    title: '',
+  },
+  {
+    key: 'compareImages',
+    actionType: ActionType.compareImages,
     title: '',
   },
 ];
@@ -140,6 +146,9 @@ export default class ViewerToolbar extends React.Component<ViewerToolbarProps, a
     }
     if (!this.props.showExport) {
       toolbars = deleteToolbarFromKey(toolbars, ['export']);
+    }
+    if (!this.props.compareImages) {
+      toolbars = deleteToolbarFromKey(toolbars, ['compareImages']);
     }
     return (
       <div>

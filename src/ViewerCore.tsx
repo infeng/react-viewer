@@ -35,6 +35,7 @@ export interface ViewerCoreState {
   fullScreenImage?: boolean;
   modalExport?: boolean;
   isVisible?: boolean;
+  shouldShowModalCompare: boolean;
 }
 
 export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreState> {
@@ -56,6 +57,9 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     fullScreen: false,
     showTitle: false,
     showPaginator: false,
+    compareImages: false,
+    onCompareImages: noop,
+    wrapperSizeProps: {},
   };
 
   private prefixCls: string;
@@ -86,6 +90,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
       fullScreenImage: false,
       modalExport: false,
       isVisible: true,
+      shouldShowModalCompare: false,
     };
 
     this.setContainerWidthHeight();
@@ -190,17 +195,6 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     img.onload = () => {
       let imgWidth = img.width;
       let imgHeight = img.height;
-      // if (firstLoad) {
-      //   setTimeout(() => {
-      //     this.setState({
-      //       activeIndex: activeIndex,
-      //       imageWidth: imgWidth,
-      //       imageHeight: imgHeight,
-      //     });
-      //     let imgCenterXY = this.getImageCenterXY();
-      //     this.handleZoom(this.props.scaleX, this.props.scaleY, 1, 1);
-      //   }, 50);
-      // } else {
       let [width, height] = this.getImgWidthHeight(imgWidth, imgHeight);
       let left = (this.containerWidth - width) / 2;
       let top = (this.containerHeight - height - this.footerHeight) / 2;
@@ -270,17 +264,6 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
   }
 
   handleChangeImg = (newIndex: number) => {
-    // let imgCenterXY2 = this.getImageCenterXY();
-    // this.handleZoom(imgCenterXY2.x, imgCenterXY2.y, -1, 1);
-    // setTimeout(() => {
-    //   this.loadImg(newIndex);
-    // }, transitionDuration);
-
-    // setTimeout(() => {
-    //   this.bindEvent();
-    //   this.loadImg(newIndex, true);
-    // }, 25000);
-
     this.loadImg(newIndex);
   }
 
@@ -334,6 +317,9 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
       case ActionType.export:
         this.handleExport();
         break;
+      case ActionType.compareImages:
+        this.handleCompareImages();
+        break;
       default:
         break;
     }
@@ -358,6 +344,20 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
   handleExport = () => {
     this.toggleModalExport();
   };
+
+  handleCompareImages = () => {
+    this.toggleModalCompare();
+  }
+
+  toggleModalCompare = () => {
+    this.setState({
+      shouldShowModalCompare: !this.state.shouldShowModalCompare,
+    });
+  }
+
+  onCompare = (images) => {
+    this.props.onCompareImages(images);
+  }
 
   toggleModalExport = () => {
     this.setState({
@@ -755,10 +755,21 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
           <ViewerModal
             images={this.props.images}
             onClose={this.toggleModalExport}
-            onSubmit={this.onExport}/>
+            onSubmit={this.onExport}
+            buttonText="Gerar PDF"
+            />
+        )}
+        {!!this.state.shouldShowModalCompare && (
+          <ViewerModal
+            images={this.props.images}
+            onClose={this.toggleModalCompare}
+            onSubmit={this.onCompare}
+            buttonText="Comparar"
+            maxSelections={2}
+          />
         )}
 
-        {!!this.props.showToggleNav &&
+        {this.props.navBarSide && !!this.props.showToggleNav &&
           <div className={`${this.prefixCls}${this.state.isVisible ? '-btn-toggle' : '-toggle-left'}`} >
             <button onClick={this.toggleNavVisible} className={`${this.prefixCls}-btn-toggle-nav`} >
                   {!!this.state.isVisible ? <FaAngleRight size="1.8em" /> : <FaAngleLeft size="1.8em"/>}
@@ -785,7 +796,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
             showPaginator={this.props.showPaginator}
           />
         )}
-        {!this.props.navBarSide &&
+        {!!this.props.fullScreen && !this.props.navBarSide &&
           <div
             className={`${this.prefixCls}-fullScreen ${this.prefixCls}-btn`}
             onClick={this.handleFullScreen}
@@ -819,7 +830,11 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
         />
 
           {this.props.noToolbar || (this.props.upToolbar && (
-            <div className={`${this.prefixCls}-uptoolbar`} style={{ zIndex: zIndex + 5 }}>
+            <div className={`${this.prefixCls}-uptoolbar`} style={{
+              zIndex: zIndex + 5,
+              width: `${this.props.wrapperSizeProps.width}px`,
+              left: `${this.props.wrapperSizeProps.left}px`,
+            }}>
               <ViewerToolbar
                 prefixCls={this.prefixCls}
                 onAction={this.handleAction}
@@ -835,11 +850,16 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
                 noImgDetails={this.props.noImgDetails}
                 toolbars={this.props.customToolbar(defaultToolbars)}
                 showExport= {this.props.showExport}
+                compareImages={this.props.compareImages}
               />
             </div>
          ))}
         {this.props.noFooter || (
-          <div className={`${this.prefixCls}-footer`} style={{ zIndex: zIndex + 5 }}>
+          <div className={`${this.prefixCls}-footer`} style={{
+            zIndex: zIndex + 5,
+            width: `${this.props.wrapperSizeProps.width}px`,
+            left: `${this.props.wrapperSizeProps.left}px`,
+          }}>
             {this.props.noToolbar || this.props.upToolbar || (
               <ViewerToolbar
                 prefixCls={this.prefixCls}
@@ -856,6 +876,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
                 noImgDetails={this.props.noImgDetails}
                 toolbars={this.props.customToolbar(defaultToolbars)}
                 showExport= {this.props.showExport}
+                compareImages={this.props.compareImages}
               />
             )}
             {!this.props.noNavbar && !this.props.navBarSide &&
