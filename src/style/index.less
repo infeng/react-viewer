@@ -188,8 +188,6 @@
   @toolbarHeight: 28px;
 
   &-toolbar {
-    overflow: hidden;
-    height: @toolbarHeight;
     margin-bottom: 6px !important;
   }
 
@@ -199,6 +197,7 @@
     height: @toolbarHeight;
     border-radius: @toolbarHeight;
     margin-right: 3px;
+    margin-bottom: 3px;
     cursor: pointer;
     line-height: 28px;
   }
@@ -378,6 +377,9 @@
   }
   &-export:before {
     content: '\e9c7';
+  }   
+  &-compareImages:before {
+    content: '\ea6e';
   }   
 }
 
@@ -560,4 +562,61 @@
   text-overflow: ellipsis;
   display: inline-block;
   padding-left: 5px;
+}
+
+.image-compare {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  &__element {
+      position: relative;
+      height: 100%;
+      width: 50%;
+      overflow: hidden;
+      z-index: 998;
+      -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+          -moz-user-select: none;
+            -ms-user-select: none;
+                user-select: none; 
+      &--right {
+          left: 50%;
+          transform: translate(0, -100%);
+          .image-compare__element__content {
+              left: auto;
+              right: 0;
+          }
+      }
+      &__content {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          top: 0;
+          left: 0;
+      }
+  }
+  &__slider {
+      position: absolute;
+      height: 100%;
+      width: 4px;
+      background:#000;
+      left: 0;
+      top: 0;
+      z-index: 999;
+      cursor: move;
+      &::after {
+          position: relative;
+          content: "";
+          display: block;
+          left: 50%;
+          background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAQAAADZc7J/AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QAAKqNIzIAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAAHdElNRQfkAx8UFCl56Iq4AAAAiklEQVRIx2NgGAWjYFiCEIYyvPJlDCG4JTUZdjD8Z5iK14CpDP8ZDjAYYEqIMsxg+MPwnygD/jP8YZjBIAoRYGRgYGBlyGGoYxCAKjnPsAuPAW4MhlDWB4YmhikMvxkYXBiuMPwnE95iCGViYGD4T3aQ/2f4TgUvUBiI5EWjPm4FFCWkUTAKhjAAAFU4Sy4wtFTVAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDIwLTAzLTMxVDIwOjIwOjQxKzAwOjAwyQdSbAAAACV0RVh0ZGF0ZTptb2RpZnkAMjAyMC0wMy0zMVQyMDoyMDo0MSswMDowMLha6tAAAAAZdEVYdFNvZnR3YXJlAHd3dy5pbmtzY2FwZS5vcmeb7jwaAAAAAElFTkSuQmCC');
+          background-position: center;
+          background-size: contain;
+          background-repeat: no-repeat;
+          width: 32px;
+          height: 100%;
+          transform: translateX(-50%);
+      }
+  }
 }
