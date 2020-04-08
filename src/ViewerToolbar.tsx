@@ -69,17 +69,17 @@ export const defaultToolbars: ToolbarConfig[] = [
   {
     key: 'download',
     actionType: ActionType.download,
-    title: '',
+    title: 'Download',
   },
   {
     key: 'export',
     actionType: ActionType.export,
-    title: '',
+    title: 'Exportar para PDF',
   },
   {
     key: 'compareImages',
     actionType: ActionType.compareImages,
-    title: '',
+    title: 'Comparar Imagens',
   },
 ];
 
