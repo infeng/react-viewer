@@ -197,9 +197,10 @@ export default class ViewerCanvas extends React.Component<ViewerCanvasProps, Vie
     }
 
     if (this.props.imgAlt && this.props.showTitle) {
+      let title = this.props.tipoCaptura ? this.props.tipoCaptura + ' - ' + this.props.imgAlt : this.props.imgAlt;
       imgTitle = (
         <div className={`${this.props.prefixCls}-canvas-title`} >
-    <div className="title-container">{ this.props.tipoCaptura } - { this.props.imgAlt }</div>
+    <div className="title-container">{ title }</div>
         </div>
       );
     }
