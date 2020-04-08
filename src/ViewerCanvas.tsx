@@ -5,6 +5,7 @@ export interface ViewerCanvasProps {
   prefixCls: string;
   imgAlt: string;
   imgSrc: string;
+  tipoCaptura: string;
   visible: boolean;
   width: number;
   height: number;
@@ -198,7 +199,7 @@ export default class ViewerCanvas extends React.Component<ViewerCanvasProps, Vie
     if (this.props.imgAlt && this.props.showTitle) {
       imgTitle = (
         <div className={`${this.props.prefixCls}-canvas-title`} >
-          <div className="title-container">{ this.props.imgAlt }</div>
+    <div className="title-container">{ this.props.tipoCaptura } - { this.props.imgAlt }</div>
         </div>
       );
     }
