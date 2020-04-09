@@ -62,7 +62,7 @@
     border: none;
     float: right;
     top: 0;
-    margin-right: 15px;
+    margin-right: 35px;
   }
 
   &-toggle-left {
@@ -78,8 +78,9 @@
   &-btn-toggle-nav {
     width: 33px;
     height: 30px;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0);
     border: none;
+    color:white;
   }
   
   &-btn:hover{
@@ -221,6 +222,26 @@
   }
 
   &-navbarside {
+    &-scrollcontrol {
+      cursor: pointer;
+      text-align: center;
+      -webkit-touch-callout: none; 
+      -webkit-user-select: none; 
+      -khtml-user-select: none; 
+      -moz-user-select: none; 
+      -ms-user-select: none; 
+      user-select: none; 
+      transform: rotate(90deg);
+
+      &.up {
+        transform: rotate(-90deg);
+      }
+    }
+    &-container {
+      overflow: hidden;
+      height: 90%;
+      position: relative;
+    }
     .react-viewer-list li {
       display: block;
       margin-top: 10px;
