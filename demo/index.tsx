@@ -164,10 +164,15 @@ class App extends React.Component<any, Partial<State>> {
             activeIndex={this.state.activeIndex}
             container={inline ? this.container : null}
             fullScreen={true}
+            showPaginator={false}
+            showTitle={true}
+            upToolbar={true}
+            navBarSide={true}
+            hideFullScreen={true}
             waiting={this.handleWaiting}
             removeContainer={true}
             showExport={true}
-            showTitle={true}
+            showScrollSideThumbs={true}
             compareImages
             watermark={{
               src: watermarkSrc,
