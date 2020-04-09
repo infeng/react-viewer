@@ -202,6 +202,28 @@
   padding: 17px;
   min-width: 65px;
 }
+.react-viewer-navbarside-scrollcontrol {
+  cursor: pointer;
+  text-align: center;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-transform: rotate(90deg);
+      -ms-transform: rotate(90deg);
+          transform: rotate(90deg);
+}
+.react-viewer-navbarside-scrollcontrol.up {
+  -webkit-transform: rotate(-90deg);
+      -ms-transform: rotate(-90deg);
+          transform: rotate(-90deg);
+}
+.react-viewer-navbarside-container {
+  overflow: hidden;
+  height: 90%;
+  position: relative;
+}
 .react-viewer-navbarside .react-viewer-list li {
   display: block;
   margin-top: 10px;
