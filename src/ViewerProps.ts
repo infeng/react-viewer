@@ -130,6 +130,9 @@ interface ViewerProps {
   // Mostra o export no toolbar
   showExport?: boolean;
 
+  // Mostra o scroll das thumbs no sidebar
+  showScrollSideThumbs?: boolean;
+
   watermark?: IWatermark;
 
   // Mostra botão de expandir e recolher miniaturas do viewer

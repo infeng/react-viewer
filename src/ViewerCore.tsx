@@ -794,6 +794,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
             activeIndex={this.state.activeIndex}
             onChangeImg={this.handleChangeImg}
             showPaginator={this.props.showPaginator}
+            showScrollSideThumbs={this.props.showScrollSideThumbs}
           />
         )}
         {!!this.props.fullScreen && !this.props.navBarSide &&

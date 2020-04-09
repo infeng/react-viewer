@@ -61,31 +61,119 @@ class App extends React.Component<any, Partial<State>> {
       alt: 'lake',
       downloadUrl: '',
       name: 'img1',
-      hasWatermark: true,
+      hasWatermark: true
     }, {
       src: img2,
       alt: 'mountain',
       downloadUrl: '',
       name: 'img2',
       hasWatermark: true,
+      tipoCaptura: "Upload"
     }, {
       src: img3,
       alt: '',
       downloadUrl: '',
       name: 'img3',
       hasWatermark: true,
+      tipoCaptura: "Upload"
     }, {
       src: img4,
       alt: '',
       downloadUrl: '',
       name: 'img4',
       hasWatermark: true,
+      tipoCaptura: "Upload"
     }, {
       src: img5,
       alt: '',
       downloadUrl: '',
       name: 'img5',
       hasWatermark: true,
+      tipoCaptura: "Upload"
+    }, {
+      src: img5,
+      alt: '',
+      downloadUrl: '',
+      name: 'img5',
+      hasWatermark: true,
+      tipoCaptura: "Upload"
+    }, {
+      src: img5,
+      alt: '',
+      downloadUrl: '',
+      name: 'img5',
+      hasWatermark: true,
+      tipoCaptura: "Upload"
+    }, {
+      src: img5,
+      alt: '',
+      downloadUrl: '',
+      name: 'img5',
+      hasWatermark: true,
+      tipoCaptura: "Upload"
+    }, {
+      src: img5,
+      alt: '',
+      downloadUrl: '',
+      name: 'img5',
+      hasWatermark: true,
+      tipoCaptura: "Upload"
+    }, {
+      src: img5,
+      alt: '',
+      downloadUrl: '',
+      name: 'img5',
+      hasWatermark: true,
+      tipoCaptura: "Upload"
+    }, {
+      src: img5,
+      alt: '',
+      downloadUrl: '',
+      name: 'img5',
+      hasWatermark: true,
+      tipoCaptura: "Upload"
+    }, {
+      src: img5,
+      alt: '',
+      downloadUrl: '',
+      name: 'img5',
+      hasWatermark: true,
+      tipoCaptura: "Upload"
+    }, {
+      src: img5,
+      alt: '',
+      downloadUrl: '',
+      name: 'img5',
+      hasWatermark: true,
+      tipoCaptura: "Upload"
+    }, {
+      src: img5,
+      alt: '',
+      downloadUrl: '',
+      name: 'img5',
+      hasWatermark: true,
+      tipoCaptura: "Upload"
+    }, {
+      src: img5,
+      alt: '',
+      downloadUrl: '',
+      name: 'img5',
+      hasWatermark: true,
+      tipoCaptura: "Upload"
+    }, {
+      src: img5,
+      alt: '',
+      downloadUrl: '',
+      name: 'img5',
+      hasWatermark: true,
+      tipoCaptura: "Upload"
+    }, {
+      src: img5,
+      alt: '',
+      downloadUrl: '',
+      name: 'img5',
+      hasWatermark: true,
+      tipoCaptura: "Upload"
     }];
 
     let inline = this.state.mode === 'inline';
@@ -159,9 +247,15 @@ class App extends React.Component<any, Partial<State>> {
             activeIndex={this.state.activeIndex}
             container={inline ? this.container : null}
             fullScreen={true}
+            showPaginator={false}
+            showTitle={true}
+            upToolbar={true}
+            navBarSide={true}
+            hideFullScreen={true}
             waiting={this.handleWaiting}
             removeContainer={true}
             showExport={true}
+            showScrollSideThumbs={true}
             compareImages
             watermark={{
               src: watermarkSrc,
