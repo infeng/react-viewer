@@ -10,7 +10,7 @@ export interface ViewerNavSideProps {
 }
 
 const pxChange = -30;
-const marginCalc = (index) => { return (index - 1) * 2 * pxChange }
+const marginCalc = (index) => { return (index - 1) * 2 * pxChange; };
 
 export default class ViewerNavSide extends React.Component<ViewerNavSideProps, any> {
   static defaultProps = {
@@ -23,7 +23,7 @@ export default class ViewerNavSide extends React.Component<ViewerNavSideProps, a
       isVisible: true,
       marginTop: 0,
       upScroll: false,
-      maxMargin: marginCalc(this.props.images.length)
+      maxMargin: marginCalc(this.props.images.length),
     };
 
     this.toggleNavVisible = this.toggleNavVisible.bind(this);
@@ -50,8 +50,8 @@ export default class ViewerNavSide extends React.Component<ViewerNavSideProps, a
     let margin = this.state.marginTop;
     up ? margin -= pxChange * 2 : margin += pxChange * 2;
 
-    if(margin <= 0 && margin >= this.state.maxMargin) this.setState({ marginTop: margin });
-    
+    if (margin <= 0 && margin >= this.state.maxMargin) { this.setState({ marginTop: margin }); }
+
   }
 
   render() {
@@ -74,24 +74,25 @@ export default class ViewerNavSide extends React.Component<ViewerNavSideProps, a
     if (this.props.showScrollSideThumbs) {
 
       scrollUp = (
-        <div className={`${this.props.prefixCls}-navbarside-scrollcontrol up`} onClick={() => { this.scrollSidebar(true) }}>
-          <i class="react-viewer-icon react-viewer-icon-next"></i>
-        </div>
-      )
-
-      scrollDown = (
-        <div className={`${this.props.prefixCls}-navbarside-scrollcontrol down`} onClick={() => { this.scrollSidebar() }}>
+        <div className={`${this.props.prefixCls}-navbarside-scrollcontrol up`}
+          onClick={() => { this.scrollSidebar(true); }}>
           <i class="react-viewer-icon react-viewer-icon-next"></i>
         </div>
       );
 
+      scrollDown = (
+        <div className={`${this.props.prefixCls}-navbarside-scrollcontrol down`}
+          onClick={() => { this.scrollSidebar(); }}>
+          <i class="react-viewer-icon react-viewer-icon-next"></i>
+        </div>
+      );
 
     }
 
     return (
         <div className={`${this.props.prefixCls}-navbarside`}>
             { scrollUp }
-            <div className={ this.props.showScrollSideThumbs ? `${this.props.prefixCls}-navbarside-container` : ""}>
+            <div className={ this.props.showScrollSideThumbs ? `${this.props.prefixCls}-navbarside-container` : ''}>
               <ul className={`${this.props.prefixCls}-list ${this.props.prefixCls}-list-transition`} style={listStyle}>
                 {this.props.images.map((item, index) =>
                   <li
