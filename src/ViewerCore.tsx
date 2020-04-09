@@ -696,6 +696,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
       alt: '',
       downloadUrl: '',
       name: '',
+      tipoCaptura: '',
     };
 
     let images = this.props.images || [];
@@ -718,6 +719,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
       src: '',
       alt: '',
       name: '',
+      tipoCaptura: '',
     };
 
     let zIndex = 1000;
@@ -811,6 +813,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
           prefixCls={this.prefixCls}
           imgAlt={activeImg.alt}
           imgSrc={activeImg.src}
+          tipoCaptura={activeImg.tipoCaptura}
           visible={this.props.visible}
           width={this.state.width}
           height={this.state.height}

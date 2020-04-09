@@ -61,7 +61,8 @@ class App extends React.Component<any, Partial<State>> {
       alt: 'lake',
       downloadUrl: '',
       name: 'img1',
-      hasWatermark: true
+      hasWatermark: true,
+      tipoCaptura: "Upload"
     }, {
       src: img2,
       alt: 'mountain',
@@ -81,62 +82,6 @@ class App extends React.Component<any, Partial<State>> {
       alt: '',
       downloadUrl: '',
       name: 'img4',
-      hasWatermark: true,
-      tipoCaptura: "Upload"
-    }, {
-      src: img5,
-      alt: '',
-      downloadUrl: '',
-      name: 'img5',
-      hasWatermark: true,
-      tipoCaptura: "Upload"
-    }, {
-      src: img5,
-      alt: '',
-      downloadUrl: '',
-      name: 'img5',
-      hasWatermark: true,
-      tipoCaptura: "Upload"
-    }, {
-      src: img5,
-      alt: '',
-      downloadUrl: '',
-      name: 'img5',
-      hasWatermark: true,
-      tipoCaptura: "Upload"
-    }, {
-      src: img5,
-      alt: '',
-      downloadUrl: '',
-      name: 'img5',
-      hasWatermark: true,
-      tipoCaptura: "Upload"
-    }, {
-      src: img5,
-      alt: '',
-      downloadUrl: '',
-      name: 'img5',
-      hasWatermark: true,
-      tipoCaptura: "Upload"
-    }, {
-      src: img5,
-      alt: '',
-      downloadUrl: '',
-      name: 'img5',
-      hasWatermark: true,
-      tipoCaptura: "Upload"
-    }, {
-      src: img5,
-      alt: '',
-      downloadUrl: '',
-      name: 'img5',
-      hasWatermark: true,
-      tipoCaptura: "Upload"
-    }, {
-      src: img5,
-      alt: '',
-      downloadUrl: '',
-      name: 'img5',
       hasWatermark: true,
       tipoCaptura: "Upload"
     }, {

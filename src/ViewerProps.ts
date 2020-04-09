@@ -4,6 +4,7 @@ export interface ImageDecorator {
   downloadUrl?: string;
   name?: string;
   hasWatermark?: boolean;
+  tipoCaptura?: string;
 }
 
 export interface ToolbarConfig {
