@@ -4,6 +4,7 @@ export interface ImageDecorator {
   downloadUrl?: string;
   name?: string;
   hasWatermark?: boolean;
+  tipoCaptura?: string;
 }
 
 export interface ToolbarConfig {
@@ -129,6 +130,9 @@ interface ViewerProps {
 
   // Mostra o export no toolbar
   showExport?: boolean;
+
+  // Mostra o scroll das thumbs no sidebar
+  showScrollSideThumbs?: boolean;
 
   watermark?: IWatermark;
 
