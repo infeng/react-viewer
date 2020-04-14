@@ -9,8 +9,8 @@ export interface ViewerNavSideProps {
   onChangeImg: (index: number) => void;
 }
 
-const pxChange = -30;
-const marginCalc = (index) => { return (index - 1) * 2 * pxChange; };
+const itemHeight = 60;
+const marginCalc = (index) => { return (index - 1) * itemHeight * -1; };
 
 export default class ViewerNavSide extends React.Component<ViewerNavSideProps, any> {
   static defaultProps = {
@@ -29,6 +29,12 @@ export default class ViewerNavSide extends React.Component<ViewerNavSideProps, a
     this.toggleNavVisible = this.toggleNavVisible.bind(this);
   }
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.images !== this.props.images) {
+      this.setState({ maxMargin: marginCalc(this.props.images.length) });
+    }
+  }
+
   toggleNavVisible = () => {
     this.setState({isVisible: !this.state.isVisible});
   }
@@ -38,76 +44,66 @@ export default class ViewerNavSide extends React.Component<ViewerNavSideProps, a
       return;
     }
 
-    if (this.props.activeIndex > 0) {
-      this.setState({ marginTop: marginCalc(newIndex) });
+    if (newIndex > 0) {
+      const newMarginTop = marginCalc(newIndex);
+      this.setState({ marginTop: newMarginTop <= 0 ? newMarginTop : 0 });
     }
 
     this.props.onChangeImg(newIndex);
   }
 
   scrollSidebar = (up = false) => {
-
-    let margin = this.state.marginTop;
-    up ? margin -= pxChange * 2 : margin += pxChange * 2;
-
-    if (margin <= 0 && margin >= this.state.maxMargin) { this.setState({ marginTop: margin }); }
-
+    const { marginTop, maxMargin } = this.state;
+    const margin = up ? marginTop + itemHeight : marginTop - itemHeight;
+    if (margin <= 0 && margin >= maxMargin) { this.setState({ marginTop: margin }); }
   }
 
   render() {
-
-    let listStyle = {
-      marginTop: `${this.state.marginTop}px`,
-    };
-
-    let paginator = null;
-    if (this.props.showPaginator) {
-      paginator = (
-        <div className={`${this.props.prefixCls}-navbar-paginator`}>
-          Imagem {this.props.activeIndex + 1} de {this.props.images.length}
-        </div>
-      );
-    }
-
-    let scrollDown = null;
-    let scrollUp = null;
-    if (this.props.showScrollSideThumbs) {
-
-      scrollUp = (
-        <div className={`${this.props.prefixCls}-navbarside-scrollcontrol up`}
-          onClick={() => { this.scrollSidebar(true); }}>
-          <i class="react-viewer-icon react-viewer-icon-next"></i>
-        </div>
-      );
-
-      scrollDown = (
-        <div className={`${this.props.prefixCls}-navbarside-scrollcontrol down`}
-          onClick={() => { this.scrollSidebar(); }}>
-          <i class="react-viewer-icon react-viewer-icon-next"></i>
-        </div>
-      );
-
-    }
+    const { maxMargin, marginTop } = this.state;
+    const { prefixCls, showScrollSideThumbs, activeIndex, images, showPaginator} = this.props;
 
     return (
-        <div className={`${this.props.prefixCls}-navbarside`}>
-            { scrollUp }
-            <div className={ this.props.showScrollSideThumbs ? `${this.props.prefixCls}-navbarside-container` : ''}>
-              <ul className={`${this.props.prefixCls}-list ${this.props.prefixCls}-list-transition`} style={listStyle}>
-                {this.props.images.map((item, index) =>
+        <div className={`${prefixCls}-navbarside`}>
+            {!!showScrollSideThumbs && (
+              <div
+                className={`${prefixCls}-navbarside-scrollcontrol up ${marginTop >= 0 ? 'disabled' : ''}`}
+                onClick={() => this.scrollSidebar(true)}
+              >
+                <i className="react-viewer-icon react-viewer-icon-next"></i>
+              </div>
+            )}
+            <div className={ showScrollSideThumbs ? `${prefixCls}-navbarside-container` : ''}>
+              <ul
+                className={`${prefixCls}-list ${prefixCls}-list-transition`}
+                style={{
+                  marginTop: `${marginTop}px`,
+                }}
+              >
+                {images.map((item, index) =>
                   <li
-                  key={index}
-                  className={index === this.props.activeIndex ? 'active' : ''}
-                  onClick={() => { this.handleChangeImg(index); }}
+                    key={index}
+                    className={index === activeIndex ? 'active' : ''}
+                    onClick={() => { this.handleChangeImg(index); }}
                   >
                     <img src={item.src} alt={item.alt} title={item.alt} />
                   </li>
                   )
                 }
               </ul>
-              {paginator}
+              {!!showPaginator && (
+                <div className={`${prefixCls}-navbar-paginator`}>
+                  Imagem {activeIndex + 1} de {images.length}
+                </div>
+              )}
             </div>
-            { scrollDown }
+            {!!showScrollSideThumbs && (
+              <div
+                className={`${prefixCls}-navbarside-scrollcontrol down ${marginTop <= maxMargin ? 'disabled' : ''}`}
+                onClick={() => this.scrollSidebar()}
+              >
+                <i className="react-viewer-icon react-viewer-icon-next"></i>
+              </div>
+            )}
         </div>
     );
   }
