@@ -60,6 +60,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     compareImages: false,
     onCompareImages: noop,
     wrapperSizeProps: {},
+    changeIndexDocument: null,
   };
 
   private prefixCls: string;
@@ -70,8 +71,9 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
   constructor(props) {
     super(props);
 
-    this.prefixCls = 'react-viewer';
+    
 
+    this.prefixCls = 'react-viewer';
     this.state = {
       visible: false,
       visibleStart: false,
@@ -105,6 +107,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
       this.containerHeight = this.props.container.offsetHeight;
     }
   }
+  
 
   handleClose = (e) => {
     this.props.onClose();
@@ -169,7 +172,9 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
   loadImg(activeIndex, firstLoad: boolean = false) {
     let imgSrc = '';
     let images = this.props.images || [];
-    if (images.length > 0) {
+    if (images.length === 1) {
+      imgSrc = images[0] ? images[0].src : '';
+    } else if (images.length > 1){
       imgSrc = images[activeIndex] ? images[activeIndex].src : '';
     }
     let img = new Image();
@@ -797,6 +802,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
             onChangeImg={this.handleChangeImg}
             showPaginator={this.props.showPaginator}
             showScrollSideThumbs={this.props.showScrollSideThumbs}
+            changeIndexDocument={this.props.changeIndexDocument}
           />
         )}
         {!!this.props.fullScreen && !this.props.navBarSide &&
