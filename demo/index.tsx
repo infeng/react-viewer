@@ -43,6 +43,12 @@ class App extends React.Component<any, Partial<State>> {
     });
   }
 
+  setIndexDocument = (e) => {
+    this.setState({
+      activeIndex: e,
+    });
+  }
+
   handleChangeInline = (e) => {
     this.setState({
       mode: 'inline',
@@ -52,6 +58,10 @@ class App extends React.Component<any, Partial<State>> {
 
   handleWaiting(value) {
     console.log('Parent -> get child value ', value, new Date())
+  }
+
+  changeIndexDocument = (index) => {
+    this.setIndexDocument(index)
   }
 
 
@@ -136,7 +146,37 @@ class App extends React.Component<any, Partial<State>> {
                   >
                     Inline mode
                   </Button>
+                  
                 </ButtonGroup>
+                <br />
+                <Button
+                    type={inline ? 'primary' : null}
+                    onClick={() => this.setIndexDocument(0)}
+                  >
+                    teste 0
+                  </Button>
+                <Button
+                    type={inline ? 'primary' : null}
+                    onClick={() => this.setIndexDocument(1)}
+                  >
+                    teste 1
+                  </Button>
+                  <Button
+                    type={inline ? 'primary' : null}
+                    onClick={() => this.setIndexDocument(2)}
+                  >
+                    teste 2
+                  </Button>
+                  <Button
+                    type={inline ? 'primary' : null}
+                    onClick={() => this.setIndexDocument(3)}
+                  >
+                    teste 3
+                  </Button>
+                  <div>
+                    <h3>Index ativo:</h3>
+                    <p>{this.state.activeIndex}</p>
+                  </div>
               </div>
             </Col>
             <Col span={12}>
@@ -170,6 +210,7 @@ class App extends React.Component<any, Partial<State>> {
             navBarSide={true}
             hideFullScreen={true}
             waiting={this.handleWaiting}
+            changeIndexDocument={this.changeIndexDocument}
             removeContainer={true}
             showExport={true}
             showScrollSideThumbs={true}

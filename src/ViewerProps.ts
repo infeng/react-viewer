@@ -36,6 +36,8 @@ interface ViewerProps {
   /** 当前图像index */
   activeIndex?: number;
 
+  changeIndexDocument?: Object;
+
   /** 自定义viewer组件的z-index */
   zIndex?: number;
 
