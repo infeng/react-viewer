@@ -218,6 +218,8 @@ class App extends React.Component<any, Partial<State>> {
             watermark={{
               src: watermarkSrc,
             }}
+            exportFileName='documentoTeste_'
+            exportFileNameWithDate
             customToolbar={(toolbars) => {
               return toolbars.concat([{
                 key: 'bookmark',
