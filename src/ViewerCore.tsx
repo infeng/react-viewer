@@ -1,8 +1,10 @@
 import './style/index.less';
-import {FaAngleLeft, FaAngleRight} from 'react-icons/fa';
+
 import { pdf } from '@react-pdf/renderer';
 import download from 'downloadjs';
+import moment from 'moment';
 import * as React from 'react';
+import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
 
 import Icon, { ActionType } from './Icon';
 import ViewerCanvas from './ViewerCanvas';
@@ -71,8 +73,6 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
   constructor(props) {
     super(props);
 
-    
-
     this.prefixCls = 'react-viewer';
     this.state = {
       visible: false,
@@ -107,7 +107,6 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
       this.containerHeight = this.props.container.offsetHeight;
     }
   }
-  
 
   handleClose = (e) => {
     this.props.onClose();
@@ -174,7 +173,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     let images = this.props.images || [];
     if (images.length === 1) {
       imgSrc = images[0] ? images[0].src : '';
-    } else if (images.length > 1){
+    } else if (images.length > 1) {
       imgSrc = images[activeIndex] ? images[activeIndex].src : '';
     }
     let img = new Image();
@@ -371,10 +370,12 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
   }
 
   onExport = async (itens) => {
-    const { watermark } = this.props;
+    const { watermark, exportFileName, exportFileNameWithDate } = this.props;
     const renderDoc = () => <ViewerDownloadPDF watermark={watermark} images={itens}/>;
     const blob = await pdf(renderDoc()).toBlob();
-    download(window.URL.createObjectURL(blob));
+    const date = !!exportFileNameWithDate ? moment().format('DD-MM-YYYY_HH-m-ss') : '';
+    const fileName = !!exportFileName ? `${exportFileName}${date}` : date;
+    download(blob, `${!!fileName ? fileName : 'exportFile'}.pdf`, 'application/pdf');
   }
 
   handleScaleX = (newScale: 1 | -1) => {
