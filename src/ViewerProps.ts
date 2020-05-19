@@ -149,5 +149,7 @@ interface ViewerProps {
   };
   compareImages?: boolean;
   onCompareImages?: (images: ImageDecorator[]) => void;
+  exportFileName?: string;
+  exportFileNameWithDate?: boolean;
 }
 export default ViewerProps;

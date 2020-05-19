@@ -63,6 +63,7 @@
     "@react-pdf/renderer": "^1.6.8",
     "classnames": "^2.2.5",
     "downloadjs": "^1.4.7",
+    "moment": "2.24.0",
     "react-icons": "^3.9.0"
   },
   "pre-commit": [
