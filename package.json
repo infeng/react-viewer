@@ -64,7 +64,8 @@
     "classnames": "^2.2.5",
     "downloadjs": "^1.4.7",
     "moment": "2.24.0",
-    "react-icons": "^3.9.0"
+    "react-icons": "^3.9.0",
+    "react-pinch-and-zoom": "^1.2.5"
   },
   "pre-commit": [
     "lint"

@@ -58,6 +58,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     zoomSpeed: .05,
     fullScreen: false,
     showTitle: false,
+    pinchZoom: false,
     showPaginator: false,
     compareImages: false,
     onCompareImages: noop,
@@ -840,6 +841,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
           container={this.props.container}
           onCanvasMouseDown={this.handleCanvasMouseDown}
           showTitle={this.props.showTitle}
+          pinchZoom={this.props.pinchZoom}
         />
 
           {this.props.noToolbar || (this.props.upToolbar && (
