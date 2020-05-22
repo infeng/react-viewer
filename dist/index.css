@@ -223,9 +223,12 @@
           transform: rotate(-90deg);
 }
 .react-viewer-navbarside-container {
-  overflow: hidden;
+  overflow: auto;
   height: 90%;
   position: relative;
+}
+.react-viewer-navbarside-container::-webkit-scrollbar {
+  display: none;
 }
 .react-viewer-navbarside .react-viewer-list li {
   display: block;
@@ -617,4 +620,7 @@
   -webkit-transform: translateX(-50%);
       -ms-transform: translateX(-50%);
           transform: translateX(-50%);
+}
+.pinch-to-zoom-container {
+  overflow: unset !important;
 }

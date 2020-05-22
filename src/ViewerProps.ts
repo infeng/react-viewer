@@ -127,6 +127,9 @@ interface ViewerProps {
   // Mostra o title da img no canvas
   showTitle?: boolean;
 
+  // Habilita o zoom via pinch no mobile
+  pinchZoom?: boolean;
+
   // Mostra o paginator no toolbar
   showPaginator?: boolean;
 

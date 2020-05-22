@@ -101,6 +101,55 @@ class App extends React.Component<any, Partial<State>> {
       name: 'img5',
       hasWatermark: true,
       tipoCaptura: "Upload"
+    }, {
+      src: img5,
+      alt: '',
+      downloadUrl: '',
+      name: 'img5',
+      hasWatermark: true,
+      tipoCaptura: "Upload"
+    }, {
+      src: img5,
+      alt: '',
+      downloadUrl: '',
+      name: 'img5',
+      hasWatermark: true,
+      tipoCaptura: "Upload"
+    }, {
+      src: img5,
+      alt: '',
+      downloadUrl: '',
+      name: 'img5',
+      hasWatermark: true,
+      tipoCaptura: "Upload"
+    }, {
+      src: img5,
+      alt: '',
+      downloadUrl: '',
+      name: 'img5',
+      hasWatermark: true,
+      tipoCaptura: "Upload"
+    }, {
+      src: img5,
+      alt: '',
+      downloadUrl: '',
+      name: 'img5',
+      hasWatermark: true,
+      tipoCaptura: "Upload"
+    }, {
+      src: img5,
+      alt: '',
+      downloadUrl: '',
+      name: 'img5',
+      hasWatermark: true,
+      tipoCaptura: "Upload"
+    }, {
+      src: img5,
+      alt: '',
+      downloadUrl: '',
+      name: 'img5',
+      hasWatermark: true,
+      tipoCaptura: "Upload"
     }];
 
     let inline = this.state.mode === 'inline';
@@ -214,6 +263,7 @@ class App extends React.Component<any, Partial<State>> {
             removeContainer={true}
             showExport={true}
             showScrollSideThumbs={true}
+            pinchZoom={true}
             compareImages
             watermark={{
               src: watermarkSrc,
