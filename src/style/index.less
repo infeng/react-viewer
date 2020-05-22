@@ -250,9 +250,12 @@
       }
     }
     &-container {
-      overflow: hidden;
+      overflow: auto;
       height: 90%;
       position: relative;
+      &::-webkit-scrollbar {
+        display: none;
+      }
     }
     .react-viewer-list li {
       display: block;
@@ -658,4 +661,8 @@
           transform: translateX(-50%);
       }
   }
+}
+
+.pinch-to-zoom-container {
+  overflow: unset !important;
 }

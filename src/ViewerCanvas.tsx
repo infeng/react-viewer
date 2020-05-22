@@ -1,6 +1,8 @@
 import * as React from 'react';
 import Loading from './Loading';
 
+import PinchToZoom from 'react-pinch-and-zoom';
+
 export interface ViewerCanvasProps {
   prefixCls: string;
   imgAlt: string;
@@ -23,6 +25,7 @@ export interface ViewerCanvasProps {
   container: HTMLElement;
   onCanvasMouseDown: (e: React.MouseEvent<HTMLDivElement>) => void;
   showTitle: boolean;
+  pinchZoom: boolean;
 }
 
 export interface ViewerCanvasState {
@@ -62,12 +65,31 @@ export default class ViewerCanvas extends React.Component<ViewerCanvasProps, Vie
     if (!this.props.visible || !this.props.drag) {
       return;
     }
+
     e.preventDefault();
     e.stopPropagation();
     this.setState({
       isMouseDown: true,
       mouseX: e.nativeEvent.clientX,
       mouseY: e.nativeEvent.clientY,
+    });
+  }
+
+  handleTouchDown = (e) => {
+
+    let touch = e.touches[0];
+
+    if (!touch) {
+      return false;
+    }
+
+    let x = touch.clientX;
+    let y = touch.clientY;
+
+    this.setState({
+      isMouseDown: true,
+      mouseX: x,
+      mouseY: y,
     });
   }
 
@@ -83,13 +105,49 @@ export default class ViewerCanvas extends React.Component<ViewerCanvasProps, Vie
     }
   }
 
+  handleTouchMove = (e) => {
+
+    if (this.blockTargetEvent(e.target) || !e.target.classList.contains('drag')) {
+      return false;
+    }
+
+    let touch = e.touches[0];
+    let x = touch.clientX;
+    let y = touch.clientY;
+
+    let diffX = x - this.state.mouseX;
+    let diffY = y - this.state.mouseY;
+    this.setState({
+      mouseX: x,
+      mouseY: y,
+    });
+    this.props.onChangeImgState(this.props.width, this.props.height, this.props.top + diffY, this.props.left + diffX);
+  }
+
   handleMouseUp = (e) => {
     this.setState({
       isMouseDown: false,
     });
   }
 
+  blockTargetEvent = (element) => {
+    let status = false;
+
+    if (
+      element.classList.contains('react-viewer-navbarside-container') ||
+      element.closest('.react-viewer-navbarside-container')) {
+        status = true;
+    }
+
+    return status;
+  }
+
   handleMouseScroll = (e) => {
+
+    if (this.blockTargetEvent(e.target)) {
+      return false;
+    }
+
     e.preventDefault();
     let direct: 0 | 1 | -1 = 0;
     if (e.wheelDelta) {
@@ -121,10 +179,16 @@ export default class ViewerCanvas extends React.Component<ViewerCanvasProps, Vie
       mouseScrollArea = this.props.container;
     }
 
+    mouseScrollArea[funcName]('touchstart', this.handleTouchDown, false);
+
     mouseScrollArea[funcName]('DOMMouseScroll', this.handleMouseScroll, false);
     mouseScrollArea[funcName]('mousewheel', this.handleMouseScroll, false);
+
     document[funcName]('click', this.handleMouseUp, false);
+
     document[funcName]('mousemove', this.handleMouseMove, false);
+    document[funcName]('touchmove', this.handleTouchMove, false);
+
     window[funcName]('resize', this.handleResize, false);
   }
 
@@ -174,12 +238,13 @@ export default class ViewerCanvas extends React.Component<ViewerCanvasProps, Vie
     let imgNode = null;
     let imgTitle = null;
     if (this.props.imgSrc !== '') {
+
       imgNode = <img
-      className={imgClass}
-      src={this.props.imgSrc}
-      style={imgStyle}
-      onMouseDown={this.handleMouseDown}
-      />;
+          className={imgClass}
+          src={this.props.imgSrc}
+          style={imgStyle}
+          onMouseDown={this.handleMouseDown}
+        />;
     }
     if (this.props.loading) {
       imgNode = (
@@ -194,6 +259,17 @@ export default class ViewerCanvas extends React.Component<ViewerCanvasProps, Vie
           <Loading/>
         </div>
       );
+    }
+
+    if (this.props.pinchZoom) {
+      imgNode = <PinchToZoom>
+        <img
+          className={imgClass}
+          src={this.props.imgSrc}
+          style={imgStyle}
+          onMouseDown={this.handleMouseDown}
+        />
+      </PinchToZoom>;
     }
 
     if (this.props.imgAlt && this.props.showTitle) {
