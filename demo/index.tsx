@@ -257,7 +257,6 @@ class App extends React.Component<any, Partial<State>> {
             showTitle={true}
             upToolbar={true}
             navBarSide={true}
-            hideFullScreen={true}
             waiting={this.handleWaiting}
             changeIndexDocument={this.changeIndexDocument}
             removeContainer={true}

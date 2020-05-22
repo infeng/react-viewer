@@ -807,9 +807,11 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
             changeIndexDocument={this.props.changeIndexDocument}
           />
         )}
-        {!!this.props.fullScreen && !this.props.navBarSide &&
+        {!!this.props.fullScreen &&
           <div
-            className={`${this.prefixCls}-fullScreen ${this.prefixCls}-btn`}
+            className={
+              `${this.prefixCls}-fullScreen ${this.prefixCls}-btn `
+              + (!!this.props.navBarSide ? `${this.prefixCls}-fullScreen-side` : '')}
             onClick={this.handleFullScreen}
             style={{ zIndex: zIndex + 100 }}
           >

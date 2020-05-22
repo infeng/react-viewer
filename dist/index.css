@@ -96,6 +96,14 @@
   top: 4px;
   left: 18px;
 }
+.react-viewer-fullScreen-side {
+  left: 0px;
+  border-radius: 0 0 40px 0;
+}
+.react-viewer-fullScreen-side > i {
+  top: 6px;
+  left: 11px;
+}
 .react-viewer-canvas {
   position: fixed;
   top: 0;
@@ -240,7 +248,8 @@
   top: 0;
 }
 .react-viewer-modal .react-viewer-uptoolbar {
-  top: 0;
+  top: 40px;
+  position: fixed;
 }
 .react-viewer-navbar-paginator {
   font-style: italic;
