@@ -630,7 +630,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
       }
 
     }
-    if (isFeatrue) {
+    if (isFeatrue && !this.props.disableKeyDownPreventDefault) {
       e.preventDefault();
     }
 
