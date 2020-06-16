@@ -118,6 +118,9 @@ interface ViewerProps {
   // no disabled Keydown
   noKeyDown?: boolean;
 
+  // disable the prevent defalt from all listener in keys (handleKeydown)
+  disableKeyDownPreventDefault?: boolean;
+
   // abrir imagem em Modalu
   fullScreen?: boolean;
 
