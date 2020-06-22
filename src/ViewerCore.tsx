@@ -204,7 +204,7 @@ export default (props: ViewerProps) => {
         index: activeIndex,
       }));
     }
-  }, [activeIndex, visible]);
+  }, [activeIndex, visible, images]);
 
   function loadImg(currentActiveIndex, isReset = false) {
     dispatch(createAction(ACTION_TYPES.update, {

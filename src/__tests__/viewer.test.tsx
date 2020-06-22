@@ -14,6 +14,7 @@ function $$(className) {
 
 interface ViewerTesterProps {
   hasContainer?: boolean;
+  onChangeImages?: () => ViewerProps['images'];
 }
 
 class ViewerTester extends React.Component<ViewerTesterProps & ViewerProps, any> {
@@ -29,6 +30,15 @@ class ViewerTester extends React.Component<ViewerTesterProps & ViewerProps, any>
     this.state = {
       visible: false,
       activeIndex: 0,
+      images: props.images || [{
+        src: img,
+        alt: 'lake',
+        downloadUrl: '',
+      }, {
+        src: img2,
+        alt: 'mountain',
+        downloadUrl: '',
+      }],
     };
   }
 
@@ -44,27 +54,26 @@ class ViewerTester extends React.Component<ViewerTesterProps & ViewerProps, any>
     });
   }
 
-  render() {
-    let images = [{
-      src: img,
-      alt: 'lake',
-      downloadUrl: '',
-    }, {
-      src: img2,
-      alt: 'mountain',
-      downloadUrl: '',
-    }];
+  handleChangeImages = () => {
+    if (this.props.onChangeImages) {
+      this.setState({
+        images: this.props.onChangeImages(),
+      });
+    }
+  }
 
-    const { hasContainer, ...viewerProps } = this.props;
+  render() {
+    const { hasContainer, images, onChangeImages, ...viewerProps } = this.props;
 
     return (
       <div>
         <button id="viewer-tester-open-btn" onClick={this.handleOpen}>open viewer</button>
         <button id="viewer-tester-change-btn" onClick={this.handleChangeActiveIndex}>change active index</button>
+        <button id="viewer-tester-change-images-btn" onClick={this.handleChangeImages}>change images</button>
         <div id="container" ref={ref => { this.container = ref; }} style={{ width: '150px', height: '150px' }}></div>
         <Viewer
           visible={this.state.visible}
-          images={images}
+          images={this.state.images}
           activeIndex={this.state.activeIndex}
           container={hasContainer ? this.container : false}
           onClose={() => { this.setState({ visible: false }); }}
@@ -79,6 +88,14 @@ const EventEmitter = require('wolfy87-eventemitter');
 
 const FAILED_IMG = 'fail_img';
 
+let getImageSize = () => {
+  return 100;
+};
+
+function setGetImageSize(newFunc) {
+  getImageSize = newFunc;
+}
+
 class MockImage {
   source = '';
   width = 0;
@@ -90,7 +107,7 @@ class MockImage {
 
   set src(value: string) {
     this.source = value;
-    this.width = this.height = 100;
+    this.width = this.height = getImageSize();
     if (this.source === FAILED_IMG) {
       this.ee.emitEvent('error');
     } else {
@@ -769,5 +786,26 @@ describe('Viewer', () => {
     $$('li[data-key=zoomOut]')[0].click();
     $$('li[data-key=zoomOut]')[0].click();
     expect(getTransformValue(imgNode.style.transform).scaleX).toBe('0.88');
+  });
+
+  it('reset img when change images', () => {
+    viewerHelper.new({
+      images: [{
+        src: img,
+        alt: 'lake',
+      }],
+      onChangeImages: () => {
+        return [{
+          src: img2,
+          alt: 'mountain',
+        }];
+      },
+    });
+
+    viewerHelper.open();
+    expect($$('.react-viewer-img-details')[0].innerHTML).toBe('(100 x 100)');
+    setGetImageSize(() => 200);
+    wrapper.find('#viewer-tester-change-images-btn').simulate('click');
+    expect($$('.react-viewer-img-details')[0].innerHTML).toBe('(200 x 200)');
   });
 });
