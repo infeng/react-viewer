@@ -1,15 +1,4 @@
-@viewer-prefix-cls: react-viewer;
-
-@font-face {
-  font-family: 'icomoon';
-  src:url('fonts/icomoon.eot');
-  src:url('fonts/icomoon.eot?#iefix') format('embedded-opentype'),
-      url('fonts/icomoon.ttf') format('truetype'),
-      url('fonts/icomoon.woff') format('woff'),
-      url('fonts/icomoon.svg') format('svg');
-  font-weight: normal;
-  font-style: normal;
-}
+@import "~@app/common.less";
 
 .@{viewer-prefix-cls} {
 
@@ -19,11 +8,6 @@
     height: 100%;
     min-height: 400px;
   }
-
-  @zIndex: 1000;
-
-  @btn-background-color: rgba(0, 0, 0, .5);
-  @btn-hover-background-color: rgba(0, 0, 0, .8);
 
   & ul {
     margin: 0;
@@ -36,46 +20,6 @@
 
   & {
     opacity: 0;
-  }
-
-  &-mask {
-    position: fixed;
-    top: 0;
-    right: 0;
-    left: 0;
-    bottom: 0;
-    background-color: #373737;
-    background-color: rgba(55, 55, 55, 0.6);
-    height: 100%;
-    filter: alpha(opacity=50);
-    z-index: @zIndex;
-  }
-
-  &-btn {
-    background-color: @btn-background-color;
-    color: white;
-  }
-
-  &-btn:hover{
-    background-color: @btn-hover-background-color;
-  }
-
-  &-close {
-    position: fixed;
-    top: 0px;
-    right: 0px;
-    overflow: hidden;
-    width: 40px;
-    height: 40px;
-    border-radius: 0 0 0 40px;   
-    cursor: pointer;
-    z-index: @zIndex + 10;
-  }
-
-  &-close > i {
-    position: relative;
-    top: 4px;
-    left: 18px;
   }
 
   &-canvas {
@@ -111,84 +55,6 @@
     position: absolute;
   }
 
-  &-attribute {
-    margin: 0 20px;
-    margin-bottom: 6px;
-    opacity: .8;
-    color: #ccc;
-    font-size: 15px;
-  }
-
-  &-showTotal {
-    float: right;
-  }
-
-  @toolbarHeight: 28px;
-
-  &-toolbar {
-    overflow: hidden;
-    height: @toolbarHeight;
-    margin-bottom: 6px !important;
-  }
-
-  &-toolbar li {
-    display: inline-block;
-    width: @toolbarHeight;
-    height: @toolbarHeight;
-    border-radius: @toolbarHeight;
-    margin-right: 3px;
-    cursor: pointer;
-    line-height: 28px;
-  }
-
-  &-toolbar li:hover {
-    background-color: rgba(0, 0, 0, .8);
-  }
-
-  li.empty {
-    background-color: transparent;
-    cursor: default;
-  }
-
-  &-navbar {
-    overflow: hidden;
-    background-color: @btn-background-color;
-  }
-
-  @viewer-list-item-width: 30px;
-  @viewer-list-item-height: 50px;
-  @viewer-list-item-img-width: @viewer-list-item-width + 30px;
-  @viewer-list-item-img-marginLeft: -(@viewer-list-item-img-width - @viewer-list-item-width) /2;
-
-  &-list {
-    height: @viewer-list-item-height;
-    padding: 1px;
-    text-align: left;
-  }
-
-  &-list > li {
-    display: inline-block;
-    width: @viewer-list-item-width;
-    height: @viewer-list-item-height;
-    cursor: pointer;
-    overflow: hidden;
-    margin-right: 1px;
-  }
-
-  &-list > li > img {
-    width: @viewer-list-item-img-width;
-    height: @viewer-list-item-height;
-    margin-left: @viewer-list-item-img-marginLeft;
-    opacity: .5;
-  }  
-
-  &-list > li.active > img {
-    opacity: 1;
-  }
-
-  @transitionDuration: .3s;
-  @transitionFunc: ease-out;
-
   &-transition {
     transition: opacity @transitionDuration @transitionFunc;
   }
@@ -198,88 +64,4 @@
     transition-duration: @transitionDuration;
     transition-timing-function: @transitionFunc;
   }
-
-  &-list-transition {
-    transition: margin @transitionDuration @transitionFunc;
-  }
 }
-
-@icon-prefix-cls: react-viewer-icon;
-
-.@{icon-prefix-cls} {
-  & {
-    font-family: 'icomoon' !important;
-    display: inline-block;
-    font-style: normal;
-    vertical-align: baseline;
-    text-align: center;
-    text-transform: none;
-    text-rendering: auto;
-    line-height: 1;
-    text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    color: white;
-    font-size: 13px;    
-  }
-
-  &-zoomIn:before {
-    content: '\ea0a';
-  }
-
-  &-zoomOut:before {
-    content: '\ea0b';
-  }
-
-  &-prev:before {
-    content: '\ea38';
-  } 
-
-  &-next:before {
-    content: '\ea34';
-  } 
-
-  &-close:before {
-    content: '\ea0f';
-  } 
-
-  &-rotateLeft:before {
-    content: '\e967';
-  }  
-
-  &-rotateRight:before {
-    content: '\e968';
-  } 
-
-  &-reset:before {
-    content: '\e984';
-  }
-
-  &-scaleX:before {
-    content: '\ea60';
-  } 
-
-  &-scaleY:before {
-    content: '\ea5f';
-  }
-  
-  &-download:before {
-    content: '\e9c7';
-  }   
-}
-
-.circle-loading {
-  box-sizing: border-box;
-  width: 80px;
-  height: 80px;
-  border-radius: 100%;
-  border: 10px solid rgba(255, 255, 255, 0.2);
-  border-top-color: #FFF;
-  animation: spin 1s infinite linear;
-}
-
-@keyframes spin { 
-  100% { 
-    transform: rotate(360deg); 
-  } 
-} 

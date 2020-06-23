@@ -1,6 +1,8 @@
 import * as React from 'react';
-import Icon, { ActionType } from './Icon';
-import { ToolbarConfig } from './ViewerProps';
+import { Icon, ActionType } from '@app/components';
+import { ToolbarConfig } from '@app/ViewerProps';
+export * from './Close';
+import './style.less';
 
 export interface ViewerToolbarProps {
   prefixCls: string;
@@ -70,7 +72,7 @@ function deleteToolbarFromKey(toolbars: ToolbarConfig[], keys: string[]) {
   return targetToolbar;
 }
 
-export default function ViewerToolbar(props: ViewerToolbarProps) {
+export function Toolbar(props: ViewerToolbarProps) {
   function handleAction(config: ToolbarConfig) {
     props.onAction(config);
   }

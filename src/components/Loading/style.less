@@ -1,0 +1,19 @@
+@import "~@app/common.less";
+
+.@{viewer-prefix-cls} {
+	&-circle-loading {
+    box-sizing: border-box;
+    width: 80px;
+    height: 80px;
+    border-radius: 100%;
+    border: 10px solid rgba(255, 255, 255, 0.2);
+    border-top-color: #FFF;
+    animation: spin 1s infinite linear;
+  }
+  
+  @keyframes spin { 
+    100% { 
+      transform: rotate(360deg); 
+    } 
+  }   
+}

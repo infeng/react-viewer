@@ -1,4 +1,5 @@
 import * as React from 'react';
+import './style.less';
 
 export enum ActionType {
   zoomIn = 1,
@@ -18,7 +19,7 @@ export interface IconProps {
   type: ActionType;
 }
 
-export default function Icon(props: IconProps) {
+export function Icon(props: IconProps) {
   let prefixCls = 'react-viewer-icon';
 
   return (

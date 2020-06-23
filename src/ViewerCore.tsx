@@ -1,10 +1,8 @@
 import * as React from 'react';
 import './style/index.less';
 import ViewerCanvas from './ViewerCanvas';
-import ViewerNav from './ViewerNav';
-import ViewerToolbar, { defaultToolbars } from './ViewerToolbar';
+import { Toolbar, defaultToolbars, ActionType, Close, Nav, Mask } from '@app/components';
 import ViewerProps, { ImageDecorator, ToolbarConfig } from './ViewerProps';
-import Icon, { ActionType } from './Icon';
 import * as constants from './constants';
 import classnames from 'classnames';
 
@@ -653,17 +651,12 @@ export default (props: ViewerProps) => {
       }}
       ref={viewerCore}
     >
-      <div className={`${prefixCls}-mask`} style={{ zIndex: zIndex }} />
+      <Mask zIndex={zIndex} />
       {props.noClose || (
-        <div
-          className={`${prefixCls}-close ${prefixCls}-btn`}
-          onClick={() => {
-            onClose();
-          }}
-          style={{ zIndex: zIndex + 10 }}
-        >
-          <Icon type={ActionType.close} />
-        </div>
+        <Close
+          onClose={onClose}
+          zIndex={zIndex}
+        />
       )}
       <ViewerCanvas
         prefixCls={prefixCls}
@@ -687,7 +680,7 @@ export default (props: ViewerProps) => {
       {props.noFooter || (
         <div className={`${prefixCls}-footer`} style={{ zIndex: zIndex + 5 }}>
           {noToolbar || (
-            <ViewerToolbar
+            <Toolbar
               prefixCls={prefixCls}
               onAction={handleAction}
               alt={activeImg.alt}
@@ -707,7 +700,7 @@ export default (props: ViewerProps) => {
             />
           )}
           {props.noNavbar || (
-            <ViewerNav
+            <Nav
               prefixCls={prefixCls}
               images={props.images}
               activeIndex={state.activeIndex}

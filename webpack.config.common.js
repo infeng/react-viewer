@@ -136,6 +136,11 @@ config.resolve
   .end()
   .modules.add(path.join(__dirname, 'node_modules'));
 
+config.resolve
+  .alias.merge({
+    '@app': path.join(__dirname, 'src')
+  })
+
 // config.plugin('MiniCssExtractPlugin')
 //   .use(MiniCssExtractPlugin)
 

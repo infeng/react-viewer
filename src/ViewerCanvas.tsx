@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Loading from './Loading';
+import { Loading } from '@app/components';
 import classnames from 'classnames';
 
 export interface ViewerCanvasProps {

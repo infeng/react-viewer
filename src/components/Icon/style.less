@@ -1,0 +1,74 @@
+@font-face {
+    font-family: 'icomoon';
+    src:url('fonts/icomoon.eot');
+    src:url('fonts/icomoon.eot?#iefix') format('embedded-opentype'),
+        url('fonts/icomoon.ttf') format('truetype'),
+        url('fonts/icomoon.woff') format('woff'),
+        url('fonts/icomoon.svg') format('svg');
+    font-weight: normal;
+    font-style: normal;
+  }
+
+@icon-prefix-cls: react-viewer-icon;
+
+.@{icon-prefix-cls} {
+  & {
+    font-family: 'icomoon' !important;
+    display: inline-block;
+    font-style: normal;
+    vertical-align: baseline;
+    text-align: center;
+    text-transform: none;
+    text-rendering: auto;
+    line-height: 1;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: white;
+    font-size: 13px;    
+  }
+
+  &-zoomIn:before {
+    content: '\ea0a';
+  }
+
+  &-zoomOut:before {
+    content: '\ea0b';
+  }
+
+  &-prev:before {
+    content: '\ea38';
+  } 
+
+  &-next:before {
+    content: '\ea34';
+  } 
+
+  &-close:before {
+    content: '\ea0f';
+  } 
+
+  &-rotateLeft:before {
+    content: '\e967';
+  }  
+
+  &-rotateRight:before {
+    content: '\e968';
+  } 
+
+  &-reset:before {
+    content: '\e984';
+  }
+
+  &-scaleX:before {
+    content: '\ea60';
+  } 
+
+  &-scaleY:before {
+    content: '\ea5f';
+  }
+  
+  &-download:before {
+    content: '\e9c7';
+  }   
+}

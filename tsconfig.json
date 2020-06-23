@@ -7,7 +7,11 @@
     "removeComments": false,
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
-    "noUnusedLocals": true
+    "noUnusedLocals": true,
+    "baseUrl": ".",
+    "paths": {
+      "@app/*": ["./src/*"]
+    }
   },
   "exclude": [
     "node_modules",

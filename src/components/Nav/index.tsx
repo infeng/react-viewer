@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { ImageDecorator } from './ViewerProps';
+import { ImageDecorator } from '@app/ViewerProps';
+import './style.less';
 
 export interface ViewerNavProps {
   prefixCls: string;
@@ -8,7 +9,7 @@ export interface ViewerNavProps {
   onChangeImg: (index: number) => void;
 }
 
-export default function ViewerNav(props: ViewerNavProps) {
+export function Nav(props: ViewerNavProps) {
   const { activeIndex = 0 } = props;
 
   function handleChangeImg(newIndex) {

@@ -1,0 +1,69 @@
+@import "~@app/common.less";
+
+.@{viewer-prefix-cls} {
+  &-close {
+    position: fixed;
+    top: 0px;
+    right: 0px;
+    overflow: hidden;
+    width: 40px;
+    height: 40px;
+    border-radius: 0 0 0 40px;   
+    cursor: pointer;
+    z-index: @zIndex + 10;
+  }
+
+  &-close > i {
+    position: relative;
+    top: 4px;
+    left: 18px;
+  }
+
+  &-attribute {
+    margin: 0 20px;
+    margin-bottom: 6px;
+    opacity: .8;
+    color: #ccc;
+    font-size: 15px;
+  }
+
+  &-showTotal {
+    float: right;
+  }
+
+  &-btn {
+    background-color: @btn-background-color;
+    color: white;
+  }
+
+  &-btn:hover{
+    background-color: @btn-hover-background-color;
+  }
+
+  @toolbarHeight: 28px;
+
+  &-toolbar {
+    overflow: hidden;
+    height: @toolbarHeight;
+    margin-bottom: 6px !important;
+  }
+
+  &-toolbar li {
+    display: inline-block;
+    width: @toolbarHeight;
+    height: @toolbarHeight;
+    border-radius: @toolbarHeight;
+    margin-right: 3px;
+    cursor: pointer;
+    line-height: 28px;
+  }
+
+  &-toolbar li:hover {
+    background-color: rgba(0, 0, 0, .8);
+  }
+
+  li.empty {
+    background-color: transparent;
+    cursor: default;
+  }
+}
