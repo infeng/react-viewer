@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Icon, { ActionType } from './Icon';
 import { ToolbarConfig } from './ViewerProps';
-
+import {FaAngleUp, FaAngleDown} from 'react-icons/fa';
 export interface ViewerToolbarProps {
   prefixCls: string;
   onAction: (config: ToolbarConfig) => void;
@@ -18,6 +18,7 @@ export interface ViewerToolbarProps {
   toolbars: ToolbarConfig[];
   showExport: boolean;
   compareImages: boolean;
+  showToggleOptions: boolean;
 }
 
 export const defaultToolbars: ToolbarConfig[] = [
@@ -93,6 +94,9 @@ export default class ViewerToolbar extends React.Component<ViewerToolbarProps, a
 
   constructor(props) {
     super(props);
+    this.state = {
+      isVisible: true,
+    };
   }
 
   handleAction(config: ToolbarConfig) {
@@ -119,6 +123,10 @@ export default class ViewerToolbar extends React.Component<ViewerToolbarProps, a
         {content}
       </li>
     );
+  }
+
+  toggleVisible = () => {
+    this.setState({isVisible: !this.state.isVisible});
   }
 
   render() {
@@ -152,12 +160,19 @@ export default class ViewerToolbar extends React.Component<ViewerToolbarProps, a
     }
     return (
       <div>
+        {!!this.props.showToggleOptions &&
+          <button onClick={this.toggleVisible} className={`${this.props.prefixCls}-btn-toggle`}>
+            {!!this.state.isVisible ? <FaAngleDown /> : <FaAngleUp />}
+          </button>
+        }
         {attributeNode}
-        <ul className={`${this.props.prefixCls}-toolbar`}>
-          {toolbars.map(item => {
-            return this.renderAction(item);
-          })}
-        </ul>
+        { this.state.isVisible &&
+            <ul className={`${this.props.prefixCls}-toolbar`}>
+              {toolbars.map(item => {
+                return this.renderAction(item);
+              })}
+            </ul>
+        }
       </div>
     );
   }
