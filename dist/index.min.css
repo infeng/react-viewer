@@ -45,6 +45,17 @@
   top: 0;
   margin-right: 35px;
 }
+.react-viewer-btn-toggle-toolbar {
+  color: white;
+  background-color: transparent;
+  position: relative;
+  float: left;
+  z-index: 1007;
+  border: none;
+  border-radius: 27px;
+  width: 28px;
+  height: 28px;
+}
 .react-viewer-toggle-left {
   color: white;
   position: relative;

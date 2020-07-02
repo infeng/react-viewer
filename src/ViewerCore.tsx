@@ -862,6 +862,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
                 toolbars={this.props.customToolbar(defaultToolbars)}
                 showExport= {this.props.showExport}
                 compareImages={this.props.compareImages}
+                showToggleToolbar={this.props.showToggleToolbar}
               />
             </div>
          ))}
@@ -888,6 +889,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
                 toolbars={this.props.customToolbar(defaultToolbars)}
                 showExport= {this.props.showExport}
                 compareImages={this.props.compareImages}
+                showToggleToolbar={this.props.showToggleToolbar}
               />
             )}
             {!this.props.noNavbar && !this.props.navBarSide &&
