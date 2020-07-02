@@ -166,7 +166,7 @@ export default class ViewerToolbar extends React.Component<ViewerToolbarProps, a
       <div>
         {attributeNode}
         <ul className={`${this.props.prefixCls}-toolbar`}>
-          {!!this.props.showToggleToolbar &&
+          {/* {!!this.props.showToggleToolbar && */}
           <li
           className={`${this.props.prefixCls}-btn`}
           onClick={this.toggleVisible}
@@ -174,7 +174,7 @@ export default class ViewerToolbar extends React.Component<ViewerToolbarProps, a
           >
             {this.state.isVisible ? <FaAngleUp /> : <FaAngleDown />}
           </li>
-          }
+          {/* } */}
           {toolbars.map(item => {
               return this.renderAction(item);
             })}
