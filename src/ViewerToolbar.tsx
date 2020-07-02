@@ -18,7 +18,7 @@ export interface ViewerToolbarProps {
   toolbars: ToolbarConfig[];
   showExport: boolean;
   compareImages: boolean;
-  showToggleOptions: boolean;
+  showToggleToolbar: boolean;
 }
 
 export const defaultToolbars: ToolbarConfig[] = [
@@ -161,7 +161,7 @@ export default class ViewerToolbar extends React.Component<ViewerToolbarProps, a
     return (
       <div>
         {!!this.props.showToggleOptions &&
-          <button onClick={this.toggleVisible} className={`${this.props.prefixCls}-btn-toggle`}>
+          <button onClick={this.toggleVisible} className={`${this.props.prefixCls}-btn-toggle-toolbar`}>
             {!!this.state.isVisible ? <FaAngleDown /> : <FaAngleUp />}
           </button>
         }
