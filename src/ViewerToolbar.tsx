@@ -114,14 +114,18 @@ export default class ViewerToolbar extends React.Component<ViewerToolbarProps, a
       content = config.render;
     }
     return (
-      <li
-        key={config.key}
-        className={`${this.props.prefixCls}-btn`}
-        onClick={() => { this.handleAction(config); }}
-        title={config.title}
-      >
-        {content}
-      </li>
+      <React.Fragment>
+          {this.state.isVisible &&
+            <li
+              key={config.key}
+              className={`${this.props.prefixCls}-btn`}
+              onClick={() => { this.handleAction(config); }}
+              title={config.title}
+            >
+              {content}
+            </li>
+          }
+      </React.Fragment>
     );
   }
 
@@ -160,19 +164,21 @@ export default class ViewerToolbar extends React.Component<ViewerToolbarProps, a
     }
     return (
       <div>
-        {!!this.props.showToggleToolbar &&
-          <button onClick={this.toggleVisible} className={`${this.props.prefixCls}-btn-toggle-toolbar`}>
-            {!!this.state.isVisible ? <FaAngleDown /> : <FaAngleUp />}
-          </button>
-        }
         {attributeNode}
-        { this.state.isVisible &&
-            <ul className={`${this.props.prefixCls}-toolbar`}>
-              {toolbars.map(item => {
-                return this.renderAction(item);
-              })}
-            </ul>
-        }
+        <ul className={`${this.props.prefixCls}-toolbar`}>
+          {!!this.props.showToggleToolbar &&
+          <li
+          className={`${this.props.prefixCls}-btn`}
+          onClick={this.toggleVisible}
+          title={this.state.isVisible ? 'Recolher Barra de Ferramentas' : 'Expandir Barra de Ferramentas'}
+          >
+            {this.state.isVisible ? <FaAngleUp /> : <FaAngleDown />}
+          </li>
+          }
+          {toolbars.map(item => {
+              return this.renderAction(item);
+            })}
+        </ul>
       </div>
     );
   }
