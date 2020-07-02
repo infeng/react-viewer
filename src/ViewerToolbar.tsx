@@ -166,15 +166,18 @@ export default class ViewerToolbar extends React.Component<ViewerToolbarProps, a
       <div>
         {attributeNode}
         <ul className={`${this.props.prefixCls}-toolbar`}>
-          {/* {!!this.props.showToggleToolbar && */}
-          <li
-          className={`${this.props.prefixCls}-btn`}
-          onClick={this.toggleVisible}
-          title={this.state.isVisible ? 'Recolher Barra de Ferramentas' : 'Expandir Barra de Ferramentas'}
-          >
-            {this.state.isVisible ? <FaAngleUp /> : <FaAngleDown />}
-          </li>
-          {/* } */}
+          {!!this.props.showToggleToolbar &&
+            <li
+              className={`${this.props.prefixCls}-btn`}
+              onClick={this.toggleVisible}
+              title={this.state.isVisible ? 'Recolher Barra de Ferramentas' : 'Expandir Barra de Ferramentas'}
+              >
+                <i
+                className="react-viewer-icon">
+                  {this.state.isVisible ? <FaAngleUp /> : <FaAngleDown />}
+                </i>
+            </li>
+          }
           {toolbars.map(item => {
               return this.renderAction(item);
             })}
