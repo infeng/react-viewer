@@ -160,7 +160,7 @@ export default class ViewerToolbar extends React.Component<ViewerToolbarProps, a
     }
     return (
       <div>
-        {!!this.props.showToggleOptions &&
+        {!!this.props.showToggleToolbar &&
           <button onClick={this.toggleVisible} className={`${this.props.prefixCls}-btn-toggle-toolbar`}>
             {!!this.state.isVisible ? <FaAngleDown /> : <FaAngleUp />}
           </button>
