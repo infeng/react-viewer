@@ -147,6 +147,9 @@ interface ViewerProps {
   // Mostra botão de expandir e recolher miniaturas do viewer
   showToggleNav?: boolean;
 
+  // Mostra botão de expandir e recolher as opções do viewer
+  showToggleToolbar?: boolean;
+
   // Compare images props
   wrapperSizeProps?: {
     width: number;
