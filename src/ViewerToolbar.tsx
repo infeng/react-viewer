@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Icon, { ActionType } from './Icon';
 import { ToolbarConfig } from './ViewerProps';
-import {FaAngleUp, FaAngleDown} from 'react-icons/fa';
+
 export interface ViewerToolbarProps {
   prefixCls: string;
   onAction: (config: ToolbarConfig) => void;
@@ -18,7 +18,6 @@ export interface ViewerToolbarProps {
   toolbars: ToolbarConfig[];
   showExport: boolean;
   compareImages: boolean;
-  showToggleToolbar: boolean;
 }
 
 export const defaultToolbars: ToolbarConfig[] = [
@@ -94,9 +93,6 @@ export default class ViewerToolbar extends React.Component<ViewerToolbarProps, a
 
   constructor(props) {
     super(props);
-    this.state = {
-      isVisible: true,
-    };
   }
 
   handleAction(config: ToolbarConfig) {
@@ -114,23 +110,15 @@ export default class ViewerToolbar extends React.Component<ViewerToolbarProps, a
       content = config.render;
     }
     return (
-      <React.Fragment>
-          {this.state.isVisible &&
-            <li
-              key={config.key}
-              className={`${this.props.prefixCls}-btn`}
-              onClick={() => { this.handleAction(config); }}
-              title={config.title}
-            >
-              {content}
-            </li>
-          }
-      </React.Fragment>
+      <li
+        key={config.key}
+        className={`${this.props.prefixCls}-btn`}
+        onClick={() => { this.handleAction(config); }}
+        title={config.title}
+      >
+        {content}
+      </li>
     );
-  }
-
-  toggleVisible = () => {
-    this.setState({isVisible: !this.state.isVisible});
   }
 
   render() {
@@ -166,21 +154,9 @@ export default class ViewerToolbar extends React.Component<ViewerToolbarProps, a
       <div>
         {attributeNode}
         <ul className={`${this.props.prefixCls}-toolbar`}>
-          {!!this.props.showToggleToolbar &&
-            <li
-              className={`${this.props.prefixCls}-btn`}
-              onClick={this.toggleVisible}
-              title={this.state.isVisible ? 'Recolher Barra de Ferramentas' : 'Expandir Barra de Ferramentas'}
-              >
-                <i
-                className="react-viewer-icon">
-                  {this.state.isVisible ? <FaAngleUp /> : <FaAngleDown />}
-                </i>
-            </li>
-          }
           {toolbars.map(item => {
-              return this.renderAction(item);
-            })}
+            return this.renderAction(item);
+          })}
         </ul>
       </div>
     );
