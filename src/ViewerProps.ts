@@ -118,6 +118,9 @@ interface ViewerProps {
   // no disabled Keydown
   noKeyDown?: boolean;
 
+  // disable the prevent defalt from all listener in keys (handleKeydown)
+  disableKeyDownPreventDefault?: boolean;
+
   // abrir imagem em Modalu
   fullScreen?: boolean;
 
@@ -126,6 +129,9 @@ interface ViewerProps {
 
   // Mostra o title da img no canvas
   showTitle?: boolean;
+
+  // Habilita o zoom via pinch no mobile
+  pinchZoom?: boolean;
 
   // Mostra o paginator no toolbar
   showPaginator?: boolean;

@@ -58,6 +58,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     zoomSpeed: .05,
     fullScreen: false,
     showTitle: false,
+    pinchZoom: false,
     showPaginator: false,
     compareImages: false,
     onCompareImages: noop,
@@ -629,7 +630,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
       }
 
     }
-    if (isFeatrue) {
+    if (isFeatrue && !this.props.disableKeyDownPreventDefault) {
       e.preventDefault();
     }
 
@@ -806,9 +807,11 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
             changeIndexDocument={this.props.changeIndexDocument}
           />
         )}
-        {!!this.props.fullScreen && !this.props.navBarSide &&
+        {!!this.props.fullScreen &&
           <div
-            className={`${this.prefixCls}-fullScreen ${this.prefixCls}-btn`}
+            className={
+              `${this.prefixCls}-fullScreen ${this.prefixCls}-btn `
+              + (!!this.props.navBarSide ? `${this.prefixCls}-fullScreen-side` : '')}
             onClick={this.handleFullScreen}
             style={{ zIndex: zIndex + 100 }}
           >
@@ -838,6 +841,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
           container={this.props.container}
           onCanvasMouseDown={this.handleCanvasMouseDown}
           showTitle={this.props.showTitle}
+          pinchZoom={this.props.pinchZoom}
         />
 
           {this.props.noToolbar || (this.props.upToolbar && (

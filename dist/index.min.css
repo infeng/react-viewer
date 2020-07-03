@@ -107,6 +107,14 @@
   top: 4px;
   left: 18px;
 }
+.react-viewer-fullScreen-side {
+  left: 0px;
+  border-radius: 0 0 40px 0;
+}
+.react-viewer-fullScreen-side > i {
+  top: 6px;
+  left: 11px;
+}
 .react-viewer-canvas {
   position: fixed;
   top: 0;
@@ -234,9 +242,12 @@
           transform: rotate(-90deg);
 }
 .react-viewer-navbarside-container {
-  overflow: hidden;
+  overflow: auto;
   height: 90%;
   position: relative;
+}
+.react-viewer-navbarside-container::-webkit-scrollbar {
+  display: none;
 }
 .react-viewer-navbarside .react-viewer-list li {
   display: block;
@@ -248,7 +259,8 @@
   top: 0;
 }
 .react-viewer-modal .react-viewer-uptoolbar {
-  top: 0;
+  top: 40px;
+  position: fixed;
 }
 .react-viewer-navbar-paginator {
   font-style: italic;
@@ -628,4 +640,7 @@
   -webkit-transform: translateX(-50%);
       -ms-transform: translateX(-50%);
           transform: translateX(-50%);
+}
+.pinch-to-zoom-container {
+  overflow: unset !important;
 }

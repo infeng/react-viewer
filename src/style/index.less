@@ -135,6 +135,16 @@
     left: 18px;
   }
 
+  &-fullScreen-side {
+    left: 0px;
+    border-radius: 0 0 40px 0;  
+  }
+
+  &-fullScreen-side > i {
+    top: 6px;
+    left: 11px;
+  }
+
   &-canvas {
     position: fixed;
     top: 0;
@@ -252,9 +262,12 @@
       }
     }
     &-container {
-      overflow: hidden;
+      overflow: auto;
       height: 90%;
       position: relative;
+      &::-webkit-scrollbar {
+        display: none;
+      }
     }
     .react-viewer-list li {
       display: block;
@@ -279,7 +292,8 @@
       top: 0;
     }
     .react-viewer-uptoolbar{
-      top:0;
+      top: 40px;
+      position: fixed;
     }
   }
 
@@ -659,4 +673,8 @@
           transform: translateX(-50%);
       }
   }
+}
+
+.pinch-to-zoom-container {
+  overflow: unset !important;
 }
