@@ -26,6 +26,7 @@ export interface ViewerCanvasProps {
   onCanvasMouseDown: (e: React.MouseEvent<HTMLDivElement>) => void;
   showTitle: boolean;
   pinchZoom: boolean;
+  selfContainerBindEvent?: boolean;
 }
 
 export interface ViewerCanvasState {
@@ -168,7 +169,9 @@ export default class ViewerCanvas extends React.Component<ViewerCanvasProps, Vie
   }
 
   bindEvent = (remove?: boolean) => {
+    const selfContainer = document.querySelector('.react-viewer');
     let funcName = 'addEventListener';
+
     if (remove) {
       funcName = 'removeEventListener';
     }
@@ -181,8 +184,13 @@ export default class ViewerCanvas extends React.Component<ViewerCanvasProps, Vie
 
     mouseScrollArea[funcName]('touchstart', this.handleTouchDown, false);
 
-    mouseScrollArea[funcName]('DOMMouseScroll', this.handleMouseScroll, false);
-    mouseScrollArea[funcName]('mousewheel', this.handleMouseScroll, false);
+    if (this.props.selfContainerBindEvent) {
+      selfContainer[funcName]('DOMMouseScroll', this.handleMouseScroll, false);
+      selfContainer[funcName]('mousewheel', this.handleMouseScroll, false);
+    } else {
+      mouseScrollArea[funcName]('DOMMouseScroll', this.handleMouseScroll, false);
+      mouseScrollArea[funcName]('mousewheel', this.handleMouseScroll, false);
+    }
 
     document[funcName]('click', this.handleMouseUp, false);
 
@@ -276,7 +284,7 @@ export default class ViewerCanvas extends React.Component<ViewerCanvasProps, Vie
       let title = this.props.tipoCaptura ? this.props.tipoCaptura + ' - ' + this.props.imgAlt : this.props.imgAlt;
       imgTitle = (
         <div className={`${this.props.prefixCls}-canvas-title`} >
-    <div className="title-container">{ title }</div>
+          <div className="title-container">{ title }</div>
         </div>
       );
     }
