@@ -17,21 +17,18 @@ const compareViewerConfig = {
 
 const ViewerWrapper: React.FC<ViewerProps> = ({ noClose, customToolbar, ...props }: ViewerProps) => {
     const [showCompareImage, setShowCompareImage] = useState(false);
-    const [imageLeft, setImageLeft] = useState([]);
-    const [imageRight, setImageRight] = useState([]);
+    const [items, setItems] = useState([]);
 
     const onCompareImages = (images) => {
         if (!images.length || images.length < 2) {
             return;
         }
-        setImageLeft([images[0]]);
-        setImageRight([images[1]]);
+        setItems(images);
         setShowCompareImage(true);
     };
 
     const onCloseCompare = () => {
-        setImageLeft([]);
-        setImageRight([]);
+        setItems([]);
         setShowCompareImage(false);
     };
 
@@ -57,29 +54,23 @@ const ViewerWrapper: React.FC<ViewerProps> = ({ noClose, customToolbar, ...props
         );
     }
 
+    const itemsRender = items.map((image) => {
+        return ((wrapperSizeProps) => (
+            <ViewerCore
+                {...props}
+                {...compareViewerConfig}
+                customToolbar={getCustomToolbar}
+                onClose={onCloseCompare}
+                images={[image]}
+                wrapperSizeProps={wrapperSizeProps}
+            />
+        ));
+    });
+
     return (
         <ViewerImageCompare
             minWidth={150}
-            renderComponentLeft={(wrapperSizeProps) => (
-                <ViewerCore
-                    {...props}
-                    {...compareViewerConfig}
-                    customToolbar={getCustomToolbar}
-                    onClose={onCloseCompare}
-                    images={imageLeft}
-                    wrapperSizeProps={wrapperSizeProps}
-                />
-            )}
-            renderComponentRight={(wrapperSizeProps) => (
-                <ViewerCore
-                    {...props}
-                    {...compareViewerConfig}
-                    customToolbar={getCustomToolbar}
-                    onClose={onCloseCompare}
-                    images={imageRight}
-                    wrapperSizeProps={wrapperSizeProps}
-                />
-            )}
+            renderComponentItems={itemsRender}
         />
     );
 };

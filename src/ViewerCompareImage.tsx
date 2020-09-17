@@ -1,14 +1,8 @@
 // tslint:disable-next-line
 import React, { useRef, useEffect, useState } from 'react';
-interface ISizeProps {
-    wrapperWidth: number;
-    width: number;
-    left: number;
-}
 
 interface ViewerImageCompareProps {
-    renderComponentLeft: (sizeProps: ISizeProps) => JSX.Element;
-    renderComponentRight: (sizeProps: ISizeProps) => JSX.Element;
+    renderComponentItems;
     minWidth?: number;
 }
 
@@ -26,41 +20,68 @@ const getCursorPos = (e, container) => {
 };
 
 const setStyle = (ref, style) => {
-    if (!ref || !ref.current) {
+    if (!ref) {
         return;
     }
     for (let key of Object.keys(style)) {
-        ref.current.style[key] = style[key];
+        ref.style[key] = style[key];
     }
 };
 
 const ViewerImageCompare: React.FC<ViewerImageCompareProps> = ({
-    renderComponentLeft,
-    renderComponentRight,
+    renderComponentItems,
     minWidth,
 }) => {
-    const wrapperRef = useRef();
-    const sliderRef = useRef();
-    const elementLeftRef = useRef();
-    const elementRightRef = useRef();
-    const [wrapperWidth, setWrapperWidth] = useState(0);
-    const [sliderIsClicked, setSliderIsClicked] = useState(false);
-    const [sizePropsElementLeft, setSizePropsElementLeft] = useState({});
-    const [sizePropsElementRight, setSizePropsElementRight] = useState({});
 
-    const onMouseDown = () => setSliderIsClicked(true);
-    const onMouseUp = () => setSliderIsClicked(false);
+    const wrapperRef = useRef();
+    const sliderRef = useRef(Array.from({length: renderComponentItems.length - 1}, () => React.createRef()));
+    const elementRef = useRef(Array.from({length: renderComponentItems.length}, () => React.createRef()));
+
+    const [wrapperWidth, setWrapperWidth] = useState(0);
+    const [sliderClicked, setSliderClicked] = useState(null);
+    const [sizePropsElement, setSizePropsElement] = useState(new Array(renderComponentItems.length));
+
+    const [ widthElement, setWidthElement ] = useState(0);
+
+    const onMouseDown = (index) => setSliderClicked(index);
+    const onMouseUp = () => setSliderClicked(null);
     const onMouseMove = (e) => {
-        if (!sliderIsClicked) {
+
+        if (sliderClicked === null) {
             return;
         }
+
         const cursorPos = getCursorPos(e, wrapperRef.current);
-        const widthElementLeft = cursorPos;
-        const widthElementRight = wrapperWidth - cursorPos;
+
+        /* Validações de posicionamento do slider */
+        const sliderInitialPosition = widthElement * (sliderClicked + 1);
+        const maxPositionSlider = sliderInitialPosition + (widthElement - 50);
+        const minPositionSlider = sliderInitialPosition - (widthElement - 50);
+
+        if (cursorPos >= maxPositionSlider || cursorPos <= minPositionSlider) {
+            return;
+            // tslint:disable-next-line
+        }
 
         if (!!minWidth && (widthElementLeft <= minWidth || widthElementRight <= minWidth)) {
             return;
+            // tslint:disable-next-line
         }
+
+        const difSize = sliderInitialPosition - cursorPos;
+
+        let widthElementLeft = elementRef.current[sliderClicked].getBoundingClientRect().width;
+        let widthElementRight = elementRef.current[sliderClicked + 1].getBoundingClientRect().width;
+
+        if (difSize < 0) {
+            widthElementLeft = widthElementLeft + Math.abs(difSize);
+            widthElementRight = widthElementRight - Math.abs(difSize);
+        } else if (difSize > 0) {
+            widthElementLeft = widthElementLeft - Math.abs(difSize);
+            widthElementRight = widthElementRight + Math.abs(difSize);
+        }
+
+        /*
 
         setSizePropsElementLeft({
             wrapperWidth,
@@ -72,10 +93,11 @@ const ViewerImageCompare: React.FC<ViewerImageCompareProps> = ({
             width: widthElementRight,
             left: cursorPos,
         });
+        */
 
-        setStyle(elementLeftRef, { width: `${widthElementLeft}px` });
-        setStyle(elementRightRef, { width: `${widthElementRight}px`, left: `${cursorPos}px` });
-        setStyle(sliderRef, { left: `${cursorPos}px` });
+        setStyle(elementRef.current[sliderClicked], { width: `${widthElementLeft}px` });
+        setStyle(elementRef.current[sliderClicked + 1], { width: `${widthElementRight}px` });
+        setStyle(sliderRef.current[sliderClicked], { left: `${cursorPos}px` });
     };
 
     useEffect(() => {
@@ -84,23 +106,64 @@ const ViewerImageCompare: React.FC<ViewerImageCompareProps> = ({
         }
 
         const width = wrapperRef.current.getBoundingClientRect().width;
-        setSizePropsElementLeft({
-            wrapperWidth: width,
-            width: width / 2,
-            left: 0,
+        const widthElementValue = width / renderComponentItems.length;
+
+        setWidthElement(widthElementValue);
+
+        renderComponentItems.forEach( (item, index) => {
+            let aux = sizePropsElement;
+            aux[index] = {
+                wrapperWidth: width,
+                width: width / renderComponentItems.length,
+                left: 0,
+            };
+
+            setSizePropsElement(aux);
+
+            setStyle(elementRef.current[index], { width: `${widthElementValue}px` });
         });
-        setSizePropsElementRight({
-            wrapperWidth: width,
-            width: width / 2,
-            left: width / 2,
-        });
+
         setWrapperWidth(width);
-        setStyle(sliderRef, {left: `${(width / 2)}px`});
+
+        sliderRef.current.forEach( (slider, i) => {
+            setStyle(slider, {left: `${(widthElementValue * (i + 1))}px`});
+        } );
+
     }, [wrapperRef]);
 
     useEffect(() => {
         window.addEventListener('mouseup', onMouseUp);
     }, []);
+
+    const renderImgItem = (item, i) => {
+
+        return (
+            <div ref={el => elementRef.current[i] = el} className="image-compare__element">
+                <div
+                    className="image-compare__element__content"
+                    style={{ width: `${wrapperWidth}px` }}
+                >
+                    {!!item && item(sizePropsElement[i])}
+                </div>
+            </div>
+        );
+    };
+
+    const renderSliders = () => {
+
+        let obj = [];
+        for ( let x = 0; x < renderComponentItems.length - 1; x++ ) {
+            obj.push(
+                <div
+                    ref={el => sliderRef.current[x] = el}
+                    className="image-compare__slider"
+                    onMouseDown={ e => onMouseDown(x)}
+                />
+            );
+        }
+
+        return obj;
+    };
 
     return (
         <div
@@ -108,27 +171,12 @@ const ViewerImageCompare: React.FC<ViewerImageCompareProps> = ({
             className="image-compare"
             onMouseMove={onMouseMove}
         >
-            <div ref={elementLeftRef} className="image-compare__element">
-                <div
-                    className="image-compare__element__content"
-                    style={{ width: `${wrapperWidth}px` }}
-                >
-                    {!!renderComponentLeft && renderComponentLeft(sizePropsElementLeft)}
-                </div>
-            </div>
-            <div ref={elementRightRef} className="image-compare__element image-compare__element--right">
-                <div
-                    className="image-compare__element__content"
-                    style={{ width: `${wrapperWidth}px` }}
-                >
-                    {!!renderComponentRight && renderComponentRight(sizePropsElementRight)}
-                </div>
-            </div>
-            <div
-                ref={sliderRef}
-                className="image-compare__slider"
-                onMouseDown={onMouseDown}
-            />
+            { renderComponentItems.map( (renderItem, index) => {
+                return renderImgItem(renderItem, index);
+            }) }
+
+            { renderSliders() }
+
         </div>
     );
 };
