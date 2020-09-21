@@ -37,6 +37,8 @@ const ViewerImageCompare: React.FC<ViewerImageCompareProps> = ({
     const sliderRef = useRef(Array.from({length: renderComponentItems.length - 1}, () => React.createRef()));
     const elementRef = useRef(Array.from({length: renderComponentItems.length}, () => React.createRef()));
 
+    const [positionSliders, setPositionSliders] = useState(new Array(renderComponentItems.length - 1)) 
+
     const [wrapperWidth, setWrapperWidth] = useState(0);
     const [sliderClicked, setSliderClicked] = useState(null);
     const [sizePropsElement, setSizePropsElement] = useState(new Array(renderComponentItems.length));
@@ -60,43 +62,70 @@ const ViewerImageCompare: React.FC<ViewerImageCompareProps> = ({
 
         if (cursorPos >= maxPositionSlider || cursorPos <= minPositionSlider) {
             return;
-            // tslint:disable-next-line
         }
 
         if (!!minWidth && (widthElementLeft <= minWidth || widthElementRight <= minWidth)) {
             return;
-            // tslint:disable-next-line
         }
 
-        const difSize = sliderInitialPosition - cursorPos;
+        const difPositionSlider = sliderInitialPosition - cursorPos;
 
-        let widthElementLeft = elementRef.current[sliderClicked].getBoundingClientRect().width;
-        let widthElementRight = elementRef.current[sliderClicked + 1].getBoundingClientRect().width;
+        let widthElementLeft = widthElement;
+        let widthElementRight = widthElement;
 
-        if (difSize < 0) {
-            widthElementLeft = widthElementLeft + Math.abs(difSize);
-            widthElementRight = widthElementRight - Math.abs(difSize);
-        } else if (difSize > 0) {
-            widthElementLeft = widthElementLeft - Math.abs(difSize);
-            widthElementRight = widthElementRight + Math.abs(difSize);
+        /* Pegando as configs dos slider vizinhos */
+        const sliderLeftPosition = positionSliders[sliderClicked - 1];
+        const sliderRightPosition = positionSliders[sliderClicked + 1];
+
+        if(sliderLeftPosition) {
+            if(sliderLeftPosition > 0) {
+                widthElementLeft += Math.abs(sliderLeftPosition);
+            } else {
+                widthElementLeft -= Math.abs(sliderLeftPosition);
+            }
         }
 
-        /*
+        if(sliderRightPosition) {
+            if(sliderRightPosition > 0) {
+                widthElementRight -= Math.abs(sliderRightPosition);
+            } else {
+                widthElementRight += Math.abs(sliderRightPosition);
+            }
+        }
 
-        setSizePropsElementLeft({
-            wrapperWidth,
+        /* Calculo da posição atual do slider para as duas imagens */
+        if (difPositionSlider < 0) {
+            widthElementLeft += Math.abs(difPositionSlider);
+            widthElementRight -= Math.abs(difPositionSlider);
+        } else if (difPositionSlider > 0) {
+            widthElementLeft -= Math.abs(difPositionSlider);
+            widthElementRight += Math.abs(difPositionSlider);
+        }
+
+        let aux = sizePropsElement;
+
+        aux[sliderClicked] = {
+            wrapperWidth: wrapperWidth,
             width: widthElementLeft,
             left: 0,
-        });
-        setSizePropsElementRight({
-            wrapperWidth,
+        };
+
+        aux[sliderClicked + 1] = {
+            wrapperWidth: wrapperWidth,
             width: widthElementRight,
-            left: cursorPos,
-        });
-        */
+            left: 0,
+        };
+
+        setSizePropsElement(aux);
+
+        let slideAux = positionSliders;
+        slideAux[sliderClicked] = difPositionSlider;
+
+        setPositionSliders(slideAux);
 
         setStyle(elementRef.current[sliderClicked], { width: `${widthElementLeft}px` });
         setStyle(elementRef.current[sliderClicked + 1], { width: `${widthElementRight}px` });
+
         setStyle(sliderRef.current[sliderClicked], { left: `${cursorPos}px` });
     };
 
@@ -139,10 +168,7 @@ const ViewerImageCompare: React.FC<ViewerImageCompareProps> = ({
 
         return (
             <div ref={el => elementRef.current[i] = el} className="image-compare__element">
-                <div
-                    className="image-compare__element__content"
-                    style={{ width: `${wrapperWidth}px` }}
-                >
+                <div className="image-compare__element__content">
                     {!!item && item(sizePropsElement[i])}
                 </div>
             </div>
