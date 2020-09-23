@@ -29,6 +29,8 @@ const ViewerModal: React.FC<ViewerModalProps> = ({ images, onClose, onSubmit, bu
       ...item,
       checked: item.id === id ? !checked : item.checked,
     }));
+    const allChecked = newItens.every(item => item.checked);
+    setSelectAll(allChecked);
     setItens(newItens);
   };
   const onChangeSelectAll = () => {
