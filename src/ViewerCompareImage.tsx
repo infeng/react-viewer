@@ -33,9 +33,9 @@ const ViewerImageCompare: React.FC<ViewerImageCompareProps> = ({
     minWidth,
 }) => {
 
-    const wrapperRef = useRef();
-    const sliderRef = useRef(Array.from({length: renderComponentItems.length - 1}, () => React.createRef()));
-    const elementRef = useRef(Array.from({length: renderComponentItems.length}, () => React.createRef()));
+    const wrapperRef = useRef<any>();
+    const sliderRef = useRef<any>(Array.from({length: renderComponentItems.length - 1}, () => React.createRef()));
+    const elementRef = useRef<any>(Array.from({length: renderComponentItems.length}, () => React.createRef()));
 
     const [positionSliders, setPositionSliders] = useState(new Array(renderComponentItems.length - 1));
 
