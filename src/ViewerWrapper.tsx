@@ -54,7 +54,7 @@ const ViewerWrapper: React.FC<ViewerProps> = ({ noClose, customToolbar, ...props
         );
     }
 
-    const itemsRender = items.map((image) => {
+    const itemsRender = items.map((image, index) => {
         return ((wrapperSizeProps) => (
             <ViewerCore
                 {...props}
@@ -63,6 +63,7 @@ const ViewerWrapper: React.FC<ViewerProps> = ({ noClose, customToolbar, ...props
                 onClose={onCloseCompare}
                 images={[image]}
                 wrapperSizeProps={wrapperSizeProps}
+                compareIndex={index}
             />
         ));
     });

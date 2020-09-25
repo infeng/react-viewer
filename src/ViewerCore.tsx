@@ -774,7 +774,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
             onClose={this.toggleModalCompare}
             onSubmit={this.onCompare}
             buttonText="Comparar"
-            maxSelections={10}
+            maxSelections={4}
           />
         )}
 
@@ -842,6 +842,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
           onCanvasMouseDown={this.handleCanvasMouseDown}
           showTitle={this.props.showTitle}
           pinchZoom={this.props.pinchZoom}
+          compareIndex={this.props.compareIndex}
         />
 
           {this.props.noToolbar || (this.props.upToolbar && (

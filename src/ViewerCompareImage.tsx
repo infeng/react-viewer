@@ -37,7 +37,7 @@ const ViewerImageCompare: React.FC<ViewerImageCompareProps> = ({
     const sliderRef = useRef(Array.from({length: renderComponentItems.length - 1}, () => React.createRef()));
     const elementRef = useRef(Array.from({length: renderComponentItems.length}, () => React.createRef()));
 
-    const [positionSliders, setPositionSliders] = useState(new Array(renderComponentItems.length - 1)) 
+    const [positionSliders, setPositionSliders] = useState(new Array(renderComponentItems.length - 1));
 
     const [wrapperWidth, setWrapperWidth] = useState(0);
     const [sliderClicked, setSliderClicked] = useState(null);
@@ -64,10 +64,6 @@ const ViewerImageCompare: React.FC<ViewerImageCompareProps> = ({
             return;
         }
 
-        if (!!minWidth && (widthElementLeft <= minWidth || widthElementRight <= minWidth)) {
-            return;
-        }
-
         const difPositionSlider = sliderInitialPosition - cursorPos;
 
         let widthElementLeft = widthElement;
@@ -77,16 +73,16 @@ const ViewerImageCompare: React.FC<ViewerImageCompareProps> = ({
         const sliderLeftPosition = positionSliders[sliderClicked - 1];
         const sliderRightPosition = positionSliders[sliderClicked + 1];
 
-        if(sliderLeftPosition) {
-            if(sliderLeftPosition > 0) {
+        if (sliderLeftPosition) {
+            if (sliderLeftPosition > 0) {
                 widthElementLeft += Math.abs(sliderLeftPosition);
             } else {
                 widthElementLeft -= Math.abs(sliderLeftPosition);
             }
         }
 
-        if(sliderRightPosition) {
-            if(sliderRightPosition > 0) {
+        if (sliderRightPosition) {
+            if (sliderRightPosition > 0) {
                 widthElementRight -= Math.abs(sliderRightPosition);
             } else {
                 widthElementRight += Math.abs(sliderRightPosition);
@@ -115,6 +111,11 @@ const ViewerImageCompare: React.FC<ViewerImageCompareProps> = ({
             width: widthElementRight,
             left: 0,
         };
+
+        /* Checa o tamanho minimo do container da imagem */
+        if (!!minWidth && (widthElementLeft <= minWidth || widthElementRight <= minWidth)) {
+            return;
+        }
 
         setSizePropsElement(aux);
 
@@ -167,7 +168,10 @@ const ViewerImageCompare: React.FC<ViewerImageCompareProps> = ({
     const renderImgItem = (item, i) => {
 
         return (
-            <div ref={el => elementRef.current[i] = el} className="image-compare__element">
+            <div
+                ref={el => elementRef.current[i] = el}
+                className={`image-compare__element image-compare__element_${i}`} key={`elementCompare-${i}`}
+            >
                 <div className="image-compare__element__content">
                     {!!item && item(sizePropsElement[i])}
                 </div>
