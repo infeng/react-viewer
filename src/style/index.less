@@ -625,7 +625,7 @@
   &__element {
       position: relative;
       height: 100%;
-      width: 50%;
+      float: left;
       overflow: hidden;
       z-index: 998;
       -webkit-touch-callout: none;
@@ -643,6 +643,7 @@
           }
       }
       &__content {
+          transition: all 0.5s ease-out;
           position: absolute;
           width: 100%;
           height: 100%;

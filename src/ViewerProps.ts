@@ -150,6 +150,9 @@ interface ViewerProps {
   // Mostra botão de expandir e recolher as opções do viewer
   showToggleToolbar?: boolean;
 
+  // Index do container quando estiver em modo comparação
+  compareIndex?: number;
+
   // Compare images props
   wrapperSizeProps?: {
     width: number;
