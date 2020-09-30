@@ -27,6 +27,7 @@ export interface ViewerCanvasProps {
   showTitle: boolean;
   pinchZoom: boolean;
   selfContainerBindEvent?: boolean;
+  compareIndex?: number;
 }
 
 export interface ViewerCanvasState {
@@ -169,7 +170,10 @@ export default class ViewerCanvas extends React.Component<ViewerCanvasProps, Vie
   }
 
   bindEvent = (remove?: boolean) => {
+
     const selfContainer = document.querySelector('.react-viewer');
+    const compareContainer = document.querySelector('.image-compare');
+
     let funcName = 'addEventListener';
 
     if (remove) {
@@ -184,12 +188,25 @@ export default class ViewerCanvas extends React.Component<ViewerCanvasProps, Vie
 
     mouseScrollArea[funcName]('touchstart', this.handleTouchDown, false);
 
-    if (this.props.selfContainerBindEvent) {
-      selfContainer[funcName]('DOMMouseScroll', this.handleMouseScroll, false);
-      selfContainer[funcName]('mousewheel', this.handleMouseScroll, false);
+    if (compareContainer) {
+
+      const compareItemContainer = compareContainer.querySelector(`.image-compare__element_${this.props.compareIndex}`);
+
+      if (compareItemContainer) {
+        compareItemContainer[funcName]('DOMMouseScroll', this.handleMouseScroll, false);
+        compareItemContainer[funcName]('mousewheel', this.handleMouseScroll, false);
+      }
+
     } else {
-      mouseScrollArea[funcName]('DOMMouseScroll', this.handleMouseScroll, false);
-      mouseScrollArea[funcName]('mousewheel', this.handleMouseScroll, false);
+
+      if (this.props.selfContainerBindEvent) {
+        selfContainer[funcName]('DOMMouseScroll', this.handleMouseScroll, false);
+        selfContainer[funcName]('mousewheel', this.handleMouseScroll, false);
+      } else {
+        mouseScrollArea[funcName]('DOMMouseScroll', this.handleMouseScroll, false);
+        mouseScrollArea[funcName]('mousewheel', this.handleMouseScroll, false);
+      }
+
     }
 
     document[funcName]('click', this.handleMouseUp, false);
