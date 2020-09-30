@@ -37,8 +37,31 @@ function App() {
 }
 ```
 
-## Server Side Rendering
+## Server Side (NextJS)
 
+```
+import React, { FC } from 'react'
+import dynamic from 'next/dynamic'
+
+const ReactViewer = dynamic(
+  () => import('react-viewer'),
+  { ssr: false }
+)
+
+export const Viewer: FC = () => {
+  return (
+    <ReactViewer
+      visible={true}
+      onClose={() => {}}
+      images={[{src: ''}]}
+    />
+  )
+}
+
+export default Viewer
+```
+
+## Server Side rest..
 I'm sorry, ssr is not currently supported in `3.x`, it will be fixed in `4.0`.
 
 ## Props
