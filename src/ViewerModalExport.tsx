@@ -108,7 +108,7 @@ const ViewerModal: React.FC<ViewerModalProps> = ({ images, onClose, onSubmit, bu
               </label>
             </React.Fragment>
           )}
-          <button className="modal-export__buttonSair" type="button" onClick={onCloseHandle}>Sair</button>
+          <button className="modal-export__buttonSair" type="button" onClick={onCloseHandle}>Sair...</button>
           <button
             className="modal-export__buttonPDF"
             type="button"
