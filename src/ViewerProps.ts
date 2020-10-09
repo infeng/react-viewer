@@ -153,6 +153,9 @@ interface ViewerProps {
   // Index do container quando estiver em modo comparação
   compareIndex?: number;
 
+  // Máximo de imagens para ser comparada
+  maxCompareImages?: number;
+
   // Compare images props
   wrapperSizeProps?: {
     width: number;

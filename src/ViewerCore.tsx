@@ -64,6 +64,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     onCompareImages: noop,
     wrapperSizeProps: {},
     changeIndexDocument: null,
+    maxCompareImages: 2,
   };
 
   private prefixCls: string;
@@ -774,7 +775,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
             onClose={this.toggleModalCompare}
             onSubmit={this.onCompare}
             buttonText="Comparar"
-            maxSelections={4}
+            maxSelections={this.props.maxCompareImages}
           />
         )}
 
