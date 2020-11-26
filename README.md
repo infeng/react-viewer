@@ -72,7 +72,7 @@ I'm sorry, ssr is not currently supported in `3.x`, it will be fixed in `4.0`.
 | noResetZoomAfterChange | boolean | false | preserve zoom after image change | false |
 | noLimitInitializationSize | boolean | false | no limit image initialization size | false |
 | defaultScale | number | 1 | set default scale | false |
-| onChange | (activeImage: [ImageDecorator](#imagedecorator), index: number) => void | - | callback when iamge change | false |
+| onChange | (activeImage: [ImageDecorator](#imagedecorator), index: number) => void | - | callback when image change | false |
 | loop         | boolean      |  true   | whether enable image loop | false |
 | disableMouseZoom   | boolean      |  false   | whether disable mouse zoom | false |
 | downloadInNewWindow | boolean | false | whether to download in a new window | false |
