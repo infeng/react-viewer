@@ -7,7 +7,6 @@ export interface ViewerNavSideProps {
   showPaginator: boolean;
   showScrollSideThumbs: boolean;
   onChangeImg: (index: number) => void;
-  changeIndexDocument: Object;
 }
 
 const itemHeight = 60;
@@ -41,10 +40,6 @@ export default class ViewerNavSide extends React.Component<ViewerNavSideProps, a
   }
 
   handleChangeImg = (newIndex) => {
-    if (this.props.changeIndexDocument && typeof (this.props.changeIndexDocument) === 'function') {
-      this.props.changeIndexDocument(newIndex);
-    }
-
     if (this.props.activeIndex === newIndex) {
       return;
     }

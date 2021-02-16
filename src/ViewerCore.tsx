@@ -270,6 +270,9 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
   }
 
   handleChangeImg = (newIndex: number) => {
+    if (this.props.changeIndexDocument && typeof (this.props.changeIndexDocument) === 'function') {
+      this.props.changeIndexDocument(newIndex);
+    }
     this.loadImg(newIndex);
   }
 
