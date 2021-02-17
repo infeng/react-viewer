@@ -36,7 +36,7 @@ interface ViewerProps {
   /** 当前图像index */
   activeIndex?: number;
 
-  changeIndexDocument?: Object;
+  changeIndexDocument?: (index: number) => void;
 
   /** 自定义viewer组件的z-index */
   zIndex?: number;
@@ -125,7 +125,7 @@ interface ViewerProps {
   fullScreen?: boolean;
 
   // informar o loading da imagem
-  waiting?: object;
+  waiting?: (val: boolean) => void;
 
   // Mostra o title da img no canvas
   showTitle?: boolean;

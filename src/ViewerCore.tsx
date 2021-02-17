@@ -63,8 +63,9 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     compareImages: false,
     onCompareImages: noop,
     wrapperSizeProps: {},
-    changeIndexDocument: null,
+    changeIndexDocument: {},
     maxCompareImages: 2,
+    waiting: {},
   };
 
   private prefixCls: string;
@@ -808,7 +809,6 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
             onChangeImg={this.handleChangeImg}
             showPaginator={this.props.showPaginator}
             showScrollSideThumbs={this.props.showScrollSideThumbs}
-            changeIndexDocument={this.props.changeIndexDocument}
           />
         )}
         {!!this.props.fullScreen &&
