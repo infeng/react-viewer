@@ -6,6 +6,7 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
 import Viewer from '../src/Viewer';
+const doctoimages = require('./dados/images.json')
 
 const img2 = require('./images/landscape2.jpg');
 const img = require('./images/landscape.jpg');
@@ -66,91 +67,107 @@ class App extends React.Component<any, Partial<State>> {
 
 
   render() {
-    let images = [{
-      src: img,
-      alt: 'lake',
-      downloadUrl: '',
-      name: 'img1',
-      hasWatermark: true,
-      tipoCaptura: "Upload"
-    }, {
-      src: img2,
-      alt: 'mountain',
-      downloadUrl: '',
-      name: 'img2',
-      hasWatermark: true,
-      tipoCaptura: "Upload"
-    }, {
-      src: img3,
-      alt: '',
-      downloadUrl: '',
-      name: 'img3',
-      hasWatermark: true,
-      tipoCaptura: "Upload"
-    }, {
-      src: img4,
-      alt: '',
-      downloadUrl: '',
-      name: 'img4',
-      hasWatermark: true,
-      tipoCaptura: "Upload"
-    }, {
-      src: img5,
-      alt: '',
-      downloadUrl: '',
-      name: 'img5',
-      hasWatermark: true,
-      tipoCaptura: "Upload"
-    }, {
-      src: img5,
-      alt: '',
-      downloadUrl: '',
-      name: 'img5',
-      hasWatermark: true,
-      tipoCaptura: "Upload"
-    }, {
-      src: img5,
-      alt: '',
-      downloadUrl: '',
-      name: 'img5',
-      hasWatermark: true,
-      tipoCaptura: "Upload"
-    }, {
-      src: img5,
-      alt: '',
-      downloadUrl: '',
-      name: 'img5',
-      hasWatermark: true,
-      tipoCaptura: "Upload"
-    }, {
-      src: img5,
-      alt: '',
-      downloadUrl: '',
-      name: 'img5',
-      hasWatermark: true,
-      tipoCaptura: "Upload"
-    }, {
-      src: img5,
-      alt: '',
-      downloadUrl: '',
-      name: 'img5',
-      hasWatermark: true,
-      tipoCaptura: "Upload"
-    }, {
-      src: img5,
-      alt: '',
-      downloadUrl: '',
-      name: 'img5',
-      hasWatermark: true,
-      tipoCaptura: "Upload"
-    }, {
-      src: img5,
-      alt: '',
-      downloadUrl: '',
-      name: 'img5',
-      hasWatermark: true,
-      tipoCaptura: "Upload"
-    }];
+
+    let images = [];
+    console.log(doctoimages)
+
+    for (let item of doctoimages.payload.doctos) {
+      let _img = {
+        src: 'https://google.com/'+item.idNva,
+        alt: item.nome,
+        downloadUrl: 'google.com/'+item.idNva,
+        name:  item.nome,
+        hasWatermark: false,
+        tipoCaptura:  item.tipocaptura
+      }
+      images.push(_img);
+    }
+
+    // let images = [{
+    //   src: img,
+    //   alt: 'lake',
+    //   downloadUrl: '',
+    //   name: 'img1',
+    //   hasWatermark: true,
+    //   tipoCaptura: "Upload"
+    // }, {
+    //   src: img2,
+    //   alt: 'mountain',
+    //   downloadUrl: '',
+    //   name: 'img2',
+    //   hasWatermark: true,
+    //   tipoCaptura: "Upload"
+    // }, {
+    //   src: img3,
+    //   alt: '',
+    //   downloadUrl: '',
+    //   name: 'img3',
+    //   hasWatermark: true,
+    //   tipoCaptura: "Upload"
+    // }, {
+    //   src: img4,
+    //   alt: '',
+    //   downloadUrl: '',
+    //   name: 'img4',
+    //   hasWatermark: true,
+    //   tipoCaptura: "Upload"
+    // }, {
+    //   src: img5,
+    //   alt: '',
+    //   downloadUrl: '',
+    //   name: 'img5',
+    //   hasWatermark: true,
+    //   tipoCaptura: "Upload"
+    // }, {
+    //   src: img5,
+    //   alt: '',
+    //   downloadUrl: '',
+    //   name: 'img5',
+    //   hasWatermark: true,
+    //   tipoCaptura: "Upload"
+    // }, {
+    //   src: img5,
+    //   alt: '',
+    //   downloadUrl: '',
+    //   name: 'img5',
+    //   hasWatermark: true,
+    //   tipoCaptura: "Upload"
+    // }, {
+    //   src: img5,
+    //   alt: '',
+    //   downloadUrl: '',
+    //   name: 'img5',
+    //   hasWatermark: true,
+    //   tipoCaptura: "Upload"
+    // }, {
+    //   src: img5,
+    //   alt: '',
+    //   downloadUrl: '',
+    //   name: 'img5',
+    //   hasWatermark: true,
+    //   tipoCaptura: "Upload"
+    // }, {
+    //   src: img5,
+    //   alt: '',
+    //   downloadUrl: '',
+    //   name: 'img5',
+    //   hasWatermark: true,
+    //   tipoCaptura: "Upload"
+    // }, {
+    //   src: img5,
+    //   alt: '',
+    //   downloadUrl: '',
+    //   name: 'img5',
+    //   hasWatermark: true,
+    //   tipoCaptura: "Upload"
+    // }, {
+    //   src: img5,
+    //   alt: '',
+    //   downloadUrl: '',
+    //   name: 'img5',
+    //   hasWatermark: true,
+    //   tipoCaptura: "Upload"
+    // }];
 
     let inline = this.state.mode === 'inline';
 

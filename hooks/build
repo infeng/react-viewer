@@ -1,0 +1,4 @@
+#!/bin/bash
+echo "------ HOOK START - BUILD - $IMAGE_NAME ------"
+docker build -t $IMAGE_NAME --build-arg ARG_NPM_RC="$ARG_NPM_RC" . 
+echo "------ HOOK END   - BUILD -------"
