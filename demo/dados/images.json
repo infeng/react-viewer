@@ -141,13 +141,13 @@
         "front": false,
         "branco": true
       }],
-      "ip": "120.0.50.44",
+      "ip": "8.8.8.8",
       "data_inicio": "2020-10-01T19:53:57.505479",
       "data_fim": "2020-10-01T19:58:12.285049",
       "data_inicio_nva": "2020-10-01T20:13:29.744063",
       "data_fim_nva": "2020-10-02T07:26:18.565555",
       "data_envio_fluxion": "2020-10-02T07:26:42.409226",
-      "caixa": "BFC00418O",
+      "caixa": "XXX131313",
       "undefined": "",
       "OcorrenciaFisica": "",
       "qtdcapas": 30
