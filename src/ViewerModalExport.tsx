@@ -30,7 +30,7 @@ const ViewerModal: React.FC<ViewerModalProps> = ({ images, onClose, onSubmit, bu
       checked: item.id === id ? !checked : item.checked,
     }));
     const allChecked = newItens.every(item => item.checked);
-    console.log("Checked:::", allChecked);
+    // console.log("Checked:::", allChecked);
     setSelectAll(allChecked);
     setItens(newItens);
   };
@@ -88,7 +88,7 @@ const ViewerModal: React.FC<ViewerModalProps> = ({ images, onClose, onSubmit, bu
                       <span
                         className="modal-export__text"
                         onClick={() => onChangeCheckbox(id, checked)}
-                      >{name}</span>
+                      > {name} </span>
                     </div>
                     <img className="modal-export__img-item" src={src} alt={alt} title={alt}/>
                   </label>

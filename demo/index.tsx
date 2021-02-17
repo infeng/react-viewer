@@ -273,10 +273,10 @@ class App extends React.Component<any, Partial<State>> {
             showPaginator={false}
             showTitle={true}
             upToolbar={true}
-            navBarSide={true}
+            navBarSide={false}
             waiting={this.handleWaiting}
             changeIndexDocument={this.changeIndexDocument}
-            removeContainer={true}
+            //removeContainer={true}
             showExport={true}
             showScrollSideThumbs={true}
             pinchZoom={true}

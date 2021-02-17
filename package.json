@@ -1,11 +1,11 @@
 {
   "name": "@newspacebpo/react-viewer",
-  "version": "2.3.0",
+  "version": "2.5.3",
   "description": "react image viewer",
   "main": "dist/index.min",
   "scripts": {
     "test": "npm run lint",
-    "deploy-prod":"npm run build && npm publish",
+    "deploy-prod": "npm run build && npm publish",
     "start": "dora --port 3199 --plugins \"webpack,webpack-hmr,browser-history?index=/demo/index.html\"",
     "lint": "tslint -c tslint.json src/**/*.ts src/**/*.tsx",
     "build": "atool-build --config webpack.config.prop.js && gulp",
