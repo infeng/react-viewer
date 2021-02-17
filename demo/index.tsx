@@ -73,9 +73,9 @@ class App extends React.Component<any, Partial<State>> {
 
     for (let item of doctoimages.payload.doctos) {
       let _img = {
-        src: 'https://storage.nsportal.com.br/api/arquivo/'+item.idNva,
+        src: 'https://google.com/'+item.idNva,
         alt: item.nome,
-        downloadUrl: 'https://storage.nsportal.com.br/api/arquivo/'+item.idNva,
+        downloadUrl: 'google.com/'+item.idNva,
         name:  item.nome,
         hasWatermark: false,
         tipoCaptura:  item.tipocaptura
