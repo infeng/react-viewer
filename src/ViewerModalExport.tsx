@@ -30,7 +30,6 @@ const ViewerModal: React.FC<ViewerModalProps> = ({ images, onClose, onSubmit, bu
       checked: item.id === id ? !checked : item.checked,
     }));
     const allChecked = newItens.every(item => item.checked);
-    console.log("Checked:::", allChecked);
     setSelectAll(allChecked);
     setItens(newItens);
   };
@@ -108,7 +107,7 @@ const ViewerModal: React.FC<ViewerModalProps> = ({ images, onClose, onSubmit, bu
               </label>
             </React.Fragment>
           )}
-          <button className="modal-export__buttonSair" type="button" onClick={onCloseHandle}>Sair...</button>
+          <button className="modal-export__buttonSair" type="button" onClick={onCloseHandle}>Sair</button>
           <button
             className="modal-export__buttonPDF"
             type="button"
