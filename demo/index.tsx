@@ -74,6 +74,10 @@ const optionData: OptionData[] = [{
   type: 'boolean',
   value: false,
 }, {
+  key: 'stopEventPropagation',
+  type: 'boolean',
+  value: true,
+}, {
   key: 'noResetZoomAfterChange',
   type: 'boolean',
   value: false,

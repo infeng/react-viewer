@@ -62,6 +62,7 @@ export default (props: ViewerProps) => {
     customToolbar = (toolbars) => toolbars,
     zoomSpeed = .05,
     disableKeyboardSupport = false,
+    stopEventPropagation = true,
     noResetZoomAfterChange = false,
     noLimitInitializationSize = false,
     defaultScale = 1,
@@ -524,7 +525,7 @@ export default (props: ViewerProps) => {
       default:
         break;
     }
-    if (isFeatrue) {
+    if (isFeatrue && stopEventPropagation) {
       e.preventDefault();
       e.stopPropagation();
     }

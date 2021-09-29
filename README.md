@@ -92,6 +92,7 @@ I'm sorry, ssr is not currently supported in `3.x`, it will be fixed in `4.0`.
 | defaultSize    | [ViewerImageSize](#viewerimagesize) | - | default image size | false |
 | defaultImg    | [viewerdefaultimg](#viewerimagesize) | - | if load img failed, show default img | false |
 | disableKeyboardSupport | boolean | false | disable keyboard support | false |
+| stopEventPropagation | boolean | true | enable EventPropagation even if it handled | true |
 | noResetZoomAfterChange | boolean | false | preserve zoom after image change | false |
 | noLimitInitializationSize | boolean | false | no limit image initialization size | false |
 | defaultScale | number | 1 | set default scale | false |
