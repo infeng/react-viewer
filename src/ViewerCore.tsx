@@ -71,6 +71,7 @@ export default (props: ViewerProps) => {
     noImgDetails = false,
     noToolbar = false,
     showTotal = true,
+    totalName = 'of',
     minScale = 0.1,
    } = props;
 
@@ -704,6 +705,7 @@ export default (props: ViewerProps) => {
               activeIndex={state.activeIndex}
               count={images.length}
               showTotal={showTotal}
+              totalName={totalName}
             />
           )}
           {props.noNavbar || (

@@ -19,6 +19,7 @@ export interface ViewerToolbarProps {
   activeIndex: number;
   count: number;
   showTotal: boolean;
+  totalName: string;
 }
 
 export const defaultToolbars: ToolbarConfig[] = [
@@ -103,7 +104,8 @@ export default function ViewerToolbar(props: ViewerToolbarProps) {
         {`(${props.width} x ${props.height})`}
       </span>}
       {props.showTotal
-        && <span className={`${props.prefixCls}-showTotal`}>{`${props.activeIndex + 1} of ${props.count}`}</span>}
+        && <span className={`${props.prefixCls}-showTotal`}>
+          {`${props.activeIndex + 1} ${props.totalName} ${props.count}`}</span>}
     </p>
   ) : null;
   let toolbars = props.toolbars;
