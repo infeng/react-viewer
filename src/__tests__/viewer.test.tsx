@@ -768,6 +768,18 @@ describe('Viewer', () => {
     expect($$('.react-viewer-showTotal')[0].innerHTML).toBe('2 of 2');
   });
 
+  it('showTotal', () => {
+    viewerHelper.new({
+      className: 'my-react-viewer',
+      totalName: 'de',
+    });
+    viewerHelper.open();
+
+    expect($$('.react-viewer-showTotal')[0].innerHTML).toBe('1 de 2');
+    triggerKeyboard(document, 'keydown', 39);
+    expect($$('.react-viewer-showTotal')[0].innerHTML).toBe('2 de 2');
+  });
+
   it('max scale and min scale', () => {
     viewerHelper.new({
       className: 'my-react-viewer',

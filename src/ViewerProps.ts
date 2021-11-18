@@ -109,6 +109,9 @@ interface ViewerProps {
   // whether to display the total number and range
   showTotal?: boolean;
 
+  // total indicator name.
+  totalName?: string;
+
   // max scale
   maxScale?: number;
 

@@ -101,6 +101,7 @@ I'm sorry, ssr is not currently supported in `3.x`, it will be fixed in `4.0`.
 | downloadInNewWindow | boolean | false | whether to download in a new window | false |
 | className   | string    |  -  | customized CSS class | false |
 | showTotal   | boolean    |  true  | whether to display the total number and range | false |
+| totalName | string | 'of' | total image separator name | false | 
 | maxScale   | number    |  -  | maximum scaling | false |
 | minScale   | number    |  0.1  | minimum scaling | false |
 
