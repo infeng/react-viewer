@@ -625,8 +625,8 @@ export default (props: ViewerProps) => {
     } else {
       let directX = state.scaleX > 0 ? 1 : -1;
       let directY = state.scaleY > 0 ? 1 : -1;
-      scaleX = state.scaleX + scale * direct * directX;
-      scaleY = state.scaleY + scale * direct * directY;
+      scaleX = state.scaleX * (1 + scale * direct * directX);
+      scaleY = state.scaleY * (1 + scale * direct * directY);
       if (typeof props.maxScale !== 'undefined') {
         if (Math.abs(scaleX) > props.maxScale) {
           scaleX = props.maxScale * directX;
@@ -641,8 +641,8 @@ export default (props: ViewerProps) => {
       if (Math.abs(scaleY) < minScale) {
         scaleY = minScale * directY;
       }
-      top = state.top + -direct * diffY / state.scaleX * scale * directX;
-      left = state.left + -direct * diffX / state.scaleY * scale * directY;
+      top = state.top + -direct * diffY * scale * directX;
+      left = state.left + -direct * diffX * scale * directY;
       width = state.width;
       height = state.height;
     }
