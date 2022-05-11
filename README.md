@@ -104,6 +104,7 @@ I'm sorry, ssr is not currently supported in `3.x`, it will be fixed in `4.0`.
 | totalName | string | 'of' | total image separator name | false | 
 | maxScale   | number    |  -  | maximum scaling | false |
 | minScale   | number    |  0.1  | minimum scaling | false |
+| exportFileName | string | 'exportFile' | customize download's filename | false |
 
 ### ImageDecorator
 
