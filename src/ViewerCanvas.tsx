@@ -30,6 +30,7 @@ export interface ViewerCanvasState {
 
 export default function ViewerCanvas(props: ViewerCanvasProps) {
   const isMouseDown = React.useRef(false);
+  const isPinch = React.useRef(false);
   const prePosition = React.useRef({
     x: 0,
     y: 0,
@@ -101,6 +102,39 @@ export default function ViewerCanvas(props: ViewerCanvasProps) {
     };
   }
 
+  const handleTouchStart = (e) => {
+    if (!props.visible || !props.drag) {
+      return;
+    }
+    e.preventDefault();
+    if (e.touches.length === 1) {
+      prePosition.current = {
+        x: e.touches[0].clientX,
+        y: e.touches[0].clientY,
+      };
+    }
+  };
+
+  const handleTouchMove = (e) => {
+    if (!props.visible || !props.drag) {
+      return;
+    }
+    if (e.touches.length === 1 && !isPinch.current) {
+      setPosition({
+        x: e.touches[0].clientX,
+        y: e.touches[0].clientY,
+      });
+    } else if (e.touches.length > 1 && !isPinch.current) {
+      isPinch.current = true;
+    }
+  };
+
+  const handleTouchEnd = (e) => {
+    if (e.touches.length === 0) {
+      isPinch.current = false;
+    }
+  }
+
   const handleMouseMove = (e) => {
     if (isMouseDown.current) {
       setPosition({
@@ -130,6 +164,10 @@ export default function ViewerCanvas(props: ViewerCanvasProps) {
 
     document[funcName]('click', handleMouseUp, false);
     document[funcName]('mousemove', handleMouseMove, false);
+    document[funcName]('touchstart', handleTouchStart, { passive: false });
+    document[funcName]('touchmove', handleTouchMove, false);
+    document[funcName]('touchend', handleTouchEnd, false);
+    document[funcName]('touchcancel', handleTouchEnd, false);
   }
 
   let imgStyle: React.CSSProperties = {
