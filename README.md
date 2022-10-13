@@ -80,6 +80,7 @@ I'm sorry, ssr is not currently supported in `3.x`, it will be fixed in `4.0`.
 | rotatable    | boolean      | true    | whether to show 'rotate' button | false |
 | scalable     | boolean      | true    | whether to show 'scale' button | false |
 | onMaskClick  | (e) => void  |   -     | callback function when mask is clicked | false |
+| onImagesClick  | (e) => void  |   -     | callback function when over images is clicked but not move | false |
 | downloadable     | boolean      |  false  | whether to show 'download' | false |
 | noClose      | boolean      |  false  | to not render close button | false |
 | noNavbar     | boolean      |  false  | to not render the navbar | false |
