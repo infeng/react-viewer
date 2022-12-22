@@ -819,10 +819,9 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
             onClick={this.handleFullScreen}
             style={{ zIndex: zIndex + 100 }}
           >
-            <Icon type={ActionType.zoomIn} />
+            <Icon type={ !!this.state.fullScreenImage ? ActionType.zoomOut : ActionType.zoomIn }/>
           </div>
         }
-
         <ViewerCanvas
           prefixCls={this.prefixCls}
           imgAlt={activeImg.alt}
