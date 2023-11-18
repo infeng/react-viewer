@@ -20,7 +20,7 @@ config.devServer.merge({
   contentBase: path.join(__dirname, 'dist'),
   compress: false,
   port: 8001,
-  host: '0.0.0.0',
+  host: '127.0.0.1',
 });
 config.module.rule('less')
   .use('css-loader')
