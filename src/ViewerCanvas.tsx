@@ -163,7 +163,7 @@ translateX(${props.left !== null ? props.left + 'px' : 'aoto'}) translateY(${pro
       <div
         style={{
           display: 'flex',
-          height: `${window.innerHeight - 84}px`,
+          height: props.container ? `${props.container.offsetHeight - 84}px`: `${window.innerHeight - 84}px`,
           justifyContent: 'center',
           alignItems: 'center',
         }}
