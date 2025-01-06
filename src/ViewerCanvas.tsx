@@ -81,7 +81,6 @@ export default function ViewerCanvas(props: ViewerCanvasProps) {
   }
 
   function handleCanvasMouseDown(e) {
-    props.onCanvasMouseDown(e);
     handleMouseDown(e);
   }
 
@@ -92,6 +91,7 @@ export default function ViewerCanvas(props: ViewerCanvasProps) {
     if (!props.visible || !props.drag) {
       return;
     }
+    props.onCanvasMouseDown(e);
     e.preventDefault();
     e.stopPropagation();
     isMouseDown.current = true;
@@ -128,7 +128,7 @@ export default function ViewerCanvas(props: ViewerCanvasProps) {
       funcName = 'removeEventListener';
     }
 
-    document[funcName]('click', handleMouseUp, false);
+    document[funcName]('mouseup', handleMouseUp, false); // Changed from 'click' to 'mouseup'
     document[funcName]('mousemove', handleMouseMove, false);
   }
 
