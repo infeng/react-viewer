@@ -20,6 +20,7 @@ export interface ViewerCanvasProps {
   drag: boolean;
   container: HTMLElement;
   onCanvasMouseDown: (e: React.MouseEvent<HTMLDivElement>) => void;
+  onImagesMouseDown: (e: React.MouseEvent<HTMLDivElement>) => void;
 }
 
 export interface ViewerCanvasState {
@@ -30,6 +31,7 @@ export interface ViewerCanvasState {
 
 export default function ViewerCanvas(props: ViewerCanvasProps) {
   const isMouseDown = React.useRef(false);
+  const isMouseMove = React.useRef(false);
   const prePosition = React.useRef({
     x: 0,
     y: 0,
@@ -107,11 +109,16 @@ export default function ViewerCanvas(props: ViewerCanvasProps) {
         x: e.clientX,
         y: e.clientY,
       });
+      isMouseMove.current = true
     }
   };
 
   function handleMouseUp(e) {
     isMouseDown.current = false;
+    if(!isMouseMove.current && props.onImagesMouseDown) {
+      props.onImagesMouseDown()
+    }
+    isMouseMove.current = false
   }
 
   function bindWindowResizeEvent(remove?: boolean) {
