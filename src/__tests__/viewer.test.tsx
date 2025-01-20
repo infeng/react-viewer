@@ -1,7 +1,7 @@
 import Viewer from '../index';
 import ViewerProps from '../ViewerProps';
 import { configure, mount } from 'enzyme';
-import * as Adapter from 'enzyme-adapter-react-16';
+import * as Adapter from '@wojtekmaj/enzyme-adapter-react-17';
 import * as React from 'react';
 const img2 = require('../../demo/images/landscape2.jpg');
 const img = require('../../demo/images/landscape.jpg');

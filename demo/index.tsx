@@ -1,10 +1,10 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import Viewer from '../src/Viewer';
-const img2 = require('./images/landscape2.jpg');
-const img = require('./images/landscape.jpg');
-const img3 = require('./images/tibet-6.jpg');
-const img4 = require('./images/image4.jpg');
+const img2 = require('./images/landscape2.jpg').default;
+const img = require('./images/landscape.jpg').default;
+const img3 = require('./images/tibet-6.jpg').default;
+const img4 = require('./images/image4.jpg').default;
 import './index.less';
 import classNames from 'classnames';
 import { Button, List, Checkbox } from 'antd';

@@ -132,7 +132,7 @@ export default (props: ViewerProps) => {
           height: 0,
           scaleX: defaultScale,
           scaleY: defaultScale,
-          rotate: 1,
+          rotate: 0,
           imageWidth: 0,
           imageHeight: 0,
           loadFailed: false,
