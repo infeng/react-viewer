@@ -1,17 +1,27 @@
 import * as React from 'react';
 import Loading from './Loading';
 import classnames from 'classnames';
+import { pdfjs, Document, Page } from 'react-pdf';
+import 'react-pdf/dist/Page/AnnotationLayer.css';
+import 'react-pdf/dist/Page/TextLayer.css';
+import useClickOutside from './useClickOutside';
+
+pdfjs.GlobalWorkerOptions.workerSrc = new URL(
+  'pdfjs-dist/build/pdf.worker.min.mjs',
+  import.meta.url,
+).toString();
 
 export interface ViewerCanvasProps {
   prefixCls: string;
-  imgSrc: string;
+  fileSrc: string;
+  isPdf: boolean;
   visible: boolean;
   width: number;
   height: number;
   top: number;
   left: number;
   rotate: number;
-  onChangeImgState: (width: number, height: number, top: number, left: number) => void;
+  onChangeFileState: (width: number, height: number, top: number, left: number) => void;
   onResize: () => void;
   zIndex: number;
   scaleX: number;
@@ -29,6 +39,7 @@ export interface ViewerCanvasState {
 }
 
 export default function ViewerCanvas(props: ViewerCanvasProps) {
+  const pdfRef = React.useRef();
   const isMouseDown = React.useRef(false);
   const prePosition = React.useRef({
     x: 0,
@@ -38,6 +49,7 @@ export default function ViewerCanvas(props: ViewerCanvasProps) {
     x: 0,
     y: 0,
   });
+  const [ numPages, setNumPages ] = React.useState<number>();
 
   React.useEffect(() => {
     return () => {
@@ -73,7 +85,7 @@ export default function ViewerCanvas(props: ViewerCanvasProps) {
       x: position.x,
       y: position.y,
     };
-    props.onChangeImgState(props.width, props.height, props.top + diffY, props.left + diffX);
+    props.onChangeFileState(props.width, props.height, props.top + diffY, props.left + diffX);
   }, [position]);
 
   function handleResize(e) {
@@ -89,7 +101,7 @@ export default function ViewerCanvas(props: ViewerCanvasProps) {
     if (e.button !== 0) {
       return;
     }
-    if (!props.visible || !props.drag) {
+    if (!props.visible || !props.drag || props.isPdf) {
       return;
     }
     e.preventDefault();
@@ -132,12 +144,12 @@ export default function ViewerCanvas(props: ViewerCanvasProps) {
     document[funcName]('mousemove', handleMouseMove, false);
   }
 
-  let imgStyle: React.CSSProperties = {
+  let fileStyle: React.CSSProperties = {
     width: `${props.width}px`,
     height: `${props.height}px`,
     transform: `
-translateX(${props.left !== null ? props.left + 'px' : 'aoto'}) translateY(${props.top}px)
-    rotate(${props.rotate}deg) scaleX(${props.scaleX}) scaleY(${props.scaleY})`,
+      translateX(${props.left !== null ? props.left + 'px' : 'aoto'}) translateY(${props.top}px)
+      rotate(${props.rotate}deg) scaleX(${props.scaleX}) scaleY(${props.scaleY})`,
   };
 
   const imgClass = classnames(`${props.prefixCls}-image`, {
@@ -149,17 +161,49 @@ translateX(${props.left !== null ? props.left + 'px' : 'aoto'}) translateY(${pro
     zIndex: props.zIndex,
   };
 
-  let imgNode = null;
-  if (props.imgSrc !== '') {
-    imgNode = <img
-    className={imgClass}
-    src={props.imgSrc}
-    style={imgStyle}
-    onMouseDown={handleMouseDown}
+  let node = null;
+  if (props.fileSrc !== '') {
+    if (props.isPdf) {
+      const scale = props.scaleX < 0 ? -props.scaleX : props.scaleX;
+      node = <div style={{
+          height: '85%',
+          display: 'flex',
+          justifyContent: 'center',
+          transform:
+            props.scaleX < 0 || props.scaleY < 0
+              ? `scaleX(${props.scaleX * (1 / scale)}) scaleY(${props.scaleY * (1 / scale)})`
+              : undefined,
+        }}
+      >
+        <Document
+          inputRef={pdfRef}
+          file={props.fileSrc}
+          onLoadSuccess={(info: { numPages: number }) => setNumPages(info.numPages)}
+        >
+          <div style={{ maxHeight: '100%', overflowY: 'auto' }}>
+          {
+            [...new Array(numPages)].map((_, index) => {
+              return (
+                <div key={index} style={{ marginTop: 5 }}>
+                  <Page pageNumber={index + 1} rotate={props.rotate} scale={scale} />
+                </div>
+              );
+            })
+          }
+          </div>
+        </Document>
+      </div>;
+    } else {
+      node = <img
+      className={imgClass}
+      src={props.fileSrc}
+      style={fileStyle}
+      onMouseDown={handleMouseDown}
     />;
+    }
   }
   if (props.loading) {
-    imgNode = (
+    node = (
       <div
         style={{
           display: 'flex',
@@ -173,13 +217,15 @@ translateX(${props.left !== null ? props.left + 'px' : 'aoto'}) translateY(${pro
     );
   }
 
+  useClickOutside(pdfRef, handleCanvasMouseDown);
+
   return (
     <div
     className={`${props.prefixCls}-canvas`}
-    onMouseDown={handleCanvasMouseDown}
+    onMouseDown={props.isPdf ? () => {} : handleCanvasMouseDown}
     style={style}
     >
-      {imgNode}
+      {node}
     </div>
   );
 }

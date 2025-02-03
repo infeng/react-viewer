@@ -1,7 +1,7 @@
 import Viewer from '../index';
 import ViewerProps from '../ViewerProps';
 import { configure, mount } from 'enzyme';
-import * as Adapter from 'enzyme-adapter-react-16';
+import * as Adapter from '@wojtekmaj/enzyme-adapter-react-17';
 import * as React from 'react';
 const img2 = require('../../demo/images/landscape2.jpg');
 const img = require('../../demo/images/landscape.jpg');
@@ -14,7 +14,7 @@ function $$(className) {
 
 interface ViewerTesterProps {
   hasContainer?: boolean;
-  onChangeImages?: () => ViewerProps['images'];
+  onChangeFiles?: () => ViewerProps['files'];
 }
 
 class ViewerTester extends React.Component<ViewerTesterProps & ViewerProps, any> {
@@ -30,7 +30,7 @@ class ViewerTester extends React.Component<ViewerTesterProps & ViewerProps, any>
     this.state = {
       visible: false,
       activeIndex: 0,
-      images: props.images || [{
+      files: props.files || [{
         src: img,
         alt: 'lake',
         downloadUrl: '',
@@ -54,26 +54,26 @@ class ViewerTester extends React.Component<ViewerTesterProps & ViewerProps, any>
     });
   }
 
-  handleChangeImages = () => {
-    if (this.props.onChangeImages) {
+  handleChangeFiles = () => {
+    if (this.props.onChangeFiles) {
       this.setState({
-        images: this.props.onChangeImages(),
+        files: this.props.onChangeFiles(),
       });
     }
   }
 
   render() {
-    const { hasContainer, images, onChangeImages, ...viewerProps } = this.props;
+    const { hasContainer, files, onChangeFiles, ...viewerProps } = this.props;
 
     return (
       <div>
         <button id="viewer-tester-open-btn" onClick={this.handleOpen}>open viewer</button>
         <button id="viewer-tester-change-btn" onClick={this.handleChangeActiveIndex}>change active index</button>
-        <button id="viewer-tester-change-images-btn" onClick={this.handleChangeImages}>change images</button>
+        <button id="viewer-tester-change-images-btn" onClick={this.handleChangeFiles}>change files</button>
         <div id="container" ref={ref => { this.container = ref; }} style={{ width: '150px', height: '150px' }}></div>
         <Viewer
           visible={this.state.visible}
-          images={this.state.images}
+          files={this.state.files}
           activeIndex={this.state.activeIndex}
           container={hasContainer ? this.container : false}
           onClose={() => { this.setState({ visible: false }); }}
@@ -585,7 +585,7 @@ describe('Viewer', () => {
         width: 100,
         height: 100,
       },
-      images: [{
+      files: [{
         src: img,
         alt: 'lake',
         downloadUrl: '',
@@ -616,7 +616,7 @@ describe('Viewer', () => {
     const defaultImg = 'deafult_img';
 
     viewerHelper.new({
-      images: [{
+      files: [{
         src: FAILED_IMG,
         alt: 'lake',
       }, {
@@ -640,7 +640,7 @@ describe('Viewer', () => {
 
   it('set defaultScale', () => {
     viewerHelper.new({
-      images: [{
+      files: [{
         src: img,
         alt: 'lake',
         defaultSize: {
@@ -667,7 +667,7 @@ describe('Viewer', () => {
         width: 2000,
         height: 2000,
       },
-      images: [{
+      files: [{
         src: img,
         alt: 'lake',
         downloadUrl: '',
@@ -802,11 +802,11 @@ describe('Viewer', () => {
 
   it('reset img when change images', () => {
     viewerHelper.new({
-      images: [{
+      files: [{
         src: img,
         alt: 'lake',
       }],
-      onChangeImages: () => {
+      onChangeFiles: () => {
         return [{
           src: img2,
           alt: 'mountain',

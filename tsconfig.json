@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "target": "es6",
+    "module": "es2020",
     "moduleResolution": "node",
     "jsx": "preserve",
     "sourceMap": true,

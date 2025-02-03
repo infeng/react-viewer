@@ -3,7 +3,7 @@ export interface ViewerImageSize {
   height: number;
 }
 
-export interface ImageDecorator {
+export interface FileDecorator {
   src: string;
   alt?: string;
   downloadUrl?: string;
@@ -14,7 +14,7 @@ export interface ToolbarConfig {
   key: string;
   actionType?: number;
   render?: React.ReactNode;
-  onClick?: (activeImage: ImageDecorator) => void;
+  onClick?: (activeFile: FileDecorator) => void;
 }
 
 export interface ViewerDefaultImg {
@@ -28,8 +28,8 @@ interface ViewerProps {
   visible?: boolean;
   /** 点击关闭按钮的回调 */
   onClose?: () => void;
-  /** 需要进行浏览的图片地址集合 */
-  images?: ImageDecorator[];
+  /** 需要进行浏览的图片, PDF地址集合 */
+  files?: FileDecorator[];
   /** 当前图像index */
   activeIndex?: number;
   /** 自定义viewer组件的z-index */
@@ -96,7 +96,7 @@ interface ViewerProps {
   defaultScale?: number;
 
   // callback when iamge change
-  onChange?: (activeImage: ImageDecorator, index: number) => void;
+  onChange?: (activeFile: FileDecorator, index: number) => void;
 
   // disable mouse zoom
   disableMouseZoom?: boolean;

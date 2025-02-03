@@ -70,8 +70,8 @@ I'm sorry, ssr is not currently supported in `3.x`, it will be fixed in `4.0`.
 |--------------|--------------|---------|-----------------------------|----------|
 | visible      | string       |  false  | Viewer visible             | true |
 | onClose      | function       |  -      | Specify a function that will be called when Visible close   | true |
-| images       | [ImageDecorator](#imagedecorator)[]     | []      | image source array | true  |
-| activeIndex  | number       | 0       | active image index | false |
+| files       | [FileDecorator](#filedecorator)[]     | []      | file source array | true  |
+| activeIndex  | number       | 0       | active file index | false |
 | zIndex       | number       | 1000    | Viewer css z-index | false |
 | container    | HTMLElement  | null    | set parent node(inline mode) | false |
 | drag         | boolean      | true    | whether to drag image | false |
@@ -95,7 +95,7 @@ I'm sorry, ssr is not currently supported in `3.x`, it will be fixed in `4.0`.
 | noResetZoomAfterChange | boolean | false | preserve zoom after image change | false |
 | noLimitInitializationSize | boolean | false | no limit image initialization size | false |
 | defaultScale | number | 1 | set default scale | false |
-| onChange | (activeImage: [ImageDecorator](#imagedecorator), index: number) => void | - | callback when image change | false |
+| onChange | (activeFile: [FileDecorator](#filedecorator), index: number) => void | - | callback when file change | false |
 | loop         | boolean      |  true   | whether enable image loop | false |
 | disableMouseZoom   | boolean      |  false   | whether disable mouse zoom | false |
 | downloadInNewWindow | boolean | false | whether to download in a new window | false |
@@ -106,13 +106,13 @@ I'm sorry, ssr is not currently supported in `3.x`, it will be fixed in `4.0`.
 | minScale   | number    |  0.1  | minimum scaling | false |
 | exportFileName | string | 'exportFile' | customize download's filename | false |
 
-### ImageDecorator
+### FileDecorator
 
 | props       | type         | default | description                 | required |
 |-------------|--------------|---------|-----------------------------|----------|
-| src  | string  |  -  | image source | true |
-| alt  | string  |  -  | image description | false |
-| downloadUrl  | string  |  -  | image downlaod url | false |
+| src  | string  |  -  | file source | true |
+| alt  | string  |  -  | file description | false |
+| downloadUrl  | string  |  -  | file downlaod url | false |
 | defaultSize  | [ViewerImageSize](#viewerimagesize)  |  -  | image size | false |
 
 ### ViewerImageSize

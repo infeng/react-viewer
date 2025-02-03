@@ -16,6 +16,7 @@ gulp.task('default', () => {
     '!src/__tests__/**/*.tsx',
   ]).pipe(ts({
     target: 'es6',
+    module: 'es2020',
     jsx: 'preserve',
     moduleResolution: 'node',
     declaration: true,

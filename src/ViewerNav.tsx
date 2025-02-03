@@ -1,21 +1,27 @@
 import * as React from 'react';
-import { ImageDecorator } from './ViewerProps';
+import { pdfjs, Document, Page } from 'react-pdf';
+import { FileDecorator } from './ViewerProps';
+
+pdfjs.GlobalWorkerOptions.workerSrc = new URL(
+  'pdfjs-dist/build/pdf.worker.min.mjs',
+  import.meta.url,
+).toString();
 
 export interface ViewerNavProps {
   prefixCls: string;
-  images: ImageDecorator[];
+  files: FileDecorator[];
   activeIndex: number;
-  onChangeImg: (index: number) => void;
+  onChangeFile: (index: number) => void;
 }
 
 export default function ViewerNav(props: ViewerNavProps) {
   const { activeIndex = 0 } = props;
 
-  function handleChangeImg(newIndex) {
+  function handleChangeFile(newIndex) {
     if (activeIndex === newIndex) {
       return;
     }
-    props.onChangeImg(newIndex);
+    props.onChangeFile(newIndex);
   }
 
   let marginLeft = `calc(50% - ${activeIndex + 1} * 31px)`;
@@ -26,13 +32,21 @@ export default function ViewerNav(props: ViewerNavProps) {
   return (
     <div className={`${props.prefixCls}-navbar`}>
       <ul className={`${props.prefixCls}-list ${props.prefixCls}-list-transition`} style={listStyle}>
-        {props.images.map((item, index) =>
+        {props.files.map((item, index) =>
           <li
           key={index}
           className={index === activeIndex ? 'active' : ''}
-          onClick={() => { handleChangeImg(index); }}
+          onClick={() => { handleChangeFile(index); }}
           >
-            <img src={item.src} alt={item.alt} />
+            {
+              item.src.includes('.pdf')
+              ? <div style={{ display: 'flex', justifyContent: 'center' }}>
+              <Document file={item.src}>
+              <Page pageNumber={1} width={150} scale={0.75} renderTextLayer={false} />
+            </Document>
+            </div>
+              : <img src={item.src} alt={item.alt} />
+            }
           </li>,
           )
         }

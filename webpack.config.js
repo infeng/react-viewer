@@ -17,7 +17,7 @@ config.plugin('html-webpack-plugin')
     hash: true,
   }]);
 config.devServer.merge({
-  contentBase: path.join(__dirname, 'dist'),
+  // contentBase: path.join(__dirname, 'dist'),
   compress: false,
   port: 8001,
   host: '0.0.0.0',
@@ -36,6 +36,9 @@ config.module.rule('less')
       return {
         ...options,
         sourceMap: true,
+        lessOptions: {
+          javascriptEnabled: true
+        }
       };
     });
 

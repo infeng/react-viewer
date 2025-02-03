@@ -17,6 +17,7 @@ export interface ViewerToolbarProps {
   noImgDetails: boolean;
   toolbars: ToolbarConfig[];
   activeIndex: number;
+  isPdf: boolean;
   count: number;
   showTotal: boolean;
   totalName: string;
@@ -101,7 +102,7 @@ export default function ViewerToolbar(props: ViewerToolbarProps) {
     <p className={`${props.prefixCls}-attribute`}>
       {props.alt && `${props.alt}`}
       {props.noImgDetails || <span className={`${props.prefixCls}-img-details`}>
-        {`(${props.width} x ${props.height})`}
+      {!props.isPdf && `(${props.width} x ${props.height})`}
       </span>}
       {props.showTotal
         && <span className={`${props.prefixCls}-showTotal`}>

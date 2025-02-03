@@ -1,7 +1,6 @@
 const path = require('path');
 const Config = require('webpack-chain');
 const autoprefixer = require('autoprefixer');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const DEFAULT_BROWSERS = [
   '>1%',
@@ -54,13 +53,10 @@ config.module
 
 config.module
   .rule('less')
-    .test(/\.less/)
+    .test(/\.(less|css)/)
     .use('style-loader')
       .loader('style-loader')
       .end()
-    // .use('MiniCssExtractPlugin.loader')
-    //   .loader(MiniCssExtractPlugin.loader)
-    //   .end()
     .use('css-loader')
       .loader('css-loader')
       .options({
@@ -81,8 +77,7 @@ config.module
     .use('less-loader')
       .loader('less-loader')
       .options({
-        sourceMap: false,
-        javascriptEnabled: true,
+        sourceMap: false
       });
 
 config.module
@@ -131,12 +126,17 @@ config.module
     .use('file-loader')
       .loader('file-loader');
 
+config.module
+  .rule('pdf')
+    .test(/\.(pdf)$/)
+    .use('file-loader')
+      .loader('file-loader');
+
 config.resolve
   .extensions.merge([ '.tsx', '.ts', '.js' ])
   .end()
   .modules.add(path.join(__dirname, 'node_modules'));
 
-// config.plugin('MiniCssExtractPlugin')
-//   .use(MiniCssExtractPlugin)
+config.resolve.alias.set('react/jsx-runtime', 'react/jsx-runtime.js')
 
 module.exports = config;
