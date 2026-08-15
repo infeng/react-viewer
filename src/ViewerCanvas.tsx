@@ -115,21 +115,25 @@ export default function ViewerCanvas(props: ViewerCanvasProps) {
   }
 
   function bindWindowResizeEvent(remove?: boolean) {
-    let funcName = 'addEventListener';
+    const ownerWindow = props.container && props.container.ownerDocument.defaultView
+      ? props.container.ownerDocument.defaultView
+      : window;
     if (remove) {
-      funcName = 'removeEventListener';
+      ownerWindow.removeEventListener('resize', handleResize, false);
+    } else {
+      ownerWindow.addEventListener('resize', handleResize, false);
     }
-    window[funcName]('resize', handleResize, false);
   }
 
   function bindEvent(remove?: boolean) {
-    let funcName = 'addEventListener';
+    const ownerDocument = props.container ? props.container.ownerDocument : document;
     if (remove) {
-      funcName = 'removeEventListener';
+      ownerDocument.removeEventListener('click', handleMouseUp, false);
+      ownerDocument.removeEventListener('mousemove', handleMouseMove, false);
+    } else {
+      ownerDocument.addEventListener('click', handleMouseUp, false);
+      ownerDocument.addEventListener('mousemove', handleMouseMove, false);
     }
-
-    document[funcName]('click', handleMouseUp, false);
-    document[funcName]('mousemove', handleMouseMove, false);
   }
 
   let imgStyle: React.CSSProperties = {
@@ -163,7 +167,7 @@ translateX(${props.left !== null ? props.left + 'px' : 'aoto'}) translateY(${pro
       <div
         style={{
           display: 'flex',
-          height: `${window.innerHeight - 84}px`,
+          height: props.container ? '100%' : `${window.innerHeight - 84}px`,
           justifyContent: 'center',
           alignItems: 'center',
         }}

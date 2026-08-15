@@ -184,20 +184,27 @@ export default (props: ViewerProps) => {
   React.useEffect(() => {
     if (visible) {
       if (!props.container) {
+        const originalBodyStyle = {
+          overflow: document.body.style.overflow,
+          overflowX: document.body.style.overflowX,
+          overflowY: document.body.style.overflowY,
+          paddingRight: document.body.style.paddingRight,
+        };
         document.body.style.overflow = 'hidden';
         if (document.body.scrollHeight > document.body.clientHeight) {
           document.body.style.paddingRight = '15px';
         }
+        return () => {
+          document.body.style.overflow = originalBodyStyle.overflow;
+          document.body.style.overflowX = originalBodyStyle.overflowX;
+          document.body.style.overflowY = originalBodyStyle.overflowY;
+          document.body.style.paddingRight = originalBodyStyle.paddingRight;
+        };
       }
     } else {
       dispatch(createAction(ACTION_TYPES.clear, {}));
     }
-
-    return () => {
-      document.body.style.overflow = '';
-      document.body.style.paddingRight = '';
-    };
-  }, [state.visible]);
+  }, [visible, props.container]);
 
   React.useEffect(() => {
     if (visible) {
@@ -466,8 +473,9 @@ export default (props: ViewerProps) => {
     if (remove) {
       funcName = 'removeEventListener';
     }
+    const ownerDocument = props.container ? props.container.ownerDocument : document;
     if (!disableKeyboardSupport) {
-      document[funcName]('keydown', handleKeydown, true);
+      ownerDocument[funcName]('keydown', handleKeydown, true);
     }
     if (viewerCore.current) {
       viewerCore.current[funcName](

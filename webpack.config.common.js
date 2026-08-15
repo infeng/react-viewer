@@ -18,7 +18,8 @@ config
     .end()
   .output
     .path(path.resolve(__dirname, 'dist'))
-    .filename('index.js');
+    .filename('index.js')
+    .hashFunction('sha256');
 
 config.module
   .rule('tsx')
