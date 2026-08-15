@@ -1,4 +1,5 @@
 import Viewer from '../index';
+import ViewerCanvas from '../ViewerCanvas';
 import ViewerProps from '../ViewerProps';
 import { configure, mount } from 'enzyme';
 import * as Adapter from 'enzyme-adapter-react-16';
@@ -499,6 +500,91 @@ describe('Viewer', () => {
     viewerHelper.skipAnimation();
 
     expect(wrapper.find('.react-viewer-inline')).toHaveLength(1);
+  });
+
+  it('uses the inline container height while loading', () => {
+    const container = document.createElement('div');
+    const canvas = mount(
+      <ViewerCanvas
+        prefixCls="react-viewer"
+        imgSrc=""
+        visible={true}
+        width={0}
+        height={0}
+        top={0}
+        left={0}
+        rotate={0}
+        onChangeImgState={jest.fn()}
+        onResize={jest.fn()}
+        zIndex={1005}
+        scaleX={1}
+        scaleY={1}
+        loading={true}
+        drag={true}
+        container={container}
+        onCanvasMouseDown={jest.fn()}
+      />,
+    );
+
+    expect(canvas.find('.react-viewer-canvas').childAt(0).prop('style')).toEqual(
+      expect.objectContaining({ height: '100%' }),
+    );
+    canvas.unmount();
+  });
+
+  it('binds drag events to the inline container document', () => {
+    const iframe = document.createElement('iframe');
+    document.body.appendChild(iframe);
+    const ownerDocument = iframe.contentDocument;
+    const container = ownerDocument.createElement('div');
+    ownerDocument.body.appendChild(container);
+    const addEventListener = jest.spyOn(ownerDocument, 'addEventListener');
+    const handleChangeImgState = jest.fn();
+    const canvas = mount(
+      <ViewerCanvas
+        prefixCls="react-viewer"
+        imgSrc="image.jpg"
+        visible={true}
+        width={100}
+        height={100}
+        top={10}
+        left={20}
+        rotate={0}
+        onChangeImgState={handleChangeImgState}
+        onResize={jest.fn()}
+        zIndex={1005}
+        scaleX={1}
+        scaleY={1}
+        loading={false}
+        drag={true}
+        container={container}
+        onCanvasMouseDown={jest.fn()}
+      />,
+    );
+    expect(addEventListener).toHaveBeenCalledWith('mousemove', expect.any(Function), false);
+    canvas.unmount();
+    addEventListener.mockRestore();
+    document.body.removeChild(iframe);
+  });
+
+  it('restores existing body styles after closing', () => {
+    document.body.style.overflowX = 'hidden';
+    document.body.style.overflowY = 'scroll';
+    document.body.style.paddingRight = '7px';
+    viewerHelper.new();
+    viewerHelper.open();
+
+    expect(document.body.style.overflow).toBe('hidden');
+    $$('.react-viewer-close')[0].click();
+    viewerHelper.skipAnimation();
+    wrapper.find('.react-viewer').simulate('transitionend');
+
+    expect(document.body.style.overflowX).toBe('hidden');
+    expect(document.body.style.overflowY).toBe('scroll');
+    expect(document.body.style.paddingRight).toBe('7px');
+    document.body.style.overflowX = '';
+    document.body.style.overflowY = '';
+    document.body.style.paddingRight = '';
   });
 
   it('reset image', () => {
