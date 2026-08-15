@@ -54,5 +54,11 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Build demo
+        run: npm run doc
+
+      - name: Build SSR fixture
+        run: npm run build:ssr
+
       - name: Check package contents
         run: npm pack --dry-run
