@@ -13,6 +13,14 @@ function $$(className) {
   return document.body.querySelectorAll(className);
 }
 
+function restoreProperty(target, property, descriptor) {
+  if (descriptor) {
+    Object.defineProperty(target, property, descriptor);
+  } else {
+    delete target[property];
+  }
+}
+
 interface ViewerTesterProps {
   hasContainer?: boolean;
   onChangeImages?: () => ViewerProps['images'];
@@ -585,6 +593,63 @@ describe('Viewer', () => {
     document.body.style.overflowX = '';
     document.body.style.overflowY = '';
     document.body.style.paddingRight = '';
+  });
+
+  it('preserves body padding for overlay scrollbars', () => {
+    const originalPaddingRight = document.body.style.paddingRight;
+    const originalInnerWidth = Object.getOwnPropertyDescriptor(window, 'innerWidth');
+    const originalClientWidth = Object.getOwnPropertyDescriptor(document.documentElement, 'clientWidth');
+    const originalScrollHeight = Object.getOwnPropertyDescriptor(document.body, 'scrollHeight');
+    const originalClientHeight = Object.getOwnPropertyDescriptor(document.body, 'clientHeight');
+    Object.defineProperty(window, 'innerWidth', { configurable: true, value: 1000 });
+    Object.defineProperty(document.documentElement, 'clientWidth', { configurable: true, value: 1000 });
+    Object.defineProperty(document.body, 'scrollHeight', { configurable: true, value: 1000 });
+    Object.defineProperty(document.body, 'clientHeight', { configurable: true, value: 500 });
+    let overlayViewer = null;
+
+    try {
+      document.body.style.paddingRight = '7px';
+      overlayViewer = mount(<Viewer visible={true} images={[{ src: img }]} />);
+
+      expect(document.body.style.paddingRight).toBe('7px');
+    } finally {
+      if (overlayViewer) {
+        overlayViewer.unmount();
+      }
+      document.body.style.paddingRight = originalPaddingRight;
+      restoreProperty(window, 'innerWidth', originalInnerWidth);
+      restoreProperty(document.documentElement, 'clientWidth', originalClientWidth);
+      restoreProperty(document.body, 'scrollHeight', originalScrollHeight);
+      restoreProperty(document.body, 'clientHeight', originalClientHeight);
+    }
+  });
+
+  it('adds the measured scrollbar width to existing body padding', () => {
+    const originalInnerWidth = Object.getOwnPropertyDescriptor(window, 'innerWidth');
+    const originalClientWidth = Object.getOwnPropertyDescriptor(document.documentElement, 'clientWidth');
+    const originalScrollHeight = Object.getOwnPropertyDescriptor(document.body, 'scrollHeight');
+    const originalClientHeight = Object.getOwnPropertyDescriptor(document.body, 'clientHeight');
+    Object.defineProperty(window, 'innerWidth', { configurable: true, value: 1000 });
+    Object.defineProperty(document.documentElement, 'clientWidth', { configurable: true, value: 980 });
+    Object.defineProperty(document.body, 'scrollHeight', { configurable: true, value: 1000 });
+    Object.defineProperty(document.body, 'clientHeight', { configurable: true, value: 500 });
+    let scrollbarViewer = null;
+
+    try {
+      document.body.style.paddingRight = '7px';
+      scrollbarViewer = mount(<Viewer visible={true} images={[{ src: img }]} />);
+
+      expect(document.body.style.paddingRight).toBe('27px');
+    } finally {
+      if (scrollbarViewer) {
+        scrollbarViewer.unmount();
+      }
+      document.body.style.paddingRight = '';
+      restoreProperty(window, 'innerWidth', originalInnerWidth);
+      restoreProperty(document.documentElement, 'clientWidth', originalClientWidth);
+      restoreProperty(document.body, 'scrollHeight', originalScrollHeight);
+      restoreProperty(document.body, 'clientHeight', originalClientHeight);
+    }
   });
 
   it('reset image', () => {

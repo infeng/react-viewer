@@ -190,9 +190,11 @@ export default (props: ViewerProps) => {
           overflowY: document.body.style.overflowY,
           paddingRight: document.body.style.paddingRight,
         };
+        const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
         document.body.style.overflow = 'hidden';
-        if (document.body.scrollHeight > document.body.clientHeight) {
-          document.body.style.paddingRight = '15px';
+        if (document.body.scrollHeight > document.body.clientHeight && scrollbarWidth > 0) {
+          const bodyPaddingRight = parseFloat(window.getComputedStyle(document.body).paddingRight) || 0;
+          document.body.style.paddingRight = `${bodyPaddingRight + scrollbarWidth}px`;
         }
         return () => {
           document.body.style.overflow = originalBodyStyle.overflow;
