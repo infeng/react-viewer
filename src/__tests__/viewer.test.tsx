@@ -239,11 +239,15 @@ describe('Viewer', () => {
     expect($$('.react-viewer')[0].style.display).toBe('none');
   });
 
-  it('render with no footer', () => {
+  it('does not render or reserve space for the footer', () => {
     viewerHelper.new({ noFooter: true });
     viewerHelper.open();
 
     expect($$('.react-viewer-footer')).toHaveLength(0);
+    const image = $$('img.react-viewer-image')[0] as HTMLImageElement;
+    const transform = getTransformValue(image.style.transform);
+    const imageCenter = parseFloat(transform.translateY) + parseFloat(image.style.height) / 2;
+    expect(imageCenter).toBeCloseTo(window.innerHeight / 2);
   });
 
   it('render with no navbar', () => {
