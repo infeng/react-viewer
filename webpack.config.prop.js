@@ -10,6 +10,7 @@ if (fs.existsSync(distPath)) {
 
 config.output.merge({
   library: 'react-viewer',
+  libraryExport: 'default',
   libraryTarget: 'umd',
   globalObject: 'this'
 });

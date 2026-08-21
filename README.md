@@ -44,7 +44,7 @@ import React, { FC } from 'react'
 import dynamic from 'next/dynamic'
 
 const ReactViewer = dynamic(
-  () => import('react-viewer'),
+  () => import('react-viewer').then((mod) => mod.default),
   { ssr: false }
 )
 
