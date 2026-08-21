@@ -106,7 +106,7 @@ export default (props: ViewerProps) => {
     };
   }
   const containerSize = React.useRef(setContainerWidthHeight());
-  const footerHeight = constants.FOOTER_HEIGHT;
+  const footerHeight = props.noFooter ? 0 : constants.FOOTER_HEIGHT;
   function reducer(s: ViewerCoreState, action): typeof initialState {
     switch (action.type) {
       case ACTION_TYPES.setVisible:
