@@ -177,8 +177,8 @@ class App extends React.Component<any, Partial<State>> {
             <a className="bagde" href="https://npmjs.org/package/react-viewer">
               <img src="https://d25lcipzij17d.cloudfront.net/badge.svg?id=js&type=6&v=3.0.0&x2=0" />
             </a>
-            <a className="bagde" href="https://travis-ci.org/infeng/react-viewer">
-              <img src="https://travis-ci.org/infeng/react-viewer.svg?branch=master" />
+            <a className="bagde" href="https://github.com/infeng/react-viewer/actions/workflows/ci.yml">
+              <img src="https://github.com/infeng/react-viewer/actions/workflows/ci.yml/badge.svg" />
             </a>
             <a className="bagde" href="https://codecov.io/gh/infeng/react-viewer">
               <img src="https://codecov.io/gh/infeng/react-viewer/branch/master/graph/badge.svg" />

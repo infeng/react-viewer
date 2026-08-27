@@ -65,6 +65,19 @@ export const defaultToolbars: ToolbarConfig[] = [
  },
 ];
 
+const toolbarLabels = {
+  zoomIn: 'Zoom in',
+  zoomOut: 'Zoom out',
+  prev: 'Previous image',
+  reset: 'Reset image',
+  next: 'Next image',
+  rotateLeft: 'Rotate left',
+  rotateRight: 'Rotate right',
+  scaleX: 'Flip horizontally',
+  scaleY: 'Flip vertically',
+  download: 'Download image',
+};
+
 function deleteToolbarFromKey(toolbars: ToolbarConfig[], keys: string[]) {
   const targetToolbar = toolbars.filter(item => keys.indexOf(item.key) < 0);
 
@@ -91,6 +104,16 @@ export default function ViewerToolbar(props: ViewerToolbarProps) {
         key={config.key}
         className={`${props.prefixCls}-btn`}
         onClick={() => {handleAction(config); }}
+        onKeyDown={(event) => {
+          if (event.key === 'Enter' || event.key === ' ' || event.keyCode === 13 || event.keyCode === 32) {
+            event.preventDefault();
+            event.stopPropagation();
+            handleAction(config);
+          }
+        }}
+        role="button"
+        tabIndex={0}
+        aria-label={toolbarLabels[config.key] || config.key}
         data-key={config.key}
       >
           {content}

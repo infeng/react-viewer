@@ -60,6 +60,11 @@
     background-color: @btn-hover-background-color;
   }
 
+  &-btn:focus {
+    outline: 2px solid white;
+    outline-offset: -2px;
+  }
+
   &-close {
     position: fixed;
     top: 0px;
@@ -184,6 +189,11 @@
 
   &-list > li.active > img {
     opacity: 1;
+  }
+
+  &-list > li:focus {
+    outline: 2px solid white;
+    outline-offset: -2px;
   }
 
   @transitionDuration: .3s;

@@ -31,6 +31,16 @@ export default function ViewerNav(props: ViewerNavProps) {
           key={index}
           className={index === activeIndex ? 'active' : ''}
           onClick={() => { handleChangeImg(index); }}
+          onKeyDown={(event) => {
+            if (event.key === 'Enter' || event.key === ' ' || event.keyCode === 13 || event.keyCode === 32) {
+              event.preventDefault();
+              event.stopPropagation();
+              handleChangeImg(index);
+            }
+          }}
+          role="button"
+          tabIndex={0}
+          aria-label={item.alt ? `View ${item.alt}` : `View image ${index + 1}`}
           >
             <img src={item.src} alt={item.alt} />
           </li>,

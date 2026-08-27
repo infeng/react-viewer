@@ -1,6 +1,6 @@
 # react-viewer
 
-[![NPM version][npm-image]][npm-url] [![](https://travis-ci.org/infeng/react-viewer.svg?branch=master)](https://travis-ci.org/infeng/react-viewer) [![codecov](https://codecov.io/gh/infeng/react-viewer/branch/master/graph/badge.svg)](https://codecov.io/gh/infeng/react-viewer)
+[![NPM version][npm-image]][npm-url] [![CI](https://github.com/infeng/react-viewer/actions/workflows/ci.yml/badge.svg)](https://github.com/infeng/react-viewer/actions/workflows/ci.yml) [![codecov](https://codecov.io/gh/infeng/react-viewer/branch/master/graph/badge.svg)](https://codecov.io/gh/infeng/react-viewer)
 > react image viewer.
 
 ## Introduction
@@ -37,38 +37,40 @@ function App() {
 }
 ```
 
-## Server Side (NextJS)
+## Next.js (client-only)
 
-```
-import React, { FC } from 'react'
-import dynamic from 'next/dynamic'
+`react-viewer` uses browser DOM APIs and must be loaded with SSR disabled. In the
+Next.js App Router, put the dynamic import in a Client Component:
+
+```tsx
+'use client';
+
+import dynamic from 'next/dynamic';
 
 const ReactViewer = dynamic(
   () => import('react-viewer').then((mod) => mod.default),
-  { ssr: false }
-)
+  { ssr: false },
+);
 
-export const Viewer: FC = () => {
+export default function Viewer() {
   return (
     <ReactViewer
       visible={true}
       onClose={() => {}}
       images={[{src: ''}]}
     />
-  )
+  );
 }
-
-export default Viewer
 ```
 
-## Server Side rest..
-I'm sorry, ssr is not currently supported in `3.x`, it will be fixed in `4.0`.
+The Pages Router uses the same dynamic import but does not require the
+`'use client'` directive. Direct server rendering is not supported in `3.x`.
 
 ## Props
 
 | props        | type         | default | description                 | required |
 |--------------|--------------|---------|-----------------------------|----------|
-| visible      | string       |  false  | Viewer visible             | true |
+| visible      | boolean      |  false  | Viewer visible             | true |
 | onClose      | function       |  -      | Specify a function that will be called when Visible close   | true |
 | images       | [ImageDecorator](#imagedecorator)[]     | []      | image source array | true  |
 | activeIndex  | number       | 0       | active image index | false |
@@ -86,11 +88,11 @@ I'm sorry, ssr is not currently supported in `3.x`, it will be fixed in `4.0`.
 | noToolbar    | boolean      |  false  | to not render the toolbar | false |
 | noImgDetails | boolean      |  false  | to not render image detail (WxH) | false |
 | noFooter     | boolean      |  false  | to not render the entire footer | false |
-| changeable   | boolean      |  true   | wheather to show change button  | false |
-| customToolbar | (defaultToolbarConfigs: [ToolbarConfig](#toolbarconfig)[]) => ToolbarConfig[] | - | customer toolbar | false |
+| changeable   | boolean      |  true   | whether to show change buttons  | false |
+| customToolbar | (defaultToolbarConfigs: [ToolbarConfig](#toolbarconfig)[]) => ToolbarConfig[] | - | customize the toolbar | false |
 | zoomSpeed    | number       | 0.05    | zoom speed | false |
 | defaultSize    | [ViewerImageSize](#viewerimagesize) | - | default image size | false |
-| defaultImg    | [viewerdefaultimg](#viewerimagesize) | - | if load img failed, show default img | false |
+| defaultImg    | [ViewerDefaultImg](#viewerdefaultimg) | - | fallback shown when an image fails to load | false |
 | disableKeyboardSupport | boolean | false | disable keyboard support | false |
 | noResetZoomAfterChange | boolean | false | preserve zoom after image change | false |
 | noLimitInitializationSize | boolean | false | no limit image initialization size | false |
@@ -112,7 +114,7 @@ I'm sorry, ssr is not currently supported in `3.x`, it will be fixed in `4.0`.
 |-------------|--------------|---------|-----------------------------|----------|
 | src  | string  |  -  | image source | true |
 | alt  | string  |  -  | image description | false |
-| downloadUrl  | string  |  -  | image downlaod url | false |
+| downloadUrl  | string  |  -  | image download URL | false |
 | defaultSize  | [ViewerImageSize](#viewerimagesize)  |  -  | image size | false |
 
 ### ViewerImageSize
@@ -126,7 +128,7 @@ I'm sorry, ssr is not currently supported in `3.x`, it will be fixed in `4.0`.
 
 | props       | type         | default | description                 | required |
 |-------------|--------------|---------|-----------------------------|----------|
-| src  | number  |  -  | image source | true |
+| src  | string  |  -  | image source | true |
 | width  | number  |  -  | image width | false |
 | height  | number  |  -  | image height | false |
 
@@ -137,6 +139,21 @@ I'm sorry, ssr is not currently supported in `3.x`, it will be fixed in `4.0`.
 | key  | string  |  -  | tool key | true |
 | render  | React.ReactNode  |  -  | tool render | false |
 | onClick  | function  |  -  | callback function when action is clicked | false |
+
+To keep only selected built-in controls, filter the configurations passed to
+`customToolbar`. The `key` values are stable and avoid depending on numeric
+`actionType` values:
+
+```tsx
+<Viewer
+  visible={visible}
+  onClose={() => setVisible(false)}
+  images={images}
+  customToolbar={(toolbars) =>
+    toolbars.filter(({ key }) => key === 'zoomIn' || key === 'zoomOut')
+  }
+/>
+```
 
 ## Keyboard support
 
