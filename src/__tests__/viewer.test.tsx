@@ -239,6 +239,36 @@ describe('Viewer', () => {
     expect($$('.react-viewer')[0].style.display).toBe('none');
   });
 
+  it('exposes viewer controls to keyboard users', () => {
+    viewerHelper.new();
+    viewerHelper.open();
+
+    const nextButton = $$('li[data-key=next]')[0] as HTMLElement;
+    expect(nextButton.getAttribute('role')).toBe('button');
+    expect(nextButton.getAttribute('tabindex')).toBe('0');
+    expect(nextButton.getAttribute('aria-label')).toBe('Next image');
+    triggerKeyboard(nextButton, 'keydown', 13);
+    viewerHelper.skipAnimation();
+    expect($$('.react-viewer-attribute')[0].innerHTML).toContain('mountain');
+
+    const firstThumbnail = $$('.react-viewer-list li')[0] as HTMLElement;
+    expect(firstThumbnail.getAttribute('role')).toBe('button');
+    expect(firstThumbnail.getAttribute('tabindex')).toBe('0');
+    expect(firstThumbnail.getAttribute('aria-label')).toBe('View lake');
+    triggerKeyboard(firstThumbnail, 'keydown', 32);
+    viewerHelper.skipAnimation();
+    expect($$('.react-viewer-attribute')[0].innerHTML).toContain('lake');
+
+    const closeButton = $$('.react-viewer-close')[0] as HTMLElement;
+    expect(closeButton.getAttribute('role')).toBe('button');
+    expect(closeButton.getAttribute('tabindex')).toBe('0');
+    expect(closeButton.getAttribute('aria-label')).toBe('Close viewer');
+    triggerKeyboard(closeButton, 'keydown', 13);
+    viewerHelper.skipAnimation();
+    wrapper.find('.react-viewer').simulate('transitionend');
+    expect($$('.react-viewer')[0].style.display).toBe('none');
+  });
+
   it('does not render or reserve space for the footer', () => {
     viewerHelper.new({ noFooter: true });
     viewerHelper.open();
@@ -727,6 +757,7 @@ describe('Viewer', () => {
 
     // reset
     triggerKeyboard(document, 'keydown', 39, true);
+    viewerHelper.skipAnimation();
     triggerKeyboard(document, 'keydown', 49, true);
     viewerHelper.skipAnimation();
     imgNode = $$('img.react-viewer-image')[0];

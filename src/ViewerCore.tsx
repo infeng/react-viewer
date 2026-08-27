@@ -671,6 +671,16 @@ export default (props: ViewerProps) => {
           onClick={() => {
             onClose();
           }}
+          onKeyDown={(event) => {
+            if (event.key === 'Enter' || event.key === ' ' || event.keyCode === 13 || event.keyCode === 32) {
+              event.preventDefault();
+              event.stopPropagation();
+              onClose();
+            }
+          }}
+          role="button"
+          tabIndex={0}
+          aria-label="Close viewer"
           style={{ zIndex: zIndex + 10 }}
         >
           <Icon type={ActionType.close} />
