@@ -1,7 +1,7 @@
 const React = require('react');
 const Viewer = typeof window === 'undefined'
   ? () => null
-  : require('../dist/index').default;
+  : require('../dist/index');
 
 function App () {
   const [ visible, setVisible ] = React.useState(false);
