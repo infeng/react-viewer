@@ -9,7 +9,8 @@ export default (props: ViewerProps) => {
   const [ init, setInit ] = React.useState(false);
 
   React.useEffect(() => {
-    document.body.appendChild(defaultContainer.current);
+    document.body.appendChild(defaultContainer.current); // side-effect needs to be handled.
+    return ()=>{document.body.removeChild(defaultContainer.current);} // side-effect handling
   }, []);
 
   React.useEffect(() => {
