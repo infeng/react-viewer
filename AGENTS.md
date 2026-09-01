@@ -52,6 +52,13 @@ npm --prefix ssr-test start
 
 Open `http://127.0.0.1:8005/`. Confirm that the initial HTML is server-rendered and that the viewer becomes interactive after client hydration.
 
+## Releases and GitHub Pages
+
+Publishing a GitHub Release triggers `.github/workflows/pages.yml`. The workflow
+builds the demo from the released tag and deploys `pages-build/` through GitHub
+Pages. After each release, wait for the Pages workflow and verify
+<https://infeng.github.io/react-viewer/> before considering the release complete.
+
 ## Code map
 
 - `src/Viewer.tsx`: portal/container lifecycle.
