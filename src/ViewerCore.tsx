@@ -614,8 +614,10 @@ export default (props: ViewerProps) => {
       if (Math.abs(scaleY) < minScale) {
         scaleY = minScale * directY;
       }
-      top = state.top + -direct * diffY / state.scaleX * scale * directX;
-      left = state.left + -direct * diffX / state.scaleY * scale * directY;
+      const scaleXDelta = Math.abs(scaleX) - Math.abs(state.scaleX);
+      const scaleYDelta = Math.abs(scaleY) - Math.abs(state.scaleY);
+      top = state.top - diffY / Math.abs(state.scaleY) * scaleYDelta;
+      left = state.left - diffX / Math.abs(state.scaleX) * scaleXDelta;
       width = state.width;
       height = state.height;
     }
