@@ -156,8 +156,10 @@ function triggerMouseEvent(node, eventType, x = 0, y = 0) {
   node.dispatchEvent(clickEvent);
 }
 
-function triggerWheel(node, eventType, deltaY) {
+function triggerWheel(node, eventType, deltaY, x = 0, y = 0) {
   const wheelEvent = new WheelEvent(eventType, {
+    clientX: x,
+    clientY: y,
     view: window,
     bubbles: true,
     cancelable: true,
@@ -984,6 +986,28 @@ describe('Viewer', () => {
     $$('li[data-key=zoomOut]')[0].click();
     $$('li[data-key=zoomOut]')[0].click();
     expect(getTransformValue(imgNode.style.transform).scaleX).toBe('0.88');
+  });
+
+  it('keeps image position when zooming out at min scale', () => {
+    viewerHelper.new({
+      minScale: 0.95,
+    });
+    viewerHelper.open();
+
+    const imgNode = $$('img.react-viewer-image')[0];
+    const viewer = $$('.react-viewer')[0];
+
+    triggerWheel(viewer, 'wheel', 1, 10, 20);
+    viewerHelper.skipAnimation();
+    const transformAtMinScale = getTransformValue(imgNode.style.transform);
+
+    triggerWheel(viewer, 'wheel', 1, 10, 20);
+    viewerHelper.skipAnimation();
+    const transformAfterExtraZoomOut = getTransformValue(imgNode.style.transform);
+
+    expect(transformAtMinScale.scaleX).toBe('0.95');
+    expect(transformAfterExtraZoomOut.translateX).toBe(transformAtMinScale.translateX);
+    expect(transformAfterExtraZoomOut.translateY).toBe(transformAtMinScale.translateY);
   });
 
   it('reset img when change images', () => {
