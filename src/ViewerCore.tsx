@@ -58,6 +58,7 @@ export default (props: ViewerProps) => {
     rotatable = true,
     scalable = true,
     onMaskClick = noop,
+    onImagesClick = noop,
     changeable = true,
     customToolbar = (toolbars) => toolbars,
     zoomSpeed = .05,
@@ -470,6 +471,10 @@ export default (props: ViewerProps) => {
     onMaskClick(e);
   }
 
+  function handleImagesMouseDown(e) {
+    onImagesClick(e);
+  }
+
   function bindEvent(remove: boolean = false) {
     let funcName = 'addEventListener';
     if (remove) {
@@ -706,6 +711,7 @@ export default (props: ViewerProps) => {
         drag={drag}
         container={props.container}
         onCanvasMouseDown={handleCanvasMouseDown}
+        onImagesMouseDown={handleImagesMouseDown}
       />
       {props.noFooter || (
         <div className={`${prefixCls}-footer`} style={{ zIndex: zIndex + 5 }}>
