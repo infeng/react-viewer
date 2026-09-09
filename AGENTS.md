@@ -71,6 +71,13 @@ Pages. After each release, wait for the Pages workflow and verify
 
 ## Change discipline
 
+- The legacy development-only `request` dependency pins vulnerable `form-data`
+  2.3.x. The scoped npm override selects 2.5.6 to fix predictable multipart
+  boundaries (GHSA-fjxv-7rqg-78g4) and the follow-up boundary advisory
+  GHSA-hmw2-7cc7-3qxx. `npm run check:multipart` verifies boundary generation
+  and a real local text/binary upload through `request`; it runs in `verify`
+  and CI. Keep the override until the parent dependency is retired or accepts
+  a patched version itself.
 - Add a regression test for every bug fix when practical.
 - Keep unrelated dependency upgrades and behavior changes in separate pull requests.
 - Preserve the public API unless the change is intentionally versioned as breaking.
