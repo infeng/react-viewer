@@ -48,6 +48,9 @@ jobs:
       - name: Test
         run: npm test -- --runInBand
 
+      - name: Check multipart dependency
+        run: npm run check:multipart
+
       - name: Lint
         run: npm run lint
 
