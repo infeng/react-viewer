@@ -63,5 +63,8 @@ jobs:
       - name: Build SSR fixture
         run: npm run build:ssr
 
+      - name: Check critical dependency advisories
+        run: npm run audit:critical
+
       - name: Check package contents
         run: npm pack --dry-run
