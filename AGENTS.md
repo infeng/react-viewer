@@ -24,6 +24,12 @@ npm run verify
 
 The verification command runs unit tests, lint, the library build, the browser demo build, the SSR fixture build, and an npm package dry run. A change is not complete until this command succeeds.
 
+`npm run audit:critical` checks both dependency trees against the public npm
+advisory service and is part of `verify` and CI. It requires network access and
+fails on critical advisories; lower severities remain a tracked maintenance
+backlog. Resolve failures from their dependency paths, without force-upgrading
+unrelated toolchains or weakening the audit threshold.
+
 For a focused change, run the smallest relevant command while iterating, then finish with `npm run verify`:
 
 - `npm test -- --runInBand`: unit tests and coverage.
