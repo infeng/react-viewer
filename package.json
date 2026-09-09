@@ -16,9 +16,7 @@
     "doc": "webpack --config webpack.config.doc.js",
     "verify": "npm test -- --runInBand && npm run lint && npm run build && npm run check:package-export && npm run doc && npm run build:ssr && npm run check:ssr-hydration && npm pack --dry-run",
     "pub": "npm publish",
-    "prepublishOnly": "npm run build",
-    "predeploy": "npm run doc",
-    "deploy": "gh-pages -d pages-build"
+    "prepublishOnly": "npm run build"
   },
   "repository": {
     "type": "git",
@@ -61,7 +59,6 @@
     "enzyme-to-json": "^3.3.4",
     "file-loader": "^4.2.0",
     "fs-extra": "^8.1.0",
-    "gh-pages": "^2.1.1",
     "gulp": "^4.0.2",
     "gulp-typescript": "^5.0.1",
     "html-webpack-plugin": "^4.5.2",
