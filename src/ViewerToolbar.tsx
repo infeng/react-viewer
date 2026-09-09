@@ -120,15 +120,18 @@ export default function ViewerToolbar(props: ViewerToolbarProps) {
       </li>
     );
   }
+  const totalLabel = `${props.activeIndex + 1} ${props.totalName} ${props.count}`;
   let attributeNode = props.attribute ? (
-    <p className={`${props.prefixCls}-attribute`}>
-      {props.alt && `${props.alt}`}
-      {props.noImgDetails || <span className={`${props.prefixCls}-img-details`}>
-        {`(${props.width} x ${props.height})`}
-      </span>}
+    <p className={`${props.prefixCls}-attribute`} data-total={props.showTotal ? totalLabel : undefined}>
+      <span className={`${props.prefixCls}-caption`}>
+        {props.alt && `${props.alt}`}
+        {props.noImgDetails || <span className={`${props.prefixCls}-img-details`}>
+          {`(${props.width} x ${props.height})`}
+        </span>}
+      </span>
       {props.showTotal
         && <span className={`${props.prefixCls}-showTotal`}>
-          {`${props.activeIndex + 1} ${props.totalName} ${props.count}`}</span>}
+          {totalLabel}</span>}
     </p>
   ) : null;
   let toolbars = props.toolbars;

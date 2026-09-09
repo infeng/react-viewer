@@ -117,6 +117,8 @@
   }
 
   &-attribute {
+    display: flex;
+    align-items: center;
     margin: 0 20px;
     margin-bottom: 6px;
     opacity: .8;
@@ -124,8 +126,27 @@
     font-size: 15px;
   }
 
+  // Match the counter's width on the left without duplicating visible text.
+  &-attribute[data-total]::before {
+    content: attr(data-total);
+    visibility: hidden;
+    margin-right: 8px;
+  }
+
+  &-attribute[data-total]::before, &-showTotal {
+    flex: 0 0 auto;
+    max-width: 25%;
+    word-wrap: break-word;
+  }
+
+  &-caption {
+    flex: 1;
+    min-width: 0;
+    word-wrap: break-word;
+  }
+
   &-showTotal {
-    float: right;
+    margin-left: 8px;
   }
 
   @toolbarHeight: 28px;
