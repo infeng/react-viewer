@@ -7,7 +7,13 @@
     "removeComments": false,
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
-    "noUnusedLocals": true
+    "noUnusedLocals": true,
+    "types": [
+      "node",
+      "react",
+      "react-dom",
+      "jest"
+    ]
   },
   "exclude": [
     "node_modules",
