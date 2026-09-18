@@ -155,6 +155,45 @@ To keep only selected built-in controls, filter the configurations passed to
 />
 ```
 
+The returned array also controls the left-to-right order. For example, put
+zoom out before zoom in while preserving the remaining controls and their
+built-in actions:
+
+```tsx
+<Viewer
+  visible={visible}
+  onClose={() => setVisible(false)}
+  images={images}
+  customToolbar={(toolbars) => [
+    ...toolbars.filter(({ key }) => key === 'zoomOut'),
+    ...toolbars.filter(({ key }) => key === 'zoomIn'),
+    ...toolbars.filter(({ key }) => key !== 'zoomOut' && key !== 'zoomIn'),
+  ]}
+/>
+```
+
+Keep the original configuration objects so their `actionType` values are
+preserved. Options such as `zoomable={false}` still hide the corresponding
+controls.
+
+### Localizing the image counter
+
+Use `totalName` to change the separator between the current image number and
+the total. For example, this displays `1 / 3` for the first of three images:
+
+```tsx
+<Viewer
+  visible={visible}
+  onClose={() => setVisible(false)}
+  images={images}
+  totalName="/"
+/>
+```
+
+`totalName="de"` displays `1 de 3`. The counter is visible by default;
+`showTotal={false}` hides it. It is part of the image attribute row, so
+`attribute={false}`, `noToolbar`, or `noFooter` also hides it.
+
 ## Keyboard support
 
 - `Esc`: Close viewer.
