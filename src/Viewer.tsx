@@ -4,13 +4,9 @@ import ViewerCore from './ViewerCore';
 import ViewerProps from './ViewerProps';
 
 export default (props: ViewerProps) => {
-  const defaultContainer = React.useRef(typeof document !== 'undefined' ? document.createElement('div') : null);
+  const defaultContainer = React.useRef<HTMLDivElement>(null);
   const [ container, setContainer ] = React.useState(props.container);
   const [ init, setInit ] = React.useState(false);
-
-  React.useEffect(() => {
-    document.body.appendChild(defaultContainer.current);
-  }, []);
 
   React.useEffect(() => {
     if (props.visible && !init) {
@@ -21,9 +17,19 @@ export default (props: ViewerProps) => {
   React.useEffect(() => {
     if (props.container) {
       setContainer(props.container);
-    } else {
-      setContainer(defaultContainer.current);
+      return;
     }
+    if (!defaultContainer.current) {
+      defaultContainer.current = document.createElement('div');
+    }
+    const node = defaultContainer.current;
+    document.body.appendChild(node);
+    setContainer(node);
+    return () => {
+      if (node.parentNode) {
+        node.parentNode.removeChild(node);
+      }
+    };
   }, [props.container]);
 
   if (!init) {

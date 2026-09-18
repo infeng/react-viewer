@@ -307,6 +307,66 @@ describe('Viewer', () => {
     expect(viewer.style.display).toBe('none');
   });
 
+  it('removes its portal container after repeated mounts and unmounts', () => {
+    const originalChildren = Array.from(document.body.children);
+    for (let cycle = 0; cycle < 3; cycle++) {
+      const viewer = mount(<Viewer visible={true} images={[{ src: img }]} />);
+      expect(document.body.children.length).toBe(originalChildren.length + 1);
+      viewer.unmount();
+      expect(Array.from(document.body.children)).toEqual(originalChildren);
+    }
+  });
+
+  it('removes its portal container even when never opened', () => {
+    const originalChildren = Array.from(document.body.children);
+    const viewer = mount(<Viewer visible={false} />);
+    viewer.unmount();
+    expect(Array.from(document.body.children)).toEqual(originalChildren);
+  });
+
+  it('preserves custom containers without adding an unused body container', () => {
+    const container = document.createElement('section');
+    document.body.appendChild(container);
+    const originalChildren = Array.from(document.body.children);
+    const viewer = mount(<Viewer visible={true} images={[{ src: img }]} container={container} />);
+    try {
+      expect(container.querySelector('.react-viewer')).not.toBeNull();
+      expect(Array.from(document.body.children)).toEqual(originalChildren);
+    } finally {
+      viewer.unmount();
+      expect(container.parentNode).toBe(document.body);
+      expect(container.children.length).toBe(0);
+      document.body.removeChild(container);
+    }
+  });
+
+  it('cleans up only its own portal when switching between containers', () => {
+    const container = document.createElement('section');
+    const otherContainer = document.createElement('section');
+    document.body.appendChild(container);
+    document.body.appendChild(otherContainer);
+    const originalChildren = Array.from(document.body.children);
+    const viewer = mount(<Viewer visible={true} images={[{ src: img }]} />);
+    const ownedContainer = document.body.lastElementChild;
+    try {
+      viewer.setProps({ container });
+      expect(ownedContainer.parentNode).toBeNull();
+      expect(container.querySelector('.react-viewer')).not.toBeNull();
+      viewer.setProps({ container: otherContainer });
+      expect(container.children.length).toBe(0);
+      expect(otherContainer.querySelector('.react-viewer')).not.toBeNull();
+      viewer.setProps({ container: null });
+      expect(ownedContainer.parentNode).toBe(document.body);
+      expect(ownedContainer.querySelector('.react-viewer')).not.toBeNull();
+      expect(otherContainer.children.length).toBe(0);
+    } finally {
+      viewer.unmount();
+      expect(Array.from(document.body.children)).toEqual(originalChildren);
+      document.body.removeChild(container);
+      document.body.removeChild(otherContainer);
+    }
+  });
+
   it('exposes viewer controls to keyboard users', () => {
     viewerHelper.new();
     viewerHelper.open();
