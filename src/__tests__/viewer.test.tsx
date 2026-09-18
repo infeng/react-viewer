@@ -4,6 +4,7 @@ import ViewerProps from '../ViewerProps';
 import { configure, mount } from 'enzyme';
 import * as Adapter from 'enzyme-adapter-react-16';
 import * as React from 'react';
+import { act } from 'react-dom/test-utils';
 const img2 = require('../../demo/images/landscape2.jpg');
 const img = require('../../demo/images/landscape.jpg');
 
@@ -239,6 +240,71 @@ describe('Viewer', () => {
     wrapper.find('.react-viewer').simulate('transitionend');
 
     expect($$('.react-viewer')[0].style.display).toBe('none');
+  });
+
+  it('hides the closed viewer when no transitionend event arrives', () => {
+    viewerHelper.new();
+    viewerHelper.open();
+    wrapper.find('.react-viewer-close').simulate('click');
+    viewerHelper.skipAnimation();
+    expect($$('.react-viewer')[0].style.display).toBe('none');
+  });
+
+  it('does not let an old close timer hide a reopened viewer', () => {
+    viewerHelper.new();
+    viewerHelper.open();
+    wrapper.find('.react-viewer-close').simulate('click');
+    wrapper.find('#viewer-tester-open-btn').simulate('click');
+    viewerHelper.skipAnimation();
+    expect($$('.react-viewer')[0].style.display).toBe('block');
+    expect($$('.react-viewer')[0].style.opacity).toBe('1');
+  });
+
+  it('waits for the configured opacity transition before fallback cleanup', () => {
+    viewerHelper.new();
+    viewerHelper.open();
+    const viewer = $$('.react-viewer')[0] as HTMLElement;
+    // This legacy jsdom does not implement CSS transition properties.
+    const computedStyle = window.getComputedStyle;
+    const styleSpy = jest.spyOn(window, 'getComputedStyle').mockImplementation((element) => {
+      if (element === viewer) {
+        return { getPropertyValue: (property) => ({
+          'transition-property': 'transform, opacity',
+          'transition-duration': '100ms, 0.6s',
+          'transition-delay': '0.1s',
+        }[property] || '') } as CSSStyleDeclaration;
+      }
+      return computedStyle(element);
+    });
+    try {
+      wrapper.find('.react-viewer-close').simulate('click');
+    } finally {
+      styleSpy.mockRestore();
+    }
+    expect(viewer.style.pointerEvents).toBe('none');
+    act(() => { jest.advanceTimersByTime(700); });
+    expect(viewer.style.display).toBe('block');
+    act(() => { jest.advanceTimersByTime(50); });
+    expect(viewer.style.display).toBe('none');
+  });
+
+  it('only finishes closing for the root opacity transition', () => {
+    viewerHelper.new();
+    viewerHelper.open();
+    const viewer = $$('.react-viewer')[0] as HTMLElement;
+    wrapper.find('.react-viewer-close').simulate('click');
+    wrapper.find('.react-viewer').simulate('transitionend', {
+      target: $$('.react-viewer-footer')[0], currentTarget: viewer, propertyName: 'opacity',
+    });
+    expect(viewer.style.display).toBe('block');
+    wrapper.find('.react-viewer').simulate('transitionend', {
+      target: viewer, currentTarget: viewer, propertyName: 'transform',
+    });
+    expect(viewer.style.display).toBe('block');
+    wrapper.find('.react-viewer').simulate('transitionend', {
+      target: viewer, currentTarget: viewer, propertyName: 'opacity',
+    });
+    expect(viewer.style.display).toBe('none');
   });
 
   it('exposes viewer controls to keyboard users', () => {

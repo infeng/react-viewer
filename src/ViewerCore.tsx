@@ -10,8 +10,6 @@ import classnames from 'classnames';
 
 function noop() { }
 
-// const transitionDuration = 300;
-
 const ACTION_TYPES = {
   setVisible: 'setVisible',
   setActiveIndex: 'setActiveIndex',
@@ -172,6 +170,28 @@ export default (props: ViewerProps) => {
       }
     }
   }, [visible]);
+
+  React.useEffect(() => {
+    if (visible || !state.visible) {
+      return;
+    }
+    // A disabled or interrupted transition may never emit transitionend.
+    const style = window.getComputedStyle(viewerCore.current);
+    const toMilliseconds = (value: string) => (parseFloat(value) || 0) * (value.trim().endsWith('ms') ? 1 : 1000);
+    const durations = style.getPropertyValue('transition-duration').split(',').map(toMilliseconds);
+    const delays = style.getPropertyValue('transition-delay').split(',').map(toMilliseconds);
+    const properties = style.getPropertyValue('transition-property').split(',');
+    const timeout = properties.reduce((longest, property, index) => {
+      if (property.trim() !== 'opacity' && property.trim() !== 'all') {
+        return longest;
+      }
+      return Math.max(longest, durations[index % durations.length] + delays[index % delays.length]);
+    }, 0);
+    const timer = window.setTimeout(() => {
+      dispatch(createAction(ACTION_TYPES.setVisible, { visible: false }));
+    }, timeout + 50);
+    return () => window.clearTimeout(timer);
+  }, [visible, state.visible]);
 
   React.useEffect(() => {
     bindEvent();
@@ -642,6 +662,7 @@ export default (props: ViewerProps) => {
   let viewerStryle: React.CSSProperties = {
     opacity: (visible && state.visible) ? 1 : 0,
     display: (visible || state.visible) ? 'block' : 'none',
+    pointerEvents: visible ? undefined : 'none',
   };
 
   let activeImg: ImageDecorator = {
@@ -657,8 +678,8 @@ export default (props: ViewerProps) => {
     <div
       className={className}
       style={viewerStryle}
-      onTransitionEnd={() => {
-        if (!visible) {
+      onTransitionEnd={(event) => {
+        if (!visible && event.target === event.currentTarget && event.propertyName === 'opacity') {
           dispatch(createAction(ACTION_TYPES.setVisible, {
             visible: false,
           }));
