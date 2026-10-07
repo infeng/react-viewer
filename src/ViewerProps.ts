@@ -48,6 +48,8 @@ interface ViewerProps {
   scalable?: boolean;
   /** callback function when mask is clicked */
   onMaskClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
+  /** callback function when over images is clicked but not move */
+  onImagesClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
   /** 是否显示下载按钮 */
   downloadable?: boolean;
   /** 图片是否可循环 */
