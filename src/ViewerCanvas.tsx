@@ -17,6 +17,7 @@ export interface ViewerCanvasProps {
   scaleX: number;
   scaleY: number;
   loading: boolean;
+  loadFailed?: boolean;
   drag: boolean;
   container: HTMLElement;
   onCanvasMouseDown: (e: React.MouseEvent<HTMLDivElement>) => void;
@@ -161,6 +162,17 @@ translateX(${props.left !== null ? props.left + 'px' : 'aoto'}) translateY(${pro
     style={imgStyle}
     onMouseDown={handleMouseDown}
     />;
+  }
+  if (props.loadFailed && props.visible) {
+    imgNode = (
+      <div
+        className={`${props.prefixCls}-load-error`}
+        role="alert"
+        style={{ display: 'flex', height: '100%', justifyContent: 'center', alignItems: 'center', color: '#fff' }}
+      >
+        Unable to load image.
+      </div>
+    );
   }
   if (props.loading) {
     imgNode = (

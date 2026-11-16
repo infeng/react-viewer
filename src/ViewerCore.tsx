@@ -147,6 +147,7 @@ export default (props: ViewerProps) => {
   const viewerCore = React.useRef<HTMLDivElement>(null);
   const init = React.useRef(false);
   const currentLoadIndex = React.useRef(0);
+  const currentLoadId = React.useRef(0);
   const [ state, dispatch ] = React.useReducer<(s: any, a: any) => ViewerCoreState>(reducer, initialState);
 
   React.useEffect(() => {
@@ -237,6 +238,7 @@ export default (props: ViewerProps) => {
   }, [activeIndex, visible, images]);
 
   function loadImg(currentActiveIndex, isReset = false) {
+    const loadId = ++currentLoadId.current;
     dispatch(createAction(ACTION_TYPES.update, {
       loading: true,
       loadFailed: false,
@@ -248,7 +250,7 @@ export default (props: ViewerProps) => {
     let loadComplete = false;
     let img = new Image();
     img.onload = () => {
-      if (!init.current) {
+      if (!init.current || loadId !== currentLoadId.current) {
         return;
       }
       if (!loadComplete) {
@@ -256,7 +258,7 @@ export default (props: ViewerProps) => {
       }
     };
     img.onerror = () => {
-      if (!init.current) {
+      if (!init.current || loadId !== currentLoadId.current) {
         return;
       }
       if (props.defaultImg) {
@@ -271,13 +273,13 @@ export default (props: ViewerProps) => {
       } else {
         dispatch(createAction(ACTION_TYPES.update, {
           loading: false,
-          loadFailed: false,
+          loadFailed: true,
           startLoading: false,
         }));
       }
     };
     img.src = activeImage.src;
-    if (img.complete) {
+    if (img.complete && img.width > 0 && img.height > 0) {
       loadComplete = true;
       loadImgSuccess(img.width, img.height, true);
     }
@@ -711,7 +713,8 @@ export default (props: ViewerProps) => {
       )}
       <ViewerCanvas
         prefixCls={prefixCls}
-        imgSrc={state.loadFailed ? (props.defaultImg.src || activeImg.src) : activeImg.src}
+        imgSrc={state.loadFailed && props.defaultImg ? (props.defaultImg.src || activeImg.src) : activeImg.src}
+        loadFailed={state.loadFailed && !props.defaultImg}
         visible={visible}
         width={state.width}
         height={state.height}

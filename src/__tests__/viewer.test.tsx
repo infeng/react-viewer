@@ -926,6 +926,64 @@ describe('Viewer', () => {
     expect(imgNode.style.width).toBe('200px');
   });
 
+  it('shows a load error and recovers when navigating to a valid image', () => {
+    viewerHelper.new({ images: [{ src: FAILED_IMG }, { src: img2 }] });
+    viewerHelper.open();
+    expect($$('.react-viewer-load-error')).toHaveLength(1);
+    expect($$('.react-viewer-load-error')[0].getAttribute('role')).toBe('alert');
+    expect($$('.react-viewer-load-error')[0].textContent).toBe('Unable to load image.');
+    expect($$('img.react-viewer-image')).toHaveLength(0);
+
+    $$('li[data-key=next]')[0].click();
+    viewerHelper.skipAnimation();
+    expect($$('.react-viewer-load-error')).toHaveLength(0);
+    expect($$('img.react-viewer-image')).toHaveLength(1);
+
+    $$('li[data-key=prev]')[0].click();
+    viewerHelper.skipAnimation();
+    expect($$('.react-viewer-load-error')).toHaveLength(1);
+    expect($$('img.react-viewer-image')).toHaveLength(0);
+  });
+
+  it('keeps a cached failed image in the error state', () => {
+    Object.defineProperty(MockImage.prototype, 'complete', { configurable: true, value: true });
+    setGetImageSize(() => 0);
+    try {
+      viewerHelper.new({ images: [{ src: FAILED_IMG }] });
+      viewerHelper.open();
+      expect($$('.react-viewer-load-error')).toHaveLength(1);
+      expect($$('img.react-viewer-image')).toHaveLength(0);
+    } finally {
+      delete MockImage.prototype['complete'];
+      setGetImageSize(() => 100);
+    }
+  });
+
+  it('ignores a previous image error after the next image has loaded', () => {
+    const pending: any[] = [];
+    class DeferredImage {
+      width = 100;
+      height = 100;
+      onload: () => void;
+      onerror: () => void;
+      set src(value: string) { pending.push(this); }
+    }
+    global.Image = DeferredImage;
+    try {
+      viewerHelper.new({ images: [{ src: 'slow-bad' }, { src: 'fast-good' }] });
+      viewerHelper.open();
+      $$('li[data-key=next]')[0].click();
+      viewerHelper.skipAnimation();
+      act(() => pending[1].onload());
+      expect($$('img.react-viewer-image')).toHaveLength(1);
+      act(() => pending[0].onerror());
+      expect($$('.react-viewer-load-error')).toHaveLength(0);
+      expect($$('img.react-viewer-image')).toHaveLength(1);
+    } finally {
+      global.Image = MockImage;
+    }
+  });
+
   it('set defaultImg', () => {
     const defaultImg = 'deafult_img';
 
