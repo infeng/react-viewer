@@ -194,6 +194,12 @@ the total. For example, this displays `1 / 3` for the first of three images:
 `showTotal={false}` hides it. It is part of the image attribute row, so
 `attribute={false}`, `noToolbar`, or `noFooter` also hides it.
 
+## Failed images
+
+When an image URL fails to load, the viewer displays “Unable to load image.”
+unless `defaultImg` supplies a fallback. The navigation and close controls remain
+available, so users can continue to another image.
+
 ## Keyboard support
 
 - `Esc`: Close viewer.
